@@ -1,0 +1,263 @@
+[NARRATOR]: Day 1: Welcome to El Nido!
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: magandang hapon po
+[NARRATOR]: good afternoon (polite) 
+[TAGALOG-FEMALE-1]: magandang hapon po
+po
+hapon
+pon
+ha
+hapon
+hapon po
+magandang
+dang
+gan
+gandang
+ma
+magandang
+magandang hapon po
+magandang hapon po
+
+[TAGALOG-FEMALE-1]: salamat po
+[NARRATOR]: thank you
+[TAGALOG-FEMALE-1]: salamat po
+po
+salamat
+mat
+la
+lamat
+sa
+salamat
+salamat po
+salamat po
+
+[TAGALOG-FEMALE-1]: magkano po
+[NARRATOR]: How much does this cost?
+[TAGALOG-FEMALE-1]: magkano po
+po
+kano
+no
+ka
+kano
+magkano
+mag
+magkano
+magkano po
+magkano po
+
+[TAGALOG-FEMALE-1]: ito po
+[NARRATOR]: here it is
+[TAGALOG-FEMALE-1]: ito po
+po
+ito
+to
+i
+ito
+ito po
+ito po
+
+[NARRATOR]: Natural Speed
+
+Airport Shop
+
+[TAGALOG-FEMALE-1]: Excuse me po.
+[TAGALOG-FEMALE-2]: Magandang hapon po!
+[TAGALOG-FEMALE-1]: Magandang hapon po. Tubig?
+[TAGALOG-FEMALE-2]: Tubig? Opo. Malamig o normal?
+[TAGALOG-FEMALE-1]: Malamig. Magkano po?
+[TAGALOG-FEMALE-2]: Bente pesos.
+[TAGALOG-FEMALE-1]: Bente?
+[TAGALOG-FEMALE-2]: Opo. Bente.
+[TAGALOG-FEMALE-1]: Ah, salamat. Ito po.
+[TAGALOG-FEMALE-2]: Salamat din! Ito sukli mo.
+
+[NARRATOR]: Van Terminal
+
+[TAGALOG-FEMALE-1]: Excuse me po. El Nido?
+[TAGALOG-MALE-1]: El Nido? Opo! Dito po.
+[TAGALOG-FEMALE-1]: Salamat. Magkano po?
+[TAGALOG-MALE-1]: Apat na raan.
+[TAGALOG-MALE-1]: Apat na raan po.
+[TAGALOG-FEMALE-1]: Ah! Sige. Ito po.
+[TAGALOG-MALE-1]: Salamat! Sakay na. Alis na maya-maya.
+
+[NARRATOR]: Inside the Van
+
+[TAGALOG-FEMALE-2]: Magandang hapon!
+[TAGALOG-FEMALE-1]: Magandang hapon po!
+[TAGALOG-FEMALE-2]: Unang beses mo sa El Nido?
+[TAGALOG-FEMALE-1]: Ah! Opo!
+[TAGALOG-FEMALE-2]: Ay, magugustuhan mo! Sobrang ganda doon.
+[TAGALOG-FEMALE-1]: Salamat po!
+
+[NARRATOR]: Rest Stop
+
+[TAGALOG-MALE-1]: Excuse me po. CR break muna. Five minutes lang.
+[TAGALOG-FEMALE-1]: Excuse me po. CR?
+[TAGALOG-FEMALE-2]: Doon po. Sa likod ng tindahan.
+
+[NARRATOR]: Roadside Store
+
+[TAGALOG-FEMALE-1]: Magandang hapon! Chips?
+[TAGALOG-MALE-2]: Opo. Piattos, Nova, Chippy?
+[TAGALOG-FEMALE-1]: Piattos. Magkano?
+[TAGALOG-MALE-2]: Tatlumpu.
+[TAGALOG-FEMALE-1]: Ito po.
+[TAGALOG-MALE-2]: Salamat. Ito sukli mo.
+[TAGALOG-FEMALE-1]: Salamat!
+
+[NARRATOR]: El Nido Town
+
+[TAGALOG-MALE-1]: El Nido na po!
+[TAGALOG-FEMALE-1]: Salamat po, kuya!
+[TAGALOG-MALE-1]: Walang anuman! Enjoy!
+
+[NARRATOR]: Slow Speed
+
+Airport Shop
+
+[TAGALOG-FEMALE-1]: Excuse... me... po.
+[TAGALOG-FEMALE-2]: Magandang... hapon... po!
+[TAGALOG-FEMALE-1]: Magandang... hapon... po... Tubig?
+[TAGALOG-FEMALE-2]: Tubig?... Opo... Malamig... o... normal?
+[TAGALOG-FEMALE-1]: Malamig... Magkano... po?
+[TAGALOG-FEMALE-2]: Bente... pesos.
+[TAGALOG-FEMALE-1]: Bente?
+[TAGALOG-FEMALE-2]: Opo... Bente.
+[TAGALOG-FEMALE-1]: Ah... salamat... Ito... po.
+[TAGALOG-FEMALE-2]: Salamat... din!... Ito... sukli... mo.
+
+[NARRATOR]: Van Terminal
+
+[TAGALOG-FEMALE-1]: Excuse... me... po... El Nido?
+[TAGALOG-MALE-1]: El Nido?... Opo!... Dito... po.
+[TAGALOG-FEMALE-1]: Salamat... Magkano... po?
+[TAGALOG-MALE-1]: Apat... na... raan.
+[TAGALOG-MALE-1]: Apat... na... raan... po.
+[TAGALOG-FEMALE-1]: Ah!... Sige... Ito... po.
+[TAGALOG-MALE-1]: Salamat!... Sakay... na... Alis... na... maya-maya.
+
+[NARRATOR]: Inside the Van
+
+[TAGALOG-FEMALE-2]: Magandang... hapon!
+[TAGALOG-FEMALE-1]: Magandang... hapon... po!
+[TAGALOG-FEMALE-2]: Unang... beses... mo... sa... El Nido?
+[TAGALOG-FEMALE-1]: Ah!... Opo!
+[TAGALOG-FEMALE-2]: Ay... magugustuhan... mo!... Sobrang... ganda... doon.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+[NARRATOR]: Rest Stop
+
+[TAGALOG-MALE-1]: Excuse... me... po... CR... break... muna... Five... minutes... lang.
+[TAGALOG-FEMALE-1]: Excuse... me... po... CR?
+[TAGALOG-FEMALE-2]: Doon... po... Sa... likod... ng... tindahan.
+
+[NARRATOR]: Roadside Store
+
+[TAGALOG-FEMALE-1]: Magandang... hapon!... Chips?
+[TAGALOG-MALE-2]: Opo... Piattos... Nova... Chippy?
+[TAGALOG-FEMALE-1]: Piattos... Magkano?
+[TAGALOG-MALE-2]: Tatlumpu.
+[TAGALOG-FEMALE-1]: Ito... po.
+[TAGALOG-MALE-2]: Salamat... Ito... sukli... mo.
+[TAGALOG-FEMALE-1]: Salamat!
+
+[NARRATOR]: El Nido Town
+
+[TAGALOG-MALE-1]: El Nido... na... po!
+[TAGALOG-FEMALE-1]: Salamat... po... kuya!
+[TAGALOG-MALE-1]: Walang... anuman!... Enjoy!
+
+[NARRATOR]: Translated
+
+Airport Shop
+
+[TAGALOG-FEMALE-1]: Excuse me po.
+[NARRATOR]: Excuse me.
+[TAGALOG-FEMALE-2]: Magandang hapon po!
+[NARRATOR]: Good afternoon!
+[TAGALOG-FEMALE-1]: Magandang hapon po. Tubig?
+[NARRATOR]: Good afternoon. Water?
+[TAGALOG-FEMALE-2]: Tubig? Opo. Malamig o normal?
+[NARRATOR]: Water? Yes. Cold or regular?
+[TAGALOG-FEMALE-1]: Malamig. Magkano po?
+[NARRATOR]: Cold. How much?
+[TAGALOG-FEMALE-2]: Bente pesos.
+[NARRATOR]: Twenty pesos.
+[TAGALOG-FEMALE-1]: Bente?
+[NARRATOR]: Twenty?
+[TAGALOG-FEMALE-2]: Opo. Bente.
+[NARRATOR]: Yes. Twenty.
+[TAGALOG-FEMALE-1]: Ah, salamat. Ito po.
+[NARRATOR]: Ah, thanks. Here you go.
+[TAGALOG-FEMALE-2]: Salamat din! Ito sukli mo.
+[NARRATOR]: Thank you too! Here's your change.
+
+[NARRATOR]: Van Terminal
+
+[TAGALOG-FEMALE-1]: Excuse me po. El Nido?
+[NARRATOR]: Excuse me. El Nido?
+[TAGALOG-MALE-1]: El Nido? Opo! Dito po.
+[NARRATOR]: El Nido? Yes! Over here.
+[TAGALOG-FEMALE-1]: Salamat. Magkano po?
+[NARRATOR]: Thanks. How much?
+[TAGALOG-MALE-1]: Apat na raan.
+[NARRATOR]: Four hundred.
+[TAGALOG-MALE-1]: Apat na raan po.
+[NARRATOR]: Four hundred.
+[TAGALOG-FEMALE-1]: Ah! Sige. Ito po.
+[NARRATOR]: Ah! Okay. Here you go.
+[TAGALOG-MALE-1]: Salamat! Sakay na. Alis na maya-maya.
+[NARRATOR]: Thanks! Get in. We'll leave in a bit.
+
+[NARRATOR]: Inside the Van
+
+[TAGALOG-FEMALE-2]: Magandang hapon!
+[NARRATOR]: Good afternoon!
+[TAGALOG-FEMALE-1]: Magandang hapon po!
+[NARRATOR]: Good afternoon!
+[TAGALOG-FEMALE-2]: Unang beses mo sa El Nido?
+[NARRATOR]: First time in El Nido?
+[TAGALOG-FEMALE-1]: Ah! Opo!
+[NARRATOR]: Ah! Yes!
+[TAGALOG-FEMALE-2]: Ay, magugustuhan mo! Sobrang ganda doon.
+[NARRATOR]: Oh, you'll love it! It's so beautiful there.
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+[NARRATOR]: Rest Stop
+
+[TAGALOG-MALE-1]: Excuse me po. CR break muna. Five minutes lang.
+[NARRATOR]: Excuse me. Restroom break first. Just five minutes.
+[TAGALOG-FEMALE-1]: Excuse me po. CR?
+[NARRATOR]: Excuse me. Restroom?
+[TAGALOG-FEMALE-2]: Doon po. Sa likod ng tindahan.
+[NARRATOR]: Over there. Behind the store.
+
+[NARRATOR]: Roadside Store
+
+[TAGALOG-FEMALE-1]: Magandang hapon! Chips?
+[NARRATOR]: Good afternoon! Chips?
+[TAGALOG-MALE-2]: Opo. Piattos, Nova, Chippy?
+[NARRATOR]: Yes. Piattos, Nova, Chippy?
+[TAGALOG-FEMALE-1]: Piattos. Magkano?
+[NARRATOR]: Piattos. How much?
+[TAGALOG-MALE-2]: Tatlumpu.
+[NARRATOR]: Thirty.
+[TAGALOG-FEMALE-1]: Ito po.
+[NARRATOR]: Here you go.
+[TAGALOG-MALE-2]: Salamat. Ito sukli mo.
+[NARRATOR]: Thanks. Here's your change.
+[TAGALOG-FEMALE-1]: Salamat!
+[NARRATOR]: Thanks!
+
+[NARRATOR]: El Nido Town
+
+[TAGALOG-MALE-1]: El Nido na po!
+[NARRATOR]: We're in El Nido!
+[TAGALOG-FEMALE-1]: Salamat po, kuya!
+[NARRATOR]: Thank you, brother!
+[TAGALOG-MALE-1]: Walang anuman! Enjoy!
+[NARRATOR]: You're welcome! Enjoy!

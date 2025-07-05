@@ -1,0 +1,347 @@
+## Comprehensive Prompt Template for Claude 4 Opus with Few-Shot Examples
+
+```
+You are creating a 30-day story-based curriculum for TunaTale, an audio-first language learning app. Your task is to design a curriculum that helps a language learner prepare to give a presentation on a specific topic.
+
+## Input Parameters
+LEARNING_OBJECTIVE: Giving a talk about carnivorous plants
+TARGET_LANGUAGE: English
+LEARNER_LEVEL: A2
+PRESENTATION_LENGTH: 30
+TARGET_PRESENTATION_TRANSCRIPT: 
+
+## "The Amazing World of Carnivorous Plants" 
+
+*[Speaker walks to the front, smiles nervously]*
+
+Hello everyone. Thank you for coming today. My name is [Name], and I want to tell you about something very interesting - carnivorous plants. Yes, plants that eat! When I first heard about these plants, I could not believe it. But they are real, and today I will share what I learned.
+
+*[Shows first slide with Venus flytrap image]*
+
+Look at this picture. This is a Venus flytrap. It's probably the most famous plant that eats bugs. Before I started learning about these plants, I thought all plants just need sun and water. But some plants need to eat insects too. Let me explain why.
+
+These special plants live in wet places like swamps and bogs. The soil in these places is very poor. It doesn't have enough nutrients - you know, the good stuff plants need to grow. Normal plants cannot grow well there. So these plants found a different way to get food. They catch small bugs!
+
+*[Shows slide with different carnivorous plants]*
+
+There are many types of carnivorous plants. Scientists have found more than 600 different kinds! They live all over the world, but most of them live in wet places. Some grow in North America, some in Asia, some in Australia. They even grow in Europe! Each type has its own special way to catch insects.
+
+Let me tell you about the main types. First, we have the Venus flytrap. This plant is very interesting because it moves! When a bug touches the inside of the trap - SNAP! - it closes very fast. The plant closes in less than one second. Can you imagine? The bug cannot escape.
+
+*[Demonstrates with hand gestures]*
+
+How does it know when to close? Inside the trap, there are tiny hairs. When something touches two hairs in 20 seconds, the trap knows it's not just rain or wind. It's probably a bug! So it closes. This is very smart for a plant, don't you think?
+
+*[Shows pitcher plant slide]*
+
+Now, this is a pitcher plant. It looks like a cup or a pitcher - that's why we call it pitcher plant. Inside, there is liquid. It's like a swimming pool for bugs, but a dangerous one! The plant makes sweet nectar near the top. Bugs come to eat the nectar. But the inside walls are very slippery. When the bug tries to walk down, it falls into the liquid. 
+
+The bug cannot get out. Why? Because the walls are too slippery, and the liquid is deep for small insects. Also, the plant has special hairs pointing down. The bug cannot climb up. It's like trying to climb out of a well with soap on the walls!
+
+*[Shows sundew slide]*
+
+This beautiful plant is called a sundew. See these drops? They look like morning dew, but they're not water. They're sticky like glue! Very, very sticky. When a small insect lands on the plant, it gets stuck. The more it tries to escape, the more stuck it becomes. 
+
+The sundew is patient. After the bug is stuck, the plant slowly wraps around it. This takes many hours, sometimes a whole day. The plant is in no hurry. It knows the bug cannot go anywhere.
+
+*[Shows slide about digestion]*
+
+Now, you might wonder - okay, the plant caught the bug. What happens next? This is the really amazing part. These plants can digest their food, just like we do! But they don't have a stomach like us. Instead, they use special liquids called enzymes.
+
+These enzymes break down the bug slowly. It's like... imagine putting meat in acid. The soft parts dissolve first. For a Venus flytrap, this takes about 5 to 12 days. For a pitcher plant, maybe 2 weeks. The plant absorbs all the good nutrients from the insect. When it's finished, only the hard parts are left - like the wings or the shell.
+
+*[Shows slide with small insects]*
+
+What do these plants like to eat? Mostly small insects - flies, ants, mosquitoes, small beetles. Sometimes they catch bigger things. Large pitcher plants can even catch small frogs or lizards! But this is not common. Usually, they eat insects that are just the right size for them.
+
+One interesting fact - these plants cannot eat too much. If you have a Venus flytrap at home and you feed it too many bugs, it will get sick! Each trap can only catch about 3 or 4 bugs before it dies. But don't worry, the plant grows new traps.
+
+*[Shows world map]*
+
+Where can we find these amazing plants? Like I said before, they live in wet places with poor soil. The Venus flytrap is very special - it only grows naturally in North and South Carolina in the United States. Only there! It's quite rare in nature.
+
+Pitcher plants are more common. Different types grow in different places. Some grow in the Americas, some in Southeast Asia. The biggest pitcher plants grow in Borneo. They can be huge - big enough to hold 2 liters of water!
+
+Sundews grow in many places around the world. You can find them in Europe, Africa, Australia, and the Americas. They're probably the most widespread carnivorous plants.
+
+*[Shows conservation slide]*
+
+Now I want to talk about something important. Many carnivorous plants are in danger. Why? There are several reasons. First, people are destroying the wet places where they live. When we build houses or farms, we drain the swamps. No swamps means no home for these plants.
+
+Second, some people take too many plants from nature to sell. This is very bad because some plants, like the Venus flytrap, grow very slowly. It takes many years for a baby plant to become adult.
+
+Third, pollution is a problem. These plants need very clean water. When the water becomes dirty, they cannot survive. Climate change is also affecting them. The wet places are becoming dry, or too hot, or too cold.
+
+*[Shows growing at home slide]*
+
+But there's good news! We can help these plants. How? One way is to grow them at home. Many carnivorous plants can live in pots. I started growing some last year, and it's really fun to watch them.
+
+If you want to grow carnivorous plants, here are important things to remember. First, never use tap water. These plants need pure water - rain water or distilled water. Tap water has too many minerals that will kill the plant.
+
+Second, don't use normal soil. These plants need special soil that doesn't have nutrients. I know it sounds strange, but remember - they get nutrients from bugs, not from soil. You can buy special carnivorous plant soil, or make it with peat moss and sand.
+
+Third, they need lots of light. Put them near a sunny window or outside. But be careful in very hot weather - they can get too hot.
+
+Fourth, don't touch them too much! Especially Venus flytraps. When you make the traps close without food, you waste the plant's energy. Each trap can only close a few times before it dies.
+
+*[Shows feeding slide]*
+
+Do you need to feed them? Not really! If they're outside, they will catch their own food. Inside, you can feed them sometimes, but not too often. Once a month is enough. Use small insects - dead flies work well. Never feed them human food like hamburger meat. They cannot digest it.
+
+*[Shows scientific importance slide]*
+
+Why should we care about these plants? They're not just interesting - they're important for science too. Scientists study them to understand evolution. How did normal plants become carnivorous? It's a big mystery.
+
+These plants also help us understand how organisms adapt to difficult environments. When life is hard, living things find amazing solutions. Carnivorous plants show us that there's always a way to survive.
+
+Some scientists are studying the glue from sundews. Maybe we can use it to make new types of medical adhesive. The enzymes from pitcher plants might help us make new medicines. We don't know yet what secrets these plants hide.
+
+*[Shows ecosystem slide]*
+
+Carnivorous plants are also important for their ecosystems. They control insect populations. They provide homes for small animals - some frogs live in pitcher plants! They're part of the food web in wetlands.
+
+When carnivorous plants disappear, the whole ecosystem changes. Other plants and animals suffer too. That's why protecting wetlands is so important.
+
+*[Shows personal story slide]*
+
+I want to share my own experience. Six months ago, I bought my first Venus flytrap. I was so excited! But... I made many mistakes. I used tap water - the plant almost died. I put it in normal soil - big mistake! I touched the traps too much because I wanted to see them close.
+
+But I learned. I read books, watched videos, joined online groups. Now I have five different carnivorous plants, and they're all healthy. Last week, my Venus flytrap caught its first fly. I was so happy! It's like having a pet that doesn't make noise.
+
+*[Shows inspiration slide]*
+
+These plants inspire me. They show that being different is not bad - it's necessary sometimes. They found their own way to survive. They don't follow the rules that other plants follow. And they're successful!
+
+They also teach patience. A sundew waits hours for one small insect. A pitcher plant waits days to digest its food. In our fast world, maybe we can learn from them.
+
+*[Shows future slide]*
+
+What's the future for carnivorous plants? It depends on us. If we protect wetlands, if we stop taking plants from nature, if we fight climate change - they will survive. If not, many species might disappear forever.
+
+But I'm hopeful. More people are learning about these amazing plants. More people are growing them. There are seed banks saving rare species. Scientists are working hard to protect them.
+
+*[Shows final slide with various carnivorous plants]*
+
+So, what did we learn today? We learned that some plants eat insects to survive in poor soil. We learned about different types - the fast Venus flytrap, the patient pitcher plant, the sticky sundew. We learned they live in wet places around the world. We learned they're in danger but we can help.
+
+Most importantly, we learned that nature is full of surprises. Who would think that plants could be hunters? Nature always finds a way.
+
+Thank you for listening to my presentation about carnivorous plants. I hope you found it as interesting as I do. Maybe some of you will want to learn more, or even grow your own carnivorous plant. If you have questions, I'm happy to try to answer them. Thank you!
+
+*[Speaker smiles and waits for questions]*
+
+## Critical Constraints
+1. Learner is currently at {LEARNER_LEVEL} level
+2. Stories will be delivered via text-to-speech audio
+3. Each story should be 400-500 words (4-5 minutes audio)
+4. Goal: Enable learner to give a {PRESENTATION_LENGTH}-minute presentation on {LEARNING_OBJECTIVE}
+
+## Pedagogical Requirements
+- Maximum 5 new collocations per story (3-5 word chunks)
+- Each collocation must appear 3-4 times naturally in the story
+- Sentence length appropriate for {LEARNER_LEVEL} (A1: 5-7 words, A2: 5-10 words, B1: 8-15 words, etc.)
+- Use only vocabulary appropriate for {LEARNER_LEVEL}
+- 60%+ dialogue for easier audio comprehension
+- Focus on presentation phrases needed for the final goal
+
+## Few-Shot Examples
+
+### ✅ GOOD Example - Phase 1 Story (A2 Level)
+**Topic: Carnivorous Plants**
+**Target collocations:** "plants that eat" / "very strange plants" / "live in wet places" / "need to eat"
+
+The Strange Garden
+
+Emma loved her grandmother's garden. She knew every flower and tree. But today, she found a new area behind the vegetables.
+
+"Grandma, why is this part so wet?" Emma asked.
+
+"This is my bog garden," Grandma smiled. "Special plants grow here. Plants that cannot grow in normal soil."
+
+Emma looked closely. The ground was like a small swamp. "Why not? Don't all plants like good soil?"
+
+"This soil is very poor," Grandma explained. "It has no food for plants. But these are very strange plants. They found a different way to live."
+
+"Different how?" Emma was curious.
+
+"These plants - they need to eat insects!"
+
+"Plants that eat bugs?" Emma's eyes grew wide. "That's impossible!"
+
+"Come tomorrow," Grandma winked. "I'll show you my very strange plants catching food."
+
+That night, Emma dreamed about plants that eat. Were there really plants that need to eat bugs? She had to see these very strange plants herself.
+
+The next morning, Emma ran to the bog garden. It was true! Grandma showed her plants that eat insects. They live in wet places where the soil is poor. So they need to eat to survive.
+
+**Why this works:**
+- Target collocations appear naturally 3-4 times each
+- Short sentences (5-10 words) perfect for A2
+- Natural dialogue between familiar characters
+- Clear story arc that's easy to follow in audio
+- Vocabulary is truly A2 level (no complex scientific terms)
+
+### ✅ GOOD Example - Phase 3 Story (A2 Level)
+**Topic: Giving a Presentation**
+**Target collocations:** "look at this" / "want to tell you" / "very interesting because" / "thank you for"
+
+Tom's Big Day
+
+Tom stood in front of his class. His hands shook a little. Today was presentation day.
+
+"I want to tell you about special plants," Tom began. His voice was quiet at first.
+
+"Look at this picture," he said. He showed a photo on the screen. "This plant can move!"
+
+"Wow!" said Maria. "How does it work?"
+
+"It's very interesting because it catches bugs," Tom explained. "When a fly touches it - SNAP!"
+
+The class laughed. Tom felt better. "Look at this one too," he continued. "It's different but also eats insects."
+
+"I want to tell you why this happens," Tom said. His voice was stronger now. "These plants live where soil is poor."
+
+"Very interesting because normal plants can't survive there," added the teacher.
+
+"Look at this video," Tom showed his last slide. "You can see it catching a fly!"
+
+Everyone clapped. "Thank you for listening," Tom said proudly. "Any questions?"
+
+Many hands went up. "Thank you for teaching us," said Maria. "I want to tell my family about these plants!"
+
+**Why this works:**
+- Presentation phrases repeated naturally throughout
+- Models the actual presentation situation
+- Builds confidence through positive experience
+- Simple but effective presentation language
+- Audio-friendly with clear dialogue
+
+### ❌ BAD Example - Too Complex for A2
+**Topic: Carnivorous Plants**
+**Target collocations:** "enzyme production" / "biochemical process" / "protein digestion" / "evolutionary adaptation"
+
+The Enzyme Factory
+
+Dr. Williams showed her biochemistry students two vials. "This contains stomach acid from humans. This has digestive enzyme from a pitcher plant. Which dissolves protein more efficiently?"
+
+The students hypothesized that human acid would be stronger. They were wrong.
+
+"The plant enzyme production exceeds human capability," Dr. Williams explained. "This biochemical process evolved over millions of years."
+
+She demonstrated protein digestion using spectrometry. "Observe the evolutionary adaptation - plants developed enzyme production without animal organs."
+
+**Why this fails:**
+- Vocabulary far above A2 (biochemistry, enzyme, spectrometry)
+- Concepts too abstract for A2 comprehension
+- No natural dialogue or story flow
+- Impossible to follow as audio without visual aids
+- Collocations are graduate-level science terms
+
+### ❌ BAD Example - Poor Audio Design
+**Topic: Planning a Presentation**
+**Target collocations:** "nervous" / "practice" / "slides" / "audience"
+
+Maria's Preparation
+
+Maria was nervous. She needed to practice. Her slides were ready. The audience would be large. She was nervous about presenting. Her practice wasn't enough. The slides looked good. But the audience made her nervous. More practice was needed. The slides had pictures. The audience would ask questions. Being nervous was normal. Practice makes perfect. Check the slides again. Think about the audience.
+
+**Why this fails:**
+- Forced, unnatural repetition of single words (not collocations)
+- No dialogue or story structure
+- Repetitive and boring for audio listening
+- Doesn't teach natural usage
+- No clear narrative arc
+
+## Three-Phase Progression Model
+
+### Phase 1 (Days 1-10): "Understanding the Topic"
+Identify and teach basic collocations related to:
+- Core concepts of {LEARNING_OBJECTIVE}
+- Basic presentation openers ("I want to tell", "look at this")
+- Simple descriptive language for the topic
+
+### Phase 2 (Days 11-20): "Explaining How Things Work"
+Identify and teach collocations for:
+- Processes and mechanisms related to {LEARNING_OBJECTIVE}
+- Presentation transitions ("let me show you", "as you can see")
+- Cause and effect language
+
+### Phase 3 (Days 21-30): "Presentation Mastery"
+Identify and teach collocations for:
+- Advanced aspects of {LEARNING_OBJECTIVE}
+- Presentation conclusions ("in conclusion", "to summarize")
+- Handling questions ("that's a good question", "let me explain")
+
+## Chain-of-Thought Process
+
+For EACH story, follow these steps:
+
+1. **Select collocations**: Choose 3-5 collocations essential for discussing {LEARNING_OBJECTIVE} at {LEARNER_LEVEL}. Consider:
+   - What phrases would a {LEARNER_LEVEL} speaker need for this topic?
+   - What presentation language is appropriate for this level?
+   - What topic-specific vocabulary is most crucial?
+
+2. **Design simple scenario**: Create a situation where these collocations appear naturally. Use contexts familiar to {LEARNER_LEVEL} learners.
+
+3. **Write with audio in mind**: 
+   - Sentences appropriate for {LEARNER_LEVEL} complexity
+   - Clear speaker attribution in dialogue
+   - Avoid complex descriptions that need visual support
+   - Include audio-friendly elements (sound effects, clear actions)
+
+4. **Self-evaluate**: After writing, check:
+   - Is sentence length appropriate for {LEARNER_LEVEL}?
+   - Do target collocations appear 3-4 times?
+   - Is vocabulary truly {LEARNER_LEVEL} appropriate?
+   - Would this make sense as audio-only?
+   - Does it prepare the learner for presenting about {LEARNING_OBJECTIVE}?
+
+## Self-Critique Template
+
+After each story, provide:
+1. **Collocation integration**: How naturally did the target phrases appear?
+2. **Level appropriateness**: Is this truly accessible for {LEARNER_LEVEL}?
+3. **Audio clarity**: Will this work well as audio-only content?
+4. **Goal alignment**: How does this prepare the learner for their presentation?
+5. **Improvement notes**: What could make this story more effective?
+
+## Task Instructions
+
+1. First, analyze {LEARNING_OBJECTIVE} to identify the 30 most essential collocations a {LEARNER_LEVEL} speaker needs for this presentation
+2. Generate a complete 30-day curriculum outline showing progression
+3. Write full stories for Days 1, 8, 15, 22, and 30 as examples
+4. For each story, list the target collocations at the top
+5. After writing each story, provide a brief self-critique using the template
+6. If {TARGET_PRESENTATION_TRANSCRIPT} is provided, ensure stories build toward that specific style and content
+
+## Output Format
+
+### 30-Day Curriculum Overview
+[Provide week-by-week progression summary]
+
+### Day 1 Story
+Target collocations: ...
+[Full story of 400-500 words]
+Self-critique: ...
+
+### Day 8 Story
+[Same format]
+
+### Day 15 Story
+[Same format]
+
+### Day 22 Story
+[Same format]
+
+### Day 30 Story
+[Same format]
+
+Remember: The learner is {LEARNER_LEVEL} NOW and needs to give a presentation on {LEARNING_OBJECTIVE} in 30 days. Every story should directly contribute to this goal through natural, audio-friendly narrative that builds their presentation skills progressively. Follow the good examples and avoid the mistakes shown in the bad examples.
+```
+
+This updated prompt now includes:
+- Two good examples showing what success looks like
+- Two bad examples showing common mistakes to avoid
+- Clear explanations of why each example works or fails
+- Examples drawn from the actual generated stories
+- Better guidance for the LLM through contrasting examples
