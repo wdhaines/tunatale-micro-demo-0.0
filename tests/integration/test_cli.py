@@ -4,7 +4,9 @@ import json
 import sys
 from pathlib import Path
 from typing import Any, Dict, Optional
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch, call
+
+from typer.testing import CliRunner
 
 import nest_asyncio
 import pytest
@@ -85,7 +87,7 @@ def test_cli_help(cli_runner):
     assert "Usage:" in result.output
 
 @pytest.mark.asyncio
-async def test_generate_command(cli_runner, sample_lesson_file, tmp_path, mock_services):
+async def test_generate_command(sample_lesson_file, tmp_path, mock_services):
     """Test the generate command with a sample lesson file."""
     output_dir = tmp_path / "output"
     
@@ -138,11 +140,23 @@ async def test_generate_command(cli_runner, sample_lesson_file, tmp_path, mock_s
     with patch.dict('os.environ', test_env, clear=True), \
          patch('builtins.input', return_value='y'), \
          patch('tunatale.cli.main.process_lesson', new_callable=AsyncMock) as mock_process_lesson, \
-         patch('tunatale.cli.main.ProgressReporter') as mock_progress_reporter:
+         patch('tunatale.cli.main.ProgressReporter') as mock_progress_reporter, \
+         patch('tunatale.cli.main.progress_callback_factory') as mock_callback_factory:
         
-        # Setup the progress reporter mock
-        mock_progress = MagicMock()
+        # Setup the progress reporter mock with async methods
+        mock_progress = AsyncMock()
+        mock_progress.add_task = AsyncMock(return_value="task-123")
+        mock_progress.update = AsyncMock()
+        mock_progress.complete_task = AsyncMock()
+        mock_progress.__aenter__.return_value = mock_progress
+        mock_progress.__aexit__.return_value = None
         mock_progress_reporter.return_value = mock_progress
+        
+        # Setup the callback factory to be an async function that returns a mock callback
+        mock_callback = MagicMock()
+        async def async_callback_factory(progress, task_type=None):
+            return mock_callback
+        mock_callback_factory.side_effect = async_callback_factory
         
         # Create the expected output files first
         (output_dir / 'sections').mkdir(parents=True, exist_ok=True)
@@ -158,6 +172,7 @@ async def test_generate_command(cli_runner, sample_lesson_file, tmp_path, mock_s
         
         # Setup the mock to return a successful result with absolute paths
         mock_process_lesson.return_value = {
+            'success': True,  # Explicitly mark as successful
             'final_audio_file': str(final_audio),
             'metadata_file': str(output_dir / 'metadata.json'),
             'sections': [
@@ -172,19 +187,63 @@ async def test_generate_command(cli_runner, sample_lesson_file, tmp_path, mock_s
             'title': 'Test Lesson'
         }
         
-        # Run the CLI command
-        result = cli_runner.invoke(
-            app,
-            [
-                "generate",
-                str(sample_lesson_file),
-                "--output", str(output_dir),
-                "--force"
-            ]
-        )
+        # Import the generate function directly to avoid CliRunner I/O issues
+        from tunatale.cli.main import generate
+        
+        # Call the generate function directly with the test arguments
+        exit_code = 0
+        output = ""
+        error_output = ""
+        
+        try:
+            # Run the generate function with test arguments
+            generate(
+                input_file=sample_lesson_file,
+                output_dir=output_dir,
+                force=True,
+                verbose=True,
+                log_file=output_dir / 'test.log'
+            )
+        except SystemExit as e:
+            exit_code = e.code if hasattr(e, 'code') and isinstance(e.code, int) else 1
+            output = str(e)
+            error_output = str(e)
+        
+        # Print detailed debug info
+        print("\n=== Test Debug Info ===")
+        print(f"Exit code: {exit_code}")
+        print(f"Output: {output}")
+        if error_output:
+            print(f"Error output: {error_output}")
+        print("Current directory:", Path.cwd())
+        print("Output directory exists:", output_dir.exists())
+        print("Output directory contents:", list(output_dir.glob('*')))
+        print("Sections dir exists:", (output_dir / 'sections').exists())
+        print("Phrases dir exists:", (output_dir / 'phrases').exists())
+        print("Final audio exists:", (output_dir / 'final_audio.wav').exists())
+        print("Metadata exists:", (output_dir / 'metadata.json').exists())
+        print("Process lesson called:", mock_process_lesson.called)
+        print("Progress reporter called:", mock_progress_reporter.called)
+        print("Callback factory called:", mock_callback_factory.called)
+        print("====================\n")
         
         # Check the command was successful
-        assert result.exit_code == 0, f"Command failed with output: {result.output}"
+        assert exit_code == 0, f"""
+        Command failed with exit code: {exit_code}
+        Output: {output}
+        Error output: {error_output}
+        
+        Debug Info:
+        - Exit code: {exit_code}
+        - Output directory: {output_dir}
+        - Directory exists: {output_dir.exists()}
+        - Directory contents: {list(output_dir.glob('*'))}
+        - Metadata exists: {(output_dir / 'metadata.json').exists()}
+        - Final audio exists: {(output_dir / 'final_audio.wav').exists()}
+        - Process lesson called: {mock_process_lesson.called}
+        - Progress reporter called: {mock_progress_reporter.called}
+        - Callback factory called: {mock_callback_factory.called}
+        """
         
         # Check output files were created
         assert (output_dir / "metadata.json").exists(), "Metadata file not found"
@@ -197,8 +256,7 @@ async def test_generate_command(cli_runner, sample_lesson_file, tmp_path, mock_s
         assert "sections" in loaded_metadata, "Sections not in metadata"
         assert len(loaded_metadata["sections"]) > 0, "No sections in metadata"
 
-@pytest.mark.asyncio
-async def test_generate_with_invalid_file(cli_runner, tmp_path):
+def test_generate_with_invalid_file(cli_runner, tmp_path):
     """Test the generate command with a non-existent input file."""
     invalid_file = tmp_path / "nonexistent.txt"
     output_dir = tmp_path / "output"
@@ -212,8 +270,12 @@ async def test_generate_with_invalid_file(cli_runner, tmp_path):
         ]
     )
     
-    assert result.exit_code != 0
-    assert "does not exist" in result.output
+    # Debug output
+    print(f"Exit code: {result.exit_code}")
+    print(f"Output: {result.output}")
+    
+    assert result.exit_code != 0, f"Expected non-zero exit code, got {result.exit_code}"
+    assert "does not exist" in result.output, f"Expected 'does not exist' in output, got: {result.output}"
 
 @pytest.mark.asyncio
 async def test_list_voices_command(capsys):

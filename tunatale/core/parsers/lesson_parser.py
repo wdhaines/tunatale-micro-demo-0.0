@@ -5,7 +5,7 @@ import re
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from pathlib import Path
-from typing import Dict, List, Optional, Union, TYPE_CHECKING
+from typing import Any, Awaitable, Callable, Dict, List, Optional, Union, TYPE_CHECKING
 
 # Import models with conditional imports to avoid circular imports
 if TYPE_CHECKING:
@@ -54,14 +54,14 @@ class LessonParser:
     """Parser for TunaTale lesson files."""
     
     # Regex patterns for different line types
-    # Section headers must be at the start of the line, no leading content, and have valid section names
-    SECTION_PATTERN = re.compile(r'^\s*\[(?P<type>DIALOGUE|VOCABULARY|GRAMMAR|NOTES|EXERCISES)\]\s*$')
+    # Section headers are lines with just [NARRATOR]: Section Name
+    SECTION_PATTERN = re.compile(r'^\s*\[NARRATOR\]\s*:\s*(?P<content>.*?)\s*$')
     # Dialogue lines have a speaker in brackets followed by a colon and content
     DIALOGUE_PATTERN = re.compile(r'^\s*\[(?P<speaker>[^\]]+)\]\s*:\s*(?P<content>.*)$')
-    # Translation lines are specifically marked with [NARRATOR]:
-    TRANSLATION_PATTERN = re.compile(r'^\s*\[NARRATOR\]\s*:\s*(?P<translation>.*)$')
     # Comments start with #
     COMMENT_PATTERN = re.compile(r'^\s*#.*$')
+    # Speaker pattern for voice mapping (e.g., TAGALOG-FEMALE-1)
+    SPEAKER_PATTERN = re.compile(r'^([A-Z]+)-([A-Z]+)-(\d+)$')
     
     def __init__(self):
         self.current_section: Optional[Section] = None
@@ -86,7 +86,7 @@ class LessonParser:
             Voice(
                 name="Tagalog Male 1",
                 provider="edge_tts",
-                provider_id="fil-PH-JasminNeural",
+                provider_id="fil-PH-BlessicaNeural",
                 language="fil",
                 gender=VoiceGender.MALE,
                 is_active=True
@@ -107,10 +107,20 @@ class LessonParser:
         """Register a voice with the parser."""
         self.voices[voice.name] = voice
     
-    def parse_file(self, file_path: Union[str, Path]) -> Lesson:
-        """Parse a lesson file and return a Lesson object."""
+    async def parse_file(
+        self, 
+        file_path: Union[str, Path], 
+        progress_callback: Optional[Callable[[int, int, str, Dict[str, Any]], Awaitable[None]]] = None
+    ) -> Lesson:
+        """Parse a lesson file and return a Lesson object.
+        
+        Args:
+            file_path: Path to the lesson file
+            progress_callback: Optional callback for progress updates
+        """
         path = Path(file_path)
         lines = path.read_text(encoding='utf-8').splitlines()
+        total_lines = len(lines)
         
         # Create a new lesson
         lesson = Lesson(
@@ -120,7 +130,21 @@ class LessonParser:
             description=f"Generated from {path.name}"
         )
         
-        parsed_lines = self._parse_lines(lines)
+        # Parse lines with progress reporting
+        if progress_callback:
+            await progress_callback(0, total_lines, "Parsing lesson file...", {"phase": "parsing"})
+        
+        parsed_lines = []
+        for i, line in enumerate(lines, 1):
+            parsed_line = self._parse_line(i, line)
+            if parsed_line:
+                parsed_lines.append(parsed_line)
+            if progress_callback and i % 5 == 0:  # Update progress every 5 lines
+                await progress_callback(i, total_lines, f"Parsing line {i}/{total_lines}...", {"phase": "parsing"})
+        
+        if progress_callback:
+            await progress_callback(total_lines, total_lines, "Parsing complete", {"phase": "parsing", "completed": True})
+        
         self._build_lesson(lesson, parsed_lines)
         
         return lesson
@@ -147,184 +171,314 @@ class LessonParser:
         Returns:
             A ParsedLine object representing the parsed line, or None if the line should be skipped
         """
-        # Strip whitespace from the line
-        line = line.strip()
-        
-        # Handle empty lines and comments
-        if not line or self.COMMENT_PATTERN.match(line):
-            return ParsedLine(
-                line_number=line_number,
-                line_type=LineType.BLANK,
-                content=line
-            )
-        
-        # Check for section headers (e.g., [DIALOGUE] or [VOCABULARY])
-        section_match = self.SECTION_PATTERN.match(line)
-        if section_match:
-            return ParsedLine(
-                line_number=line_number,
-                line_type=LineType.SECTION_HEADER,
-                content=section_match.group('type'),
-                speaker=section_match.group('type')
-            )
-        
-        # Check for translation lines (e.g., [NARRATOR]: Some text)
-        translation_match = self.TRANSLATION_PATTERN.match(line)
-        if translation_match:
-            # For test compatibility, use NARRATOR type if it exists, otherwise TRANSLATION
-            line_type = LineType.NARRATOR if hasattr(LineType, 'NARRATOR') else LineType.TRANSLATION
-            return ParsedLine(
-                line_number=line_number,
-                line_type=line_type,
-                content=translation_match.group('translation').strip(),
-                speaker='NARRATOR'
-            )
-        
-        # Check for dialogue lines (e.g., [TAGALOG-FEMALE-1]: Some text)
-        dialogue_match = self.DIALOGUE_PATTERN.match(line)
-        if dialogue_match:
-            speaker = dialogue_match.group('speaker').strip()
-            content = dialogue_match.group('content').strip()
+        try:
+            # Strip whitespace from the line
+            line = line.strip()
             
-            # Skip empty dialogue lines
-            if not content:
+            # Handle empty lines and comments
+            if not line or self.COMMENT_PATTERN.match(line):
                 return ParsedLine(
                     line_number=line_number,
                     line_type=LineType.BLANK,
                     content=line
                 )
+            
+            # Check for section headers (e.g., [NARRATOR]: Section Name)
+            section_match = self.SECTION_PATTERN.match(line)
+            if section_match:
+                content = section_match.group('content').strip()
+                # Check if this is a section header (ends with colon or is all caps)
+                if content.endswith(':') or (content.isupper() and ' ' in content):
+                    section_name = content.strip(' :')
+                    if section_name:  # Only return section header if we have a name
+                        return ParsedLine(
+                            line_number=line_number,
+                            line_type=LineType.SECTION_HEADER,
+                            content=section_name,
+                            speaker='NARRATOR'
+                        )
+            
+            # Check for dialogue lines (e.g., [TAGALOG-FEMALE-1]: Some text)
+            dialogue_match = self.DIALOGUE_PATTERN.match(line)
+            if dialogue_match:
+                speaker = dialogue_match.group('speaker').strip()
+                content = dialogue_match.group('content').strip()
                 
-            return ParsedLine(
-                line_number=line_number,
-                line_type=LineType.DIALOGUE,
-                content=content,
-                speaker=speaker
-            )
-        
-        # If we get here, it's an unrecognized line type - treat as plain text
-        return ParsedLine(
-            line_number=line_number,
-            line_type=LineType.DIALOGUE,
-            content=line,
-            speaker=None
-        )
+                # Skip empty dialogue lines
+                if not content:
+                    return ParsedLine(
+                        line_number=line_number,
+                        line_type=LineType.BLANK,
+                        content=line
+                    )
+                    
+                # Determine line type based on speaker
+                if speaker.upper() == 'NARRATOR':
+                    line_type = LineType.NARRATOR
+                else:
+                    line_type = LineType.DIALOGUE
+                    
+                return ParsedLine(
+                    line_number=line_number,
+                    line_type=line_type,
+                    content=content,
+                    speaker=speaker
+                )
+            
+            # If we get here, it's an unrecognized line type - treat as plain text
+            # Check if it looks like a phrase (no brackets, not empty after strip)
+            if line and '[' not in line and ']' not in line:
+                return ParsedLine(
+                    line_number=line_number,
+                    line_type=LineType.DIALOGUE,
+                    content=line,
+                    speaker=None
+                )
+                
+            # If we can't parse it, log a warning and skip the line
+            print(f"Warning: Could not parse line {line_number}: {line}")
+            return None
+            
+        except Exception as e:
+            import traceback
+            error_msg = f"Error parsing line {line_number}: {line}\n"
+            error_msg += f"Error type: {type(e).__name__}\n"
+            error_msg += f"Error details: {str(e)}\n"
+            error_msg += "Traceback:\n"
+            error_msg += "".join(traceback.format_exc())
+            print(error_msg)
+            return None
     
     def _build_lesson(self, lesson: Lesson, parsed_lines: List[ParsedLine]) -> None:
         """Build a Lesson object from parsed lines."""
-        current_section = None
-        current_phrase = None
+        # Filter out None values from parsed_lines
+        parsed_lines = [line for line in parsed_lines if line is not None]
         
-        for i, parsed in enumerate(parsed_lines):
-            if parsed.line_type == LineType.SECTION_HEADER:
-                # Create a new section
-                section_type = self._determine_section_type(parsed.speaker, parsed.content)
-                current_section = Section(
-                    title=parsed.content or f"Section {len(lesson.sections) + 1}",
-                    section_type=section_type,
-                    lesson_id=lesson.id,
-                    position=len(lesson.sections) + 1
-                )
-                lesson.add_section(current_section)
-                current_phrase = None
-                
-            elif parsed.line_type == LineType.DIALOGUE and current_section:
-                # Create a new phrase
-                voice_id = self._get_voice_for_speaker(parsed.speaker)
-                current_phrase = Phrase(
-                    text=parsed.content,
-                    language=lesson.target_language,  # Default to target language
-                    voice_id=voice_id,
-                    position=len(current_section.phrases) + 1
-                )
-                current_section.add_phrase(current_phrase)
-                
-                # Check if next line is a translation
-                if i + 1 < len(parsed_lines) and parsed_lines[i+1].line_type == LineType.TRANSLATION:
-                    translation = parsed_lines[i+1]
-                    # Add translation as a separate phrase in the same section
-                    translation_phrase = Phrase(
-                        text=translation.content,
-                        language=lesson.native_language,
-                        voice_id=self._get_voice_for_speaker("NARRATOR"),
-                        position=len(current_section.phrases) + 1,
-                        metadata={"is_translation": True, "original_text": parsed.content}
-                    )
-                    current_section.add_phrase(translation_phrase)
-    
-    def _determine_section_type(self, section_header: str, content: str) -> SectionType:
-        """Determine the section type from the header and content."""
-        section_header = section_header.upper()
-        
-        # Try to determine section type from header
-        if 'DIALOG' in section_header or 'CONVERSATION' in section_header:
-            return SectionType.KEY_PHRASES
-        elif 'NARRATOR' in section_header or 'STORY' in section_header:
-            return SectionType.NATURAL_SPEED
-        elif 'TRANSLAT' in section_header:
-            return SectionType.TRANSLATED
-        
-        # Try to determine from content if header is not clear
-        if not content:
-            return SectionType.KEY_PHRASES  # Default
+        # If no valid lines, add a default section
+        if not parsed_lines:
+            self._add_default_section(lesson)
+            return
             
-        # Count lines to guess section type
-        lines = [line.strip() for line in content.split('\n') if line.strip()]
-        if len(lines) > 3:
-            return SectionType.NATURAL_SPEED
-        return SectionType.KEY_PHRASES
+        # First, group lines into sections
+        sections = []
+        current_section_lines = []
+        
+        for line in parsed_lines:
+            if line.line_type == LineType.SECTION_HEADER:
+                if current_section_lines:
+                    sections.append(current_section_lines)
+                current_section_lines = [line]
+            else:
+                current_section_lines.append(line)
+        
+        if current_section_lines:
+            sections.append(current_section_lines)
+        
+        # If no sections were created, add all lines to a default section
+        if not sections and parsed_lines:
+            sections = [parsed_lines]
+        
+        # Process each section
+        for section_lines in sections:
+            if not section_lines:
+                continue
+                
+            # First line is the section header if available, otherwise create a default one
+            if section_lines[0].line_type == LineType.SECTION_HEADER:
+                section_header = section_lines[0]
+                section_content = section_lines[1:]  # Skip the header line
+            else:
+                section_header = ParsedLine(
+                    line_number=section_lines[0].line_number,
+                    line_type=LineType.SECTION_HEADER,
+                    content=f"Section {len(lesson.sections) + 1}",
+                    speaker='NARRATOR'
+                )
+                section_content = section_lines
+            
+            # Create a new section
+            section_type = self._determine_section_type(section_header.speaker, section_header.content)
+            
+            current_section = Section(
+                title=section_header.content or f"Section {len(lesson.sections) + 1}",
+                section_type=section_type,
+                lesson_id=str(lesson.id) if hasattr(lesson, 'id') else None,
+                position=len(lesson.sections) + 1
+            )
+            lesson.add_section(current_section)
+            
+            # Process the content lines in the section
+            i = 0
+            while i < len(section_content):
+                line = section_content[i]
+                
+                # Skip section headers that might have been included in content
+                if line.line_type == LineType.SECTION_HEADER:
+                    i += 1
+                    continue
+                
+                # Handle dialogue and narrator lines
+                if line.line_type in (LineType.DIALOGUE, LineType.NARRATOR):
+                    # Create a new phrase
+                    language = self._determine_language(line.speaker or "NARRATOR", lesson)
+                    voice_id = self._get_voice_for_speaker(line.speaker or "NARRATOR")
+                    
+                    # Skip empty content
+                    if not line.content.strip():
+                        i += 1
+                        continue
+                    
+                    try:
+                        current_phrase = Phrase(
+                            text=line.content,
+                            language=language,
+                            voice_id=voice_id,
+                            position=len(current_section.phrases) + 1,
+                            section_id=str(current_section.id) if hasattr(current_section, 'id') else None,
+                            metadata={"speaker": line.speaker or "NARRATOR"}
+                        )
+                        current_section.add_phrase(current_phrase)
+                        
+                        # Check if next line is a translation (NARRATOR line that's not a section header)
+                        if (i + 1 < len(section_content) and 
+                            section_content[i+1].line_type == LineType.NARRATOR and 
+                            not section_content[i+1].content.strip().endswith(':')):
+                            
+                            translation = section_content[i+1]
+                            # Add translation as a separate phrase in the same section
+                            translation_phrase = Phrase(
+                                text=translation.content,
+                                language=lesson.native_language,
+                                voice_id=self._get_voice_for_speaker("NARRATOR"),
+                                position=len(current_section.phrases) + 1,
+                                section_id=str(current_section.id) if hasattr(current_section, 'id') else None,
+                                metadata={"is_translation": True, "original_text": line.content}
+                            )
+                            current_section.add_phrase(translation_phrase)
+                            i += 1  # Skip the translation line in the next iteration
+                            
+                    except Exception as e:
+                        print(f"Error creating phrase from line {line.line_number}: {line.content}")
+                        print(f"Error details: {str(e)}")
+                
+                i += 1
+        
+        # If no sections were created, add a default section with all content
+        if not lesson.sections:
+            self._add_default_section(lesson)
+            
+    def _add_default_section(self, lesson: 'Lesson') -> None:
+        """Add a default section to the lesson."""
+        default_section = Section(
+            title="Default Section",
+            section_type=SectionType.KEY_PHRASES,
+            lesson_id=str(lesson.id) if hasattr(lesson, 'id') else None,
+            position=1
+        )
+        lesson.add_section(default_section)
     
-    def _get_voice_for_speaker(self, speaker: Optional[str]) -> Optional[str]:
-        """Get the appropriate voice ID for a speaker.
+    def _determine_section_type(self, section_header: Optional[str], content: str) -> SectionType:
+        """Determine the section type from the header and content.
         
         Args:
-            speaker: The speaker tag or name to find a voice for
+            section_header: The section header text, or None if not provided
+            content: The section content
             
         Returns:
-            The provider_id of the matching voice as a string, or None if no match found
+            The determined section type
         """
+        # Check for content-based detection first (for empty headers)
+        if content:
+            # Count non-empty lines
+            lines = [line.strip() for line in content.split('\n') if line.strip()]
+            if len(lines) > 3:
+                return SectionType.NATURAL_SPEED
+        
+        # If we have a section header, use it to determine the type
+        if section_header:
+            section_header = section_header.upper()
+            
+            # Try to determine section type from header
+            if 'KEY PHRASE' in section_header or 'VOCAB' in section_header:
+                return SectionType.KEY_PHRASES
+            elif 'NATURAL' in section_header or 'CONVERSATION' in section_header:
+                return SectionType.NATURAL_SPEED
+            elif 'TRANSLAT' in section_header or 'ENGLISH' in section_header:
+                return SectionType.TRANSLATED
+            elif 'DIALOG' in section_header or 'DIALOGUE' in section_header:
+                return SectionType.KEY_PHRASES
+        
+        # Default to KEY_PHRASES if we can't determine the type
+        return SectionType.KEY_PHRASES
+    
+    def _get_voice_for_speaker(self, speaker: str) -> str:
+        """Get the voice ID for a speaker."""
         if not speaker:
-            return None
+            return ""
             
-        # Try exact match first
-        for voice in self.voices.values():
-            if voice.name.lower() == speaker.lower():
-                return str(voice.provider_id)  # Return provider_id as string
-                
-        # Try to match by language and gender from speaker tag
-        # Format: LANGUAGE-GENDER-NUMBER (e.g., TAGALOG-FEMALE-1)
-        parts = speaker.upper().split('-')
-        if len(parts) >= 2:
-            language = parts[0]
-            gender = parts[1] if len(parts) > 1 else None
+        # Default to English voice
+        default_voice = "en-US-AriaNeural"
+        
+        # Check if we have a registered voice for this speaker
+        if speaker in self.voices:
+            return self.voices[speaker].provider_id
             
-            # Map language codes
+        # Try to determine voice from speaker name pattern (e.g., TAGALOG-FEMALE-1)
+        speaker_match = self.SPEAKER_PATTERN.match(speaker.upper())
+        if speaker_match:
+            language, gender, _ = speaker_match.groups()
             if language == 'TAGALOG':
-                language = 'fil'
+                if gender == 'FEMALE':
+                    return "fil-PH-BlessicaNeural"
+                return "fil-PH-AngeloNeural"  # Updated to use correct male voice ID
+        
+        # Fallback to language detection from speaker name
+        speaker_upper = speaker.upper()
+        if 'TAGALOG' in speaker_upper or 'FILIPINO' in speaker_upper:
+            if 'FEMALE' in speaker_upper:
+                return "fil-PH-BlessicaNeural"
+            return "fil-PH-AngeloNeural"  # Updated to use correct male voice ID
+        elif 'NARRATOR' in speaker_upper or 'ENGLISH' in speaker_upper:
+            return default_voice
+            
+        return default_voice
+    
+    def _determine_language(self, speaker: str, lesson: Lesson) -> Language:
+        """Determine the language for a speaker."""
+        if not speaker:
+            return lesson.target_language
+            
+        # Try to determine language from speaker name pattern (e.g., TAGALOG-FEMALE-1)
+        speaker_match = self.SPEAKER_PATTERN.match(speaker.upper())
+        if speaker_match:
+            language, _, _ = speaker_match.groups()
+            if language == 'TAGALOG':
+                return Language.TAGALOG
             elif language == 'ENGLISH':
-                language = 'en'
-                
-            # Map gender
-            gender_map = {
-                'MALE': VoiceGender.MALE,
-                'FEMALE': VoiceGender.FEMALE,
-                'NEUTRAL': VoiceGender.NEUTRAL
-            }
-            voice_gender = gender_map.get(gender) if gender else None
-            
-            # Find matching voice
-            for voice in self.voices.values():
-                if (voice.language == language and 
-                    (not voice_gender or voice.gender == voice_gender)):
-                    return str(voice.provider_id)  # Return provider_id as string
-                    
-        # Return first available voice if no match found
-        if self.voices:
-            return str(next(iter(self.voices.values())).provider_id)  # Return provider_id as string
-            
-        return None
+                return Language.ENGLISH
+        
+        # Fallback to language detection from speaker name
+        speaker_upper = speaker.upper()
+        if 'TAGALOG' in speaker_upper or 'FILIPINO' in speaker_upper:
+            return Language.TAGALOG
+        elif 'NARRATOR' in speaker_upper or 'ENGLISH' in speaker_upper:
+            return Language.ENGLISH
+        
+        return lesson.target_language
 
-
-def parse_lesson_file(file_path: Union[str, Path]) -> Lesson:
-    """Parse a lesson file and return a Lesson object."""
+async def parse_lesson_file(
+    file_path: Union[str, Path], 
+    progress_callback: Optional[Callable[[int, int, str, Dict[str, Any]], Awaitable[None]]] = None
+) -> Lesson:
+    """Parse a lesson file and return a Lesson object.
+    
+    Args:
+        file_path: Path to the lesson file
+        progress_callback: Optional callback for progress updates
+            - current: Current progress (number of lines processed)
+            - total: Total number of lines to process
+            - status: Current status message
+            - **kwargs: Additional progress data
+    """
     parser = LessonParser()
-    return parser.parse_file(file_path)
+    return await parser.parse_file(file_path, progress_callback=progress_callback)

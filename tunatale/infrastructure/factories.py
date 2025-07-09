@@ -11,11 +11,11 @@ from tunatale.infrastructure.services.tts.edge_tts_service import EdgeTTSService
 logger = logging.getLogger(__name__)
 
 
-def create_tts_service(config: Dict[str, Any]) -> TTSService:
+def create_tts_service(config: Any) -> TTSService:
     """Create a TTS service based on configuration.
     
     Args:
-        config: TTS configuration dictionary
+        config: TTS configuration (dict or Pydantic model)
         
     Returns:
         An instance of a TTS service
@@ -23,33 +23,74 @@ def create_tts_service(config: Dict[str, Any]) -> TTSService:
     Raises:
         ValueError: If the TTS provider is not supported
     """
-    provider = config.get('provider', 'edge').lower()
+    # Convert Pydantic model to dict if needed
+    if hasattr(config, 'model_dump'):  # Pydantic v2
+        config_dict = config.model_dump()
+    elif hasattr(config, 'dict'):  # Pydantic v1
+        config_dict = config.dict()
+    elif isinstance(config, dict):
+        config_dict = config
+    else:
+        raise ValueError(f"Unsupported config type: {type(config)}")
+    
+    provider = config_dict.get('provider', 'edge').lower()
     
     if provider == 'edge':
         logger.info("Using Edge TTS service")
-        return EdgeTTSService(config.get('edge_tts', {}))
+        return EdgeTTSService(config_dict.get('edge_tts', {}))
     
     elif provider == 'google':
         logger.info("Using Google TTS service")
         # Import here to avoid dependency if not used
         from tunatale.infrastructure.services.tts.google_tts_service import GoogleTTSService
-        return GoogleTTSService(config.get('google_tts', {}))
+        return GoogleTTSService(config_dict.get('google_tts', {}))
     
     else:
         raise ValueError(f"Unsupported TTS provider: {provider}")
 
 
-def create_audio_processor(config: Dict[str, Any]) -> AudioProcessor:
+def create_audio_processor(config: Any, **kwargs) -> AudioProcessor:
     """Create an audio processor based on configuration.
     
     Args:
-        config: Audio processing configuration dictionary
+        config: Audio processing configuration (dict or Pydantic model)
+        **kwargs: Additional keyword arguments to pass to AudioProcessorService
         
     Returns:
         An instance of an audio processor
     """
-    logger.info("Creating audio processor")
-    return AudioProcessorService(config)
+    # Convert Pydantic model to dict if needed
+    if config is None:
+        config_dict = {}
+    elif hasattr(config, 'model_dump'):  # Pydantic v2
+        config_dict = config.model_dump()
+    elif hasattr(config, 'dict'):  # Pydantic v1
+        config_dict = config.dict()
+    elif isinstance(config, dict):
+        config_dict = config
+    else:
+        raise ValueError(f"Unsupported config type: {type(config)}")
+    
+    # Merge with any additional kwargs
+    config_dict.update(kwargs)
+    
+    # Only keep the expected arguments for AudioProcessorService
+    expected_args = {
+        'default_format',
+        'silence_duration_ms',
+        'silence_threshold',
+        'target_lufs',
+        'max_peak'
+    }
+    
+    # Filter the config to only include expected arguments
+    filtered_config = {
+        k: v for k, v in config_dict.items() 
+        if k in expected_args or k == 'default_format'  # Always include default_format
+    }
+    
+    logger.info(f"Creating audio processor with config: {filtered_config}")
+    return AudioProcessorService(filtered_config)
 
 
 def create_lesson_processor(

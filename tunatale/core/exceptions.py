@@ -114,8 +114,8 @@ class TTSRateLimitExceeded(TTSError):
     """Raised when rate limits are exceeded for the TTS service."""
     error_code = "tts_rate_limit_exceeded"
     
-    def __init__(self, message: str, **kwargs: Any) -> None:
-        super().__init__(message=message, **kwargs)
+    def __init__(self, message: str, cause: Optional[Exception] = None, **kwargs: Any) -> None:
+        super().__init__(message=message, cause=cause, **kwargs)
 
 
 class TTSValidationError(TTSError):

@@ -1,6 +1,8 @@
 """Audio processing service for TunaTale."""
 import logging
+import os
 import tempfile
+from io import BytesIO
 from pathlib import Path
 from typing import Any, BinaryIO, Dict, List, Optional, Tuple, Union
 
@@ -48,6 +50,78 @@ class AudioProcessorService(AudioProcessor):
         self.target_lufs = self.config.get('target_lufs', -16.0)
         self.max_peak = self.config.get('max_peak', -1.0)
     
+    async def process_audio(
+        self,
+        input_file: Union[str, Path, BinaryIO],
+        output_file: Union[str, Path],
+        add_silence_ms: int = 0,
+        **kwargs
+    ) -> Path:
+        """Process audio file with optional silence addition.
+        
+        Args:
+            input_file: Input file path or file-like object
+            output_file: Output file path
+            add_silence_ms: Duration of silence to add in milliseconds
+            **kwargs: Additional processing parameters
+                - target_level: Target loudness in LUFS (default: -16.0)
+                - silence_position: Where to add silence ('start', 'end', or 'both')
+                
+        Returns:
+            Path to the processed output file
+            
+        Raises:
+            AudioProcessingError: If there's an error processing the audio
+        """
+        try:
+            # Get output format from output file extension or use default
+            output_path = Path(output_file)
+            output_format = output_path.suffix[1:] or self.default_format
+            
+            # Create a temporary file with the correct extension
+            with tempfile.NamedTemporaryFile(suffix=f'.{output_format}', delete=False) as tmp:
+                normalized_file = Path(tmp.name)
+            
+            try:
+                target_level = kwargs.pop('target_level', -16.0)
+                
+                # Normalize the audio
+                await self.normalize_audio(
+                    input_file=input_file,
+                    output_file=normalized_file,
+                    target_level=target_level,
+                    **kwargs
+                )
+                
+                # Add silence if requested
+                if add_silence_ms > 0:
+                    silence_position = kwargs.get('silence_position', 'end')
+                    await self.add_silence(
+                        input_file=normalized_file,
+                        output_file=output_file,
+                        duration=add_silence_ms / 1000.0,  # Convert to seconds
+                        position=silence_position,
+                        **kwargs
+                    )
+                else:
+                    # If no silence to add, just move the normalized file to the output path
+                    normalized_file.replace(output_file)
+                
+                return Path(output_file)
+                
+            finally:
+                # Clean up the temporary normalized file if it still exists
+                if normalized_file.exists():
+                    try:
+                        normalized_file.unlink()
+                    except Exception as e:
+                        logger.warning(f"Failed to delete temporary file {normalized_file}: {e}")
+            
+            return Path(output_file)
+                
+        except Exception as e:
+            raise AudioProcessingError(f"Error processing audio: {e}") from e
+            
     async def concatenate_audio(
         self,
         input_files: List[Union[str, Path, BinaryIO]],
@@ -317,19 +391,56 @@ class AudioProcessorService(AudioProcessor):
             AudioProcessingError: If the file cannot be loaded
         """
         try:
-            if hasattr(source, 'read'):
+            file_path = str(source) if not hasattr(source, 'read') else None
+            
+            if file_path:
+                # It's a file path
+                path = Path(file_path)
+                if not path.exists():
+                    raise FileNotFoundError(f"Audio file not found: {path}")
+                if path.stat().st_size == 0:
+                    raise AudioProcessingError(f"Audio file is empty: {path}")
+                
+                # Try loading with explicit format first
+                try:
+                    return AudioSegment.from_file(str(path), format=path.suffix[1:] if path.suffix else None)
+                except Exception as e:
+                    # Fall back to auto-detection if format-specific loading fails
+                    logger.warning(f"Failed to load with format detection, trying auto-detect: {e}")
+                    return AudioSegment.from_file(str(path))
+            else:
                 # It's a file-like object
                 if hasattr(source, 'seek'):
                     source.seek(0)
-                return AudioSegment.from_file(source)
-            else:
-                # It's a file path
-                path = Path(source)
-                if not path.exists():
-                    raise FileNotFoundError(f"Audio file not found: {path}")
-                return AudioSegment.from_file(str(path))
+                try:
+                    return AudioSegment.from_file(source)
+                except Exception as e:
+                    if hasattr(source, 'read'):
+                        # Try reading the data and creating a new file-like object
+                        source.seek(0)
+                        data = source.read()
+                        if not data:
+                            raise AudioProcessingError("No data available from file-like object")
+                        # Create a new BytesIO object with the data
+                        from io import BytesIO
+                        return AudioSegment.from_file(BytesIO(data))
+                    raise
+                    
         except Exception as e:
-            raise AudioProcessingError(f"Error loading audio from {source}: {e}") from e
+            error_msg = str(e)
+            if hasattr(source, 'name'):
+                source_info = f"{source.name} ({type(source).__name__})"
+            else:
+                source_info = str(source)
+                
+            # Add file size info if available
+            if file_path and os.path.exists(file_path):
+                file_size = os.path.getsize(file_path)
+                error_msg += f" (File size: {file_size} bytes)"
+                
+            raise AudioProcessingError(
+                f"Error loading audio from {source_info}: {error_msg}"
+            ) from e
     
     def _export_audio(
         self,

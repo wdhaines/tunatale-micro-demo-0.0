@@ -42,6 +42,9 @@ logs/
 # Output files
 output/
 
+# Data directory (TTS cache, etc.)
+data/
+
 # Archive directory
 archive/
 
@@ -50,3 +53,33 @@ archive/
 
 # API keys
 tagalog-tts-*.json
+
+# Test and coverage files
+.coverage
+coverage.xml
+.coverage.*
+
+# Debug files
+debug_voices.py
+edge_tts_voices.json
+edge_tts_voices_debug.log
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# Development scripts
+process_short_lesson.py
+test_async.py
+test_config.yaml
+
+# Virtual environments
+venv*/
+ENV/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo

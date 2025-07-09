@@ -32,15 +32,15 @@ def mock_tts_service():
     
     # Mock synthesize_speech to create a silent audio file
     async def mock_synthesize(*args, **kwargs):
-        output_file = Path(kwargs.get('output_file', 'output.mp3'))
+        output_path = Path(kwargs.get('output_path', 'output.mp3'))
         # Get format from file extension or default to 'mp3'
-        output_format = output_file.suffix.lstrip('.').lower() or 'mp3'
+        output_format = output_path.suffix.lstrip('.').lower() or 'mp3'
         # Create a 100ms silent audio file
         audio = AudioSegment.silent(duration=100)  # 100ms
-        output_file.parent.mkdir(parents=True, exist_ok=True)
-        audio.export(output_file, format=output_format)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        audio.export(output_path, format=output_format)
         return {
-            'path': str(output_file),
+            'path': str(output_path),
             'cached': False,
             'voice_id': kwargs.get('voice_id', 'test-voice')
         }
@@ -183,7 +183,8 @@ class TestLessonProcessor:
         # Verify the result
         assert 'audio_file' in result
         assert result['text'] == phrase.text
-        assert result['language'] == phrase.language
+        # Compare string values since we convert the enum to string in the result
+        assert result['language'] == phrase.language.value
         assert result['voice_id'] == phrase.voice_id
         
         # Verify the audio file was created
@@ -398,19 +399,16 @@ class TestLessonProcessor:
         assert 'phrases' in result, "Expected phrases in the result"
         assert len(result['phrases']) > 0, "Expected at least one phrase in the result"
         
-        # Check that at least one phrase has an error
-        phrase_errors = [p.get('error') for p in result['phrases'] if p.get('error')]
-        assert len(phrase_errors) > 0, "Expected at least one phrase to have an error"
-        assert any('AudioProcessingError' in str(e) for e in phrase_errors), \
-            "Expected an audio processing error in one of the phrases"
+        # Check that the section has an error and no audio file
+        assert not result['success'], "Expected section processing to fail"
+        assert 'error' in result, "Expected an error message in the result"
+        assert 'AudioProcessingError' in result['error'], "Expected an audio processing error"
+        assert result['audio_file'] is None, "Expected no audio file when concatenation fails"
         
-        # Verify the phrases were processed but may have errors
+        # Verify all phrases were processed successfully
         assert 'phrases' in result, "Expected phrases in the result"
         assert len(result['phrases']) > 0, "Expected at least one phrase in the result"
-        
-        # Check that at least one phrase has an error
-        phrase_errors = [p.get('error') for p in result['phrases'] if p.get('error')]
-        assert len(phrase_errors) > 0, "Expected at least one phrase to have an error"
+        assert all(p.get('success', False) for p in result['phrases']), "All phrases should process successfully"
     
     async def test_process_section_audio_error_in_phrase(
         self,
