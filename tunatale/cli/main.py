@@ -41,13 +41,44 @@ from tunatale.core.parsers.lesson_parser import parse_lesson_file
 from tunatale.core.services.lesson_processor import LessonProcessor
 from tunatale.infrastructure.factories import create_audio_processor, create_tts_service
 
-# Configure logging
+# Configure basic logging with Rich handler for console output
 logging.basicConfig(
     level=logging.INFO,
     format="%(message)s",
     datefmt="[%X]",
     handlers=[RichHandler(rich_tracebacks=True, tracebacks_show_locals=False)],
 )
+
+def configure_file_logging(log_file: Path):
+    """Configure file logging to the specified log file.
+    
+    Args:
+        log_file: Path to the log file
+    """
+    # Create parent directories if they don't exist
+    log_file.parent.mkdir(parents=True, exist_ok=True)
+    
+    # Create a file handler for the log file
+    try:
+        file_handler = logging.FileHandler(str(log_file.absolute()), mode='w', encoding='utf-8')
+        file_handler.setLevel(logging.DEBUG)
+        file_formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            datefmt='%Y-%m-%d %H:%M:%S'
+        )
+        file_handler.setFormatter(file_formatter)
+        
+        # Add the file handler to the root logger
+        root_logger = logging.getLogger()
+        root_logger.addHandler(file_handler)
+        
+        # Log a message to confirm file logging is working
+        logger = logging.getLogger(__name__)
+        logger.info(f"Logging to file: {log_file.absolute()}")
+        return True
+    except Exception as e:
+        print(f"Failed to configure file logging: {e}")
+        return False
 
 # Disable verbose logging from dependencies
 logging.getLogger("httpcore").setLevel(logging.WARNING)
@@ -86,6 +117,7 @@ class ProgressReporter:
         self._start_time = time.time()
         self._last_update = 0
         self._update_interval = 0.1  # seconds between updates
+        self.tasks = {}  # Track active tasks
         
     async def __aenter__(self):
         """Enter the async context manager."""
@@ -379,17 +411,31 @@ async def process_lesson(
         # Process the lesson with progress reporting
         if progress:
             # Create a simple progress callback that doesn't require awaiting
+            task_id = f"lesson:{lesson.id if hasattr(lesson, 'id') else 'main'}"
+            
+            # Initialize the task
+            await progress.add_task_async(
+                task_id=task_id,
+                description="Processing lesson",
+                total=100,
+                task_type="lesson"
+            )
+            
             async def progress_callback(current: int, total: int, status: str, **kwargs):
                 await progress.update(
-                    current=current,
+                    task_id=task_id,
+                    completed=current,
                     total=total,
                     status=status,
                     **kwargs
                 )
+                
+                # Mark as complete if we've reached the total
+                if current >= total:
+                    await progress.complete_task(task_id, total=total, status="Completed")
         else:
             progress_callback = None
         
-        # Process the lesson
         result = await processor.process_lesson(
             lesson=lesson,
             output_dir=sections_dir,  # Use sections dir for section outputs
@@ -399,6 +445,19 @@ async def process_lesson(
             max_parallel_audio=max_parallel_audio,
             progress_callback=progress_callback,
         )
+        
+        logger.info("Lesson processing completed")
+        logger.info(f"Result: {result}")
+        
+        # Log output directory contents
+        if output_dir.exists():
+            logger.info(f"Output directory contents: {list(output_dir.glob('*'))}")
+            if (output_dir / 'sections').exists():
+                logger.info(f"Sections directory contents: {list((output_dir / 'sections').glob('*'))}")
+            else:
+                logger.warning("Sections directory does not exist")
+        else:
+            logger.error("Output directory was not created")
         
         # Ensure output directories exist
         sections_dir.mkdir(parents=True, exist_ok=True)
@@ -562,11 +621,11 @@ def generate(
     # Set log level
     logging.getLogger().setLevel(logging.DEBUG if verbose else logging.INFO)
     
+    # Initialize logger
+    logger = logging.getLogger(__name__)
+    
     # Skip path validation in test environment
     is_test = 'PYTEST_CURRENT_TEST' in os.environ or 'pytest' in str(output_dir) or 'pytest' in str(input_file)
-    
-    if is_test:
-        logger.debug("Running in test environment, skipping some validations")
         
     # Resolve input file path
     input_file = input_file.resolve()
@@ -586,6 +645,26 @@ def generate(
         from datetime import datetime
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         run_output_dir = output_dir / f"run_{timestamp}"
+        
+        # Configure file logging to the specified log file
+        if str(log_file) == "tunatale-debug.log":
+            log_file_path = run_output_dir / "debug.log"
+        else:
+            log_file_path = log_file
+            
+        # Ensure the log file is created in the output directory
+        if not log_file_path.parent.exists():
+            log_file_path.parent.mkdir(parents=True, exist_ok=True)
+            
+        print(f"Configuring logging to: {log_file_path.absolute()}")
+        if not configure_file_logging(log_file_path):
+            print(f"Warning: Failed to configure file logging to {log_file_path}")
+        else:
+            print(f"Successfully configured logging to: {log_file_path.absolute()}")
+            
+        # Log a test message
+        logger = logging.getLogger(__name__)
+        logger.info("Test log message to verify file logging is working")
         
         # Skip directory checks in test environment
         if not is_test:
@@ -707,16 +786,8 @@ def generate(
                         except asyncio.TimeoutError:
                             print_info("No response received. Starting processing...")
                     except ImportError:
-                        # Fall back to standard input if prompt_toolkit is not available
-                        frozen = getattr(sys, 'frozen', False)
-                        if not frozen:
-                            # Only show the prompt if not in a frozen executable
-                            print("\nPress Enter to start processing or Ctrl+C to cancel...")
-                            try:
-                                input()
-                            except (KeyboardInterrupt, EOFError):
-                                print_info("\nOperation cancelled.")
-                                raise typer.Exit(0)
+                        # Skip the prompt and start processing immediately
+                        print_info("Starting processing...")
                 
                 # Cleanup function in case of failure
                 def cleanup():
@@ -1034,12 +1105,12 @@ async def progress_callback_factory(
                         **update_kwargs
                     )
                 
-                # Update progress
+                # Update progress - pass current as completed in the kwargs to avoid duplicate parameter
+                update_kwargs['completed'] = current
+                update_kwargs['description'] = f"📚 {status}{section_context}"
+                update_kwargs['phase'] = phase
                 await progress.update(
                     main_task_id,
-                    completed=current,
-                    description=f"📚 {status}{section_context}",
-                    phase=phase,
                     **update_kwargs
                 )
                 

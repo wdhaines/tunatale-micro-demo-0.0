@@ -6,6 +6,35 @@ from pathlib import Path
 from ..models.voice import Voice
 
 
+class TTSException(Exception):
+    """Base exception for TTS service errors."""
+    pass
+
+
+class TTSValidationError(TTSException):
+    """Raised when input validation fails."""
+    pass
+
+
+class TTSRateLimitError(TTSException):
+    """Raised when rate limits are exceeded."""
+    def __init__(self, message, **kwargs):
+        super().__init__(message)
+        self.retry_after = kwargs.get('retry_after')
+        self.status_code = kwargs.get('status_code')
+        self.headers = kwargs.get('headers', {})
+
+
+class TTSAuthenticationError(TTSException):
+    """Raised when authentication fails."""
+    pass
+
+
+class TTSTransientError(TTSException):
+    """Raised for transient errors that might succeed on retry."""
+    pass
+
+
 @runtime_checkable
 class TTSService(Protocol):
     """Protocol defining the interface for TTS services.

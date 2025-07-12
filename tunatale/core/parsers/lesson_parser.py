@@ -67,6 +67,7 @@ class LessonParser:
         self.current_section: Optional[Section] = None
         self.current_phrase: Optional[Phrase] = None
         self.voices: Dict[str, Voice] = {}
+        self.last_voice_id: Optional[str] = None  # Track the last used voice ID
         self._register_default_voices()
     
     def _register_default_voices(self) -> None:
@@ -183,7 +184,7 @@ class LessonParser:
                     content=line
                 )
             
-            # Check for section headers (e.g., [NARRATOR]: Section Name)
+            # Check for section headers (e.g., [NARRATOR]: DIALOGUE:)
             section_match = self.SECTION_PATTERN.match(line)
             if section_match:
                 content = section_match.group('content').strip()
@@ -195,7 +196,8 @@ class LessonParser:
                             line_number=line_number,
                             line_type=LineType.SECTION_HEADER,
                             content=section_name,
-                            speaker='NARRATOR'
+                            speaker='NARRATOR',
+                            voice_id=self._get_voice_for_speaker('NARRATOR')
                         )
             
             # Check for dialogue lines (e.g., [TAGALOG-FEMALE-1]: Some text)
@@ -211,30 +213,45 @@ class LessonParser:
                         line_type=LineType.BLANK,
                         content=line
                     )
-                    
+                
                 # Determine line type based on speaker
                 if speaker.upper() == 'NARRATOR':
                     line_type = LineType.NARRATOR
                 else:
                     line_type = LineType.DIALOGUE
-                    
+                
+                # Get the voice for this speaker and update last_voice_id
+                voice_id = self._get_voice_for_speaker(speaker)
+                
+                # Ensure last_voice_id is updated for dialogue lines
+                self.last_voice_id = voice_id
+                
                 return ParsedLine(
                     line_number=line_number,
                     line_type=line_type,
                     content=content,
-                    speaker=speaker
+                    speaker=speaker,
+                    voice_id=voice_id,
+                    language="tagalog" if speaker and ('TAGALOG' in speaker.upper() or 'FILIPINO' in speaker.upper()) else "english"
                 )
             
             # If we get here, it's an unrecognized line type - treat as plain text
             # Check if it looks like a phrase (no brackets, not empty after strip)
             if line and '[' not in line and ']' not in line:
+                # For plain text lines (breakdown lines), always use the Tagalog voice
+                # This ensures all breakdown lines are in Tagalog
+                voice_id = "fil-PH-BlessicaNeural"
+                
+                # For plain text lines, use DIALOGUE type as per test expectations
                 return ParsedLine(
                     line_number=line_number,
                     line_type=LineType.DIALOGUE,
                     content=line,
-                    speaker=None
+                    speaker=None,
+                    voice_id=voice_id,
+                    language="tagalog"  # Always use Tagalog for breakdown lines
                 )
-                
+            
             # If we can't parse it, log a warning and skip the line
             print(f"Warning: Could not parse line {line_number}: {line}")
             return None
@@ -338,6 +355,8 @@ class LessonParser:
                             metadata={"speaker": line.speaker or "NARRATOR"}
                         )
                         current_section.add_phrase(current_phrase)
+                        # Update the last used voice to ensure consistency
+                        self.last_voice_id = voice_id
                         
                         # Check if next line is a translation (NARRATOR line that's not a section header)
                         if (i + 1 < len(section_content) and 
@@ -356,6 +375,35 @@ class LessonParser:
                             )
                             current_section.add_phrase(translation_phrase)
                             i += 1  # Skip the translation line in the next iteration
+                            
+                            # The next lines are breakdown lines - they should use the same voice as the original phrase
+                            # Look ahead to find all consecutive non-empty lines that are not section headers or dialogue starters
+                            j = i + 1
+                            while j < len(section_content):
+                                next_line = section_content[j]
+                                if (not next_line.content.strip() or 
+                                    next_line.line_type == LineType.SECTION_HEADER or 
+                                    (next_line.line_type == LineType.DIALOGUE and next_line.speaker)):
+                                    break
+                                    
+                                # Create a new phrase with the same voice and language as the original phrase
+                                breakdown_phrase = Phrase(
+                                    text=next_line.content,
+                                    language=language,  # Same language as the original phrase
+                                    voice_id=voice_id,  # Same voice as the original phrase
+                                    position=len(current_section.phrases) + 1,
+                                    section_id=str(current_section.id) if hasattr(current_section, 'id') else None,
+                                    metadata={"is_breakdown": True, "original_text": line.content}
+                                )
+                                current_section.add_phrase(breakdown_phrase)
+                                
+                                # Update the last used voice to ensure consistency
+                                self.last_voice_id = voice_id
+                                j += 1
+                            
+                            # Skip the breakdown lines we just processed
+                            if j > i + 1:
+                                i = j - 1  # -1 because we'll increment i at the end of the loop
                             
                     except Exception as e:
                         print(f"Error creating phrase from line {line.line_number}: {line.content}")
@@ -412,36 +460,52 @@ class LessonParser:
         return SectionType.KEY_PHRASES
     
     def _get_voice_for_speaker(self, speaker: str) -> str:
-        """Get the voice ID for a speaker."""
-        if not speaker:
-            return ""
-            
-        # Default to English voice
-        default_voice = "en-US-AriaNeural"
+        """Get the voice ID for a speaker.
         
-        # Check if we have a registered voice for this speaker
-        if speaker in self.voices:
-            return self.voices[speaker].provider_id
+        Args:
+            speaker: The speaker name or identifier. If empty or None, returns the last used voice.
             
-        # Try to determine voice from speaker name pattern (e.g., TAGALOG-FEMALE-1)
-        speaker_match = self.SPEAKER_PATTERN.match(speaker.upper())
-        if speaker_match:
-            language, gender, _ = speaker_match.groups()
-            if language == 'TAGALOG':
-                if gender == 'FEMALE':
-                    return "fil-PH-BlessicaNeural"
-                return "fil-PH-AngeloNeural"  # Updated to use correct male voice ID
+        Returns:
+            The voice ID to use for the speaker, or the last used voice if no speaker is specified.
+        """
+        # If no speaker is specified, return the last used voice or default to Tagalog
+        if not speaker or speaker.upper() == 'NARRATOR':
+            # For narrator lines, use the default English voice
+            if speaker and speaker.upper() == 'NARRATOR':
+                voice_id = "en-US-AriaNeural"
+            else:
+                # For empty speaker (breakdown lines), always use Tagalog voice
+                voice_id = "fil-PH-BlessicaNeural"
+        else:
+            # Default to English voice
+            default_voice = "en-US-AriaNeural"
+            voice_id = None
+            
+            # Check if we have a registered voice for this speaker
+            if speaker in self.voices:
+                voice_id = self.voices[speaker].provider_id
+            else:
+                # Try to determine voice from speaker name pattern (e.g., TAGALOG-FEMALE-1)
+                speaker_match = self.SPEAKER_PATTERN.match(speaker.upper())
+                if speaker_match:
+                    language, gender, _ = speaker_match.groups()
+                    if language == 'TAGALOG':
+                        voice_id = "fil-PH-BlessicaNeural" if gender == 'FEMALE' else "fil-PH-AngeloNeural"
+                else:
+                    # Fallback to language detection from speaker name
+                    speaker_upper = speaker.upper()
+                    if 'TAGALOG' in speaker_upper or 'FILIPINO' in speaker_upper:
+                        voice_id = "fil-PH-BlessicaNeural" if 'FEMALE' in speaker_upper else "fil-PH-AngeloNeural"
+                    elif 'NARRATOR' in speaker_upper or 'ENGLISH' in speaker_upper:
+                        voice_id = default_voice
+            
+            # If we couldn't determine a voice, use the last used voice or default
+            if not voice_id:
+                voice_id = self.last_voice_id or default_voice
         
-        # Fallback to language detection from speaker name
-        speaker_upper = speaker.upper()
-        if 'TAGALOG' in speaker_upper or 'FILIPINO' in speaker_upper:
-            if 'FEMALE' in speaker_upper:
-                return "fil-PH-BlessicaNeural"
-            return "fil-PH-AngeloNeural"  # Updated to use correct male voice ID
-        elif 'NARRATOR' in speaker_upper or 'ENGLISH' in speaker_upper:
-            return default_voice
-            
-        return default_voice
+        # Update the last used voice
+        self.last_voice_id = voice_id
+        return voice_id
     
     def _determine_language(self, speaker: str, lesson: Lesson) -> Language:
         """Determine the language for a speaker."""

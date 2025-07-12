@@ -36,6 +36,30 @@ This is a test lesson.
 - I'm fine, thank you! | Mabuti naman, salamat!
 """
 
+TAGALOG_LESSON = """
+[NARRATOR]: Day 1: Welcome to El Nido!
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: magandang hapon po
+[NARRATOR]: good afternoon (polite)
+[TAGALOG-FEMALE-1]: magandang hapon po
+po
+hapon
+pon
+ha
+hapon
+hapon po
+magandang
+dang
+gan
+gandang
+ma
+magandang
+magandang hapon po
+magandang hapon po
+"""
+
 @pytest.fixture
 def sample_lesson_file(tmp_path: Path) -> Path:
     """Create a sample lesson file for testing."""
@@ -56,14 +80,29 @@ def mock_services():
             'cached': False,
             'voice_id': voice_id
         })
-        mock_tts.get_voices = AsyncMock(return_value=[])
-        mock_tts.get_voice = AsyncMock(return_value={
-            'id': 'test-voice',
-            'name': 'Test Voice',
-            'language': 'en-US',
-            'gender': 'Female',
-            'provider': 'test'
-        })
+        
+        # Mock voices for testing
+        mock_voices = [
+            {
+                'id': 'fil-PH-BlessicaNeural',
+                'name': 'Tagalog Female',
+                'language': 'fil-PH',
+                'gender': 'Female',
+                'provider': 'edge_tts'
+            },
+            {
+                'id': 'en-US-AriaNeural',
+                'name': 'English Female',
+                'language': 'en-US',
+                'gender': 'Female',
+                'provider': 'edge_tts'
+            }
+        ]
+        
+        mock_tts.get_voices = AsyncMock(return_value=mock_voices)
+        mock_tts.get_voice = AsyncMock(side_effect=lambda voice_id: next(
+            (v for v in mock_voices if v['id'] == voice_id), None
+        ))
         mock_tts_factory.return_value = mock_tts
         
         # Create mock audio processor
@@ -274,8 +313,11 @@ def test_generate_with_invalid_file(cli_runner, tmp_path):
     print(f"Exit code: {result.exit_code}")
     print(f"Output: {result.output}")
     
+    # Check for non-zero exit code and error message in output
     assert result.exit_code != 0, f"Expected non-zero exit code, got {result.exit_code}"
-    assert "does not exist" in result.output, f"Expected 'does not exist' in output, got: {result.output}"
+    assert "Error" in result.output, f"Expected 'Error' in output, got: {result.output}"
+    assert "File does not exist" in result.output, \
+        f"Expected 'File does not exist' in output, got: {result.output}"
 
 @pytest.mark.asyncio
 async def test_list_voices_command(capsys):
