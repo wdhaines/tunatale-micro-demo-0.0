@@ -445,3 +445,163 @@ def test_parse_line_invalid_speaker():
     assert line.line_type == LineType.DIALOGUE
     assert line.content == "This is just a line of dialogue"
     assert line.speaker is None
+
+
+def test_voice_and_language_inheritance():
+    """Test that lines without speaker tags inherit both voice and language from the previous speaker.
+    
+    This test simulates the structure of a real lesson file to ensure language inheritance
+    works correctly in practice.
+    """
+    # Create a new parser to ensure a clean state
+    parser = LessonParser()
+    
+    # Clear any existing state
+    parser.voices = {}
+    if hasattr(parser, 'last_language'):
+        delattr(parser, 'last_language')
+    
+    # Simulate a real lesson structure similar to demo-mini-test.txt
+    # 1. Start with a narrator line
+    line1 = parser._parse_line(1, "[NARRATOR]: Mini Test: Welcome to El Nido!")
+    assert line1.voice_id == "en-US-AriaNeural"
+    assert line1.language == "english"
+    
+    # 2. Add a section header (treated as dialogue in current implementation)
+    line2 = parser._parse_line(2, "Key Phrases:")
+    assert line2.line_type == LineType.DIALOGUE  # Current implementation treats this as dialogue
+    assert line2.voice_id == "en-US-AriaNeural"  # Should inherit from previous narrator
+    assert line2.language == "english"  # Should inherit from previous narrator
+    
+    # 3. Add a Tagalog phrase with speaker
+    line3 = parser._parse_line(3, "[TAGALOG-FEMALE-1]: magandang hapon po")
+    assert line3.voice_id == "fil-PH-BlessicaNeural"
+    assert line3.language == "tagalog"
+    
+    # 4. Add English translation
+    line4 = parser._parse_line(4, "[NARRATOR]: good afternoon (polite)")
+    assert line4.voice_id == "en-US-AriaNeural"
+    assert line4.language == "english"
+    
+    # 5. Add repetition of Tagalog phrase with speaker
+    line5 = parser._parse_line(5, "[TAGALOG-FEMALE-1]: magandang hapon po")
+    assert line5.voice_id == "fil-PH-BlessicaNeural"
+    assert line5.language == "tagalog"
+    
+    # 6. Now add repetition parts without speaker tags - these should inherit Tagalog language
+    line6 = parser._parse_line(6, "po")
+    assert line6.voice_id == "fil-PH-BlessicaNeural", "Should inherit Tagalog voice"
+    assert line6.language == "tagalog", "Should inherit Tagalog language"
+    
+    line7 = parser._parse_line(7, "hapon")
+    assert line7.voice_id == "fil-PH-BlessicaNeural"
+    assert line7.language == "tagalog"
+    
+    # 7. Add another Tagalog phrase with speaker
+    line8 = parser._parse_line(8, "[TAGALOG-FEMALE-1]: salamat po")
+    assert line8.voice_id == "fil-PH-BlessicaNeural"
+    assert line8.language == "tagalog"
+    
+    # 8. Add English translation
+    line9 = parser._parse_line(9, "[NARRATOR]: thank you")
+    assert line9.voice_id == "en-US-AriaNeural"
+    assert line9.language == "english"
+    
+    # 9. Add another Tagalog phrase with speaker
+    line10 = parser._parse_line(10, "[TAGALOG-FEMALE-1]: salamat po")
+    assert line10.voice_id == "fil-PH-BlessicaNeural"
+    assert line10.language == "tagalog"
+    
+    # 10. Add repetition parts - these should inherit Tagalog language
+    line11 = parser._parse_line(11, "po")
+    assert line11.voice_id == "fil-PH-BlessicaNeural"
+    assert line11.language == "tagalog"
+    
+    line12 = parser._parse_line(12, "salamat")
+    assert line12.voice_id == "fil-PH-BlessicaNeural"
+    assert line12.language == "tagalog"
+    
+    # 11. Add a final narrator line
+    line13 = parser._parse_line(13, "[NARRATOR]: End of mini test lesson")
+    assert line13.voice_id == "en-US-AriaNeural"
+    assert line13.language == "english"
+    
+    # 12. Verify that we can still access the last language for future lines
+    assert hasattr(parser, 'last_language'), "Parser should track last language"
+    assert parser.last_language == "english", "Last language should be english"
+    
+    # 13. Test that language is properly maintained across multiple lines without speakers
+    # Add another Tagalog phrase with speaker
+    line14 = parser._parse_line(14, "[TAGALOG-FEMALE-1]: paalam po")
+    assert line14.language == "tagalog"
+    
+    # These should all inherit Tagalog
+    for i, phrase in enumerate(["paalam", "po", "paalam po"], start=15):
+        line = parser._parse_line(i, phrase)
+        assert line.language == "tagalog", f"Line {i} should be Tagalog but is {line.language}"
+        
+    # 14. Test that language is properly set even when the same phrase appears in both languages
+    # Start with English
+    line_eng = parser._parse_line(18, "[NARRATOR]: This is a test")
+    assert line_eng.language == "english"
+    
+    # Next line without speaker should be English
+    line_eng2 = parser._parse_line(19, "This should be English")
+    assert line_eng2.language == "english", "Should inherit English from narrator"
+    
+    # Switch to Tagalog
+    line_tag = parser._parse_line(20, "[TAGALOG-FEMALE-1]: ito ay isang pagsubok")
+    assert line_tag.language == "tagalog"
+    
+    # Next line without speaker should be Tagalog
+    line_tag2 = parser._parse_line(21, "ito ay dapat tagalog")
+    assert line_tag2.language == "tagalog", "Should inherit Tagalog from previous speaker"
+    
+    # 15. Test with a more complex sequence
+    lines = [
+        (22, "[NARRATOR]: Let's practice greetings", "english"),
+        (23, "[TAGALOG-FEMALE-1]: magandang umaga po", "tagalog"),
+        (24, "Good morning (polite)", "tagalog"),  # Should inherit Tagalog
+        (25, "[NARRATOR]: Now let's say thank you", "english"),
+        (26, "[TAGALOG-FEMALE-1]: salamat po", "tagalog"),
+        (27, "Thank you (polite)", "tagalog"),  # Should inherit Tagalog
+        (28, "salamat", "tagalog"),  # Should still be Tagalog
+        (29, "po", "tagalog")  # Should still be Tagalog
+    ]
+    
+    for line_num, text, expected_lang in lines:
+        line = parser._parse_line(line_num, text)
+        assert line.language == expected_lang, \
+            f"Line {line_num} ('{text}') should be {expected_lang} but is {line.language}"
+    
+    # 16. Test that language persists even after empty lines or comments
+    line_tag3 = parser._parse_line(30, "[TAGALOG-FEMALE-1]: kumusta ka")
+    assert line_tag3.language == "tagalog"
+    
+    # Empty line
+    empty_line = parser._parse_line(31, "")
+    
+    # Comment line
+    comment_line = parser._parse_line(32, "# This is a comment")
+    
+    # Next line should still be Tagalog
+    line_after_empty = parser._parse_line(33, "mabuti naman")
+    assert line_after_empty.language == "tagalog", "Language should persist after empty/comment lines"
+    
+    # 17. Test with multiple speakers and languages in sequence
+    sequence = [
+        (34, "[NARRATOR]: Let's begin", "english"),
+        (35, "[TAGALOG-FEMALE-1]: simulan na natin", "tagalog"),
+        (36, "Let's begin", "tagalog"),  # Inherit Tagalog
+        (37, "[NARRATOR]: First word", "english"),
+        (38, "[TAGALOG-FEMALE-1]: isa", "tagalog"),
+        (39, "one", "tagalog"),  # Inherit Tagalog
+        (40, "[NARRATOR]: Next word", "english"),
+        (41, "[TAGALOG-FEMALE-1]: dalawa", "tagalog"),
+        (42, "two", "tagalog")  # Inherit Tagalog
+    ]
+    
+    for line_num, text, expected_lang in sequence:
+        line = parser._parse_line(line_num, text)
+        assert line.language == expected_lang, \
+            f"Line {line_num} ('{text}') should be {expected_lang} but is {line.language}"

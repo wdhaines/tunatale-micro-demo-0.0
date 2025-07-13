@@ -223,8 +223,18 @@ class LessonParser:
                 # Get the voice for this speaker and update last_voice_id
                 voice_id = self._get_voice_for_speaker(speaker)
                 
-                # Ensure last_voice_id is updated for dialogue lines
+                # Determine language based on speaker
+                if speaker and ('TAGALOG' in speaker.upper() or 'FILIPINO' in speaker.upper()):
+                    language = "tagalog"
+                else:
+                    language = "english"
+                
+                # Update last_voice_id and last_language
                 self.last_voice_id = voice_id
+                self.last_language = language
+                
+                # Store the speaker's language for inheritance
+                self._speaker_language = language
                 
                 return ParsedLine(
                     line_number=line_number,
@@ -232,15 +242,28 @@ class LessonParser:
                     content=content,
                     speaker=speaker,
                     voice_id=voice_id,
-                    language="tagalog" if speaker and ('TAGALOG' in speaker.upper() or 'FILIPINO' in speaker.upper()) else "english"
+                    language=language
                 )
             
             # If we get here, it's an unrecognized line type - treat as plain text
             # Check if it looks like a phrase (no brackets, not empty after strip)
             if line and '[' not in line and ']' not in line:
-                # For plain text lines (breakdown lines), always use the Tagalog voice
-                # This ensures all breakdown lines are in Tagalog
-                voice_id = "fil-PH-BlessicaNeural"
+                # For plain text lines, use the last speaker's voice and language
+                if self.last_voice_id:
+                    voice_id = self.last_voice_id
+                    
+                    # Determine language based on the speaker's language if available,
+                    # otherwise use the last language, or determine from voice ID
+                    if hasattr(self, '_speaker_language'):
+                        language = self._speaker_language
+                    elif hasattr(self, 'last_language'):
+                        language = self.last_language
+                    else:
+                        language = "tagalog" if 'fil-' in voice_id.lower() else "english"
+                else:
+                    # Default to Tagalog if no previous voice
+                    voice_id = "fil-PH-BlessicaNeural"
+                    language = "tagalog"
                 
                 # For plain text lines, use DIALOGUE type as per test expectations
                 return ParsedLine(
@@ -249,7 +272,7 @@ class LessonParser:
                     content=line,
                     speaker=None,
                     voice_id=voice_id,
-                    language="tagalog"  # Always use Tagalog for breakdown lines
+                    language=language
                 )
             
             # If we can't parse it, log a warning and skip the line
@@ -337,8 +360,9 @@ class LessonParser:
                 # Handle dialogue and narrator lines
                 if line.line_type in (LineType.DIALOGUE, LineType.NARRATOR):
                     # Create a new phrase
-                    language = self._determine_language(line.speaker or "NARRATOR", lesson)
-                    voice_id = self._get_voice_for_speaker(line.speaker or "NARRATOR")
+                    # Use the language from the ParsedLine if available, otherwise determine it
+                    language = line.language if line.language else self._determine_language(line.speaker or "NARRATOR", lesson)
+                    voice_id = line.voice_id if line.voice_id else self._get_voice_for_speaker(line.speaker or "NARRATOR")
                     
                     # Skip empty content
                     if not line.content.strip():
