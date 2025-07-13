@@ -65,7 +65,7 @@ class EdgeTTSService(TTSService):
 
     def __init__(
         self,
-        cache_dir: Optional[Union[str, Path]] = None,
+        cache_dir: Optional[Union[str, Path, Dict[str, Any]]] = None,
         connection_limit: int = 5,
         rate: float = 1.0,
         pitch: float = 0.0,
@@ -77,6 +77,7 @@ class EdgeTTSService(TTSService):
 
         Args:
             cache_dir: Directory to store cached audio files. If None, caching is disabled.
+                      Can be a string, Path, or a dictionary containing a 'cache_dir' key.
                       NOTE: Caching is currently disabled by default for stability.
             connection_limit: Maximum number of concurrent connections to the TTS service.
             rate: Speech rate (0.5-3.0).
@@ -86,10 +87,17 @@ class EdgeTTSService(TTSService):
                               If None, uses the default edge_tts.Communicate class.
             **kwargs: Additional arguments passed to the base class.
         """
+        # Handle case where cache_dir is a dictionary (from config)
+        if isinstance(cache_dir, dict):
+            cache_dir = cache_dir.get('cache_dir')
+            
         # Convert cache_dir to Path if it's a string
         if cache_dir is not None:
+            if not isinstance(cache_dir, (str, Path)):
+                raise ValueError(f"cache_dir must be a string or Path, got {type(cache_dir)}")
             cache_dir = Path(cache_dir)
             
+        # Initialize the base class with the processed cache_dir
         super().__init__(cache_dir=cache_dir, **kwargs)
         
         self.connection_limit = connection_limit
