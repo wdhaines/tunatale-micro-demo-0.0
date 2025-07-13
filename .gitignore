@@ -38,6 +38,18 @@ ENV/
 # Logs
 logs/
 *.log
+tunatale.log.txt
+
+# Test coverage
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# Local configuration
+config.yaml
+*.yaml
+*.yml
 
 # Output files
 output/
