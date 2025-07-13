@@ -272,8 +272,11 @@ class AudioProcessorService(AudioProcessor):
                 change_in_db = self.max_peak - normalized.max_dBFS
                 normalized = normalized.apply_gain(change_in_db)
             
+            # Remove output_format from kwargs to avoid duplicate parameter
+            export_kwargs = {k: v for k, v in kwargs.items() if k != 'output_format'}
+            
             # Export the result
-            return await self._export_audio(normalized, output_path, output_format, **kwargs)
+            return await self._export_audio(normalized, output_path, output_format, **export_kwargs)
             
         except Exception as e:
             raise AudioProcessingError(f"Error normalizing audio: {e}") from e
@@ -717,21 +720,45 @@ class AudioProcessorService(AudioProcessor):
                 if len(audio) == 0:
                     raise AudioProcessingError("Cannot export empty audio segment")
                 
+                # Get format-specific parameters
+                format_params = AUDIO_FORMATS.get(format, {}).copy()
+                format_params.update(kwargs)
+                
+                # Remove any None values as they can cause issues with pydub
+                format_params = {k: v for k, v in format_params.items() if v is not None}
+                
+                # Remove format from format_params to avoid duplicate parameter
+                format_params.pop('format', None)
+                
+                # Filter out non-standard parameters that aren't supported by AudioSegment.export()
+                # These are known parameters that pydub's export method accepts
+                valid_export_params = {
+                    'format', 'codec', 'bitrate', 'parameters', 'tags', 'id3v2_version',
+                    'cover', 'cover_path', 'artwork', 'artwork_path', 'preprocessor',
+                    'ffmpeg_params', 'ffmpeg_pre_params', 'ffmpeg_post_params',
+                    'ffmpeg_metadata', 'ffmpeg_log_level', 'ffmpeg_log_path'
+                }
+                
+                # Only keep parameters that are in the valid set
+                export_params = {
+                    k: v for k, v in format_params.items()
+                    if k in valid_export_params
+                }
+                
+                # Log any filtered parameters for debugging
+                filtered_params = set(format_params.keys()) - set(export_params.keys())
+                if filtered_params:
+                    logger.debug(f"Filtered out unsupported export parameters: {filtered_params}")
+                
                 # Export to temporary file first
                 logger.debug(f"Exporting audio to temporary file: {temp_path}")
                 
-                # Get format-specific parameters
-                format_params = AUDIO_FORMATS[format].copy()
-                format_params.update(kwargs)
-                
                 # Export with error handling
                 try:
-                    # Remove format from format_params to avoid duplicate parameter
-                    format_params.pop('format', None)
                     audio.export(
                         str(temp_path),
                         format=format,
-                        **format_params
+                        **export_params
                     )
                 except Exception as e:
                     raise AudioProcessingError(f"Failed to export audio: {e}") from e
