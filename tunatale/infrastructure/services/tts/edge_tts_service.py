@@ -76,9 +76,9 @@ class EdgeTTSService(TTSService):
         """Initialize the Edge TTS service.
 
         Args:
-            cache_dir: Directory to store cached audio files. If None, caching is disabled.
-                      Can be a string, Path, or a dictionary containing a 'cache_dir' key.
-                      NOTE: Caching is currently disabled by default for stability.
+            cache_dir: Directory to store cached audio files. If None, a default cache directory
+                      will be used in the system's temp directory. Can be a string, Path, or a 
+                      dictionary containing a 'cache_dir' key.
             connection_limit: Maximum number of concurrent connections to the TTS service.
             rate: Speech rate (0.5-3.0).
             pitch: Pitch adjustment (-20 to 20).
@@ -90,12 +90,18 @@ class EdgeTTSService(TTSService):
         # Handle case where cache_dir is a dictionary (from config)
         if isinstance(cache_dir, dict):
             cache_dir = cache_dir.get('cache_dir')
-            
+        
+        # Set default cache directory if none provided
+        if cache_dir is None:
+            cache_dir = Path(tempfile.gettempdir()) / "tunatale" / "tts_cache"
+        
         # Convert cache_dir to Path if it's a string
-        if cache_dir is not None:
-            if not isinstance(cache_dir, (str, Path)):
-                raise ValueError(f"cache_dir must be a string or Path, got {type(cache_dir)}")
+        if not isinstance(cache_dir, Path):
             cache_dir = Path(cache_dir)
+        
+        # Create cache directory if it doesn't exist
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        logger.info(f"Initialized TTS cache at: {cache_dir}")
             
         # Initialize the base class with the processed cache_dir
         super().__init__(cache_dir=cache_dir, **kwargs)
@@ -111,7 +117,7 @@ class EdgeTTSService(TTSService):
         self._session: Optional[aiohttp.ClientSession] = None
         self._semaphore: Optional[asyncio.Semaphore] = None
         
-        # Initialize cache directory (will be None since we disabled caching)
+        # Store cache directory
         self.cache_dir = cache_dir
 
     async def __aenter__(self) -> "EdgeTTSService":
@@ -339,89 +345,67 @@ class EdgeTTSService(TTSService):
             logger.warning("No voice data provided to _process_voices")
             return
             
-        logger.info(f"Processing {len(voices_data)} voices")
+        # First filter to only include English (en) and Tagalog (fil) voices
+        # This is done before any processing to avoid unnecessary work
+        filtered_voices = []
+        for voice in voices_data:
+            locale = (voice.get('Locale') or '').lower()
+            if locale.startswith('en-') or locale.startswith('fil-'):
+                filtered_voices.append(voice)
         
-        # Clear existing voices
-        self._voices = {}
-        self._voice_objects = {}
-        self._voice_cache = {}    # Raw voice data cache (used by tests)
+        total_voices = len(voices_data)
+        filtered_count = len(filtered_voices)
         
-        # Track stats
+        if filtered_count == 0:
+            logger.warning("No English or Tagalog voices found after filtering")
+            return
+            
+        logger.info(f"Filtered {total_voices} voices down to {filtered_count} English and Tagalog voices")
+        voices_data = filtered_voices
+        
+        # Process each filtered voice
         processed_count = 0
-        error_count = 0
-        
-        # Process each voice
         for voice_data in voices_data:
-            try:
-                voice_id = (voice_data.get('ShortName') or voice_data.get('Name', '')).strip()
-                if not voice_id:
-                    logger.warning("Skipping voice with empty ID")
-                    error_count += 1
-                    continue
+            if not isinstance(voice_data, dict):
+                logger.warning(f"Skipping invalid voice data (expected dict, got {type(voice_data)}): {voice_data}")
+                continue
+                
+            # At this point we know the voice is either English or Tagalog
+            voice = self._convert_to_voice(voice_data)
+            if not voice:
+                logger.debug(f"Skipping invalid voice data: {voice_data}")
+                continue
+                
+            processed_count += 1
+                
+            # Ensure ID is lowercase for consistent lookups
+            voice_id = voice.id
+            
+            # Store in both dictionaries
+            self._voices[voice_id] = voice_data
+            self._voice_objects[voice_id] = voice
                     
-                logger.debug(f"Processing voice: {voice_id}")
-                
-                # Convert to Voice object
-                voice = self._convert_to_voice(voice_data)
-                if not voice:
-                    logger.warning(f"Failed to convert voice: {voice_id}")
-                    error_count += 1
-                    continue
-                
-                # Ensure ID is lowercase for consistent lookups
-                voice_id = voice_id.lower()
-                
-                # Store in both dictionaries
-                self._voices[voice_id] = voice_data
-                self._voice_objects[voice_id] = voice
-                
-                # Store the raw voice data for caching
-                logger.debug(f"Storing voice in cache: {voice_id}")
-                self._voice_cache[voice_id] = voice_data
-                
-                # Convert to Voice object and store
-                try:
-                    logger.debug(f"Converting voice to Voice object: {voice_id}")
-                    voice = self._convert_to_voice(voice_data)
-                    if not voice:
-                        raise ValueError("Failed to convert voice data to Voice object")
-                        
-                    logger.debug(f"Converted voice: id={voice.id}, language={voice.language}, "
-                               f"locale={voice.metadata.get('locale', 'N/A')}")
+            # Store the raw voice data for caching
+            logger.debug(f"Storing voice in cache: {voice_id}")
+            self._voice_cache[voice_id] = voice_data
                     
-                    # Store both the raw data and the Voice object
-                    self._voices[voice.id] = voice_data
-                    self._voice_objects[voice.id] = voice
-                    processed_count += 1
-                    
-                    logger.debug(f"Successfully processed voice: {voice.id}")
-                except Exception as conv_error:
-                    logger.error(f"Failed to convert voice {voice_id}: {conv_error}\n"
-                                f"Voice data: {json.dumps(voice_data, default=str, indent=2) if voice_data else 'None'}", 
-                                exc_info=True)
-                    error_count += 1
-                    
-            except Exception as e:
-                logger.error(f"Unexpected error processing voice data: {e}\n"
-                           f"Voice data: {json.dumps(voice_data, default=str, indent=2) if isinstance(voice_data, dict) else voice_data}", 
-                           exc_info=True)
-                error_count += 1
-        
         self._voices_fetched = True
-        logger.info(f"Successfully processed {processed_count} out of {len(voices_data)} voice entries "
-                   f"({error_count} errors, {len(voices_data) - processed_count - error_count} skipped)")
+        logger.info(f"Successfully processed {processed_count} out of {filtered_count} filtered voices")
         
         if self._voice_objects:
-            logger.debug(f"Available voice IDs: {list(self._voice_objects.keys())}")
+            available_voices = list(self._voice_objects.keys())
+            logger.debug(f"Available voice IDs: {available_voices}")
             
             # Log sample of available voices for debugging
             sample_size = min(5, len(self._voice_objects))
-            sample_voices = list(self._voice_objects.values())[:sample_size]
-            logger.debug(f"Sample of {sample_size} available voices:")
-            for i, voice in enumerate(sample_voices, 1):
-                logger.debug(f"  {i}. {voice.id}: {voice.name} ({voice.language}, {voice.gender})")
-        else:
-            logger.warning("No voices were successfully loaded")
+            if sample_size > 0:
+                sample_voices = list(self._voice_objects.values())[:sample_size]
+                logger.debug(f"Sample of {sample_size} available voices:")
+                for i, voice in enumerate(sample_voices, 1):
+                    logger.debug(f"  {i}. {voice.id}: {voice.name} ({voice.language}, {voice.gender})")
+        
+        if not self._voice_objects:
+            logger.warning("No voices were successfully loaded after filtering and processing")
 
     async def _save_voices_to_cache(self) -> None:
         """Save the current voices to the cache file.
@@ -793,10 +777,14 @@ class EdgeTTSService(TTSService):
             with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp:
                 temp_file = temp.name
 
+            # Format rate as integer percentage without decimal point
+            rate_percent = int(round((rate - 1.0) * 100))
+            rate_str = f"{rate_percent:+d}%"
+            
             communicate = self._communicate_class(
                 text=text,
                 voice=voice_id,
-                rate=f"+{rate*100 - 100}%" if rate != 1.0 else "+0%",
+                rate=rate_str,
                 pitch=f"+{pitch}Hz" if pitch != 0.0 else "+0Hz",
                 volume=f"+{int((volume - 1) * 100)}%" if volume != 1.0 else "+0%",
             )
