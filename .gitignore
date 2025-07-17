@@ -5,7 +5,6 @@ __pycache__/
 *.so
 .Python
 build/
-develop-eggs/
 dist/
 downloads/
 eggs/
@@ -22,76 +21,108 @@ wheels/
 
 # Virtual Environment
 venv/
-venv3.12/
+venv3.*/
 ENV/
+.env
+.venv
+env/
+.envrc
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
+*~
 
 # Environment variables
 .env
-.venv
+.env.*
+!.env.example
 
 # Logs
 logs/
 *.log
-tunatale.log.txt
 
 # Test coverage
 .coverage
 coverage.xml
 htmlcov/
 .pytest_cache/
+.mypy_cache/
 
 # Local configuration
-config.yaml
+config*.yaml
 *.yaml
 *.yml
+!requirements*.yaml
+!setup.cfg
+!pyproject.toml
 
 # Output files
 output/
+run_*/
+!output/.gitkeep
 
 # Data directory (TTS cache, etc.)
 data/
+!data/.gitkeep
+
+# Cache directories
+.cache/
+__pycache__/
 
 # Archive directory
 archive/
+!archive/.gitkeep
 
 # Local development
 .DS_Store
+Thumbs.db
 
-# API keys
-tagalog-tts-*.json
-
-# Test and coverage files
-.coverage
-coverage.xml
-.coverage.*
+# API keys and secrets
+*.json
+!package*.json
+!poetry.lock
+!requirements*.txt
 
 # Debug files
-debug_voices.py
-edge_tts_voices.json
-edge_tts_voices_debug.log
+debug_*.py
+*_debug.log
+*_debug.txt
 
 # Temporary files
 *.tmp
 *.bak
+*.swp
+*.swo
 *~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Project specific
+tagalog-tts-*.json
 
 # Development scripts
 process_short_lesson.py
-test_async.py
+test_*.py
+!tests/
+
 test_config.yaml
 
 # Virtual environments
 venv*/
 ENV/
 
-# IDE specific files
-.idea/
-.vscode/
-*.swp
-*.swo
+# Build and distribution
+build/
+dist/
+*.egg-info/
+
+# Local development overrides
+local_*.yaml
+local_*.yml
+
+# Keep empty directories
+!.gitkeep

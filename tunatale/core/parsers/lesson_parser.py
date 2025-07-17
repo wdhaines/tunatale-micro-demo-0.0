@@ -54,8 +54,8 @@ class LessonParser:
     """Parser for TunaTale lesson files."""
     
     # Regex patterns for different line types
-    # Section headers are lines with just [NARRATOR]: Section Name
-    SECTION_PATTERN = re.compile(r'^\s*\[NARRATOR\]\s*:\s*(?P<content>.*?)\s*$')
+    # Section headers are lines containing "Key Phrases" or "Natural Speed" with optional colon
+    SECTION_PATTERN = re.compile(r'(?P<prefix>.*?)(?P<type>Key Phrases|Natural Speed):?(?P<suffix>.*)$', re.IGNORECASE)
     # Dialogue lines have a speaker in brackets followed by a colon and content
     DIALOGUE_PATTERN = re.compile(r'^\s*\[(?P<speaker>[^\]]+)\]\s*:\s*(?P<content>.*)$')
     # Comments start with #
@@ -73,6 +73,7 @@ class LessonParser:
     def _register_default_voices(self) -> None:
         """Register default voices for common speaker patterns."""
         # Default voices for common speaker patterns
+        # Tagalog voices
         self.register_voice(
             Voice(
                 name="Tagalog Female 1",
@@ -87,19 +88,30 @@ class LessonParser:
             Voice(
                 name="Tagalog Male 1",
                 provider="edge_tts",
-                provider_id="fil-PH-BlessicaNeural",
-                language="fil",
+                provider_id="fil-PH-AngeloNeural",
+                language=Language.TAGALOG,
                 gender=VoiceGender.MALE,
+                is_active=True
+            )
+        )
+        # English voices
+        self.register_voice(
+            Voice(
+                name="English Female 1",
+                provider="edge_tts",
+                provider_id="en-US-JennyNeural",
+                language=Language.ENGLISH,
+                gender=VoiceGender.FEMALE,
                 is_active=True
             )
         )
         self.register_voice(
             Voice(
-                name="English Female 1",
+                name="English Male 1",
                 provider="edge_tts",
-                provider_id="en-US-AriaNeural",
-                language="en",
-                gender=VoiceGender.FEMALE,
+                provider_id="en-US-GuyNeural",
+                language=Language.ENGLISH,
+                gender=VoiceGender.MALE,
                 is_active=True
             )
         )
@@ -184,21 +196,41 @@ class LessonParser:
                     content=line
                 )
             
-            # Check for section headers (e.g., [NARRATOR]: DIALOGUE:)
-            section_match = self.SECTION_PATTERN.match(line)
+            # Check for section headers (lines containing "Key Phrases:" or "Natural Speed:")
+            section_match = self.SECTION_PATTERN.search(line)
             if section_match:
-                content = section_match.group('content').strip()
-                # Check if this is a section header (ends with colon or is all caps)
-                if content.endswith(':') or (content.isupper() and ' ' in content):
-                    section_name = content.strip(' :')
-                    if section_name:  # Only return section header if we have a name
-                        return ParsedLine(
-                            line_number=line_number,
-                            line_type=LineType.SECTION_HEADER,
-                            content=section_name,
-                            speaker='NARRATOR',
-                            voice_id=self._get_voice_for_speaker('NARRATOR')
-                        )
+                # Extract the section type and surrounding content
+                prefix = section_match.group('prefix').strip()
+                section_type = section_match.group('type').strip()  # Don't strip the colon here
+                suffix = section_match.group('suffix').strip()
+                
+                # Handle narrator prefix (e.g., [NARRATOR]: Key Phrases: ...)
+                if prefix.startswith('[') and ']' in prefix:
+                    speaker = prefix[1:prefix.index(']')].strip()
+                    prefix = prefix[prefix.index(']') + 1:].lstrip(':').strip()
+                    
+                    # Reconstruct the full content with proper spacing around the section type
+                    content = f"{prefix} {section_type} {suffix}".strip()
+                    
+                    return ParsedLine(
+                        line_number=line_number,
+                        line_type=LineType.SECTION_HEADER,
+                        content=content,
+                        speaker=speaker,
+                        voice_id=self._get_voice_for_speaker(speaker),
+                        language='english' if speaker.upper() == 'NARRATOR' else 'tagalog'
+                    )
+                else:
+                    # It's a standalone section header, include any prefix text with proper spacing
+                    content = f"{prefix} {section_type} {suffix}".strip()
+                    return ParsedLine(
+                        line_number=line_number,
+                        line_type=LineType.SECTION_HEADER,
+                        content=content,
+                        speaker=None,
+                        language=None,
+                        voice_id=None
+                    )
             
             # Check for dialogue lines (e.g., [TAGALOG-FEMALE-1]: Some text)
             dialogue_match = self.DIALOGUE_PATTERN.match(line)
@@ -454,23 +486,14 @@ class LessonParser:
         
         Args:
             section_header: The section header text, or None if not provided
-            content: The section content
+            content: The section content (unused in current implementation)
             
         Returns:
             The determined section type
         """
-        # Check for content-based detection first (for empty headers)
-        if content:
-            # Count non-empty lines
-            lines = [line.strip() for line in content.split('\n') if line.strip()]
-            if len(lines) > 3:
-                return SectionType.NATURAL_SPEED
-        
-        # If we have a section header, use it to determine the type
+        # If we have a section header, use that to determine the type
         if section_header:
             section_header = section_header.upper()
-            
-            # Try to determine section type from header
             if 'KEY PHRASE' in section_header or 'VOCAB' in section_header:
                 return SectionType.KEY_PHRASES
             elif 'NATURAL' in section_header or 'CONVERSATION' in section_header:
@@ -480,52 +503,73 @@ class LessonParser:
             elif 'DIALOG' in section_header or 'DIALOGUE' in section_header:
                 return SectionType.KEY_PHRASES
         
+        # Fall back to content-based detection
+        if content:
+            # Count non-empty lines
+            lines = [line.strip() for line in content.split('\n') if line.strip()]
+            if len(lines) > 3:
+                return SectionType.NATURAL_SPEED
+        
         # Default to KEY_PHRASES if we can't determine the type
         return SectionType.KEY_PHRASES
     
-    def _get_voice_for_speaker(self, speaker: str) -> str:
-        """Get the voice ID for a speaker.
+    def _get_voice_for_speaker(self, speaker: Optional[str]) -> str:
+        """Get the appropriate voice ID for a speaker.
         
         Args:
             speaker: The speaker name or identifier. If empty or None, returns the last used voice.
             
         Returns:
             The voice ID to use for the speaker, or the last used voice if no speaker is specified.
+            The returned voice ID is guaranteed to be one of our registered voices.
         """
+        # Define our valid voice IDs
+        valid_voice_ids = {
+            "fil-PH-BlessicaNeural",  # Tagalog Female
+            "fil-PH-AngeloNeural",    # Tagalog Male
+            "en-US-AriaNeural"        # English Female (Aria)
+        }
+        
+        # Default voices by type
+        DEFAULT_ENGLISH_VOICE = "en-US-AriaNeural"
+        DEFAULT_TAGALOG_VOICE = "fil-PH-BlessicaNeural"
+        
         # If no speaker is specified, return the last used voice or default to Tagalog
         if not speaker or speaker.upper() == 'NARRATOR':
             # For narrator lines, use the default English voice
             if speaker and speaker.upper() == 'NARRATOR':
-                voice_id = "en-US-AriaNeural"
+                voice_id = DEFAULT_ENGLISH_VOICE
             else:
                 # For empty speaker (breakdown lines), always use Tagalog voice
-                voice_id = "fil-PH-BlessicaNeural"
+                voice_id = DEFAULT_TAGALOG_VOICE
         else:
-            # Default to English voice
-            default_voice = "en-US-AriaNeural"
             voice_id = None
+            speaker_upper = speaker.upper()
             
             # Check if we have a registered voice for this speaker
             if speaker in self.voices:
                 voice_id = self.voices[speaker].provider_id
-            else:
-                # Try to determine voice from speaker name pattern (e.g., TAGALOG-FEMALE-1)
-                speaker_match = self.SPEAKER_PATTERN.match(speaker.upper())
-                if speaker_match:
-                    language, gender, _ = speaker_match.groups()
-                    if language == 'TAGALOG':
-                        voice_id = "fil-PH-BlessicaNeural" if gender == 'FEMALE' else "fil-PH-AngeloNeural"
-                else:
-                    # Fallback to language detection from speaker name
-                    speaker_upper = speaker.upper()
-                    if 'TAGALOG' in speaker_upper or 'FILIPINO' in speaker_upper:
-                        voice_id = "fil-PH-BlessicaNeural" if 'FEMALE' in speaker_upper else "fil-PH-AngeloNeural"
-                    elif 'NARRATOR' in speaker_upper or 'ENGLISH' in speaker_upper:
-                        voice_id = default_voice
+            # Try to determine voice from speaker name pattern (e.g., TAGALOG-FEMALE-1)
+            elif (speaker_match := self.SPEAKER_PATTERN.match(speaker_upper)):
+                language, gender, _ = speaker_match.groups()
+                if language == 'TAGALOG':
+                    voice_id = "fil-PH-BlessicaNeural" if gender == 'FEMALE' else "fil-PH-AngeloNeural"
+                else:  # Default to English for any other language
+                    voice_id = "en-US-AriaNeural"  # Always use Aria for English
+            # Fallback to language detection from speaker name
+            elif 'TAGALOG' in speaker_upper or 'FILIPINO' in speaker_upper:
+                voice_id = "fil-PH-BlessicaNeural" if 'FEMALE' in speaker_upper else "fil-PH-AngeloNeural"
+            elif 'NARRATOR' in speaker_upper or 'ENGLISH' in speaker_upper:
+                voice_id = "en-US-AriaNeural"  # Always use Aria for English
             
-            # If we couldn't determine a voice, use the last used voice or default
-            if not voice_id:
-                voice_id = self.last_voice_id or default_voice
+            # If we couldn't determine a valid voice, use the last used voice or default
+            if not voice_id or voice_id not in valid_voice_ids:
+                voice_id = self.last_voice_id if self.last_voice_id in valid_voice_ids else DEFAULT_TAGALOG_VOICE
+        
+        # Ensure the selected voice ID is one of our valid voices
+        if voice_id not in valid_voice_ids:
+            # Fall back to default Tagalog voice if somehow we still have an invalid voice
+            voice_id = DEFAULT_TAGALOG_VOICE
         
         # Update the last used voice
         self.last_voice_id = voice_id

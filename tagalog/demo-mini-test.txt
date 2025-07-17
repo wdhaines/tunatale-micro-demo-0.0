@@ -1,4 +1,4 @@
-[NARRATOR]: Mini Test: Welcome to El Nido!
+[NARRATOR]: Day 1: Welcome to El Nido!
 
 Key Phrases:
 
@@ -20,17 +20,17 @@ magandang
 magandang hapon po
 magandang hapon po
 
-[TAGALOG-FEMALE-1]: salamat po
-[NARRATOR]: thank you
-[TAGALOG-FEMALE-1]: salamat po
-po
-salamat
-mat
-la
-lamat
-sa
-salamat
-salamat po
-salamat po
+[NARRATOR]: Natural Speed
 
-[NARRATOR]: End of mini test lesson
+Airport Shop
+
+[TAGALOG-FEMALE-1]: Excuse me po.
+[TAGALOG-FEMALE-2]: Magandang hapon po!
+[TAGALOG-FEMALE-1]: Magandang hapon po. Tubig?
+[TAGALOG-FEMALE-2]: Tubig? Opo. Malamig o normal?
+[TAGALOG-FEMALE-1]: Malamig. Magkano po?
+[TAGALOG-FEMALE-2]: Bente pesos.
+[TAGALOG-FEMALE-1]: Bente?
+[TAGALOG-FEMALE-2]: Opo. Bente.
+[TAGALOG-FEMALE-1]: Ah, salamat. Ito po.
+[TAGALOG-FEMALE-2]: Salamat din! Ito sukli mo.

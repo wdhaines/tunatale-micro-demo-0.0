@@ -348,10 +348,22 @@ class EdgeTTSService(TTSService):
         # First filter to only include English (en) and Tagalog (fil) voices
         # This is done before any processing to avoid unnecessary work
         filtered_voices = []
+        skipped_voices = []
         for voice in voices_data:
-            locale = (voice.get('Locale') or '').lower()
-            if locale.startswith('en-') or locale.startswith('fil-'):
+            locale = (voice.get('Locale') or voice.get('locale') or '').lower()
+            voice_name = voice.get('Name') or voice.get('ShortName') or 'unknown'
+            
+            # Check if this is a voice we want to include
+            if locale.startswith(('en-', 'fil-', 'tl-')):
                 filtered_voices.append(voice)
+                logger.debug(f"Including voice: {voice_name} (locale: {locale})")
+            else:
+                skipped_voices.append(f"{voice_name} (locale: {locale})")
+        
+        # Log some debug info about filtered voices
+        if skipped_voices:
+            logger.debug(f"Skipped {len(skipped_voices)} voices not matching language filter. "
+                       f"Sample: {', '.join(skipped_voices[:5])}...")
         
         total_voices = len(voices_data)
         filtered_count = len(filtered_voices)
@@ -478,7 +490,7 @@ class EdgeTTSService(TTSService):
         Raises:
             TTSValidationError: If there's an error loading voices.
         """
-        if self._voices_fetched and self._voice_objects:
+        if self._voices_fetched:
             logger.debug("Voices already loaded, skipping load")
             return
             
@@ -486,9 +498,8 @@ class EdgeTTSService(TTSService):
         self._voices = {}
         self._voice_objects = {}
         self._voice_cache = {}
-        self._voices_fetched = False
             
-        # Try to load from cache first if available
+        # Try to load from cache first
         logger.debug("Attempting to load voices from cache...")
         if await self._load_voices_from_cache():
             logger.info(f"Successfully loaded {len(self._voice_objects)} voices from cache")
@@ -499,6 +510,10 @@ class EdgeTTSService(TTSService):
         
         # If we get here, we need to fetch from the service
         try:
+            logger.info("Fetching voices from Edge TTS service...")
+            start_time = time.time()
+            
+            # Use VoicesManager to get all available voices
             logger.debug("Creating VoicesManager...")
             voices_manager = await VoicesManager.create()
             voices = voices_manager.voices
@@ -519,7 +534,8 @@ class EdgeTTSService(TTSService):
             if not self._voice_objects:
                 raise TTSValidationError("No valid voices were processed")
                 
-            logger.info(f"Successfully loaded {len(self._voice_objects)} voices from service")
+            logger.info(f"Successfully loaded {len(self._voice_objects)} voices from service in {time.time() - start_time:.2f} seconds")
+            self._voices_fetched = True
                     
         except Exception as e:
             logger.error(f"Failed to fetch voices: {e}", exc_info=True)
@@ -749,9 +765,23 @@ class EdgeTTSService(TTSService):
         output_path = Path(output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Validate voice
-        await self.validate_voice(voice_id)
-
+        # Log the voice being used for synthesis
+        logger.info(f"Using voice_id: {voice_id} for synthesis")
+        
+        # Validate the voice ID before proceeding
+        try:
+            await self.validate_voice(voice_id)
+        except TTSValidationError as e:
+            logger.error(f"Invalid voice ID '{voice_id}': {str(e)}")
+            # Try to get a list of available voices
+            try:
+                available_voices = await self.get_voices()
+                available_voice_ids = [v.provider_id for v in available_voices]
+                logger.error(f"Available voices: {available_voice_ids}")
+            except Exception as ve:
+                logger.error(f"Could not retrieve available voices: {str(ve)}")
+            raise
+            
         # Generate cache key and check cache
         cache_key = self._generate_cache_key(text, voice_id, rate, pitch, volume)
         logger.debug(f"Generated cache key: {cache_key}")
@@ -1070,33 +1100,36 @@ class EdgeTTSService(TTSService):
         if not voice_id:
             return None
             
-        if not self._voices_fetched:
-            await self._load_voices()
+        # Normalize the voice_id for comparison
+        voice_id = voice_id.strip()
+        logger.debug(f"Looking up voice: {voice_id}")
         
-        # Normalize the voice_id for case-insensitive comparison
-        voice_id = voice_id.strip().lower()
-        
-        # First check exact match in voice objects
-        if voice_id in self._voice_objects:
-            return self._voice_objects[voice_id]
-        
-        # Check for case-insensitive match in voice objects
-        for vid, voice in self._voice_objects.items():
-            if vid.lower() == voice_id:
+        # Check if we've already loaded this voice (case-insensitive)
+        voice_lower = voice_id.lower()
+        for v_id, voice in self._voice_objects.items():
+            if v_id.lower() == voice_lower:
+                logger.debug(f"Found voice by case-insensitive match: {v_id} (requested: {voice_id})")
                 return voice
-        
-        # Check if we have the voice in raw data but not converted yet
-        for vid, voice_data in self._voices.items():
-            if vid.lower() == voice_id:
-                voice = self._convert_to_voice(voice_data)
-                if voice:
-                    self._voice_objects[vid] = voice
+            
+        # If voices haven't been loaded yet, try loading them
+        if not self._voices_fetched:
+            logger.debug("Voices not loaded yet, loading now...")
+            await self._load_voices()
+            # Try again after loading
+            for v_id, voice in self._voice_objects.items():
+                if v_id.lower() == voice_lower:
+                    logger.debug(f"Found voice after loading: {v_id} (requested: {voice_id})")
                     return voice
         
         # If still not found, try loading voices again in case they weren't loaded properly
         if not self._voice_objects:
+            logger.warning("No voices loaded, attempting to reload...")
             await self._load_voices()
-            return await self.get_voice(voice_id)
-            
-        logger.debug(f"Voice not found: {voice_id}")
+            # Try one more time after reloading
+            for v_id, voice in self._voice_objects.items():
+                if v_id.lower() == voice_lower:
+                    logger.debug(f"Found voice after reloading: {v_id} (requested: {voice_id})")
+                    return voice
+        
+        logger.debug(f"Voice not found: {voice_id}. Loaded voices: {list(self._voice_objects.keys())}")
         return None

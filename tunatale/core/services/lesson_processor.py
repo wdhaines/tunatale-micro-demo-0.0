@@ -1,7 +1,9 @@
 """Service for processing lessons and generating audio."""
-from typing import Union, Dict, Any, Optional, List, Tuple
+from __future__ import annotations
+from typing import Union, Dict, Any, Optional, List, Tuple, cast
 import asyncio
 import logging
+from tunatale.core.exceptions import TTSValidationError, AudioProcessingError
 import os
 import uuid
 from pathlib import Path
@@ -299,6 +301,22 @@ class LessonProcessor(LessonProcessorBase):
                                 result['final_audio_file'] = str(final_audio)
                                 logger.info(f"Final combined audio file saved to: {final_audio}")
                                 
+                                # Rename the audio files to standard names and update the final_audio_file path if it was renamed
+                                try:
+                                    renamed_files = await self._rename_audio_files(
+                                        output_dir=top_level_dir,
+                                        section_audio_files=[Path(f) for f in section_audio_files if f],
+                                        sections=result.get('sections', [])
+                                    )
+                                    result['renamed_files'] = renamed_files
+                                    
+                                    # Update the final_audio_file path if it was renamed
+                                    if '_new_combined_path' in renamed_files and renamed_files['_new_combined_path']:
+                                        result['final_audio_file'] = str(renamed_files['_new_combined_path'])
+                                        logger.info(f"Updated final_audio_file to {result['final_audio_file']} after renaming")
+                                except Exception as e:
+                                    logger.warning(f"Failed to rename audio files: {e}")
+                                
                                 # Clean up the non-normalized combined file
                                 try:
                                     combined_audio.unlink()
@@ -417,7 +435,7 @@ class LessonProcessor(LessonProcessorBase):
             audio_file.parent.mkdir(parents=True, exist_ok=True)
             
             # Get voice_id from phrase or use default
-            voice_id = getattr(phrase, 'voice_id', 'en-US-JennyNeural')
+            voice_id = await self._get_voice_for_phrase(phrase)
             
             # Synthesize speech using EdgeTTS service
             # EdgeTTS service saves the file directly to the specified output path
@@ -458,11 +476,25 @@ class LessonProcessor(LessonProcessorBase):
                 
                 return result
                 
-            except Exception as e:
-                logger.error(f"Error processing phrase: {str(e)}", exc_info=True)
+            except AudioProcessingError as e:
+                # For AudioProcessingError, we want to preserve the error message
+                error_msg = f"Audio processing error: {str(e)}"
+                logger.error(error_msg, exc_info=True)
                 result.update({
                     'success': False,
-                    'error': str(e),
+                    'error': error_msg,
+                    'end_time': time.time(),
+                    'duration': time.time() - result.get('start_time', 0)
+                })
+                return result
+                
+            except Exception as e:
+                # For other errors, we want to include the error type in the message
+                error_msg = f"Error processing phrase: {str(e)}"
+                logger.error(error_msg, exc_info=True)
+                result.update({
+                    'success': False,
+                    'error': error_msg,
                     'end_time': time.time(),
                     'duration': time.time() - result.get('start_time', 0)
                 })
@@ -498,6 +530,67 @@ class LessonProcessor(LessonProcessorBase):
         
         return text
         
+    async def _get_valid_voice_id(self, language: Union[str, 'Language']) -> str:
+        """Get a valid voice ID for the given language.
+        
+        Args:
+            language: The language code (e.g., 'en-US', 'fil-PH') or Language enum
+            
+        Returns:
+            A valid voice ID for the language
+            
+        Raises:
+            TTSValidationError: If no valid voice is found for the language
+        """
+        # Handle Language enum input
+        from tunatale.core.models.enums import Language
+        if isinstance(language, Language):
+            # Map Language enum to language codes
+            language_code_map = {
+                Language.ENGLISH: 'en-US',
+                Language.TAGALOG: 'fil-PH',
+                Language.SPANISH: 'es-ES',
+            }
+            language = language_code_map.get(language, 'en-US')
+        
+        # Define our allowed voices
+        ALLOWED_VOICES = {
+            # English voices
+            'en-US': 'en-US-AriaNeural',  # Primary English voice
+            'en': 'en-US-AriaNeural',     # Fallback for generic English
+            'english': 'en-US-AriaNeural', # Fallback for 'english' string
+            
+            # Tagalog voices
+            'fil-PH': 'fil-PH-BlessicaNeural',  # Primary Tagalog voice
+            'fil': 'fil-PH-BlessicaNeural',     # Fallback for generic Tagalog
+            'tl': 'fil-PH-BlessicaNeural',      # Alternative Tagalog code
+            'tagalog': 'fil-PH-BlessicaNeural', # Fallback for 'tagalog' string
+            
+            # Spanish voices
+            'es-ES': 'es-ES-ElviraNeural',     # Primary Spanish voice
+            'es': 'es-ES-ElviraNeural',        # Fallback for generic Spanish
+            'spanish': 'es-ES-ElviraNeural',   # Fallback for 'spanish' string
+        }
+        
+        # First try exact match
+        if language in ALLOWED_VOICES:
+            return ALLOWED_VOICES[language]
+            
+        # Try case-insensitive match
+        language_lower = language.lower()
+        for lang_code, voice_id in ALLOWED_VOICES.items():
+            if lang_code.lower() == language_lower:
+                return voice_id
+                
+        # Try matching language prefix (e.g., 'en-' matches 'en-US')
+        for lang_code, voice_id in ALLOWED_VOICES.items():
+            if language.lower().startswith(lang_code.lower() + '-'):
+                return voice_id
+                
+        # Fall back to English if no match found
+        logger.warning(f"No specific voice found for language '{language}', falling back to English (en-US-AriaNeural)")
+        return 'en-US-AriaNeural'
+
     async def process_phrase(
         self,
         phrase: Phrase,
@@ -514,14 +607,176 @@ class LessonProcessor(LessonProcessorBase):
         Returns:
             Dictionary with processing results
         """
-        result = await self._process_phrase(phrase, output_dir, **options)
-        
-        # Ensure language is included in the result (using the enum value)
-        if 'language' not in result and hasattr(phrase, 'language'):
-            result['language'] = phrase.language.value.lower() if hasattr(phrase.language, 'value') else str(phrase.language)
+        result = {
+            'success': False,
+            'error': None,
+            'start_time': time.time(),
+            'end_time': None,
+            'duration': None,
+            'phrase_id': str(phrase.id) if hasattr(phrase, 'id') else None,
+            'voice_id': None,
+            'language': None
+        }
+
+        try:
+            # Get voice ID based on phrase language
+            voice_id = None
+            if phrase.language:
+                try:
+                    # Get a valid voice ID for the language
+                    voice_id = await self._get_valid_voice_id(phrase.language.value)
+                    
+                    # Validate the voice ID with the TTS service
+                    await self.tts_service.validate_voice(voice_id)
+                    
+                    result['voice_id'] = voice_id
+                    result['language'] = phrase.language.value.lower()
+                    logger.info(f"Selected voice {voice_id} for language {phrase.language}")
+                    
+                except TTSValidationError as e:
+                    # If validation fails, log the error and try to recover with a default voice
+                    error_msg = f"Invalid voice '{voice_id}' for language {phrase.language}: {str(e)}"
+                    logger.error(error_msg)
+                    
+                    # Try to get a fallback voice
+                    try:
+                        voice_id = 'en-US-AriaNeural'  # Fallback to default English voice
+                        await self.tts_service.validate_voice(voice_id)
+                        logger.warning(f"Falling back to default voice: {voice_id}")
+                        result['voice_id'] = voice_id
+                        result['language'] = 'en-US'  # Force English as fallback
+                    except TTSValidationError as fallback_error:
+                        # If fallback fails, return the original error
+                        error_msg = f"Failed to get valid voice for language {phrase.language}: {str(e)}. Fallback also failed: {str(fallback_error)}"
+                        logger.error(error_msg)
+                        result.update({
+                            'success': False,
+                            'error': {
+                                'error_code': 'TTS_VALIDATION_ERROR',
+                                'error_message': error_msg
+                            },
+                            'end_time': time.time(),
+                            'duration': time.time() - result['start_time']
+                        })
+                        return result
+
+            # Create output directory for phrase audio
+            phrase_dir = output_dir / 'phrases'
+            phrase_dir.mkdir(parents=True, exist_ok=True)
+
+            # Generate a unique filename based on phrase ID and language
+            phrase_id = getattr(phrase, 'id', 'unknown_phrase')
+            output_file = phrase_dir / f"{phrase_id}_{phrase.language.value.lower()}.mp3"
+
+            # Process the phrase text
+            processed_text = self._preprocess_text(phrase.text)
+            if not processed_text:
+                raise ValueError("Processed text is empty")
+
+            # Generate audio using TTS service
+            await self.tts_service.synthesize_speech(
+                text=processed_text,
+                voice_id=voice_id,
+                output_path=output_file,
+                rate=options.get('rate', 1.0),
+                pitch=options.get('pitch', 0.0),
+                volume=options.get('volume', 1.0)
+            )
+
+            # Validate the generated audio file
+            if not output_file.exists():
+                error_msg = f"Audio file not generated: {output_file}"
+                result.update({
+                    'success': False,
+                    'error': {
+                        'error_code': 'AUDIO_PROCESSING_ERROR',
+                        'error_message': f"Audio processing error: {error_msg}"
+                    },
+                    'end_time': time.time(),
+                    'duration': time.time() - result['start_time'],
+                    'audio_file': None
+                })
+                return result
             
+            if not output_file.stat().st_size > 0:
+                error_msg = f"Generated audio file is empty: {output_file}"
+                result.update({
+                    'success': False,
+                    'error': {
+                        'error_code': 'AUDIO_PROCESSING_ERROR',
+                        'error_message': f"Audio processing error: {error_msg}"
+                    },
+                    'end_time': time.time(),
+                    'duration': time.time() - result['start_time'],
+                    'audio_file': None
+                })
+                return result
+
+            # Apply audio normalization if needed
+            if not options.get('skip_normalization', False):
+                try:
+                    normalized_file = output_file.with_stem(f"{output_file.stem}_normalized")
+                    await self.audio_processor.normalize_audio(
+                        input_file=output_file,
+                        output_file=normalized_file,
+                        **options.get('normalization_options', {})
+                    )
+                    # If normalization succeeded, use the normalized file
+                    if normalized_file.exists() and normalized_file.stat().st_size > 0:
+                        output_file = normalized_file
+                except AudioProcessingError as e:
+                    error_msg = f"Audio normalization failed: {str(e)}"
+                    logger.error(error_msg, exc_info=True)
+                    result.update({
+                        'success': False,
+                        'error': {
+                            'error_code': 'AUDIO_PROCESSING_ERROR',
+                            'error_message': error_msg
+                        },
+                        'end_time': time.time(),
+                        'duration': time.time() - result['start_time'],
+                        'audio_file': None
+                    })
+                    return result
+
+            # Update result with success data
+            result.update({
+                'success': True,
+                'error': None,
+                'end_time': time.time(),
+                'duration': time.time() - result['start_time'],
+                'audio_file': str(output_file),
+                'voice_id': voice_id,
+                'language': phrase.language.value.lower(),
+                'text': phrase.text  # Include the original phrase text in the result
+            })
+
+        except Exception as e:
+            error_msg = f"Error processing phrase {phrase.id}: {str(e)}"
+            logger.error(error_msg, exc_info=True)
+            
+            # Determine error code based on exception type
+            error_code = 'UNKNOWN_ERROR'
+            if isinstance(e, TTSValidationError):
+                error_code = 'TTS_VALIDATION_ERROR'
+            elif isinstance(e, AudioProcessingError):
+                error_code = 'AUDIO_PROCESSING_ERROR'
+            elif isinstance(e, ValueError):
+                error_code = 'VALIDATION_ERROR'
+                
+            result.update({
+                'success': False,
+                'error': {
+                    'error_code': error_code,
+                    'error_message': error_msg
+                },
+                'end_time': time.time(),
+                'duration': time.time() - result['start_time'],
+                'audio_file': None
+            })
+
         return result
-        
+
     async def process_section(
         self,
         section: Section,
@@ -535,69 +790,144 @@ class LessonProcessor(LessonProcessorBase):
             output_dir: Directory to save output files
             **options: Additional processing options
                 - progress_callback: Optional callback for progress updates
-                
-        Returns:
-            Dictionary with processing results
         """
-        start_time = time.time()
         result = {
-            'success': True,
-            'section_id': str(section.id),
-            'section_type': section.section_type.value if hasattr(section, 'section_type') else 'default',
-            'start_time': start_time,
-            'phrases': [],
-            'processing_info': {}
+            'success': False,
+            'error': None,
+            'start_time': time.time(),
+            'end_time': None,
+            'duration': None,
+            'section_id': str(section.id) if hasattr(section, 'id') else 'unknown',
+            'title': section.title,
+            'type': section.section_type.value if section.section_type else None,  # For backward compatibility
+            'section_type': section.section_type.value if section.section_type else None,  # New standard key
+            'audio_file': None,
+            'phrases': []
         }
-        
-        # Get progress callback if provided
-        progress_callback = options.pop('progress_callback', None)
-        
+
         try:
-            # Create section output directory
-            section_dir = output_dir / 'sections' / str(section.id)
+            # Create section directory
+            section_dir = output_dir / 'sections'
             section_dir.mkdir(parents=True, exist_ok=True)
-            
+
             # Process each phrase in the section
-            results = []
             total_phrases = len(section.phrases)
+            results = []
+            success_count = 0
+            has_errors = False
             
-            for i, phrase in enumerate(section.phrases, 1):
+            for phrase in section.phrases:
                 try:
-                    # Call progress callback if provided
-                    if progress_callback:
-                        await progress_callback(
-                            current=i,
-                            total=total_phrases,
-                            status=f"Processing phrase {i} of {total_phrases}",
-                            phase='process_section',
-                            section_id=str(section.id),
-                            phrase_id=str(phrase.id) if hasattr(phrase, 'id') else 'unknown'
-                        )
-                    
                     # Process the phrase
-                    phrase_result = await self.process_phrase(phrase, section_dir, **options)
+                    phrase_result = await self.process_phrase(phrase, output_dir, **options)
+                    
+                    # Add the result to our collection
                     results.append(phrase_result)
                     
+                    # Track success/failure
+                    if phrase_result.get('success'):
+                        success_count += 1
+                    else:
+                        has_errors = True
+                    
+                    # Update progress callback if provided
+                    if options.get('progress_callback'):
+                        current = len(results)
+                        status = f"Processed phrase {getattr(phrase, 'id', 'unknown')}"
+                        try:
+                            # Call with (current, total, status) signature
+                            if asyncio.iscoroutinefunction(options['progress_callback']):
+                                await options['progress_callback'](current, total_phrases, status)
+                            else:
+                                options['progress_callback'](current, total_phrases, status)
+                        except Exception as e:
+                            logger.warning(f"Error in progress callback: {e}")
+                
                 except Exception as e:
-                    logger.error(f"Error processing phrase {getattr(phrase, 'id', 'unknown')}: {str(e)}")
-                    results.append({
+                    has_errors = True
+                    error_msg = f"Error processing phrase {getattr(phrase, 'id', 'unknown')}: {str(e)}"
+                    logger.error(error_msg, exc_info=True)
+                    
+                    # Create a detailed error result for this phrase
+                    error_result = {
                         'success': False,
-                        'error': str(e),
+                        'error': {
+                            'error_code': 'PHRASE_PROCESSING_ERROR',
+                            'error_message': error_msg
+                        },
                         'phrase_id': str(phrase.id) if hasattr(phrase, 'id') else 'unknown',
-                        'text': getattr(phrase, 'text', '')
-                    })
+                        'text': getattr(phrase, 'text', ''),
+                        'start_time': time.time(),
+                        'end_time': time.time(),
+                        'duration': 0,
+                        'audio_file': None
+                    }
+                    results.append(error_result)
             
             # Update result with phrase results
             result['phrases'] = results
+            result['successful_phrases'] = success_count
+            result['num_phrases'] = total_phrases
+            
+            # If any phrase failed, set section-level error but still return all results
+            if has_errors:
+                error_msg = "One or more phrases failed to process"
+                logger.warning(error_msg)
+                result.update({
+                    'success': False,
+                    'error': {
+                        'error_code': 'SECTION_PROCESSING_ERROR',
+                        'error_message': error_msg
+                    },
+                    'audio_file': None
+                })
+                return result
+            
+            # Update result with phrase results and overall success status
+            result['phrases'] = results
+            result['successful_phrases'] = success_count
+            
+            # If no phrases succeeded, set section error
+            if success_count == 0:
+                error_msg = "No valid phrase audio files to concatenate"
+                logger.warning(error_msg)
+                result.update({
+                    'success': False,
+                    'error': {
+                        'error_code': 'NO_VALID_AUDIO_FILES',
+                        'error_message': error_msg
+                    },
+                    'audio_file': None
+                })
+                return result
             
             # Generate section audio by concatenating phrase audio files
             audio_files = [r['audio_file'] for r in results if r.get('success') and 'audio_file' in r and r['audio_file'] is not None]
+            logger.debug(f"Audio files to concatenate: {audio_files}")
             
-            # Always include audio_file in result, set to None if not available
+            # Always set audio_file in result, even if it's None
             result['audio_file'] = None
+            logger.debug(f"Initial audio_file set to: {result['audio_file']}")
+            
+            # Update result with phrase results
+            result['phrases'] = results
+            result['successful_phrases'] = sum(1 for r in results if r.get('success'))
+            result['num_phrases'] = total_phrases
+            logger.debug(f"Phrase results: {results}")
             
             if audio_files:
-                output_file = section_dir / f"section_{section.id}.mp3"
+                # Create a section audio file name based on section title
+                section_title = section.title.lower().replace(' ', '_') if section.title else f'section_{len(results)}'
+                output_file = section_dir / f"{section_title}.mp3"
+                
+                # Always include phrases in the result, even if concatenation fails
+                result.update({
+                    'phrases': results,
+                    'successful_phrases': sum(1 for r in results if r.get('success')),
+                    'num_phrases': total_phrases,
+                    'phrase_results': results  # Keep for backward compatibility
+                })
+                
                 try:
                     output_file = await self.audio_processor.concatenate_audio(
                         audio_files,
@@ -608,23 +938,19 @@ class LessonProcessor(LessonProcessorBase):
                     # Update result with success data
                     result.update({
                         'audio_file': str(output_file),
-                        'success': True,
-                        'num_phrases': total_phrases,
-                        'successful_phrases': sum(1 for r in results if r.get('success')),
-                        'phrase_results': results  # Keep for backward compatibility
+                        'success': True
                     })
                     
                 except Exception as e:
-                    error_msg = f"AudioProcessingError: Failed to generate section audio: {str(e)}"
+                    error_msg = f"Failed to generate section audio: {str(e)}"
                     logger.error(error_msg)
                     result.update({
                         'success': False,
                         'error': error_msg,
-                        'audio_file': None,  # Explicitly set to None on error
-                        'phrase_results': results  # Keep for backward compatibility
+                        'audio_file': None  # Explicitly set to None on error
                     })
             else:
-                error_msg = 'AudioProcessingError: No valid phrase audio files to concatenate'
+                error_msg = 'No valid phrase audio files to concatenate'
                 logger.warning(error_msg)
                 result.update({
                     'success': False,
@@ -641,15 +967,94 @@ class LessonProcessor(LessonProcessorBase):
             result.update({
                 'success': False,
                 'error': error_msg,
-                'phrases': results if 'results' in locals() else []
+                'phrases': results if 'results' in locals() else [],
+                'audio_file': None  # Ensure audio_file is always set
             })
             return result
             
         finally:
             # Update timing information
             result['end_time'] = time.time()
-            result['duration'] = result['end_time'] - start_time
+            result['duration'] = result['end_time'] - result['start_time']
     
+    async def _rename_audio_files(
+        self,
+        output_dir: Path,
+        section_audio_files: List[Path],
+        sections: List[Dict[str, Any]]
+    ) -> Dict[str, str]:
+        """Rename audio files to standard names based on section names.
+        
+        Args:
+            output_dir: Directory containing the audio files
+            section_audio_files: List of section audio files to process
+            sections: List of section metadata containing names and audio file paths
+            
+        Returns:
+            Dictionary mapping original filenames to new filenames
+        """
+        renamed = {}
+        
+        # 1. Rename lesson_combined_normalized.mp3 to full_lesson.mp3
+        combined_file = output_dir / 'lesson_combined_normalized.mp3'
+        new_combined_path = None
+        if combined_file.exists():
+            new_name = output_dir / 'full_lesson.mp3'
+            combined_file.rename(new_name)
+            renamed[str(combined_file)] = str(new_name)
+            new_combined_path = new_name
+            logger.info(f"Renamed {combined_file.name} to {new_name.name}")
+        
+        # Store the new combined file path to return later
+        renamed['_new_combined_path'] = new_combined_path
+        
+        # 2. Create a mapping of section audio files to their metadata
+        audio_file_map = {}
+        for section in sections:
+            if 'audio_file' in section and section['audio_file']:
+                audio_file_map[section['audio_file']] = section
+        
+        # 3. Rename section files based on their names
+        for file_path in section_audio_files:
+            file_path_str = str(file_path)
+            if file_path_str in audio_file_map:
+                section = audio_file_map[file_path_str]
+                section_name = section.get('name', '').lower()
+                
+                # Determine the new filename based on section name
+                # First try special cases with flexible matching
+                if any(keyword in section_name for keyword in ['key phrase', 'key_phrase', 'key-phrases']):
+                    new_name = 'key_phrases.mp3'
+                elif any(keyword in section_name for keyword in ['natural speed', 'natural_speed', 'natural-speed']):
+                    new_name = 'natural_speed.mp3'
+                elif any(keyword in section_name for keyword in ['translated', 'translation']):
+                    new_name = 'translated.mp3'
+                else:
+                    # For other sections, use the section title as the filename
+                    title = section.get('title', '')
+                    if title:
+                        # Sanitize the title for use as a filename
+                        safe_name = ''.join(c if c.isalnum() or c in ' -_' else '_' for c in title.lower())
+                        safe_name = safe_name.strip('-_ ').replace(' ', '_')
+                        if not safe_name:
+                            safe_name = f"section_{len(renamed) + 1}"
+                        new_name = f"{safe_name}.mp3"
+                    else:
+                        # Fallback if no title is available
+                        new_name = f"section_{len(renamed) + 1}.mp3"
+                
+                # Rename the file
+                new_path = output_dir / new_name
+                if new_path != file_path:
+                    try:
+                        file_path.rename(new_path)
+                        renamed[str(file_path)] = str(new_path)
+                        logger.info(f"Renamed {file_path.name} to {new_name}")
+                    except OSError as e:
+                        logger.warning(f"Failed to rename {file_path} to {new_name}: {e}")
+        
+        return renamed
+
     def _save_metadata(self, metadata: Dict[str, Any], output_path: Union[str, Path]) -> None:
         """Save metadata to a JSON file.
         
