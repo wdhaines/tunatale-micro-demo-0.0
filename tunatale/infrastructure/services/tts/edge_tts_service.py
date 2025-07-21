@@ -91,17 +91,17 @@ class EdgeTTSService(TTSService):
         if isinstance(cache_dir, dict):
             cache_dir = cache_dir.get('cache_dir')
         
-        # Set default cache directory if none provided
-        if cache_dir is None:
-            cache_dir = Path(tempfile.gettempdir()) / "tunatale" / "tts_cache"
-        
-        # Convert cache_dir to Path if it's a string
-        if not isinstance(cache_dir, Path):
-            cache_dir = Path(cache_dir)
-        
-        # Create cache directory if it doesn't exist
-        cache_dir.mkdir(parents=True, exist_ok=True)
-        logger.info(f"Initialized TTS cache at: {cache_dir}")
+        # Only set up caching if cache_dir is provided
+        if cache_dir is not None:
+            # Convert cache_dir to Path if it's a string
+            if not isinstance(cache_dir, Path):
+                cache_dir = Path(cache_dir)
+            
+            # Create cache directory if it doesn't exist
+            cache_dir.mkdir(parents=True, exist_ok=True)
+            logger.info(f"Initialized TTS cache at: {cache_dir}")
+        else:
+            logger.info("TTS caching is disabled")
             
         # Initialize the base class with the processed cache_dir
         super().__init__(cache_dir=cache_dir, **kwargs)
@@ -717,15 +717,84 @@ class EdgeTTSService(TTSService):
             logger.error(f"Audio file does not exist: {file_path}")
             return False
             
-        if file_path.stat().st_size == 0:
+        file_size = file_path.stat().st_size
+        if file_size == 0:
             logger.error(f"Audio file is empty: {file_path}")
             return False
             
-        # Additional validation could be added here, such as:
-        # - Verifying the file is a valid audio file
-        # - Checking audio duration is within expected bounds
-        # - Verifying audio format is as expected
-        
+        # Check minimum file size (1KB)
+        if file_size < 1024:
+            logger.warning(f"Audio file is very small ({file_size} bytes), may be corrupted")
+            
+        try:
+            # Check file extension to determine format
+            if file_path.suffix.lower() == '.wav':
+                # Validate WAV file
+                import wave
+                import audioop
+                
+                with wave.open(str(file_path), 'rb') as wav_file:
+                    # Check basic WAV format
+                    if wav_file.getnchannels() not in [1, 2]:
+                        logger.error(f"Invalid number of channels: {wav_file.getnchannels()}")
+                        return False
+                        
+                    sample_rate = wav_file.getframerate()
+                    if sample_rate not in [8000, 16000, 24000, 44100, 48000]:
+                        logger.warning(f"Unexpected sample rate: {sample_rate} Hz")
+                        
+                    # Verify we can read at least some frames
+                    frames = wav_file.readframes(10)
+                    if not frames:
+                        logger.error("Could not read audio frames")
+                        return False
+                        
+                    # Verify sample width is valid
+                    sample_width = wav_file.getsampwidth()
+                    if sample_width not in [1, 2, 3, 4]:
+                        logger.error(f"Invalid sample width: {sample_width}")
+                        return False
+            
+            elif file_path.suffix.lower() == '.mp3':
+                # For MP3, check file size and basic content
+                file_size = file_path.stat().st_size
+                if file_size < 100:  # Very small file is likely invalid
+                    logger.error(f"MP3 file is too small: {file_size} bytes")
+                    return False
+                    
+                # Read first few bytes to check for MP3 header
+                with open(file_path, 'rb') as f:
+                    header = f.read(10)  # Read more bytes to catch more header types
+                    
+                # Check for common MP3 headers:
+                # 1. ID3 header (starts with 'ID3')
+                # 2. MPEG frame sync (starts with 0xFF 0xFB or 0xFF 0xFA)
+                # 3. MPEG frame sync with other bitrates (0xFF 0xF2, 0xFF 0xF3, etc.)
+                is_valid = (
+                    header.startswith(b'ID3') or  # ID3v2 header
+                    (len(header) >= 2 and header[0] == 0xFF and (header[1] & 0xE0) == 0xE0)  # MPEG frame sync
+                )
+                
+                if not is_valid:
+                    logger.error(f"Invalid MP3 header: {header[:4].hex(' ')}")
+                    logger.error(f"File size: {file_size} bytes")
+                    return False
+            
+            else:
+                # For other formats, just check if we can read the file
+                try:
+                    with open(file_path, 'rb') as f:
+                        if not f.read(1024):
+                            logger.error("Could not read file content")
+                            return False
+                except Exception as e:
+                    logger.error(f"Error reading file: {e}")
+                    return False
+                    
+        except Exception as e:
+            logger.error(f"Error validating audio file {file_path}: {e}")
+            return False
+            
         return True
 
     async def _synthesize_single(
@@ -736,6 +805,7 @@ class EdgeTTSService(TTSService):
         rate: float = 1.0,
         pitch: float = 0.0,
         volume: float = 1.0,
+        speaker_id: Optional[str] = None,
         **kwargs: Any,
     ) -> Dict[str, Any]:
         """Synthesize speech for a single text string.
@@ -763,10 +833,13 @@ class EdgeTTSService(TTSService):
             raise TTSValidationError("Text cannot be empty")
 
         output_path = Path(output_path)
+        # Ensure the output path has .mp3 extension
+        if output_path.suffix.lower() != '.mp3':
+            output_path = output_path.with_suffix('.mp3')
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Log the voice being used for synthesis
-        logger.info(f"Using voice_id: {voice_id} for synthesis")
+        # Log the voice and speaker being used for synthesis
+        logger.info(f"Using voice_id: {voice_id}, speaker_id: {speaker_id} for synthesis")
         
         # Validate the voice ID before proceeding
         try:
@@ -783,23 +856,33 @@ class EdgeTTSService(TTSService):
             raise
             
         # Generate cache key and check cache
-        cache_key = self._generate_cache_key(text, voice_id, rate, pitch, volume)
+        cache_key = self._generate_cache_key(
+            text=text,
+            voice_id=voice_id,
+            rate=rate,
+            pitch=pitch,
+            volume=volume,
+            speaker_id=speaker_id  # Include speaker_id in cache key
+        )
         logger.debug(f"Generated cache key: {cache_key}")
         
-        cached_file = self._get_cached_file(cache_key)
-        logger.debug(f"Cached file path: {cached_file}")
-        
-        if cached_file and cached_file.exists():
-            logger.debug(f"Cache hit for key: {cache_key}")
-            # Copy cached file to output path
-            shutil.copy2(cached_file, output_path)
-            logger.debug(f"Copied cached file to {output_path}")
-            return {
-                "audio_file": str(output_path),
-                "voice": voice_id,
-                "text_length": len(text),
-                "cached": True,
-            }
+        # Only check cache if caching is enabled
+        cached_file = None
+        if self.cache_dir:
+            cached_file = self._get_cached_file(cache_key)
+            logger.debug(f"Cached file path: {cached_file}")
+            
+            if cached_file and cached_file.exists():
+                logger.debug(f"Cache hit for key: {cache_key}")
+                # Copy cached file to output path
+                shutil.copy2(cached_file, output_path)
+                logger.debug(f"Copied cached file to {output_path}")
+                return {
+                    "audio_file": str(output_path),
+                    "voice": voice_id,
+                    "text_length": len(text),
+                    "cached": True,
+                }
 
         # Synthesize speech
         temp_file = None
@@ -807,23 +890,130 @@ class EdgeTTSService(TTSService):
             with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp:
                 temp_file = temp.name
 
+            # Apply custom voice settings for specific voices
+            voice_id_lower = voice_id.lower()
+            
+            # Get speaker ID from kwargs if available (passed from lesson processor)
+            # Use the speaker_id parameter if provided, otherwise check kwargs
+            original_speaker_id = speaker_id
+            if not speaker_id and 'speaker_id' in kwargs:
+                speaker_id = kwargs.get('speaker_id')
+            
+            # Convert to string and normalize
+            if speaker_id is not None:
+                speaker_id = str(speaker_id).lower()
+            
+            # Enhanced debug logging for voice settings
+            logger.debug(f"[DEBUG] Raw input - rate: {rate}, pitch: {pitch}, speaker_id: {speaker_id} (original: {original_speaker_id}), voice_id: {voice_id}")
+            logger.debug(f"[DEBUG] All kwargs: {kwargs}")
+            
+            # Initialize with default values
+            custom_rate = rate
+            custom_pitch = pitch
+            
+            # Apply voice settings based on speaker_id
+            logger.debug(f"[DEBUG] Processing speaker_id: {speaker_id}, voice_id: {voice_id_lower}")
+            
+            # Log all available speaker IDs for debugging
+            available_speaker_ids = ['tagalog-female-1', 'tagalog-female-2']
+            logger.debug(f"[DEBUG] Available speaker IDs: {available_speaker_ids}")
+            
+            # Check if voice_id contains tagalog but speaker_id is not set
+            if ('tagalog' in voice_id_lower or 'fil' in voice_id_lower) and not speaker_id:
+                speaker_id = 'tagalog-female-1'  # Default to female-1 for Tagalog voices
+                logger.debug(f"[DEBUG] Auto-detected Tagalog voice, setting default speaker_id: {speaker_id}")
+                # Update the original speaker_id to reflect the default value
+                original_speaker_id = speaker_id
+            
+            # Apply voice settings based on speaker_id
+            if speaker_id == 'tagalog-female-1':
+                # Settings for TAGALOG-FEMALE-1
+                custom_rate = 1.0  # Normal rate
+                custom_pitch = 0.0  # Default pitch
+                logger.debug(f"[TAGALOG-FEMALE-1] Using voice settings - rate: {custom_rate}, pitch: {custom_pitch}")
+            elif speaker_id == 'tagalog-female-2':
+                # Settings for TAGALOG-FEMALE-2 - slower rate and lower pitch
+                custom_rate = 0.8  # Slower rate (-20%)
+                custom_pitch = -15.0  # Lower pitch
+                logger.debug(f"[TAGALOG-FEMALE-2] Using custom voice settings - rate: {custom_rate}, pitch: {custom_pitch}")
+            elif 'blessica' in voice_id_lower and 'tagalog' in voice_id_lower:
+                # Fallback for Tagalog voices without explicit speaker_id
+                if not speaker_id:
+                    speaker_id = 'tagalog-female-1'  # Default to female-1 if not specified
+                    custom_rate = 1.0
+                    custom_pitch = 0.0
+                    logger.debug(f"[TAGALOG-DEFAULT] Using default Tagalog voice settings - rate: {custom_rate}, pitch: {custom_pitch}")
+            else:
+                logger.debug(f"[DEBUG] Using provided voice settings - rate: {custom_rate}, pitch: {custom_pitch}")
+            
             # Format rate as integer percentage without decimal point
-            rate_percent = int(round((rate - 1.0) * 100))
+            rate_percent = int(round((custom_rate - 1.0) * 100))
             rate_str = f"{rate_percent:+d}%"
             
-            communicate = self._communicate_class(
-                text=text,
-                voice=voice_id,
-                rate=rate_str,
-                pitch=f"+{pitch}Hz" if pitch != 0.0 else "+0Hz",
-                volume=f"+{int((volume - 1) * 100)}%" if volume != 1.0 else "+0%",
-            )
+            # Format pitch - ensure we're using the custom_pitch value
+            pitch_value = int(custom_pitch)
+            pitch_str = f"{pitch_value:+d}Hz"
+            
+            # Log the final values being used
+            logger.warning(f"[TTS PARAMS] Final values - rate: {rate_str} (from {custom_rate}), "
+                         f"pitch: {pitch_str} (from {custom_pitch}), voice: {voice_id}, "
+                         f"speaker_id: {speaker_id} (original: {original_speaker_id})")
+            logger.debug(f"[DEBUG] Rate string: {rate_str}, Pitch string: {pitch_str}")
+            
+            # Log the full voice configuration including speaker ID
+            voice_config = {
+                'voice': voice_id,
+                'rate': rate_str,
+                'pitch': pitch_str,
+                'volume': f"+{int((volume - 1) * 100)}%" if volume != 1.0 else "+0%",
+                'text_length': len(text)
+            }
+            logger.debug(f"[DEBUG] Voice configuration: {voice_config}")
+            
+            try:
+                communicate = self._communicate_class(
+                    text=text,
+                    voice=voice_id,
+                    rate=rate_str,
+                    pitch=pitch_str,
+                    volume=f"+{int((volume - 1) * 100)}%" if volume != 1.0 else "+0%",
+                )
 
-            await communicate.save(temp_file)
-
-            # Validate the generated audio file
-            if not await self._validate_audio_file(temp_file):
-                raise TTSTransientError("Generated audio file is invalid")
+                # Save the audio file
+                await communicate.save(temp_file)
+                
+                # Verify the generated file exists and has content
+                if not os.path.exists(temp_file):
+                    raise TTSValidationError(f"Audio file was not created: {temp_file}")
+                    
+                file_size = os.path.getsize(temp_file)
+                if file_size == 0:
+                    raise TTSValidationError(f"Generated audio file is empty: {temp_file}")
+                
+                # Log file info for debugging
+                logger.debug(f"Generated audio file: {temp_file}, size: {file_size} bytes")
+                
+                # Verify the file format
+                if not await self._validate_audio_file(temp_file):
+                    # Read first few bytes for debugging
+                    with open(temp_file, 'rb') as f:
+                        header = f.read(16)
+                    logger.error(f"Audio file header: {header.hex(' ')}")
+                    logger.error(f"File size: {file_size} bytes")
+                    raise TTSValidationError(
+                        f"Generated audio file failed validation. "
+                        f"File size: {file_size} bytes, "
+                        f"Header: {header.hex(' ')}"
+                    )
+                    
+            except Exception as e:
+                # Clean up the temporary file if there was an error
+                if os.path.exists(temp_file):
+                    try:
+                        os.unlink(temp_file)
+                    except Exception as cleanup_err:
+                        logger.warning(f"Error cleaning up temp file: {cleanup_err}")
+                raise
 
             # Move the temporary file to the final output path
             shutil.move(temp_file, output_path)
@@ -834,13 +1024,20 @@ class EdgeTTSService(TTSService):
                 # Ensure cache directory exists
                 self.cache_dir.mkdir(parents=True, exist_ok=True)
                 
-                # Use the same cache key format as _generate_cache_key
-                cache_key = self._generate_cache_key(text, voice_id, rate, pitch, volume)
+                # Generate cache key with all parameters including speaker_id
+                cache_key = self._generate_cache_key(
+                    text=text,
+                    voice_id=voice_id,
+                    rate=rate,
+                    pitch=pitch,
+                    volume=volume,
+                    speaker_id=speaker_id  # Include speaker_id in cache key
+                )
                 cache_path = self.cache_dir / cache_key
                 
                 # Copy the output file to the cache
                 shutil.copy2(output_path, cache_path)
-                logger.debug(f"Cached audio to {cache_path}")
+                logger.debug(f"Cached audio to {cache_path} with speaker_id: {speaker_id}")
                 
             # Return the result with output_path as a Path object
             return {
@@ -932,6 +1129,7 @@ class EdgeTTSService(TTSService):
         rate: float = 1.0,
         pitch: float = 0.0,
         volume: float = 1.0,
+        speaker_id: Optional[str] = None,
         **kwargs: Any,
     ) -> Dict[str, Any]:
         """Synthesize speech from text.
@@ -943,6 +1141,7 @@ class EdgeTTSService(TTSService):
             rate: Speech rate (0.5-3.0).
             pitch: Pitch adjustment (-20 to 20).
             volume: Volume level (0.0-1.0).
+            speaker_id: Optional speaker ID for voice customization.
             **kwargs: Additional arguments for the TTS service.
 
         Returns:
@@ -962,6 +1161,7 @@ class EdgeTTSService(TTSService):
             rate=rate,
             pitch=pitch,
             volume=volume,
+            speaker_id=speaker_id,
             **kwargs,
         )
 
@@ -997,11 +1197,20 @@ class EdgeTTSService(TTSService):
         results = []
 
         async def process_one(
-            text_item: Tuple[str, str, Union[str, Path]]
+            text_item: Union[Tuple[str, str, Union[str, Path]], Tuple[str, str, Union[str, Path], Optional[str]]]
         ) -> Dict[str, Any]:
-            text, voice_id, output_path = text_item
+            # Handle both (text, voice_id, output_path) and (text, voice_id, output_path, speaker_id) formats
+            if len(text_item) == 3:
+                text, voice_id, output_path = text_item
+                item_speaker_id = None
+            else:
+                text, voice_id, output_path, item_speaker_id = text_item
+                
             async with semaphore:
                 try:
+                    # Use the item-specific speaker_id if provided, otherwise fall back to the one from kwargs
+                    speaker_id_to_use = item_speaker_id if item_speaker_id is not None else kwargs.get('speaker_id')
+                    
                     return await self._synthesize_single(
                         text=text,
                         voice_id=voice_id,
@@ -1009,7 +1218,8 @@ class EdgeTTSService(TTSService):
                         rate=rate,
                         pitch=pitch,
                         volume=volume,
-                        **kwargs,
+                        speaker_id=speaker_id_to_use,
+                        **{k: v for k, v in kwargs.items() if k != 'speaker_id'},  # Remove speaker_id from kwargs to avoid duplication
                     )
                 except Exception as e:
                     return {
@@ -1024,7 +1234,7 @@ class EdgeTTSService(TTSService):
         return await asyncio.gather(*tasks)
 
     def _generate_cache_key(
-        self, text: str, voice_id: str, rate: float, pitch: float, volume: float
+        self, text: str, voice_id: str, rate: float, pitch: float, volume: float, speaker_id: Optional[str] = None
     ) -> str:
         """Generate a cache key for the given text and voice settings.
 
@@ -1034,6 +1244,7 @@ class EdgeTTSService(TTSService):
             rate: Speech rate.
             pitch: Pitch adjustment.
             volume: Volume level.
+            speaker_id: Optional speaker ID for voice variations.
 
         Returns:
             A string that can be used as a cache key.
@@ -1048,8 +1259,16 @@ class EdgeTTSService(TTSService):
             f"r{rate:.1f}".replace(".", ""),
             f"p{pitch:+.1f}".replace("+", "p").replace("-", "m").replace(".", ""),
             f"v{volume:.1f}".replace(".", ""),
-            text_hash[:8],  # First 8 chars of hash
         ]
+        
+        # Add speaker ID to the key if provided
+        if speaker_id:
+            # Create a short hash of the speaker ID to keep the filename reasonable
+            speaker_hash = hashlib.md5(speaker_id.encode("utf-8")).hexdigest()[:4]
+            key_parts.append(f"s{speaker_hash}")
+        
+        # Add text hash last
+        key_parts.append(text_hash[:8])
 
         # Join with underscores to create a safe filename
         return "_".join(key_parts) + ".mp3"
