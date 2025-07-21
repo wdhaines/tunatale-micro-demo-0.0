@@ -8,6 +8,8 @@ from .enums import Language, SectionType
 # Import models that don't have circular dependencies
 from .voice import Voice
 from .phrase import Phrase
+from .audio_config import AudioConfig
+from .processed_models import ProcessedPhrase, ProcessedSection, ProcessedLesson
 
 # Import models with circular dependencies
 from .section import Section
@@ -31,4 +33,8 @@ __all__ = [
     'Phrase',
     'Section',
     'Lesson',
+    'ProcessedPhrase',
+    'ProcessedSection',
+    'ProcessedLesson',
+    'AudioConfig',
 ]

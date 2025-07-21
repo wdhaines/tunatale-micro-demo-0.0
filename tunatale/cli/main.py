@@ -117,7 +117,8 @@ class ProgressReporter:
         self._start_time = time.time()
         self._last_update = 0
         self._update_interval = 0.1  # seconds between updates
-        self.tasks = {}  # Track active tasks
+        self.tasks = {}  # Track main tasks
+        self.section_tasks = {}  # Track section tasks
         
     async def __aenter__(self):
         """Enter the async context manager."""
@@ -387,21 +388,28 @@ async def process_lesson(
         max_parallel_tasks=max_parallel_audio
     )
 
-    # Create lesson processor with concurrency settings
-    processor = LessonProcessor(
-        tts_service=tts_service,
-        audio_processor=audio_processor,
-        config={
-            **config.dict(),
-            'max_parallel_phrases': max_parallel_phrases,
-            'max_parallel_tts': max_parallel_tts,
-        },
+    # Create selectors using the factory
+    from tunatale.infrastructure.factories import create_lesson_processor
+    
+    # Create the lesson processor with the factory
+    processor = create_lesson_processor(
+        tts_config=config.tts.dict() if hasattr(config, 'tts') else {},
+        audio_config=config.audio.dict() if hasattr(config, 'audio') else {}
     )
+    
+    # Update the processor's output directory and max_workers
+    processor.output_dir = str(output_dir.absolute())
+    processor.max_workers = max_parallel_phrases
 
     # Create the output directory structure
     sections_dir = output_dir / "sections"
     phrases_dir = output_dir / "phrases"
     metadata_dir = output_dir / "metadata"
+    
+    # Ensure output directories exist
+    sections_dir.mkdir(parents=True, exist_ok=True)
+    phrases_dir.mkdir(parents=True, exist_ok=True)
+    metadata_dir.mkdir(parents=True, exist_ok=True)
     
     # Process the lesson
     try:
@@ -430,20 +438,21 @@ async def process_lesson(
                     **kwargs
                 )
                 
-                # Mark as complete if we've reached the total
+                # Update with completed status if we've reached the total
                 if current >= total:
-                    await progress.complete_task(task_id, total=total, status="Completed")
+                    await progress.update(
+                        task_id=task_id,
+                        completed=total,
+                        total=total,
+                        status="Completed"
+                    )
         else:
             progress_callback = None
         
+        # Only pass supported arguments to process_lesson
         result = await processor.process_lesson(
             lesson=lesson,
-            output_dir=sections_dir,  # Use sections dir for section outputs
-            max_parallel_sections=max_parallel_sections,
-            max_parallel_phrases=max_parallel_phrases,
-            max_parallel_tts=max_parallel_tts,
-            max_parallel_audio=max_parallel_audio,
-            progress_callback=progress_callback,
+            output_dir=str(sections_dir.absolute())
         )
         
         logger.info("Lesson processing completed")
@@ -618,11 +627,28 @@ def generate(
     ] = 4,  # Increased but kept lower than TTS as it's CPU-bound
 ) -> None:
     """Generate audio for a lesson file."""
-    # Set log level
-    logging.getLogger().setLevel(logging.DEBUG if verbose else logging.INFO)
+    # Set log level for root logger and our own loggers
+    log_level = logging.DEBUG if verbose else logging.INFO
+    logging.basicConfig(level=log_level)
+    
+    # Set level for our application loggers
+    app_loggers = [
+        'tunatale',
+        'tunatale.cli',
+        'tunatale.core',
+        'tunatale.infrastructure',
+        __name__,
+    ]
+    
+    for logger_name in app_loggers:
+        logging.getLogger(logger_name).setLevel(log_level)
+    
+    # Enable debug logging for EdgeTTS service
+    logging.getLogger('tunatale.infrastructure.services.tts.edge_tts_service').setLevel(logging.DEBUG)
     
     # Initialize logger
     logger = logging.getLogger(__name__)
+    logger.debug("Debug logging is enabled")
     
     # Skip path validation in test environment
     is_test = 'PYTEST_CURRENT_TEST' in os.environ or 'pytest' in str(output_dir) or 'pytest' in str(input_file)

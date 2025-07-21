@@ -6,6 +6,7 @@ from typing import Any, Dict, Optional, Protocol, runtime_checkable, Union
 from tunatale.core.models.lesson import Lesson
 from tunatale.core.models.phrase import Phrase
 from tunatale.core.models.section import Section
+from tunatale.core.models import ProcessedPhrase, ProcessedSection, ProcessedLesson
 from tunatale.core.ports.audio_processor import AudioProcessor
 from tunatale.core.ports.tts_service import TTSService
 

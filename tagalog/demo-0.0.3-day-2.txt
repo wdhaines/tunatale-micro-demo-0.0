@@ -1,0 +1,300 @@
+# Day 2: At the Hotel
+
+**Target collocations:** "may kwarto po ba" / "ilang gabi po" / "ID po" / "susi po" / "first time po"
+
+[NARRATOR]: Day 2: At the Hotel
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: may kwarto po ba
+[NARRATOR]: do you have a room?
+[TAGALOG-FEMALE-1]: may kwarto po ba
+ba
+po ba
+po
+to
+ar
+warto
+kwar
+kwarto
+kwarto po
+kwarto po ba
+may
+may kwarto
+may kwarto po ba
+may kwarto po ba
+
+[TAGALOG-FEMALE-1]: ilang gabi po
+[NARRATOR]: how many nights?
+[TAGALOG-FEMALE-1]: ilang gabi po
+po
+bi
+ga
+gabi
+gabi po
+lang
+i
+ilang
+ilang gabi
+ilang gabi po
+ilang gabi po
+
+[TAGALOG-FEMALE-1]: ID po
+[NARRATOR]: ID please
+[TAGALOG-FEMALE-1]: ID po
+po
+ID
+ID po
+ID po
+
+[TAGALOG-FEMALE-1]: susi po
+[NARRATOR]: key
+[TAGALOG-FEMALE-1]: susi po
+po
+si
+su
+susi
+susi po
+susi po
+
+[TAGALOG-FEMALE-1]: first time po
+[NARRATOR]: first time
+[TAGALOG-FEMALE-1]: first time po
+po
+time
+time po
+first
+first time
+first time po
+first time po
+
+[NARRATOR]: Natural Speed
+
+Hotel Lobby
+
+[TAGALOG-FEMALE-1]: Good evening po! May kwarto po ba?
+[TAGALOG-FEMALE-2]: May kwarto po ba? Single o double po?
+[TAGALOG-FEMALE-1]: Single po.
+[TAGALOG-FEMALE-2]: Opo, meron po!
+[TAGALOG-FEMALE-1]: Salamat po!
+[TAGALOG-FEMALE-2]: Ilang gabi po?
+[TAGALOG-FEMALE-1]: Tatlo po. Tatlong gabi.
+[TAGALOG-FEMALE-2]: Tatlong gabi po. Okay po. ID po?
+[TAGALOG-FEMALE-1]: Ito po.
+[TAGALOG-FEMALE-2]: Salamat po. Maria Santos?
+[TAGALOG-FEMALE-1]: Opo!
+[TAGALOG-FEMALE-2]: Okay po. Susi po!
+[TAGALOG-FEMALE-1]: Susi po?
+[TAGALOG-FEMALE-2]: Key po. Susi po. Room 205.
+[TAGALOG-FEMALE-1]: Ah, susi po. Salamat!
+
+[NARRATOR]: Payment
+
+[TAGALOG-FEMALE-2]: First time po sa El Nido?
+[TAGALOG-FEMALE-1]: Opo! First time po!
+[TAGALOG-FEMALE-2]: Maganda po dito. Maraming beach!
+[TAGALOG-FEMALE-1]: Excited na po ako!
+[TAGALOG-FEMALE-1]: Magkano po?
+[TAGALOG-FEMALE-2]: Ilang gabi po ulit?
+[TAGALOG-FEMALE-1]: Tatlo po. Tatlong gabi.
+[TAGALOG-FEMALE-2]: 3,600 po total.
+[TAGALOG-FEMALE-1]: Puwede credit card?
+[TAGALOG-FEMALE-2]: Opo! Ito po.
+[TAGALOG-FEMALE-1]: Ito po.
+[TAGALOG-FEMALE-2]: Salamat po!
+
+[NARRATOR]: In the Room
+
+[TAGALOG-MALE-1]: Ma'am, bag po?
+[TAGALOG-FEMALE-1]: Ah, ito po. Salamat!
+[TAGALOG-FEMALE-1]: Susi po. Click! Wow!
+
+[NARRATOR]: Phone Call
+
+[TAGALOG-FEMALE-1]: Hello po!
+[TAGALOG-MALE-1]: Ma'am, okay po ba ang room?
+[TAGALOG-FEMALE-1]: Opo! Salamat po!
+[TAGALOG-MALE-1]: May kailangan po ba?
+[TAGALOG-FEMALE-1]: Ano po ang Wi-Fi password?
+[TAGALOG-MALE-1]: ELNIDO2025 po.
+[TAGALOG-FEMALE-1]: Salamat po!
+
+[NARRATOR]: In the Elevator
+
+[TAGALOG-MALE-2]: May kwarto po ba kayo?
+[TAGALOG-FEMALE-1]: Opo! Ikaw?
+[TAGALOG-MALE-2]: Wala pa. May kwarto po ba sila?
+[TAGALOG-FEMALE-1]: Opo! Tanong mo sa baba.
+[TAGALOG-MALE-2]: First time po rin kayo?
+[TAGALOG-FEMALE-1]: Opo! First time po sa El Nido!
+[TAGALOG-MALE-2]: Ako rin! Enjoy po!
+[TAGALOG-FEMALE-1]: Salamat! Ikaw rin!
+
+[NARRATOR]: Slow Speed
+
+Hotel Lobby
+
+[TAGALOG-FEMALE-1]: Good... evening... po!... May... kwarto... po... ba?
+[TAGALOG-FEMALE-2]: May... kwarto... po... ba?... Single... o... double... po?
+[TAGALOG-FEMALE-1]: Single... po.
+[TAGALOG-FEMALE-2]: Opo... meron... po!
+[TAGALOG-FEMALE-1]: Salamat... po!
+[TAGALOG-FEMALE-2]: Ilang... gabi... po?
+[TAGALOG-FEMALE-1]: Tatlo... po... Tatlong... gabi.
+[TAGALOG-FEMALE-2]: Tatlong... gabi... po... Okay... po... ID... po?
+[TAGALOG-FEMALE-1]: Ito... po.
+[TAGALOG-FEMALE-2]: Salamat... po... Maria... Santos?
+[TAGALOG-FEMALE-1]: Opo!
+[TAGALOG-FEMALE-2]: Okay... po... Susi... po!
+[TAGALOG-FEMALE-1]: Susi... po?
+[TAGALOG-FEMALE-2]: Key... po... Susi... po... Room... 205.
+[TAGALOG-FEMALE-1]: Ah... susi... po... Salamat!
+
+[NARRATOR]: Payment
+
+[TAGALOG-FEMALE-2]: First... time... po... sa... El Nido?
+[TAGALOG-FEMALE-1]: Opo!... First... time... po!
+[TAGALOG-FEMALE-2]: Maganda... po... dito... Maraming... beach!
+[TAGALOG-FEMALE-1]: Excited... na... po... ako!
+[TAGALOG-FEMALE-1]: Magkano... po?
+[TAGALOG-FEMALE-2]: Ilang... gabi... po... ulit?
+[TAGALOG-FEMALE-1]: Tatlo... po... Tatlong... gabi.
+[TAGALOG-FEMALE-2]: 3,600... po... total.
+[TAGALOG-FEMALE-1]: Puwede... credit... card?
+[TAGALOG-FEMALE-2]: Opo!... Ito... po.
+[TAGALOG-FEMALE-1]: Ito... po.
+[TAGALOG-FEMALE-2]: Salamat... po!
+
+[NARRATOR]: In the Room
+
+[TAGALOG-MALE-1]: Ma'am... bag... po?
+[TAGALOG-FEMALE-1]: Ah... ito... po... Salamat!
+[TAGALOG-FEMALE-1]: Susi... po... Click!... Wow!
+
+[NARRATOR]: Phone Call
+
+[TAGALOG-FEMALE-1]: Hello... po!
+[TAGALOG-MALE-1]: Ma'am... okay... po... ba... ang... room?
+[TAGALOG-FEMALE-1]: Opo!... Salamat... po!
+[TAGALOG-MALE-1]: May... kailangan... po... ba?
+[TAGALOG-FEMALE-1]: Ano... po... ang... Wi-Fi... password?
+[TAGALOG-MALE-1]: ELNIDO2025... po.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+[NARRATOR]: In the Elevator
+
+[TAGALOG-MALE-2]: May... kwarto... po... ba... kayo?
+[TAGALOG-FEMALE-1]: Opo!... Ikaw?
+[TAGALOG-MALE-2]: Wala... pa... May... kwarto... po... ba... sila?
+[TAGALOG-FEMALE-1]: Opo!... Tanong... mo... sa... baba.
+[TAGALOG-MALE-2]: First... time... po... rin... kayo?
+[TAGALOG-FEMALE-1]: Opo!... First... time... po... sa... El Nido!
+[TAGALOG-MALE-2]: Ako... rin!... Enjoy... po!
+[TAGALOG-FEMALE-1]: Salamat!... Ikaw... rin!
+
+[NARRATOR]: Translated
+
+Hotel Lobby
+
+[TAGALOG-FEMALE-1]: Good evening po! May kwarto po ba?
+[NARRATOR]: Good evening! Do you have a room?
+[TAGALOG-FEMALE-2]: May kwarto po ba? Single o double po?
+[NARRATOR]: Do you have a room? Single or double?
+[TAGALOG-FEMALE-1]: Single po.
+[NARRATOR]: Single.
+[TAGALOG-FEMALE-2]: Opo, meron po!
+[NARRATOR]: Yes, we have!
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+[TAGALOG-FEMALE-2]: Ilang gabi po?
+[NARRATOR]: How many nights?
+[TAGALOG-FEMALE-1]: Tatlo po. Tatlong gabi.
+[NARRATOR]: Three. Three nights.
+[TAGALOG-FEMALE-2]: Tatlong gabi po. Okay po. ID po?
+[NARRATOR]: Three nights. Okay. ID?
+[TAGALOG-FEMALE-1]: Ito po.
+[NARRATOR]: Here it is.
+[TAGALOG-FEMALE-2]: Salamat po. Maria Santos?
+[NARRATOR]: Thank you. Maria Santos?
+[TAGALOG-FEMALE-1]: Opo!
+[NARRATOR]: Yes!
+[TAGALOG-FEMALE-2]: Okay po. Susi po!
+[NARRATOR]: Okay. Key!
+[TAGALOG-FEMALE-1]: Susi po?
+[NARRATOR]: Key?
+[TAGALOG-FEMALE-2]: Key po. Susi po. Room 205.
+[NARRATOR]: Key. Key. Room 205.
+[TAGALOG-FEMALE-1]: Ah, susi po. Salamat!
+[NARRATOR]: Ah, key. Thanks!
+
+[NARRATOR]: Payment
+
+[TAGALOG-FEMALE-2]: First time po sa El Nido?
+[NARRATOR]: First time in El Nido?
+[TAGALOG-FEMALE-1]: Opo! First time po!
+[NARRATOR]: Yes! First time!
+[TAGALOG-FEMALE-2]: Maganda po dito. Maraming beach!
+[NARRATOR]: It's beautiful here. Many beaches!
+[TAGALOG-FEMALE-1]: Excited na po ako!
+[NARRATOR]: I'm excited!
+[TAGALOG-FEMALE-1]: Magkano po?
+[NARRATOR]: How much?
+[TAGALOG-FEMALE-2]: Ilang gabi po ulit?
+[NARRATOR]: How many nights again?
+[TAGALOG-FEMALE-1]: Tatlo po. Tatlong gabi.
+[NARRATOR]: Three. Three nights.
+[TAGALOG-FEMALE-2]: 3,600 po total.
+[NARRATOR]: 3,600 total.
+[TAGALOG-FEMALE-1]: Puwede credit card?
+[NARRATOR]: Can I use credit card?
+[TAGALOG-FEMALE-2]: Opo! Ito po.
+[NARRATOR]: Yes! Here.
+[TAGALOG-FEMALE-1]: Ito po.
+[NARRATOR]: Here you go.
+[TAGALOG-FEMALE-2]: Salamat po!
+[NARRATOR]: Thank you!
+
+[NARRATOR]: In the Room
+
+[TAGALOG-MALE-1]: Ma'am, bag po?
+[NARRATOR]: Ma'am, your bag?
+[TAGALOG-FEMALE-1]: Ah, ito po. Salamat!
+[NARRATOR]: Ah, here. Thanks!
+[TAGALOG-FEMALE-1]: Susi po. Click! Wow!
+[NARRATOR]: Key. Click! Wow!
+
+[NARRATOR]: Phone Call
+
+[TAGALOG-FEMALE-1]: Hello po!
+[NARRATOR]: Hello!
+[TAGALOG-MALE-1]: Ma'am, okay po ba ang room?
+[NARRATOR]: Ma'am, is the room okay?
+[TAGALOG-FEMALE-1]: Opo! Salamat po!
+[NARRATOR]: Yes! Thank you!
+[TAGALOG-MALE-1]: May kailangan po ba?
+[NARRATOR]: Do you need anything?
+[TAGALOG-FEMALE-1]: Ano po ang Wi-Fi password?
+[NARRATOR]: What's the Wi-Fi password?
+[TAGALOG-MALE-1]: ELNIDO2025 po.
+[NARRATOR]: ELNIDO2025.
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+[NARRATOR]: In the Elevator
+
+[TAGALOG-MALE-2]: May kwarto po ba kayo?
+[NARRATOR]: Do you have a room?
+[TAGALOG-FEMALE-1]: Opo! Ikaw?
+[NARRATOR]: Yes! You?
+[TAGALOG-MALE-2]: Wala pa. May kwarto po ba sila?
+[NARRATOR]: Not yet. Do they have rooms?
+[TAGALOG-FEMALE-1]: Opo! Tanong mo sa baba.
+[NARRATOR]: Yes! Ask downstairs.
+[TAGALOG-MALE-2]: First time po rin kayo?
+[NARRATOR]: Is it your first time too?
+[TAGALOG-FEMALE-1]: Opo! First time po sa El Nido!
+[NARRATOR]: Yes! First time in El Nido!
+[TAGALOG-MALE-2]: Ako rin! Enjoy po!
+[NARRATOR]: Me too! Enjoy!
+[TAGALOG-FEMALE-1]: Salamat! Ikaw rin!
+[NARRATOR]: Thanks! You too!
