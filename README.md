@@ -1,53 +1,109 @@
-# Tagalog Language Learning Tools
+# TunaTale: Tagalog Language Learning Tools
 
-This repository contains tools for processing Tagalog language learning materials, including a multi-voice TTS processor for generating natural-sounding audio from scripts.
+TunaTale is a comprehensive toolkit for creating engaging language learning materials with natural-sounding multi-voice audio. It's designed specifically for Tagalog language instruction but can be adapted for other languages.
 
-## Tools
+## 🚀 Features
 
-### 1. Multi-Voice TTS Processor
+- **Multi-Voice Support**: Different Filipino and English voices for natural dialogue
+- **Structured Lessons**: Automatic section detection (Key Phrases, Natural Speed, Slow Speed, Translated)
+- **High-Quality Audio**: Professional audio processing with normalization and enhancements
+- **Flexible Configuration**: Customize voices, speeds, and processing options
+- **Modern Architecture**: Clean architecture with clear separation of concerns
+- **Extensible**: Easy to add new TTS providers and audio processing features
 
-A Python package for generating natural-sounding multi-voice audio from language learning scripts.
+## 🏗️ Project Structure
 
-#### Features:
-- Multiple voice support with different Filipino and English voices
-- Automatic section detection (Key Phrases, Natural Speed, Slow Speed, Translated)
-- Pitch and speed adjustments for voice differentiation
-- Precise timing control for pauses and pacing
-- Audio normalization and quality enhancements
-- Section-based audio splitting
-- Timestamp generation for synchronization
+```
+tunatale/
+├── core/                # Core domain logic and business rules
+│   ├── models/         # Domain models (Phrase, Section, Lesson)
+│   └── ports/          # Interface definitions (TTSService, etc.)
+├── infrastructure/     # External implementations
+│   └── services/       # Service implementations (EdgeTTS, GoogleTTS)
+├── cli/                # Command line interface
+└── tests/              # Test suite
+```
 
-### 2. Edge TTS Converter
+## 🛠️ Installation
 
-Converts daily Tagalog-English stories from markdown files into MP3 audio files using Microsoft Edge TTS.
+1. **Prerequisites**
+   - Python 3.10 or higher
+   - [Poetry](https://python-poetry.org/) (recommended) or pip
+   - FFmpeg (for audio processing)
 
-### 3. Google Cloud TTS Converter
-
-Alternative converter using Google Cloud Text-to-Speech (requires API credentials).
-
-### Google Cloud TTS Converter
-- Higher quality Wavenet voices
-- More natural sounding speech
-- Advanced SSML support for better prosody and pronunciation
-- Handles long texts with automatic chunking
-
-## Installation
-
-1. Install Python 3.7 or higher
-2. Install the required packages:
+2. **Using Poetry (recommended)**
    ```bash
+   # Install Poetry if you don't have it
+   curl -sSL https://install.python-poetry.org | python3 -
+   
+   # Clone the repository
+   git clone https://github.com/yourusername/tunatale.git
+   cd tunatale
+   
+   # Install dependencies
+   poetry install
+   
+   # Activate the virtual environment
+   poetry shell
+   ```
+
+3. **Using pip**
+   ```bash
+   # Clone the repository
+   git clone https://github.com/yourusername/tunatale.git
+   cd tunatale
+   
+   # Create and activate a virtual environment
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   
+   # Install dependencies
    pip install -r requirements.txt
    ```
 
-## Usage
+## 🚀 Quick Start
 
-### Edge TTS Converter
-```bash
-python edge_tts_converter.py input.md -o output_directory
-```
+1. **Basic Usage**
+   ```bash
+   # Process a lesson file
+   tunatale generate path/to/lesson.txt -o output/
+   
+   # Validate a lesson file
+   tunatale validate path/to/lesson.txt
+   
+   # List available voices
+   tunatale list-voices
+   ```
 
-### Google Cloud TTS Converter
-```bash
+2. **Example Lesson Format**
+   ```
+   Day 1: Greetings
+   
+   [KEY PHRASES]
+   [TAGALOG-FEMALE-1] Magandang umaga po!
+   [TAGALOG-MALE-1] Magandang umaga rin po!
+   
+   [NATURAL SPEED]
+   [TAGALOG-FEMALE-1] Kumusta po kayo?
+   [TAGALOG-MALE-1] Mabuti naman po, salamat!
+   ```
+
+## 📚 Documentation
+
+For detailed documentation, please see the [docs](docs/) directory.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Microsoft Edge TTS for high-quality voice synthesis
+- The language learning community for inspiration and feedback
 python google_cloud_tts_converter.py input.md -o output_directory --credentials path/to/credentials.json
 ```
 
