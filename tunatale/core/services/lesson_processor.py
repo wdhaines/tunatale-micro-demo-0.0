@@ -1,781 +1,375 @@
 """Service for processing lessons and generating audio."""
-from __future__ import annotations
-from typing import Union, Dict, Any, Optional, List, Tuple, cast
+
 import asyncio
+import json
 import logging
-from tunatale.core.exceptions import TTSValidationError, AudioProcessingError
 import os
-import uuid
-from pathlib import Path
+import re
 import shutil
 import time
-import psutil
-import tracemalloc
-from collections import defaultdict
-from dataclasses import dataclass, field
-from datetime import datetime
-import tempfile
-from pydub import AudioSegment
-from pydub.silence import detect_nonsilent
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, date
+from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple, Union, cast
+from uuid import UUID, uuid4
 
-from tunatale.core.exceptions import AudioProcessingError, TTSServiceError
-from tunatale.core.models.lesson import Lesson, SectionType
+import aiofiles
+import aiofiles.os
+from pydantic import BaseModel
+
+from tunatale.core.models.audio_config import AudioConfig
 from tunatale.core.models.phrase import Phrase
 from tunatale.core.models.section import Section
+from tunatale.core.models.lesson import Lesson
+from tunatale.core.models import ProcessedPhrase, ProcessedSection, ProcessedLesson
 from tunatale.core.ports.audio_processor import AudioProcessor
 from tunatale.core.ports.lesson_processor import (
-    LessonProcessorBase,
-    ProgressCallback,
+    LessonProcessor as LessonProcessorInterface,
+    ProcessedPhrase as ProcessedPhraseInterface,
+    ProcessedSection as ProcessedSectionInterface,
+    ProcessedLesson as ProcessedLessonInterface,
 )
-from tunatale.core.ports.tts_service import TTSService
-
-def get_short_path(base_dir: Path, prefix: str = '', suffix: str = '', max_length: int = 64) -> Path:
-    """
-    Generate a short, unique path within the given directory with strict length limits.
-    
-    Args:
-        base_dir: Base directory for the path
-        prefix: Optional prefix for the filename
-        suffix: Optional suffix (including extension)
-        max_length: Maximum length for the filename (not including path)
-        
-    Returns:
-        Path object with a guaranteed short filename
-    """
-    # Generate a very short unique ID (4 chars should be enough for our purposes)
-    short_id = str(uuid.uuid4().hex)[:4]
-    
-    # Create a safe prefix (alphanumeric and underscores only)
-    safe_prefix = ''.join(c if c.isalnum() else '_' for c in str(prefix))[:8]
-    
-    # Build the base filename
-    if safe_prefix:
-        base_name = f"{safe_prefix}_{short_id}"
-    else:
-        base_name = short_id
-        
-    # Add suffix if provided
-    if suffix:
-        # Clean and truncate suffix to reasonable length
-        clean_suffix = ''.join(c if c.isalnum() or c in '._- ' else '_' for c in str(suffix))
-        clean_suffix = clean_suffix[:16]  # Limit suffix length
-        base_name = f"{base_name}_{clean_suffix}"
-    
-    # Ensure the filename isn't too long
-    if len(base_name) > max_length:
-        base_name = base_name[:max_length]
-        
-    # Clean up any double underscores
-    base_name = base_name.replace('__', '_').strip('_')
-    
-    # Ensure we have at least some name
-    if not base_name:
-        base_name = f"f{short_id}"
-        
-    # Return the full path
-    return base_dir / base_name
+from tunatale.core.ports.tts_service import TTSService, TTSTransientError, TTSRateLimitError, TTSValidationError
+from tunatale.core.ports.voice_selector import VoiceSelector
+from tunatale.core.ports.word_selector import WordSelector
+from tunatale.core.exceptions import TTSValidationError, TTSServiceError
 
 logger = logging.getLogger(__name__)
 
-@dataclass
+
 class PerformanceMetrics:
     """Class to track performance metrics for the lesson processor."""
-    start_time: float = field(default_factory=time.time)
-    end_time: Optional[float] = None
-    memory_usage_bytes: int = 0
-    peak_memory_usage_bytes: int = 0
-    phase_metrics: Dict[str, Dict[str, Any]] = field(default_factory=dict)
-    
-    def record_phase_start(self, phase_name: str) -> None:
+
+    def __init__(self):
+        self.start_time: Optional[float] = None
+        self.end_time: Optional[float] = None
+        self.phrases_processed: int = 0
+        self.sections_processed: int = 0
+        self.audio_generated: int = 0
+        self.phase_timings: Dict[str, float] = {}
+        self.phase_start_times: Dict[str, float] = {}
+
+    def start_phase(self, phase_name: str) -> None:
         """Record the start of a processing phase."""
-        self.phase_metrics[phase_name] = {
-            'start_time': time.time(),
-            'memory_start': psutil.Process().memory_info().rss
-        }
-    
-    def record_phase_end(self, phase_name: str) -> None:
+        self.phase_start_times[phase_name] = time.time()
+
+    def end_phase(self, phase_name: str) -> None:
         """Record the end of a processing phase and calculate metrics."""
-        if phase_name not in self.phase_metrics:
-            return
-            
-        phase = self.phase_metrics[phase_name]
-        phase['end_time'] = time.time()
-        phase['duration'] = phase['end_time'] - phase['start_time']
-        
-        # Record memory usage
-        process = psutil.Process()
-        memory_info = process.memory_info()
-        phase['memory_end'] = memory_info.rss
-        phase['memory_usage'] = max(0, phase['memory_end'] - phase.get('memory_start', 0))
-        
-        # Update global metrics
-        self.memory_usage_bytes = memory_info.rss
-        self.peak_memory_usage_bytes = max(self.peak_memory_usage_bytes, memory_info.rss)
-    
-    def get_phase_metrics(self, phase_name: str) -> Dict[str, Any]:
+        if phase_name in self.phase_start_times:
+            duration = time.time() - self.phase_start_times[phase_name]
+            self.phase_timings[phase_name] = duration
+            logger.debug(
+                "Phase '%s' completed in %.2f seconds", phase_name, duration
+            )
+
+    def get_phase_metrics(self, phase_name: str) -> Dict[str, float]:
         """Get metrics for a specific phase."""
-        return self.phase_metrics.get(phase_name, {})
-    
+        duration = self.phase_timings.get(phase_name, 0.0)
+        return {"duration": duration}
+
     def get_summary(self) -> Dict[str, Any]:
         """Get a summary of all metrics."""
-        self.end_time = time.time()
-        total_duration = self.end_time - self.start_time
-        
-        # Calculate phase durations
-        phase_durations = {
-            phase: metrics.get('duration', 0)
-            for phase, metrics in self.phase_metrics.items()
-            if 'duration' in metrics
-        }
-        
+        total_time = (
+            self.end_time - self.start_time if self.start_time and self.end_time else 0.0
+        )
         return {
-            'total_duration': total_duration,
-            'memory_usage_mb': self.memory_usage_bytes / (1024 * 1024),
-            'peak_memory_usage_mb': self.peak_memory_usage_bytes / (1024 * 1024),
-            'phase_durations': phase_durations,
-            'phases': self.phase_metrics,
+            "total_time_seconds": total_time,
+            "phrases_processed": self.phrases_processed,
+            "sections_processed": self.sections_processed,
+            "audio_files_generated": self.audio_generated,
+            "phase_timings": self.phase_timings,
         }
 
-class LessonProcessor(LessonProcessorBase):
+
+class LessonProcessor(LessonProcessorInterface):
     """Service for processing lessons and generating audio."""
-    
+
     def __init__(
         self,
         tts_service: TTSService,
         audio_processor: AudioProcessor,
-        config: Optional[Dict[str, Any]] = None
-    ) -> None:
+        voice_selector: VoiceSelector,
+        word_selector: WordSelector,
+        max_workers: int = 4,
+        output_dir: str = "output",
+    ):
         """Initialize the lesson processor with performance monitoring.
-        
+
         Args:
-            tts_service: Text-to-speech service to use for audio generation
-            audio_processor: Audio processor for post-processing audio files
-            config: Optional configuration dictionary
+            tts_service: The TTS service to use for generating speech.
+            audio_processor: The audio processor to use for processing audio files.
+            voice_selector: The voice selector to use for selecting voices.
+            word_selector: The word selector to use for selecting words.
+            max_workers: The maximum number of worker threads to use for parallel processing.
+            output_dir: The base directory where output files will be saved.
         """
         self.tts_service = tts_service
         self.audio_processor = audio_processor
-        self.config = config or {}
-        self.performance = PerformanceMetrics()
-        
-        # Initialize tracemalloc for memory tracking
-        tracemalloc.start()
-    
+        self.voice_selector = voice_selector
+        self.word_selector = word_selector
+        self.max_workers = max_workers
+        self.output_dir = Path(output_dir)
+        self.metrics = PerformanceMetrics()
+
     async def process_lesson(
-        self,
-        lesson: Lesson,
-        output_dir: Union[str, Path],
-        progress_callback: Optional[ProgressCallback] = None,
-        **options: Any
-    ) -> Dict[str, Any]:
+        self, lesson: Lesson, output_dir: Optional[str] = None, progress: Optional[Any] = None
+    ) -> ProcessedLesson:
         """Process a lesson and generate audio files.
-        
+
         Args:
-            lesson: The lesson to process
-            output_dir: Directory to save generated audio files
-            progress_callback: Optional callback for progress updates
-            **options: Additional processing options
-            
+            lesson: The lesson to process.
+            output_dir: The directory where output files will be saved. If not provided,
+                a timestamped subdirectory under the configured output directory will be used.
+            progress: Optional progress reporter for tracking progress.
+
         Returns:
-            Dictionary with processing results and metadata
+            ProcessedLesson: The processed lesson with audio file paths.
         """
-        self.performance.record_phase_start('process_lesson')
-        output_dir = Path(output_dir)
-        output_dir.mkdir(parents=True, exist_ok=True)
+        self.metrics.start_time = time.time()
+        self.metrics.start_phase("total")
         
-        def get_short_path(base_dir: Path, prefix: str = '', suffix: str = '', max_length: int = 64) -> Path:
-            """
-            Generate a short, unique path within the given directory with strict length limits.
-            
-            Args:
-                base_dir: Base directory for the path
-                prefix: Optional prefix for the filename
-                suffix: Optional suffix (including extension)
-                max_length: Maximum length for the filename (not including path)
-                
-            Returns:
-                Path object with a guaranteed short filename
-            """
-            # Generate a very short unique ID (4 chars should be enough for our purposes)
-            short_id = str(uuid.uuid4().hex)[:4]
-            
-            # Create a safe prefix (alphanumeric and underscores only)
-            safe_prefix = ''.join(c if c.isalnum() else '_' for c in str(prefix))[:8]
-            
-            # Build the base filename
-            if safe_prefix:
-                base_name = f"{safe_prefix}_{short_id}"
+        # Initialize progress tracking
+        task_id = f"lesson_{lesson.id or 'default'}"
+        if progress:
+            await progress.update(task_id=task_id, completed=0, total=100, status="Starting lesson processing")
+
+        try:
+            # Create output directory
+            if output_dir is None:
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                output_dir = str(self.output_dir / f"lesson_{timestamp}")
             else:
-                base_name = short_id
-                
-            # Add suffix if provided
-            if suffix:
-                # Clean and truncate suffix to reasonable length
-                clean_suffix = ''.join(c if c.isalnum() or c in '._- ' else '_' for c in str(suffix))
-                clean_suffix = clean_suffix[:16]  # Limit suffix length
-                base_name = f"{base_name}_{clean_suffix}"
+                output_dir = str(Path(output_dir).resolve())
+
+            output_path = Path(output_dir)
+            output_path.mkdir(parents=True, exist_ok=True)
+
+            # Calculate total steps for progress tracking
+            total_steps = 4  # Processing sections, generating section audio, generating lesson audio, saving metadata
+            current_step = 0
             
-            # Ensure the filename isn't too long
-            if len(base_name) > max_length:
-                base_name = base_name[:max_length]
-                
-            # Clean up any double underscores
-            base_name = base_name.replace('__', '_').strip('_')
+            if progress:
+                await progress.update(task_id=task_id, completed=current_step, total=total_steps, status="Processing sections...")
+
+            # Process sections in parallel with progress reporting
+            processed_sections = await self._process_sections(lesson.sections, output_path, progress=progress)
+            current_step += 1
             
-            # Ensure we have at least some name
-            if not base_name:
-                base_name = f"f{short_id}"
-                
-            # Return the full path
-            return base_dir / base_name
-        
-        # Initialize result dictionary
-        result = {
-            'lesson_id': str(lesson.id),
-            'output_dir': str(output_dir.absolute()),
-            'sections': [],
-            'start_time': time.time(),
-            'end_time': None,
-            'success': True,
-            'error': None,
-            'performance': {},
-            'processing_info': {}
-        }
-        
-        try:
-            # Process each section in the lesson
-            for section in lesson.sections:
-                section_result = await self.process_section(
-                    section=section,
-                    lesson=lesson,
-                    output_dir=output_dir,
-                    progress_callback=progress_callback,
-                    **options
-                )
-                result['sections'].append(section_result)
-                
-                # Check for errors in section processing
-                if not section_result.get('success', False):
-                    result['success'] = False
-                    result['error'] = section_result.get('error', 'Unknown error in section processing')
-                    break
+            if progress:
+                await progress.update(task_id=task_id, completed=current_step, total=total_steps, status="Generating section audio...")
+
+            # Generate section audio files
+            section_audio_files = await self._generate_section_audio(processed_sections, output_path)
+            current_step += 1
             
-            # Initialize final_audio_file as None by default
-            result['final_audio_file'] = None
+            if progress:
+                await progress.update(task_id=task_id, completed=current_step, total=total_steps, status="Generating lesson audio...")
+
+            # Generate lesson audio file with progress reporting
+            lesson_audio_file = await self._generate_lesson_audio(
+                section_audio_files, 
+                output_path,
+                progress=progress  # Pass progress reporter to lesson audio generation
+            )
+            current_step += 1
             
-            # Combine section audio files if there are multiple sections
-            section_audio_files = [s.get('audio_file') for s in result['sections'] if s.get('audio_file')]
+            if progress:
+                await progress.update(task_id=task_id, completed=current_step, total=total_steps, status="Saving metadata...")
+
+            # Prepare and save metadata
+            metadata = self._prepare_metadata(lesson, processed_sections, lesson_audio_file, output_path)
+            metadata_file = output_path / "metadata.json"
+            self._save_metadata(metadata, metadata_file)
+            current_step += 1
+
+            # Log metrics
+            self.metrics.end_phase("total")
+            self._log_metrics()
             
-            if section_audio_files:
-                try:
-                    # Get output format from config or default to 'mp3'
-                    output_format = self.config.get('output_format', 'mp3')
-                    
-                    # Get the top-level output directory (parent of the sections directory)
-                    top_level_dir = output_dir.parent if output_dir.name == 'sections' else output_dir
-                    
-                    # Ensure the output directory exists
-                    top_level_dir.mkdir(parents=True, exist_ok=True)
-                    
-                    # Save combined audio in the top-level output directory
-                    combined_audio = top_level_dir / f'lesson_combined.{output_format}'
-                    
-                    try:
-                        await self.audio_processor.concatenate_audio(
-                            input_files=section_audio_files,
-                            output_file=combined_audio
-                        )
-                        
-                        # Apply final normalization to the combined audio
-                        final_audio = top_level_dir / f'lesson_combined_normalized.{output_format}'
-                        logger.info(f"Applying final normalization to combined audio: {combined_audio} -> {final_audio}")
-                        
-                        try:
-                            await self.audio_processor.normalize_audio(
-                                input_file=combined_audio,
-                                output_file=final_audio,
-                                target_level=-16.0  # Standard LUFS level for speech
-                            )
-                            
-                            # Verify the normalized file was created
-                            if final_audio.exists() and final_audio.stat().st_size > 0:
-                                result['final_audio_file'] = str(final_audio)
-                                logger.info(f"Final combined audio file saved to: {final_audio}")
-                                
-                                # Rename the audio files to standard names and update the final_audio_file path if it was renamed
-                                try:
-                                    renamed_files = await self._rename_audio_files(
-                                        output_dir=top_level_dir,
-                                        section_audio_files=[Path(f) for f in section_audio_files if f],
-                                        sections=result.get('sections', [])
-                                    )
-                                    result['renamed_files'] = renamed_files
-                                    
-                                    # Update the final_audio_file path if it was renamed
-                                    if '_new_combined_path' in renamed_files and renamed_files['_new_combined_path']:
-                                        result['final_audio_file'] = str(renamed_files['_new_combined_path'])
-                                        logger.info(f"Updated final_audio_file to {result['final_audio_file']} after renaming")
-                                except Exception as e:
-                                    logger.warning(f"Failed to rename audio files: {e}")
-                                
-                                # Clean up the non-normalized combined file
-                                try:
-                                    combined_audio.unlink()
-                                except Exception as e:
-                                    logger.warning(f"Failed to clean up non-normalized combined audio: {e}")
-                            else:
-                                logger.warning("Normalized audio file was not created or is empty")
-                                # Fall back to the non-normalized version if it exists
-                                if combined_audio.exists() and combined_audio.stat().st_size > 0:
-                                    result['final_audio_file'] = str(combined_audio)
-                                    logger.info(f"Using non-normalized combined audio: {combined_audio}")
-                                    
-                        except Exception as e:
-                            logger.error(f"Error normalizing combined audio: {e}")
-                            # Fall back to the non-normalized version if it exists
-                            if combined_audio.exists() and combined_audio.stat().st_size > 0:
-                                result['final_audio_file'] = str(combined_audio)
-                                logger.info(f"Using non-normalized combined audio after normalization error: {combined_audio}")
-                    
-                    except Exception as e:
-                        logger.error(f"Error concatenating section audio files: {e}")
-                        result['error'] = f"Failed to concatenate section audio files: {e}"
-                
-                except Exception as e:
-                    logger.error(f"Error processing combined audio: {e}")
-                    result['error'] = f"Error processing combined audio: {e}"
-                    
-                except Exception as e:
-                    logger.error(f"Error normalizing combined audio: {e}")
-                    # Fall back to the non-normalized version
-                    final_audio = combined_audio
-                    result['final_audio_file'] = str(final_audio)
-                    result['warning'] = f"Failed to normalize combined audio: {str(e)}"
-            
-            # Generate lesson metadata
-            result['end_time'] = time.time()
-            result['duration'] = result['end_time'] - result['start_time']
-            
-            # Record performance metrics
-            self.performance.record_phase_end('process_lesson')
-            result['performance'] = self.performance.get_summary()
-            
-            # Save metadata to a JSON file
-            metadata_path = output_dir / 'metadata.json'
-            # Include the lesson object in the metadata for saving
-            result_with_lesson = result.copy()
-            result_with_lesson['lesson'] = lesson
-            self._save_metadata(result_with_lesson, metadata_path)
-            
-            return result
-            
-        except Exception as e:
-            logger.exception("Error processing lesson")
-            result['success'] = False
-            result['error'] = str(e)
-            result['end_time'] = time.time()
-            result['duration'] = result['end_time'] - result['start_time']
-            
-            # Record performance metrics even in case of error
-            self.performance.record_phase_end('process_lesson')
-            result['performance'] = self.performance.get_summary()
-            
-            return result
-        
-    async def _process_phrase(
-        self,
-        phrase: Phrase,
-        output_dir: Path,
-        skip_normalization: bool = True,
-        **options: Any
-    ) -> Dict[str, Any]:
-        """Process a single phrase (internal implementation).
-        
-        Args:
-            phrase: The phrase to process
-            output_dir: Base directory for output (will create phrases subdirectory)
-            skip_normalization: Whether to skip normalization (default: True)
-            **options: Additional processing options
-                
-        Returns:
-            Dictionary with processing results
-        """
-        # Initialize result dictionary
-        result = {
-            'phrase_id': str(phrase.id) if hasattr(phrase, 'id') else 'NO_ID',
-            'text': phrase.text,
-            'start_time': time.time(),
-            'end_time': None,
-            'duration': None,
-            'success': True,
-            'error': None,
-            'audio_file': None,
-            'processing_info': {}
-        }
-        
-        # Get output format from options or use default
-        output_format = options.get('output_format', 'mp3')
-        
-        # Generate a unique ID for this phrase if it doesn't have one
-        phrase_id = getattr(phrase, 'id', str(uuid.uuid4()))
-        
-        try:
-            # Create output directory if it doesn't exist
-            output_dir.mkdir(parents=True, exist_ok=True)
-            
-            # Generate output filename
-            audio_file = output_dir / f"phrase_{phrase_id}.{output_format}"
-            
-            # Process the phrase text
-            processed_text = self._preprocess_text(phrase.text)
-            
-            # Update the result with the processed text
-            result['text'] = processed_text
-            
-            # Create output directory if it doesn't exist
-            audio_file.parent.mkdir(parents=True, exist_ok=True)
-            
-            # Get voice_id from phrase or use default
-            voice_id = await self._get_voice_for_phrase(phrase)
-            
-            # Synthesize speech using EdgeTTS service
-            # EdgeTTS service saves the file directly to the specified output path
-            tts_result = await self.tts_service.synthesize_speech(
-                text=processed_text,
-                voice_id=voice_id,
-                output_path=audio_file,
-                output_format=output_format
+            if progress:
+                await progress.update(task_id=task_id, completed=total_steps, total=total_steps, status="Completed!")
+                await progress.complete(task_id=task_id)
+            self.metrics.end_phase("total")
+            self.metrics.end_time = time.time()
+
+            # Log performance metrics
+            self._log_metrics()
+
+            # Create the ProcessedLesson object
+            processed_lesson = ProcessedLesson(
+                id=lesson.id,
+                title=lesson.title,
+                language=lesson.target_language,
+                level=str(lesson.difficulty),  # Convert to string to match the expected type
+                sections=processed_sections,
+                audio_file=lesson_audio_file,
+                metadata_file=metadata_file,
+                output_dir=output_path,
             )
             
-            # Verify the audio file was created
-            if not audio_file.exists() or audio_file.stat().st_size == 0:
-                raise AudioProcessingError(f"Failed to generate audio file: {audio_file}")
-                
-            # Update result with audio file and voice_id
-            result['audio_file'] = str(audio_file)
-            result['voice_id'] = voice_id
-            
-            try:
-                # Process the audio (normalize, trim silence, etc.)
-                await self.audio_processor.normalize_audio(
-                    input_file=audio_file,
-                    output_file=audio_file,
-                    output_format=output_format,
-                    phrase_id=phrase_id
-                )
-                
-                # Verify the processed file exists and is not empty
-                if not audio_file.exists() or audio_file.stat().st_size == 0:
-                    raise AudioProcessingError("Processed audio file is empty")
-                
-                # Update the result with the audio file path
-                result['audio_file'] = str(audio_file.absolute())
-                
-                # Update timing and performance metrics
-                result['end_time'] = time.time()
-                result['duration'] = result['end_time'] - result['start_time']
-                
-                return result
-                
-            except AudioProcessingError as e:
-                # For AudioProcessingError, we want to preserve the error message
-                error_msg = f"Audio processing error: {str(e)}"
-                logger.error(error_msg, exc_info=True)
-                result.update({
-                    'success': False,
-                    'error': error_msg,
-                    'end_time': time.time(),
-                    'duration': time.time() - result.get('start_time', 0)
-                })
-                return result
-                
-            except Exception as e:
-                # For other errors, we want to include the error type in the message
-                error_msg = f"Error processing phrase: {str(e)}"
-                logger.error(error_msg, exc_info=True)
-                result.update({
-                    'success': False,
-                    'error': error_msg,
-                    'end_time': time.time(),
-                    'duration': time.time() - result.get('start_time', 0)
-                })
-                return result
-                
-        except Exception as e:
-            logger.error(f"Error in _process_phrase: {str(e)}", exc_info=True)
-            result.update({
-                'success': False,
-                'error': str(e),
-                'end_time': time.time(),
-                'duration': time.time() - result.get('start_time', 0)
-            })
-            return result
-    
-    def _preprocess_text(self, text: str) -> str:
-        """Preprocess text before TTS processing.
-        
-        Args:
-            text: The text to preprocess
-            
-        Returns:
-            Preprocessed text
-        """
-        if not text:
-            return text
-            
-        # Basic text normalization
-        text = text.strip()
-        
-        # Remove any extra whitespace
-        text = ' '.join(text.split())
-        
-        return text
-        
-    async def _get_valid_voice_id(self, language: Union[str, 'Language']) -> str:
-        """Get a valid voice ID for the given language.
-        
-        Args:
-            language: The language code (e.g., 'en-US', 'fil-PH') or Language enum
-            
-        Returns:
-            A valid voice ID for the language
-            
-        Raises:
-            TTSValidationError: If no valid voice is found for the language
-        """
-        # Handle Language enum input
-        from tunatale.core.models.enums import Language
-        if isinstance(language, Language):
-            # Map Language enum to language codes
-            language_code_map = {
-                Language.ENGLISH: 'en-US',
-                Language.TAGALOG: 'fil-PH',
-                Language.SPANISH: 'es-ES',
+            # Convert to dictionary for CLI compatibility
+            result = {
+                'id': str(processed_lesson.id) if processed_lesson.id else None,
+                'title': processed_lesson.title,
+                'language': processed_lesson.language,
+                'level': processed_lesson.level,
+                'sections': [],
+                'audio_file': str(processed_lesson.audio_file) if processed_lesson.audio_file else None,
+                'metadata_file': str(processed_lesson.metadata_file) if processed_lesson.metadata_file else None,
+                'output_dir': str(processed_lesson.output_dir) if processed_lesson.output_dir else None,
+                'success': True
             }
-            language = language_code_map.get(language, 'en-US')
-        
-        # Define our allowed voices
-        ALLOWED_VOICES = {
-            # English voices
-            'en-US': 'en-US-AriaNeural',  # Primary English voice
-            'en': 'en-US-AriaNeural',     # Fallback for generic English
-            'english': 'en-US-AriaNeural', # Fallback for 'english' string
             
-            # Tagalog voices
-            'fil-PH': 'fil-PH-BlessicaNeural',  # Primary Tagalog voice
-            'fil': 'fil-PH-BlessicaNeural',     # Fallback for generic Tagalog
-            'tl': 'fil-PH-BlessicaNeural',      # Alternative Tagalog code
-            'tagalog': 'fil-PH-BlessicaNeural', # Fallback for 'tagalog' string
-            
-            # Spanish voices
-            'es-ES': 'es-ES-ElviraNeural',     # Primary Spanish voice
-            'es': 'es-ES-ElviraNeural',        # Fallback for generic Spanish
-            'spanish': 'es-ES-ElviraNeural',   # Fallback for 'spanish' string
-        }
-        
-        # First try exact match
-        if language in ALLOWED_VOICES:
-            return ALLOWED_VOICES[language]
-            
-        # Try case-insensitive match
-        language_lower = language.lower()
-        for lang_code, voice_id in ALLOWED_VOICES.items():
-            if lang_code.lower() == language_lower:
-                return voice_id
+            # Process sections
+            for section in processed_lesson.sections:
+                section_dict = {
+                    'id': str(section.id) if section.id else None,
+                    'title': section.title,
+                    'phrases': [],
+                    'audio_file': str(section.audio_file) if section.audio_file else None
+                }
                 
-        # Try matching language prefix (e.g., 'en-' matches 'en-US')
-        for lang_code, voice_id in ALLOWED_VOICES.items():
-            if language.lower().startswith(lang_code.lower() + '-'):
-                return voice_id
+                # Process phrases in the section
+                for phrase in section.phrases:
+                    phrase_dict = {
+                        'id': str(phrase.id) if phrase.id else None,
+                        'text': phrase.text,
+                        'translation': phrase.translation,
+                        'language': phrase.language,
+                        'audio_file': str(phrase.audio_file) if phrase.audio_file else None
+                    }
+                    
+                    # Add metadata if it exists
+                    if hasattr(phrase, 'metadata') and phrase.metadata:
+                        phrase_dict['metadata'] = phrase.metadata
+                    
+                    section_dict['phrases'].append(phrase_dict)
                 
-        # Fall back to English if no match found
-        logger.warning(f"No specific voice found for language '{language}', falling back to English (en-US-AriaNeural)")
-        return 'en-US-AriaNeural'
-
-    async def process_phrase(
-        self,
-        phrase: Phrase,
-        output_dir: Path,
-        **options: Any
-    ) -> Dict[str, Any]:
-        """Process a single phrase and generate audio.
-        
-        Args:
-            phrase: The phrase to process
-            output_dir: Directory to save output files
-            **options: Additional processing options
+                result['sections'].append(section_dict)
             
-        Returns:
-            Dictionary with processing results
-        """
-        result = {
-            'success': False,
-            'error': None,
-            'start_time': time.time(),
-            'end_time': None,
-            'duration': None,
-            'phrase_id': str(phrase.id) if hasattr(phrase, 'id') else None,
-            'voice_id': None,
-            'language': None
-        }
-
-        try:
-            # Get voice ID based on phrase language
-            voice_id = None
-            if phrase.language:
-                try:
-                    # Get a valid voice ID for the language
-                    voice_id = await self._get_valid_voice_id(phrase.language.value)
-                    
-                    # Validate the voice ID with the TTS service
-                    await self.tts_service.validate_voice(voice_id)
-                    
-                    result['voice_id'] = voice_id
-                    result['language'] = phrase.language.value.lower()
-                    logger.info(f"Selected voice {voice_id} for language {phrase.language}")
-                    
-                except TTSValidationError as e:
-                    # If validation fails, log the error and try to recover with a default voice
-                    error_msg = f"Invalid voice '{voice_id}' for language {phrase.language}: {str(e)}"
-                    logger.error(error_msg)
-                    
-                    # Try to get a fallback voice
-                    try:
-                        voice_id = 'en-US-AriaNeural'  # Fallback to default English voice
-                        await self.tts_service.validate_voice(voice_id)
-                        logger.warning(f"Falling back to default voice: {voice_id}")
-                        result['voice_id'] = voice_id
-                        result['language'] = 'en-US'  # Force English as fallback
-                    except TTSValidationError as fallback_error:
-                        # If fallback fails, return the original error
-                        error_msg = f"Failed to get valid voice for language {phrase.language}: {str(e)}. Fallback also failed: {str(fallback_error)}"
-                        logger.error(error_msg)
-                        result.update({
-                            'success': False,
-                            'error': {
-                                'error_code': 'TTS_VALIDATION_ERROR',
-                                'error_message': error_msg
-                            },
-                            'end_time': time.time(),
-                            'duration': time.time() - result['start_time']
-                        })
-                        return result
-
-            # Create output directory for phrase audio
-            phrase_dir = output_dir / 'phrases'
-            phrase_dir.mkdir(parents=True, exist_ok=True)
-
-            # Generate a unique filename based on phrase ID and language
-            phrase_id = getattr(phrase, 'id', 'unknown_phrase')
-            output_file = phrase_dir / f"{phrase_id}_{phrase.language.value.lower()}.mp3"
-
-            # Process the phrase text
-            processed_text = self._preprocess_text(phrase.text)
-            if not processed_text:
-                raise ValueError("Processed text is empty")
-
-            # Generate audio using TTS service
-            await self.tts_service.synthesize_speech(
-                text=processed_text,
-                voice_id=voice_id,
-                output_path=output_file,
-                rate=options.get('rate', 1.0),
-                pitch=options.get('pitch', 0.0),
-                volume=options.get('volume', 1.0)
-            )
-
-            # Validate the generated audio file
-            if not output_file.exists():
-                error_msg = f"Audio file not generated: {output_file}"
-                result.update({
-                    'success': False,
-                    'error': {
-                        'error_code': 'AUDIO_PROCESSING_ERROR',
-                        'error_message': f"Audio processing error: {error_msg}"
-                    },
-                    'end_time': time.time(),
-                    'duration': time.time() - result['start_time'],
-                    'audio_file': None
-                })
-                return result
-            
-            if not output_file.stat().st_size > 0:
-                error_msg = f"Generated audio file is empty: {output_file}"
-                result.update({
-                    'success': False,
-                    'error': {
-                        'error_code': 'AUDIO_PROCESSING_ERROR',
-                        'error_message': f"Audio processing error: {error_msg}"
-                    },
-                    'end_time': time.time(),
-                    'duration': time.time() - result['start_time'],
-                    'audio_file': None
-                })
-                return result
-
-            # Apply audio normalization if needed
-            if not options.get('skip_normalization', False):
-                try:
-                    normalized_file = output_file.with_stem(f"{output_file.stem}_normalized")
-                    await self.audio_processor.normalize_audio(
-                        input_file=output_file,
-                        output_file=normalized_file,
-                        **options.get('normalization_options', {})
-                    )
-                    # If normalization succeeded, use the normalized file
-                    if normalized_file.exists() and normalized_file.stat().st_size > 0:
-                        output_file = normalized_file
-                except AudioProcessingError as e:
-                    error_msg = f"Audio normalization failed: {str(e)}"
-                    logger.error(error_msg, exc_info=True)
-                    result.update({
-                        'success': False,
-                        'error': {
-                            'error_code': 'AUDIO_PROCESSING_ERROR',
-                            'error_message': error_msg
-                        },
-                        'end_time': time.time(),
-                        'duration': time.time() - result['start_time'],
-                        'audio_file': None
-                    })
-                    return result
-
-            # Update result with success data
-            result.update({
-                'success': True,
-                'error': None,
-                'end_time': time.time(),
-                'duration': time.time() - result['start_time'],
-                'audio_file': str(output_file),
-                'voice_id': voice_id,
-                'language': phrase.language.value.lower(),
-                'text': phrase.text  # Include the original phrase text in the result
-            })
+            return result
 
         except Exception as e:
-            error_msg = f"Error processing phrase {phrase.id}: {str(e)}"
-            logger.error(error_msg, exc_info=True)
-            
-            # Determine error code based on exception type
-            error_code = 'UNKNOWN_ERROR'
-            if isinstance(e, TTSValidationError):
-                error_code = 'TTS_VALIDATION_ERROR'
-            elif isinstance(e, AudioProcessingError):
-                error_code = 'AUDIO_PROCESSING_ERROR'
-            elif isinstance(e, ValueError):
-                error_code = 'VALIDATION_ERROR'
-                
-            result.update({
-                'success': False,
-                'error': {
-                    'error_code': error_code,
-                    'error_message': error_msg
-                },
-                'end_time': time.time(),
-                'duration': time.time() - result['start_time'],
-                'audio_file': None
-            })
+            logger.error("Error processing lesson: %s", str(e))
+            raise
 
-        return result
+    async def _process_sections(
+        self, sections: List[Section], output_path: Path, progress: Optional[Any] = None
+    ) -> List[ProcessedSection]:
+        """Process all sections in parallel.
+
+        Args:
+            sections: List of sections to process.
+            output_path: Path to the output directory.
+            progress: Optional progress reporter for tracking progress.
+
+        Returns:
+            List of processed sections.
+        """
+        section_tasks = []
+        for section in sections:
+            section_output_path = output_path / f"section_{section.id}"
+            section_output_path.mkdir(exist_ok=True)
+            task = self._process_section(section, section_output_path, progress=progress)
+            section_tasks.append(task)
+
+        return await asyncio.gather(*section_tasks)
+
+    async def _process_section(
+        self, section: Section, output_path: Path, progress: Optional[Any] = None
+    ) -> ProcessedSection:
+        """Process a single section.
+
+        Args:
+            section: The section to process.
+            output_path: Path to the output directory for this section.
+            progress: Optional progress reporter for tracking progress.
+
+        Returns:
+            Processed section with audio file paths.
+        """
+        self.metrics.sections_processed += 1
+        logger.info("Processing section: %s", section.title)
+
+        # Update progress if available
+        if progress:
+            await progress.update(
+                task_id=f"section_{section.id}",
+                completed=0,
+                total=len(section.phrases) + 1,  # +1 for the concatenation step
+                status=f"Processing section: {section.title}"
+            )
+
+        # Process phrases in parallel
+        phrase_tasks = []
+        for i, phrase in enumerate(section.phrases):
+            # Update progress for each phrase
+            if progress:
+                await progress.update(
+                    task_id=f"section_{section.id}",
+                    completed=i + 1,
+                    total=len(section.phrases) + 1,  # +1 for the concatenation step
+                    status=f"Processing phrase {i+1}/{len(section.phrases)}"
+                )
+            
+            task = self._process_phrase(phrase, output_path)
+            phrase_tasks.append(task)
+
+        processed_phrases = await asyncio.gather(*phrase_tasks)
+
+        # Generate section audio with MP3 extension using sanitized title
+        section_filename = self._sanitize_filename(section.title)
+        temp_section_audio_file = output_path / f"{section_filename}.mp3"
+        
+        # Update progress before concatenation
+        if progress:
+            await progress.update(
+                task_id=f"section_{section.id}",
+                completed=len(processed_phrases),
+                total=len(section.phrases) + 1,  # +1 for the concatenation step
+                status=f"Concatenating {len(processed_phrases)} phrases..."
+            )
+        
+        # Get list of valid audio files
+        audio_files = [p.audio_file for p in processed_phrases if p.audio_file and p.audio_file.exists()]
+        
+        if not audio_files:
+            logger.warning(f"No valid audio files found for section {section.id}")
+        else:
+            await self._concatenate_audio_files(
+                audio_files,
+                temp_section_audio_file,
+                progress=progress  # Pass progress reporter to concatenation
+            )
+        
+        # Move the section audio file to the top-level directory (parent of output_path)
+        top_level_dir = output_path.parent
+        final_section_audio_file = top_level_dir / f"{section_filename}.mp3"
+        
+        if temp_section_audio_file.exists():
+            # Move the file to the top-level directory
+            shutil.move(str(temp_section_audio_file), str(final_section_audio_file))
+            logger.debug(f"Moved section audio file from {temp_section_audio_file} to {final_section_audio_file}")
+            section_audio_file = final_section_audio_file
+        else:
+            section_audio_file = temp_section_audio_file
+        
+        # Update progress after concatenation
+        if progress:
+            await progress.update(
+                task_id=f"section_{section.id}",
+                completed=len(processed_phrases) + 1,
+                total=len(section.phrases) + 1,  # +1 for the concatenation step
+                status="Section processing complete"
+            )
+
+        return ProcessedSection(
+            id=section.id,
+            title=section.title,
+            phrases=processed_phrases,
+            audio_file=section_audio_file,
+        )
 
     async def process_section(
         self,
@@ -784,292 +378,602 @@ class LessonProcessor(LessonProcessorBase):
         **options: Any
     ) -> Dict[str, Any]:
         """Process a section and generate audio.
-        
+
         Args:
-            section: The section to process
-            output_dir: Directory to save output files
-            **options: Additional processing options
-                - progress_callback: Optional callback for progress updates
+            section: The section to process.
+            output_dir: Directory to save output files.
+            **options: Additional processing options.
+
+        Returns:
+            Dictionary with processing results.
         """
-        result = {
-            'success': False,
-            'error': None,
-            'start_time': time.time(),
-            'end_time': None,
-            'duration': None,
-            'section_id': str(section.id) if hasattr(section, 'id') else 'unknown',
-            'title': section.title,
-            'type': section.section_type.value if section.section_type else None,  # For backward compatibility
-            'section_type': section.section_type.value if section.section_type else None,  # New standard key
-            'audio_file': None,
-            'phrases': []
-        }
-
         try:
-            # Create section directory
-            section_dir = output_dir / 'sections'
-            section_dir.mkdir(parents=True, exist_ok=True)
-
-            # Process each phrase in the section
-            total_phrases = len(section.phrases)
-            results = []
-            success_count = 0
-            has_errors = False
+            # Ensure output directory exists
+            output_dir.mkdir(parents=True, exist_ok=True)
             
-            for phrase in section.phrases:
-                try:
-                    # Process the phrase
-                    phrase_result = await self.process_phrase(phrase, output_dir, **options)
-                    
-                    # Add the result to our collection
-                    results.append(phrase_result)
-                    
-                    # Track success/failure
-                    if phrase_result.get('success'):
-                        success_count += 1
-                    else:
-                        has_errors = True
-                    
-                    # Update progress callback if provided
-                    if options.get('progress_callback'):
-                        current = len(results)
-                        status = f"Processed phrase {getattr(phrase, 'id', 'unknown')}"
-                        try:
-                            # Call with (current, total, status) signature
-                            if asyncio.iscoroutinefunction(options['progress_callback']):
-                                await options['progress_callback'](current, total_phrases, status)
-                            else:
-                                options['progress_callback'](current, total_phrases, status)
-                        except Exception as e:
-                            logger.warning(f"Error in progress callback: {e}")
+            # Create a section-specific subdirectory for processing
+            section_output_path = output_dir / f"section_{section.id}"
+            section_output_path.mkdir(exist_ok=True)
+            
+            # Process the section using the internal implementation
+            processed_section = await self._process_section(section, section_output_path, None)
+            
+            # Move the final section audio file to the requested output directory
+            if processed_section.audio_file and processed_section.audio_file.exists():
+                section_filename = self._sanitize_filename(section.title)
+                final_audio_path = output_dir / f"{section_filename}.mp3"
                 
-                except Exception as e:
-                    has_errors = True
-                    error_msg = f"Error processing phrase {getattr(phrase, 'id', 'unknown')}: {str(e)}"
-                    logger.error(error_msg, exc_info=True)
-                    
-                    # Create a detailed error result for this phrase
-                    error_result = {
-                        'success': False,
-                        'error': {
-                            'error_code': 'PHRASE_PROCESSING_ERROR',
-                            'error_message': error_msg
-                        },
-                        'phrase_id': str(phrase.id) if hasattr(phrase, 'id') else 'unknown',
-                        'text': getattr(phrase, 'text', ''),
-                        'start_time': time.time(),
-                        'end_time': time.time(),
-                        'duration': 0,
-                        'audio_file': None
-                    }
-                    results.append(error_result)
+                if processed_section.audio_file != final_audio_path:
+                    shutil.move(str(processed_section.audio_file), str(final_audio_path))
+                    logger.debug(f"Moved section audio file from {processed_section.audio_file} to {final_audio_path}")
+                    processed_section.audio_file = final_audio_path
             
-            # Update result with phrase results
-            result['phrases'] = results
-            result['successful_phrases'] = success_count
-            result['num_phrases'] = total_phrases
-            
-            # If any phrase failed, set section-level error but still return all results
-            if has_errors:
-                error_msg = "One or more phrases failed to process"
-                logger.warning(error_msg)
-                result.update({
-                    'success': False,
-                    'error': {
-                        'error_code': 'SECTION_PROCESSING_ERROR',
-                        'error_message': error_msg
-                    },
-                    'audio_file': None
-                })
-                return result
-            
-            # Update result with phrase results and overall success status
-            result['phrases'] = results
-            result['successful_phrases'] = success_count
-            
-            # If no phrases succeeded, set section error
-            if success_count == 0:
-                error_msg = "No valid phrase audio files to concatenate"
-                logger.warning(error_msg)
-                result.update({
-                    'success': False,
-                    'error': {
-                        'error_code': 'NO_VALID_AUDIO_FILES',
-                        'error_message': error_msg
-                    },
-                    'audio_file': None
-                })
-                return result
-            
-            # Generate section audio by concatenating phrase audio files
-            audio_files = [r['audio_file'] for r in results if r.get('success') and 'audio_file' in r and r['audio_file'] is not None]
-            logger.debug(f"Audio files to concatenate: {audio_files}")
-            
-            # Always set audio_file in result, even if it's None
-            result['audio_file'] = None
-            logger.debug(f"Initial audio_file set to: {result['audio_file']}")
-            
-            # Update result with phrase results
-            result['phrases'] = results
-            result['successful_phrases'] = sum(1 for r in results if r.get('success'))
-            result['num_phrases'] = total_phrases
-            logger.debug(f"Phrase results: {results}")
-            
-            if audio_files:
-                # Create a section audio file name based on section title
-                section_title = section.title.lower().replace(' ', '_') if section.title else f'section_{len(results)}'
-                output_file = section_dir / f"{section_title}.mp3"
-                
-                # Always include phrases in the result, even if concatenation fails
-                result.update({
-                    'phrases': results,
-                    'successful_phrases': sum(1 for r in results if r.get('success')),
-                    'num_phrases': total_phrases,
-                    'phrase_results': results  # Keep for backward compatibility
-                })
-                
-                try:
-                    output_file = await self.audio_processor.concatenate_audio(
-                        audio_files,
-                        output_file,
-                        format='mp3'
-                    )
-                    
-                    # Update result with success data
-                    result.update({
-                        'audio_file': str(output_file),
+            # Convert to the expected dictionary format
+            result = {
+                'id': str(processed_section.id) if processed_section.id else None,
+                'title': processed_section.title,
+                'phrases': [
+                    {
+                        'id': str(p.id) if p.id else None,
+                        'text': p.text,
+                        'language': p.language,
+                        'audio_file': str(p.audio_file) if p.audio_file else None,
+                        'metadata': getattr(p, 'metadata', {}) or {},
                         'success': True
-                    })
-                    
-                except Exception as e:
-                    error_msg = f"Failed to generate section audio: {str(e)}"
-                    logger.error(error_msg)
-                    result.update({
-                        'success': False,
-                        'error': error_msg,
-                        'audio_file': None  # Explicitly set to None on error
-                    })
-            else:
-                error_msg = 'No valid phrase audio files to concatenate'
-                logger.warning(error_msg)
-                result.update({
-                    'success': False,
-                    'error': error_msg,
-                    'audio_file': None,  # Explicitly set to None when no audio files
-                    'phrase_results': results  # Keep for backward compatibility
-                })
+                    } for p in processed_section.phrases
+                ],
+                'audio_file': str(processed_section.audio_file) if processed_section.audio_file else None,
+                'success': True
+            }
             
             return result
             
         except Exception as e:
-            error_msg = f"Unexpected error processing section {section.id}: {str(e)}"
-            logger.exception(error_msg)
-            result.update({
+            logger.error(f"Error processing section '{section.title}': {e}")
+            return {
+                'id': str(section.id) if section.id else None,
+                'title': section.title,
+                'phrases': [],
+                'audio_file': None,
+                'metadata': {},
                 'success': False,
-                'error': error_msg,
-                'phrases': results if 'results' in locals() else [],
-                'audio_file': None  # Ensure audio_file is always set
-            })
-            return result
-            
-        finally:
-            # Update timing information
-            result['end_time'] = time.time()
-            result['duration'] = result['end_time'] - result['start_time']
-    
-    async def _rename_audio_files(
+                'error': {
+                    'error_code': 'PROCESSING_ERROR',
+                    'error_message': str(e)
+                }
+            }
+
+    async def process_phrase(
         self,
+        phrase: Phrase,
         output_dir: Path,
-        section_audio_files: List[Path],
-        sections: List[Dict[str, Any]]
-    ) -> Dict[str, str]:
-        """Rename audio files to standard names based on section names.
+        **options: Any
+    ) -> Dict[str, Any]:
+        """Process a single phrase and generate audio.
+
+        Args:
+            phrase: The phrase to process.
+            output_dir: Directory to save output files.
+            **options: Additional processing options.
+
+        Returns:
+            Dictionary with processing results or error information.
+        """
+        try:
+            # Ensure output directory exists
+            output_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Process the phrase using the internal implementation
+            processed_phrase = await self._process_phrase(phrase, output_dir)
+            
+            # Convert to the expected dictionary format
+            result = {
+                'id': str(processed_phrase.id) if processed_phrase.id else None,
+                'text': processed_phrase.text,
+                'language': processed_phrase.language,
+                'audio_file': str(processed_phrase.audio_file) if processed_phrase.audio_file else None,
+                'metadata': processed_phrase.metadata or {},
+                'success': True
+            }
+            
+            # Add translation if it exists
+            if hasattr(processed_phrase, 'translation') and processed_phrase.translation is not None:
+                result['translation'] = processed_phrase.translation
+                
+            return result
+
+        except TTSServiceError as e:
+            logger.error(f"TTS service error processing phrase: {e}")
+            return {
+                'success': False,
+                'error': {
+                    'error_code': e.error_code or 'TTS_SERVICE_ERROR',
+                    'error_message': str(e)
+                }
+            }
+            
+        except TTSValidationError as e:
+            logger.error(f"TTS validation error processing phrase: {e}")
+            return {
+                'success': False,
+                'error': {
+                    'error_code': 'TTS_VALIDATION_ERROR',
+                    'error_message': str(e)
+                }
+            }
+            
+        except Exception as e:
+            logger.error(f"Unexpected error processing phrase: {e}", exc_info=True)
+            return {
+                'success': False,
+                'error': {
+                    'error_code': 'UNKNOWN_ERROR',
+                    'error_message': str(e)
+                }
+            }
+
+    async def _process_phrase(
+        self, phrase: Phrase, output_path: Path
+    ) -> ProcessedPhrase:
+        """Process a single phrase (internal implementation).
+
+        Args:
+            phrase: The phrase to process.
+            output_path: Path to the output directory for this phrase.
+
+        Returns:
+            Processed phrase with audio file path.
+        """
+        self.metrics.phrases_processed += 1
+        logger.debug("Processing phrase: %s", phrase.text)
+
+        try:
+            # Preprocess text
+            preprocessed_text = self._preprocess_text(phrase.text, phrase.language)
+
+            # Use the voice ID from the phrase if available, otherwise get it from voice selector
+            if hasattr(phrase, 'voice_id') and phrase.voice_id:
+                voice_id = phrase.voice_id
+            else:
+                # Get voice ID - extract gender from metadata or use None
+                voice_id = await self.voice_selector.get_voice_id(
+                    language=phrase.language,
+                    gender=phrase.metadata.get("gender") if phrase.metadata else None,
+                    speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
+                )
+
+            # Generate audio file with appropriate extension
+            audio_file = output_path / f"phrase_{phrase.id}"
+            
+            # First validate the voice before attempting to synthesize speech
+            if hasattr(self.tts_service, 'validate_voice'):
+                await self.tts_service.validate_voice(voice_id)
+                
+            # Retry TTS synthesis with exponential backoff
+            await self._synthesize_speech_with_retry(
+                text=preprocessed_text,
+                voice_id=voice_id,
+                output_path=str(audio_file),
+                rate=phrase.metadata.get("rate", 1.0) if phrase.metadata else 1.0,
+                pitch=phrase.metadata.get("pitch", 0.0) if phrase.metadata else 0.0,
+                volume=1.0,
+                speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
+                phrase_text=phrase.text
+            )
+            
+            # Update audio_file path to include the correct extension
+            audio_file = audio_file.with_suffix('.mp3')  # Edge TTS always outputs MP3
+
+            # Process audio if audio_config is provided in metadata
+            audio_config = phrase.metadata.get("audio_config") if phrase.metadata else None
+            if audio_config:
+                await self._process_audio(audio_file, audio_config)
+
+            # Create a dictionary with the required fields
+            processed_data = {
+                "id": phrase.id,
+                "text": phrase.text,
+                "language": phrase.language,
+                "audio_file": audio_file,
+                "metadata": phrase.metadata or {},
+            }
+            
+            # Only add translation if it exists in the phrase
+            if hasattr(phrase, 'translation') and phrase.translation is not None:
+                processed_data["translation"] = phrase.translation
+                
+            return ProcessedPhrase(**processed_data)
+
+        except Exception as e:
+            logger.error("Error processing phrase '%s': %s", phrase.text, str(e))
+            raise
+
+    def _preprocess_text(self, text: str, language: str) -> str:
+        """Preprocess text before TTS processing.
+
+        Args:
+            text: The text to preprocess.
+            language: The language of the text.
+
+        Returns:
+            Preprocessed text.
+        """
+        # Remove extra whitespace
+        text = re.sub(r"\s+", " ", text.strip())
+
+        # Language-specific preprocessing
+        language_str = str(language).lower()
+        if language_str == "tagalog":
+            # Add any Tagalog-specific preprocessing here
+            pass
+
+        return text
+
+    def _sanitize_filename(self, title: str) -> str:
+        """Convert a section title to a filename-friendly name.
         
         Args:
-            output_dir: Directory containing the audio files
-            section_audio_files: List of section audio files to process
-            sections: List of section metadata containing names and audio file paths
+            title: The section title to sanitize.
             
         Returns:
-            Dictionary mapping original filenames to new filenames
+            A filename-friendly version of the title.
         """
-        renamed = {}
+        # Convert to lowercase and replace spaces with underscores
+        filename = title.lower().replace(' ', '_')
         
-        # 1. Rename lesson_combined_normalized.mp3 to full_lesson.mp3
-        combined_file = output_dir / 'lesson_combined_normalized.mp3'
-        new_combined_path = None
-        if combined_file.exists():
-            new_name = output_dir / 'full_lesson.mp3'
-            combined_file.rename(new_name)
-            renamed[str(combined_file)] = str(new_name)
-            new_combined_path = new_name
-            logger.info(f"Renamed {combined_file.name} to {new_name.name}")
+        # Remove special characters, keeping only alphanumeric and underscores
+        filename = re.sub(r'[^a-z0-9_]', '', filename)
         
-        # Store the new combined file path to return later
-        renamed['_new_combined_path'] = new_combined_path
+        # Remove multiple consecutive underscores
+        filename = re.sub(r'_+', '_', filename)
         
-        # 2. Create a mapping of section audio files to their metadata
-        audio_file_map = {}
-        for section in sections:
-            if 'audio_file' in section and section['audio_file']:
-                audio_file_map[section['audio_file']] = section
+        # Remove leading/trailing underscores
+        filename = filename.strip('_')
         
-        # 3. Rename section files based on their names
-        for file_path in section_audio_files:
-            file_path_str = str(file_path)
-            if file_path_str in audio_file_map:
-                section = audio_file_map[file_path_str]
-                section_name = section.get('name', '').lower()
-                
-                # Determine the new filename based on section name
-                # First try special cases with flexible matching
-                if any(keyword in section_name for keyword in ['key phrase', 'key_phrase', 'key-phrases']):
-                    new_name = 'key_phrases.mp3'
-                elif any(keyword in section_name for keyword in ['natural speed', 'natural_speed', 'natural-speed']):
-                    new_name = 'natural_speed.mp3'
-                elif any(keyword in section_name for keyword in ['translated', 'translation']):
-                    new_name = 'translated.mp3'
-                else:
-                    # For other sections, use the section title as the filename
-                    title = section.get('title', '')
-                    if title:
-                        # Sanitize the title for use as a filename
-                        safe_name = ''.join(c if c.isalnum() or c in ' -_' else '_' for c in title.lower())
-                        safe_name = safe_name.strip('-_ ').replace(' ', '_')
-                        if not safe_name:
-                            safe_name = f"section_{len(renamed) + 1}"
-                        new_name = f"{safe_name}.mp3"
-                    else:
-                        # Fallback if no title is available
-                        new_name = f"section_{len(renamed) + 1}.mp3"
-                
-                # Rename the file
-                new_path = output_dir / new_name
-                if new_path != file_path:
-                    try:
-                        file_path.rename(new_path)
-                        renamed[str(file_path)] = str(new_path)
-                        logger.info(f"Renamed {file_path.name} to {new_name}")
-                    except OSError as e:
-                        logger.warning(f"Failed to rename {file_path} to {new_name}: {e}")
-        
-        return renamed
+        # If the filename is empty or too short, use a default
+        if not filename or len(filename) < 2:
+            filename = 'section'
+            
+        return filename
 
-    def _save_metadata(self, metadata: Dict[str, Any], output_path: Union[str, Path]) -> None:
-        """Save metadata to a JSON file.
+    async def _synthesize_speech_with_retry(
+        self,
+        text: str,
+        voice_id: str,
+        output_path: str,
+        rate: float,
+        pitch: float,
+        volume: float,
+        speaker_id: Optional[str],
+        phrase_text: str,
+        max_retries: int = 3
+    ) -> None:
+        """Synthesize speech with retry logic for transient errors.
         
         Args:
-            metadata: Dictionary containing metadata to save
-            output_path: Path where the metadata JSON file should be saved
+            text: The text to synthesize.
+            voice_id: The voice ID to use.
+            output_path: Path to save the audio file.
+            rate: Speech rate.
+            pitch: Speech pitch.
+            volume: Speech volume.
+            speaker_id: Optional speaker ID for voice modifications.
+            phrase_text: Original phrase text for logging.
+            max_retries: Maximum number of retry attempts.
         """
-        import json
-        from datetime import datetime, date
-        from enum import Enum
-        from uuid import UUID
-        from pathlib import Path as PathType
+        last_error = None
         
+        for attempt in range(max_retries + 1):
+            try:
+                await self.tts_service.synthesize_speech(
+                    text=text,
+                    voice_id=voice_id,
+                    output_path=output_path,
+                    rate=rate,
+                    pitch=pitch,
+                    volume=volume,
+                    speaker_id=speaker_id
+                )
+                return  # Success
+                
+            except TTSTransientError as e:
+                last_error = e
+                if attempt < max_retries:
+                    # Exponential backoff: 1s, 2s, 4s
+                    delay = 2 ** attempt
+                    logger.warning(
+                        "TTS transient error for phrase '%s' (attempt %d/%d): %s. Retrying in %d seconds...",
+                        phrase_text, attempt + 1, max_retries + 1, str(e), delay
+                    )
+                    await asyncio.sleep(delay)
+                else:
+                    logger.error(
+                        "TTS failed for phrase '%s' after %d attempts: %s",
+                        phrase_text, max_retries + 1, str(e)
+                    )
+                    raise TTSServiceError(
+                        f"TTS failed after {max_retries + 1} attempts: {str(e)}"
+                    ) from e
+                    
+            except TTSRateLimitError as e:
+                last_error = e
+                if attempt < max_retries:
+                    # Use retry_after if provided, otherwise exponential backoff
+                    delay = getattr(e, 'retry_after', 2 ** attempt)
+                    logger.warning(
+                        "TTS rate limit for phrase '%s' (attempt %d/%d): %s. Retrying in %d seconds...",
+                        phrase_text, attempt + 1, max_retries + 1, str(e), delay
+                    )
+                    await asyncio.sleep(delay)
+                else:
+                    logger.error(
+                        "TTS rate limited for phrase '%s' after %d attempts: %s",
+                        phrase_text, max_retries + 1, str(e)
+                    )
+                    raise TTSServiceError(
+                        f"TTS rate limited after {max_retries + 1} attempts: {str(e)}"
+                    ) from e
+                    
+            except TTSValidationError as e:
+                # Don't retry validation errors
+                logger.error("TTS validation error for phrase '%s': %s", phrase_text, str(e))
+                raise
+                
+            except Exception as e:
+                # For other errors, treat as non-retryable
+                logger.error("TTS error for phrase '%s': %s", phrase_text, str(e))
+                raise
+        
+        # This should never be reached, but just in case
+        if last_error:
+            raise TTSServiceError(f"TTS failed after {max_retries + 1} attempts") from last_error
+
+    async def _process_audio(
+        self, audio_file: Path, config: AudioConfig
+    ) -> None:
+        """Process audio file with the given configuration.
+
+        Args:
+            audio_file: Path to the audio file to process.
+            config: Audio processing configuration.
+        """
+        try:
+            # Apply audio processing
+            if config.normalize:
+                await self.audio_processor.normalize(str(audio_file))
+
+            if config.trim_silence:
+                await self.audio_processor.trim_silence(
+                    str(audio_file),
+                    silence_threshold=config.silence_threshold,
+                    silence_duration=config.silence_duration,
+                )
+
+            if config.fade_in > 0 or config.fade_out > 0:
+                await self.audio_processor.fade(
+                    str(audio_file),
+                    fade_in=config.fade_in,
+                    fade_out=config.fade_out,
+                )
+
+        except Exception as e:
+            logger.error("Error processing audio file %s: %s", audio_file, str(e))
+            raise
+
+    async def _concatenate_audio_files(
+        self, input_files: List[Path], output_file: Path, progress: Optional[Any] = None
+    ) -> None:
+        """Concatenate multiple audio files into a single file.
+
+        Args:
+            input_files: List of input audio file paths.
+            output_file: Output audio file path.
+            progress: Optional progress reporter for tracking progress.
+        """
+        if not input_files:
+            return
+
+        # Create a task ID for progress reporting
+        task_id = f"concat_{output_file.stem}"
+        
+        # Determine the output extension based on the first input file
+        first_ext = input_files[0].suffix.lower()
+        output_file = output_file.with_suffix(first_ext)
+        
+        if len(input_files) == 1:
+            # If there's only one file, just copy it
+            shutil.copy2(input_files[0], output_file)
+            if progress:
+                await progress.update(
+                    task_id=task_id,
+                    completed=1, 
+                    total=1,
+                    status="Copied single file",
+                    phase="concatenate"
+                )
+            return
+
+        total_steps = len(input_files) + 1  # +1 for the concatenation step
+        
+        # Initialize progress if available
+        if progress:
+            await progress.update(
+                task_id=task_id,
+                completed=0, 
+                total=total_steps, 
+                status="Preparing files...",
+                phase="concatenate"
+            )
+
+        # Use the files directly if they're already in the same format
+        if all(f.suffix.lower() == first_ext for f in input_files[1:]):
+            audio_files = input_files
+        else:
+            # Convert all files to the same format as the first file
+            audio_files = []
+            for i, input_file in enumerate(input_files):
+                if progress:
+                    await progress.update(
+                        task_id=task_id,
+                        completed=i,
+                        total=total_steps,
+                        status=f"Converting file {i+1}/{len(input_files)} to {first_ext}",
+                        phase="concatenate"
+                    )
+                
+                if input_file.suffix.lower() != first_ext:
+                    # Convert to the target format
+                    converted_file = input_file.with_suffix(first_ext)
+                    await self.audio_processor.convert_format(
+                        str(input_file), str(converted_file), first_ext[1:]
+                    )
+                    audio_files.append(converted_file)
+                else:
+                    audio_files.append(input_file)
+
+        try:
+            # Update progress before concatenation
+            if progress:
+                await progress.update(
+                    task_id=task_id,
+                    completed=len(audio_files),
+                    total=total_steps,
+                    status=f"Concatenating {len(audio_files)} files...",
+                    phase="concatenate"
+                )
+
+            # Concatenate audio files using the audio processor
+            await self.audio_processor.concatenate_audio(
+                [str(f) for f in audio_files], 
+                str(output_file)
+            )
+
+            # Update progress after successful concatenation
+            if progress:
+                await progress.update(
+                    task_id=task_id,
+                    completed=total_steps,
+                    total=total_steps,
+                    status="Concatenation complete",
+                    phase="concatenate"
+                )
+                # Mark task as complete
+                await progress.complete_task(task_id)
+                
+        except Exception as e:
+            # Update progress on error
+            if progress:
+                await progress.update(
+                    task_id=task_id,
+                    status=f"Error: {str(e)}",
+                    phase="error"
+                )
+            raise
+        finally:
+            # Clean up temporary files
+            for temp_file in audio_files:
+                if temp_file not in input_files and temp_file.exists():
+                    try:
+                        os.remove(temp_file)
+                    except Exception as e:
+                        logger.warning(f"Failed to remove temporary file {temp_file}: {e}")
+        
+        self.metrics.audio_generated += 1
+
+    async def _generate_section_audio(
+        self, sections: List[ProcessedSection], output_path: Path
+    ) -> Dict[str, Path]:
+        """Generate audio files for sections.
+
+        Args:
+            sections: List of processed sections.
+            output_path: Path to the output directory.
+
+        Returns:
+            Dictionary mapping section IDs to audio file paths.
+        """
+        section_audio_files = {}
+        for section in sections:
+            if section.audio_file and section.audio_file.exists():
+                section_audio_files[str(section.id)] = section.audio_file
+
+        return section_audio_files
+
+    async def _generate_lesson_audio(
+        self, 
+        section_audio_files: Dict[str, Path], 
+        output_path: Path,
+        progress: Optional[Any] = None
+    ) -> Path:
+        """Generate a single audio file for the entire lesson.
+
+        Args:
+            section_audio_files: Dictionary mapping section IDs to audio file paths.
+            output_path: Path to the output directory.
+            progress: Optional progress reporter for tracking progress.
+
+        Returns:
+            Path to the generated lesson audio file.
+        """
+        # Use MP3 extension for the lesson audio file
+        lesson_audio_file = output_path / "lesson.mp3"
+        audio_files = list(section_audio_files.values())
+
+        if audio_files:
+            if progress:
+                await progress.update(
+                    task_id="lesson_audio",
+                    completed=0,
+                    total=1,  # Just one step for lesson audio generation
+                    status=f"Generating lesson audio from {len(audio_files)} sections..."
+                )
+            
+            await self._concatenate_audio_files(
+                audio_files, 
+                lesson_audio_file,
+                progress=progress  # Pass progress reporter to concatenation
+            )
+        
+        # Ensure the file has the correct extension
+        lesson_audio_file = lesson_audio_file.with_suffix('.mp3')
+        return lesson_audio_file
+
+    @staticmethod
+    def json_serializer(obj):
+        """Custom JSON serializer for handling various types."""
+        if isinstance(obj, (datetime, date)):
+            return obj.isoformat()
+        elif isinstance(obj, Enum):
+            return obj.value
+        elif isinstance(obj, UUID):
+            return str(obj)
+        elif isinstance(obj, Path):
+            return str(obj)
+        elif hasattr(obj, '__dict__'):
+            # Convert objects with __dict__ to dict, excluding private attributes
+            return {k: v for k, v in obj.__dict__.items() if not k.startswith('_')}
+        raise TypeError(f"Type {type(obj)} not serializable")
+        
+    def _prepare_metadata(
+        self,
+        lesson: Lesson,
+        processed_sections: List[ProcessedSection],
+        lesson_audio_file: Path,
+        output_path: Path,
+    ) -> Dict[str, Any]:
+        """Prepare metadata for the processed lesson.
+
+        Args:
+            lesson: The original lesson.
+            processed_sections: List of processed sections.
+            lesson_audio_file: Path to the lesson audio file.
+            output_path: Path to the output directory.
+
+        Returns:
+            Dictionary containing the metadata.
+        """
+        # Convert UUIDs to strings for JSON serialization
         def convert_uuids(obj):
-            """Recursively convert UUIDs to strings in dictionaries and lists."""
             if isinstance(obj, dict):
                 return {
                     str(k) if isinstance(k, UUID) else k: convert_uuids(v)
@@ -1080,77 +984,63 @@ class LessonProcessor(LessonProcessorBase):
             elif isinstance(obj, UUID):
                 return str(obj)
             return obj
-            
-        def json_serializer(obj):
-            """Custom JSON serializer for handling various types."""
-            if isinstance(obj, (datetime, date)):
-                return obj.isoformat()
-            elif isinstance(obj, Enum):
-                return obj.value
-            elif isinstance(obj, UUID):
-                return str(obj)
-            elif isinstance(obj, PathType):
-                return str(obj)
-            elif hasattr(obj, '__dict__'):
-                # Convert objects with __dict__ to dict, excluding private attributes
-                return {k: v for k, v in obj.__dict__.items() if not k.startswith('_')}
-            raise TypeError(f"Type {type(obj)} not serializable")
         
         try:
-            # Create a copy of the metadata to use for saving
-            metadata_to_save = {}
-            
-            # Extract lesson data first to use for top-level fields
-            if 'lesson' in metadata and metadata['lesson'] is not None:
-                lesson = metadata['lesson']
-                
-                # Extract lesson summary fields for top level
-                metadata_to_save.update({
-                    'title': getattr(lesson, 'title', 'Untitled Lesson'),
-                    'description': getattr(lesson, 'description', ''),
-                    'language': str(getattr(lesson, 'target_language', '')),
-                    'lesson_id': str(getattr(lesson, 'id', '')),
-                    'created_at': getattr(lesson, 'created_at', '').isoformat() if hasattr(lesson, 'created_at') else '',
-                    'updated_at': getattr(lesson, 'updated_at', '').isoformat() if hasattr(lesson, 'updated_at') else ''
-                })
-                
-                # Get the full lesson data as a dictionary and convert any UUIDs to strings
-                lesson_data = json.loads(lesson.model_dump_json())
-                lesson_data = convert_uuids(lesson_data)
-                
-                # Add the full lesson data under a 'lesson' key
-                metadata_to_save['lesson'] = lesson_data
-            
-            # Copy all other metadata fields, ensuring UUIDs are converted
-            for key, value in metadata.items():
-                if key != 'lesson' and key not in metadata_to_save:
-                    metadata_to_save[key] = convert_uuids(value)
-            
-            # Initialize processing_info if not present
-            if 'processing_info' not in metadata_to_save:
-                metadata_to_save['processing_info'] = {}
-            
-            # Add timestamp if not present
-            if 'timestamp' not in metadata_to_save['processing_info']:
-                metadata_to_save['processing_info']['timestamp'] = datetime.utcnow().isoformat() + 'Z'
-            
-            # Add duration to processing_info if start_time and end_time are available
-            if 'start_time' in metadata and 'end_time' in metadata:
-                duration = metadata['end_time'] - metadata['start_time']
-                metadata_to_save['processing_info']['duration'] = duration
-            
-            # Add output_dir to processing_info
-            metadata_to_save['processing_info']['output_dir'] = str(Path(output_path).parent)
-            
-            # Add audio_files section
+            # Prepare sections metadata
+            sections_metadata = []
+            for section in processed_sections:
+                section_data = {
+                    "id": str(section.id),
+                    "title": section.title,
+                    "audio_file": section.audio_file.relative_to(output_path)
+                    if section.audio_file
+                    else None,
+                    "phrases": [
+                        {
+                            "id": str(phrase.id),
+                            "text": phrase.text,
+                            "translation": phrase.translation,
+                            "language": phrase.language,
+                            "audio_file": phrase.audio_file.relative_to(output_path)
+                            if phrase.audio_file
+                            else None,
+                            "metadata": phrase.metadata,
+                        }
+                        for phrase in section.phrases
+                    ],
+                }
+                sections_metadata.append(section_data)
+
+            # Prepare lesson metadata
+            metadata = {
+                "id": str(lesson.id),
+                "title": lesson.title,
+                "language": lesson.target_language,
+                "level": lesson.difficulty,
+                "created_at": datetime.now().isoformat(),
+                "audio_file": lesson_audio_file.relative_to(output_path),
+                "sections": sections_metadata,
+                "metrics": self.metrics.get_summary(),
+            }
+
+            # Convert UUIDs to strings
+            metadata = convert_uuids(metadata)
+
+            # Add audio files index
             audio_files = {
-                'final': str(metadata_to_save.get('final_audio_file', '')),
-                'sections': {},
-                'phrases': {}
+                "sections": {
+                    str(section.id): str(
+                        section.audio_file.relative_to(output_path)
+                        if section.audio_file
+                        else ""
+                    )
+                    for section in processed_sections
+                },
+                "phrases": {}
             }
             
             # Add section audio files
-            for section in metadata_to_save.get('sections', []):
+            for section in metadata.get('sections', []):
                 section_id = str(section.get('section_id', ''))
                 if section_id and 'audio_file' in section:
                     audio_files['sections'][section_id] = str(section['audio_file'])
@@ -1163,16 +1053,44 @@ class LessonProcessor(LessonProcessorBase):
                                 audio_files['phrases'][section_id] = {}
                             audio_files['phrases'][section_id][phrase_id] = str(phrase['audio_file'])
             
-            metadata_to_save['audio_files'] = audio_files
+            metadata['audio_files'] = audio_files
             
+            return metadata
+
+        except Exception as e:
+            logger.error("Error preparing metadata: %s", str(e))
+            raise
+
+    def _save_metadata(self, metadata: Dict[str, Any], output_path: Path) -> None:
+        """Save metadata to a JSON file.
+
+        Args:
+            metadata: The metadata to save.
+            output_path: Path to the output JSON file.
+        """
+        try:
             # Ensure directory exists
-            output_path = Path(output_path)
             output_path.parent.mkdir(parents=True, exist_ok=True)
             
             # Write to file with custom serializer
             with open(output_path, 'w', encoding='utf-8') as f:
-                json.dump(metadata_to_save, f, indent=2, ensure_ascii=False, default=json_serializer)
+                json.dump(metadata, f, indent=2, ensure_ascii=False, default=self.json_serializer)
                 
         except Exception as e:
             logger.error("Failed to save metadata: %s", str(e))
             raise
+
+    def _log_metrics(self) -> None:
+        """Log performance metrics."""
+        metrics = self.metrics.get_summary()
+        logger.info(
+            "Lesson processing completed in %.2f seconds", metrics["total_time_seconds"]
+        )
+        logger.info("Phrases processed: %d", metrics["phrases_processed"])
+        logger.info("Sections processed: %d", metrics["sections_processed"])
+        logger.info("Audio files generated: %d", metrics["audio_files_generated"])
+        
+        # Log phase timings
+        logger.info("Phase timings:")
+        for phase, duration in metrics["phase_timings"].items():
+            logger.info("  %s: %.2f seconds", phase, duration)
