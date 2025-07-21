@@ -34,3 +34,16 @@ Airport Shop
 [TAGALOG-FEMALE-2]: Opo. Bente.
 [TAGALOG-FEMALE-1]: Ah, salamat. Ito po.
 [TAGALOG-FEMALE-2]: Salamat din! Ito sukli mo.
+
+[NARRATOR]: Slow Speed
+
+Airport Shop
+
+[TAGALOG-FEMALE-1]: Excuse... me... po.
+
+[NARRATOR]: Translated
+
+Airport Shop
+
+[TAGALOG-FEMALE-1]: Excuse me po.
+[NARRATOR]: Excuse me.

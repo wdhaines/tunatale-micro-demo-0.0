@@ -28,7 +28,7 @@ class EdgeTTSConfig(TTSProviderConfig):
     
     PROVIDER_NAME: str = "edge_tts"
     BASE_URL: str = "https://speech.platform.bing.com/"
-    DEFAULT_VOICE: str = "en-US-AriaNeural"
+    DEFAULT_VOICE: str = "en-US-GuyNeural"  # Changed to male voice
     RATE: str = "+0%"
     PITCH: str = "+0Hz"
     VOLUME: str = "+0%"

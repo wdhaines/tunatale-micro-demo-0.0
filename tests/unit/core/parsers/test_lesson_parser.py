@@ -1,4 +1,5 @@
 """Tests for the lesson parser."""
+import asyncio
 import os
 import tempfile
 from pathlib import Path
@@ -398,6 +399,61 @@ def test_get_voice_for_speaker(parser):
     assert voice_id == "fil-PH-BlessicaNeural"  # Should match the Tagalog female voice
     
     # Test with unknown speaker (should return first available voice)
+    
+    
+def test_tagalog_female_voice_selection(parser):
+    """Test that TAGALOG-FEMALE-1 and TAGALOG-FEMALE-2 use the same voice but with different pitch/rate settings."""
+    # Both speakers should use the same voice (Blessica)
+    voice_id_1 = parser._get_voice_for_speaker("TAGALOG-FEMALE-1")
+    voice_id_2 = parser._get_voice_for_speaker("TAGALOG-FEMALE-2")
+    
+    # Both should use the same voice
+    assert voice_id_1 == "fil-PH-BlessicaNeural", \
+        f"TAGALOG-FEMALE-1 should use fil-PH-BlessicaNeural, got {voice_id_1}"
+    assert voice_id_2 == "fil-PH-BlessicaNeural", \
+        f"TAGALOG-FEMALE-2 should use fil-PH-BlessicaNeural, got {voice_id_2}"
+    
+    # Test with a dialogue that includes both speakers
+    test_dialogue = """[DIALOGUE]
+[TAGALOG-FEMALE-1]: Magandang hapon!
+[TAGALOG-FEMALE-2]: Magandang hapon din po!
+"""
+    
+    # Create a temporary file with the test dialogue
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+        f.write(test_dialogue)
+        temp_path = f.name
+    
+    try:
+        # Parse the test dialogue
+        lesson = asyncio.run(parse_lesson_file(temp_path))
+        
+        # Verify we have one section with two phrases
+        assert len(lesson.sections) == 1
+        section = lesson.sections[0]
+        assert len(section.phrases) == 2
+        
+        # Verify each phrase has the correct voice, speaker ID, and TTS settings in metadata
+        phrase1 = section.phrases[0]
+        assert phrase1.voice_id == "fil-PH-BlessicaNeural"
+        assert phrase1.metadata.get('speaker') == "TAGALOG-FEMALE-1"
+        
+        # TAGALOG-FEMALE-1 should have default pitch/rate settings
+        assert phrase1.metadata.get('tts_pitch') is None or float(phrase1.metadata.get('tts_pitch', 0)) == 0.0
+        assert phrase1.metadata.get('tts_rate') is None or float(phrase1.metadata.get('tts_rate', 1.0)) == 1.0
+        
+        phrase2 = section.phrases[1]
+        assert phrase2.voice_id == "fil-PH-BlessicaNeural"
+        assert phrase2.metadata.get('speaker') == "TAGALOG-FEMALE-2"
+        
+        # TAGALOG-FEMALE-2 should have custom pitch/rate settings
+        assert float(phrase2.metadata.get('tts_pitch', 0)) == -15.0  # Much lower pitch
+        assert float(phrase2.metadata.get('tts_rate', 1.0)) == 0.6   # Slower rate
+        
+    finally:
+        # Clean up the temporary file
+        if os.path.exists(temp_path):
+            os.unlink(temp_path)
     voice_id = parser._get_voice_for_speaker("UNKNOWN-SPEAKER")
     assert voice_id is not None
 
@@ -426,8 +482,10 @@ def test_determine_section_type():
     assert parser._determine_section_type("Key Phrases", "") == SectionType.KEY_PHRASES
     assert parser._determine_section_type("VOCABULARY", "") == SectionType.KEY_PHRASES
     assert parser._determine_section_type("Vocab", "") == SectionType.KEY_PHRASES
-    assert parser._determine_section_type("DIALOGUE", "") == SectionType.KEY_PHRASES
-    assert parser._determine_section_type("Dialog", "") == SectionType.KEY_PHRASES
+    
+    # DIALOG/DIALOGUE patterns now map to NATURAL_SPEED
+    assert parser._determine_section_type("DIALOGUE", "") == SectionType.NATURAL_SPEED
+    assert parser._determine_section_type("Dialog", "") == SectionType.NATURAL_SPEED
     
     # NATURAL_SPEED patterns
     assert parser._determine_section_type("NATURAL SPEED", "") == SectionType.NATURAL_SPEED
@@ -485,12 +543,47 @@ async def test_parse_real_world_lesson(demo_mini_test_file, parser):
     # Expecting multiple sections based on the demo-mini-test.txt content
     assert len(lesson.sections) >= 2, f"Expected at least 2 sections, got {len(lesson.sections)}"
     
-    # Verify each section has the expected content
+    # Verify each section has the expected content and type
+    section_titles = [s.title.lower() for s in lesson.sections]
+    
+    # Check that we have the expected sections
+    expected_sections = [
+        ('key phrase', SectionType.KEY_PHRASES),
+        ('natural speed', SectionType.NATURAL_SPEED)
+    ]
+    
+    # Debug: Print all sections that were found
+    print("\nFound sections:")
+    for i, section in enumerate(lesson.sections, 1):
+        print(f"  {i}. Title: '{section.title}' (type: {section.section_type})")
+    
+    # Verify all expected section types are present
+    for section_key, section_type in expected_sections:
+        found = any(section_key in title.lower() for title in section_titles)
+        if not found:
+            print(f"\nError: Could not find section containing '{section_key}'")
+            print(f"Section titles: {section_titles}")
+        assert found, f"Expected a section containing '{section_key}'"
+    
+    print("\nVerifying section types:")
     for section in lesson.sections:
         assert len(section.phrases) > 0, f"No phrases found in section: {section.title}"
         
-        # The parser currently sets all section types to KEY_PHRASES by default
-        assert section.section_type == SectionType.KEY_PHRASES, f"Expected section type to be KEY_PHRASES for section: {section.title}"
+        # Verify section type based on title
+        section_title_lower = section.title.lower()
+        if 'natural speed' in section_title_lower:
+            assert section.section_type == SectionType.NATURAL_SPEED, \
+                f"Expected section type to be NATURAL_SPEED for section: {section.title}"
+        elif 'slow speed' in section_title_lower:
+            assert section.section_type == SectionType.SLOW_SPEED, \
+                f"Expected section type to be SLOW_SPEED for section: {section.title}"
+        elif 'translated' in section_title_lower:
+            assert section.section_type == SectionType.TRANSLATED, \
+                f"Expected section type to be TRANSLATED for section: {section.title}"
+        else:
+            # Default to KEY_PHRASES for other sections
+            assert section.section_type == SectionType.KEY_PHRASES, \
+                f"Expected section type to be KEY_PHRASES for section: {section.title}"
 
 def test_section_header_detection():
     """Test that section headers are properly detected and classified."""
@@ -542,7 +635,7 @@ def test_section_header_extraction():
     assert line.content == "Now starting Key Phrases section:"
     assert line.speaker == "NARRATOR"
     assert line.language == "english"
-    assert line.voice_id == "en-US-AriaNeural"
+    assert line.voice_id == "en-US-GuyNeural"  # Should use male voice for narrator
         
     # Test a line that should be treated as a narrator line (no section header keyword)
     line = parser._parse_line(4, "[NARRATOR]: Now starting the lesson...")
@@ -564,7 +657,7 @@ def test_parse_line_comment():
     """Test parsing a comment line."""
     parser = LessonParser()
     line = parser._parse_line(1, "# This is a comment")
-    assert line.line_type == LineType.BLANK
+    assert line.line_type == LineType.COMMENT
     assert line.content.startswith("#")
 
 
@@ -675,12 +768,13 @@ Line 1 in second section
         assert second_section.section_type == SectionType.KEY_PHRASES
         
         # The second section should contain all content lines after the first dialogue
-        # The 'Natural:' line is included as a phrase in the current implementation
-        assert len(second_section.phrases) == 4, f"Expected 4 phrases, got {len(second_section.phrases)}"
-        assert second_section.phrases[0].text == "Line 1 in first section"
-        assert second_section.phrases[1].text == "Line 2 in first section"
-        assert second_section.phrases[2].text == "Natural: This is the second section"
-        assert second_section.phrases[3].text == "Line 1 in second section"
+        # With the fix, explicit section headers are now included as phrases
+        assert len(second_section.phrases) == 5, f"Expected 5 phrases, got {len(second_section.phrases)}"
+        assert second_section.phrases[0].text == "Key Phrases This is the first section"  # Section header included
+        assert second_section.phrases[1].text == "Line 1 in first section"
+        assert second_section.phrases[2].text == "Line 2 in first section"
+        assert second_section.phrases[3].text == "Natural: This is the second section"
+        assert second_section.phrases[4].text == "Line 1 in second section"
         
     finally:
         # Clean up the temporary file
@@ -701,7 +795,7 @@ def test_section_header_with_optional_colon():
     assert result.line_type == LineType.SECTION_HEADER
     assert "Key Phrases" in result.content
     
-    # Test without colon
+    # Test without colon (currently expected to fail)
     line_without_colon = "Key Phrases Some content"
     result = parser._parse_line(2, line_without_colon)
     assert result is not None

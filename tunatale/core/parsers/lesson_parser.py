@@ -45,6 +45,7 @@ class ParsedLine:
     speaker: Optional[str] = None
     language: Optional[str] = None
     voice_id: Optional[str] = None
+    metadata: Dict[str, Any] = field(default_factory=dict)
     
     def __str__(self) -> str:
         return f"{self.line_number}: {self.line_type.name} - {self.content}"
@@ -54,8 +55,9 @@ class LessonParser:
     """Parser for TunaTale lesson files."""
     
     # Regex patterns for different line types
-    # Section headers are lines containing "Key Phrases" or "Natural Speed" with optional colon
-    SECTION_PATTERN = re.compile(r'(?P<prefix>.*?)(?P<type>Key Phrases|Natural Speed):?(?P<suffix>.*)$', re.IGNORECASE)
+    # Section headers are lines containing "Key Phrases", "Natural Speed", "Slow Speed", or "Translated" with optional colon
+    # or standalone lines that exactly match these phrases (case insensitive)
+    SECTION_PATTERN = re.compile(r'(?P<prefix>.*?)(?P<type>Key Phrases|Natural Speed|Slow Speed|Translated)(?::|\s|$)(?P<suffix>.*)$', re.IGNORECASE)
     # Dialogue lines have a speaker in brackets followed by a colon and content
     DIALOGUE_PATTERN = re.compile(r'^\s*\[(?P<speaker>[^\]]+)\]\s*:\s*(?P<content>.*)$')
     # Comments start with #
@@ -185,24 +187,38 @@ class LessonParser:
             A ParsedLine object representing the parsed line, or None if the line should be skipped
         """
         try:
+            # Debug logging
+            import logging
+            logger = logging.getLogger(__name__)
+            
             # Strip whitespace from the line
+            original_line = line
             line = line.strip()
+            
+            # Log the line being processed
+            logger.debug(f"\nProcessing line {line_number}: '{original_line}'")
+            logger.debug(f"Stripped line: '{line}'")
             
             # Handle empty lines and comments
             if not line or self.COMMENT_PATTERN.match(line):
+                line_type = LineType.BLANK if not line else LineType.COMMENT
+                logger.debug(f"Matched {line_type.name} line")
                 return ParsedLine(
                     line_number=line_number,
-                    line_type=LineType.BLANK,
+                    line_type=line_type,
                     content=line
                 )
             
-            # Check for section headers (lines containing "Key Phrases:" or "Natural Speed:")
+            # Check for section headers (lines containing section keywords)
+            logger.debug(f"Checking for section header in line: '{line}'")
             section_match = self.SECTION_PATTERN.search(line)
             if section_match:
                 # Extract the section type and surrounding content
                 prefix = section_match.group('prefix').strip()
                 section_type = section_match.group('type').strip()  # Don't strip the colon here
                 suffix = section_match.group('suffix').strip()
+                
+                logger.debug(f"Section match found - prefix: '{prefix}', type: '{section_type}', suffix: '{suffix}'")
                 
                 # Handle narrator prefix (e.g., [NARRATOR]: Key Phrases: ...)
                 if prefix.startswith('[') and ']' in prefix:
@@ -212,25 +228,34 @@ class LessonParser:
                     # Reconstruct the full content with proper spacing around the section type
                     content = f"{prefix} {section_type} {suffix}".strip()
                     
+                    logger.debug(f"Narrator prefix detected - speaker: '{speaker}', reconstructed content: '{content}'")
+                    
                     return ParsedLine(
                         line_number=line_number,
                         line_type=LineType.SECTION_HEADER,
                         content=content,
                         speaker=speaker,
                         voice_id=self._get_voice_for_speaker(speaker),
-                        language='english' if speaker.upper() == 'NARRATOR' else 'tagalog'
+                        language='english' if speaker.upper() == 'NARRATOR' else 'tagalog',
+                        metadata={"original_line": original_line}  # Store original line for debugging
                     )
                 else:
                     # It's a standalone section header, include any prefix text with proper spacing
                     content = f"{prefix} {section_type} {suffix}".strip()
+                    
+                    logger.debug(f"Standalone section header - content: '{content}'")
+                    
                     return ParsedLine(
                         line_number=line_number,
                         line_type=LineType.SECTION_HEADER,
                         content=content,
                         speaker=None,
                         language=None,
-                        voice_id=None
+                        voice_id=None,
+                        metadata={"original_line": original_line}  # Store original line for debugging
                     )
+            else:
+                logger.debug("No section header match")
             
             # Check for dialogue lines (e.g., [TAGALOG-FEMALE-1]: Some text)
             dialogue_match = self.DIALOGUE_PATTERN.match(line)
@@ -252,8 +277,27 @@ class LessonParser:
                 else:
                     line_type = LineType.DIALOGUE
                 
+                # Create a new metadata dictionary for this phrase
+                metadata = {"speaker": speaker}
+                
+                # Store the current phrase metadata for _get_voice_for_speaker to use
+                temp_phrase = type('TempPhrase', (), {'metadata': metadata})
+                self.current_phrase = temp_phrase
+                
                 # Get the voice for this speaker and update last_voice_id
                 voice_id = self._get_voice_for_speaker(speaker)
+                
+                # Extract any TTS settings that were set by _get_voice_for_speaker
+                tts_metadata = {}
+                if hasattr(self.current_phrase, 'metadata'):
+                    tts_metadata = {
+                        'tts_pitch': self.current_phrase.metadata.get('tts_pitch'),
+                        'tts_rate': self.current_phrase.metadata.get('tts_rate'),
+                        'speaker_id': self.current_phrase.metadata.get('speaker_id')
+                    }
+                
+                # Clear the current_phrase to prevent metadata leakage
+                self.current_phrase = None
                 
                 # Determine language based on speaker
                 if speaker and ('TAGALOG' in speaker.upper() or 'FILIPINO' in speaker.upper()):
@@ -268,14 +312,21 @@ class LessonParser:
                 # Store the speaker's language for inheritance
                 self._speaker_language = language
                 
-                return ParsedLine(
+                # Create the parsed line with all metadata
+                parsed_line = ParsedLine(
                     line_number=line_number,
                     line_type=line_type,
                     content=content,
                     speaker=speaker,
+                    language=language,
                     voice_id=voice_id,
-                    language=language
+                    metadata=metadata.copy()  # Include the metadata in the parsed line
                 )
+                
+                # Update the metadata with TTS settings
+                parsed_line.metadata.update(tts_metadata)
+                
+                return parsed_line
             
             # If we get here, it's an unrecognized line type - treat as plain text
             # Check if it looks like a phrase (no brackets, not empty after strip)
@@ -358,7 +409,7 @@ class LessonParser:
             # First line is the section header if available, otherwise create a default one
             if section_lines[0].line_type == LineType.SECTION_HEADER:
                 section_header = section_lines[0]
-                section_content = section_lines[1:]  # Skip the header line
+                section_content = section_lines  # Include explicit section headers as phrases
             else:
                 section_header = ParsedLine(
                     line_number=section_lines[0].line_number,
@@ -366,10 +417,11 @@ class LessonParser:
                     content=f"Section {len(lesson.sections) + 1}",
                     speaker='NARRATOR'
                 )
-                section_content = section_lines
+                section_content = section_lines  # Don't include auto-generated headers as phrases
             
             # Create a new section
-            section_type = self._determine_section_type(section_header.speaker, section_header.content)
+            section_content_text = '\n'.join([line.content for line in section_content])
+            section_type = self._determine_section_type(section_header.content, section_content_text)
             
             current_section = Section(
                 title=section_header.content or f"Section {len(lesson.sections) + 1}",
@@ -384,8 +436,18 @@ class LessonParser:
             while i < len(section_content):
                 line = section_content[i]
                 
-                # Skip section headers that might have been included in content
+                # Handle section headers as narrator phrases
                 if line.line_type == LineType.SECTION_HEADER:
+                    # Create a phrase for the section header
+                    header_phrase = Phrase(
+                        text=line.content,
+                        language=line.language or 'english',  # Default to English for section headers
+                        voice_id=line.voice_id or self._get_voice_for_speaker('NARRATOR'),
+                        position=len(current_section.phrases) + 1,
+                        section_id=str(current_section.id) if hasattr(current_section, 'id') else None,
+                        metadata={"is_section_header": True, "speaker": "NARRATOR"}
+                    )
+                    current_section.add_phrase(header_phrase)
                     i += 1
                     continue
                 
@@ -402,13 +464,25 @@ class LessonParser:
                         continue
                     
                     try:
+                        # Create metadata with speaker and any TTS settings from the line
+                        metadata = {"speaker": line.speaker or "NARRATOR"}
+                        
+                        # Include any TTS settings from the parsed line
+                        if hasattr(line, 'metadata'):
+                            if line.metadata and 'tts_pitch' in line.metadata and line.metadata['tts_pitch'] is not None:
+                                metadata['tts_pitch'] = line.metadata['tts_pitch']
+                            if line.metadata and 'tts_rate' in line.metadata and line.metadata['tts_rate'] is not None:
+                                metadata['tts_rate'] = line.metadata['tts_rate']
+                            if line.metadata and 'speaker_id' in line.metadata and line.metadata['speaker_id'] is not None:
+                                metadata['speaker_id'] = line.metadata['speaker_id']
+                        
                         current_phrase = Phrase(
                             text=line.content,
                             language=language,
                             voice_id=voice_id,
                             position=len(current_section.phrases) + 1,
                             section_id=str(current_section.id) if hasattr(current_section, 'id') else None,
-                            metadata={"speaker": line.speaker or "NARRATOR"}
+                            metadata=metadata
                         )
                         current_section.add_phrase(current_phrase)
                         # Update the last used voice to ensure consistency
@@ -482,35 +556,78 @@ class LessonParser:
         lesson.add_section(default_section)
     
     def _determine_section_type(self, section_header: Optional[str], content: str) -> SectionType:
-        """Determine the section type from the header and content.
-        
+        """Determine the type of a section based on its header and content.
+
         Args:
-            section_header: The section header text, or None if not provided
-            content: The section content (unused in current implementation)
-            
+            section_header: The section header text, if any.
+            content: The section content.
+
         Returns:
-            The determined section type
+            The determined SectionType.
         """
+        # Debug logging
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.debug(f"Determining section type for header: '{section_header}' with content: {content[:50]}...")
+    
         # If we have a section header, use that to determine the type
         if section_header:
-            section_header = section_header.upper()
-            if 'KEY PHRASE' in section_header or 'VOCAB' in section_header:
-                return SectionType.KEY_PHRASES
-            elif 'NATURAL' in section_header or 'CONVERSATION' in section_header:
+            # Remove [NARRATOR]: prefix if present
+            if section_header.upper().startswith('[NARRATOR]:'):
+                section_header = section_header[len('[NARRATOR]:'):].strip()
+                
+            # Remove any trailing colon and strip whitespace
+            section_header = section_header.rstrip(':').strip()
+            section_header_upper = section_header.upper()
+            logger.debug(f"Processing section header: '{section_header}' (normalized: '{section_header_upper}')")
+            
+            # Check for slow speed section
+            if 'SLOW SPEED' in section_header_upper or 'SLOW' in section_header_upper:
+                logger.debug(f"Matched SLOW_SPEED section: '{section_header}'")
+                return SectionType.SLOW_SPEED
+                
+            # Check for natural speed section - more flexible matching
+            natural_keywords = ['NATURAL', 'CONVERSATION', 'DIALOG', 'DIALOGUE', 'SPEED', 'CONV']
+            if any(x in section_header_upper for x in natural_keywords):
+                matched_keywords = [k for k in natural_keywords if k in section_header_upper]
+                logger.debug(f"Matched NATURAL_SPEED section with keywords: {matched_keywords}")
                 return SectionType.NATURAL_SPEED
-            elif 'TRANSLAT' in section_header or 'ENGLISH' in section_header:
-                return SectionType.TRANSLATED
-            elif 'DIALOG' in section_header or 'DIALOGUE' in section_header:
+            
+            # Check for exact matches first
+            if section_header_upper in ['NATURAL SPEED', 'NATURAL', 'SPEED']:
+                logger.debug(f"Matched exact NATURAL_SPEED section: '{section_header}'")
+                return SectionType.NATURAL_SPEED
+                
+            # Check for key phrases section
+            key_phrases_keywords = ['KEY PHRASE', 'VOCAB', 'PHRASES', 'VOCABULARY', 'KEY', 'PHRASE']
+            if any(x in section_header_upper for x in key_phrases_keywords):
+                matched_keywords = [k for k in key_phrases_keywords if k in section_header_upper]
+                logger.debug(f"Matched KEY_PHRASES section with keywords: {matched_keywords}")
                 return SectionType.KEY_PHRASES
-        
+                
+            # Check for exact matches for key phrases
+            if section_header_upper in ['KEY PHRASES', 'KEY PHRASE', 'PHRASES', 'VOCAB']:
+                logger.debug(f"Matched exact KEY_PHRASES section: '{section_header}'")
+                return SectionType.KEY_PHRASES
+                
+            # Check for translated section
+            translated_keywords = ['TRANSLAT', 'ENGLISH', 'TRANSLATION', 'TRANSLATE']
+            if any(x in section_header_upper for x in translated_keywords):
+                matched_keywords = [k for k in translated_keywords if k in section_header_upper]
+                logger.debug(f"Matched TRANSLATED section with keywords: {matched_keywords}")
+                return SectionType.TRANSLATED
+    
         # Fall back to content-based detection
         if content:
             # Count non-empty lines
             lines = [line.strip() for line in content.split('\n') if line.strip()]
+            logger.debug(f"Content-based detection: Found {len(lines)} non-empty lines")
             if len(lines) > 3:
+                logger.debug("Content-based detection: Returning NATURAL_SPEED due to line count > 3")
                 return SectionType.NATURAL_SPEED
         
         # Default to KEY_PHRASES if we can't determine the type
+        logger.debug("Could not determine section type, defaulting to KEY_PHRASES")
         return SectionType.KEY_PHRASES
     
     def _get_voice_for_speaker(self, speaker: Optional[str]) -> str:
@@ -525,18 +642,20 @@ class LessonParser:
         """
         # Define our valid voice IDs
         valid_voice_ids = {
-            "fil-PH-BlessicaNeural",  # Tagalog Female
+            "fil-PH-BlessicaNeural",  # Tagalog Female 1
+            "fil-PH-RosaNeural",      # Tagalog Female 2
             "fil-PH-AngeloNeural",    # Tagalog Male
-            "en-US-AriaNeural"        # English Female (Aria)
+            "en-US-GuyNeural",        # English Male (Guy)
+            "en-US-AriaNeural"        # English Female (Aria) - kept for backward compatibility
         }
         
         # Default voices by type
-        DEFAULT_ENGLISH_VOICE = "en-US-AriaNeural"
+        DEFAULT_ENGLISH_VOICE = "en-US-GuyNeural"  # Changed to male voice
         DEFAULT_TAGALOG_VOICE = "fil-PH-BlessicaNeural"
         
         # If no speaker is specified, return the last used voice or default to Tagalog
         if not speaker or speaker.upper() == 'NARRATOR':
-            # For narrator lines, use the default English voice
+            # For narrator lines, use the male English voice
             if speaker and speaker.upper() == 'NARRATOR':
                 voice_id = DEFAULT_ENGLISH_VOICE
             else:
@@ -551,16 +670,41 @@ class LessonParser:
                 voice_id = self.voices[speaker].provider_id
             # Try to determine voice from speaker name pattern (e.g., TAGALOG-FEMALE-1)
             elif (speaker_match := self.SPEAKER_PATTERN.match(speaker_upper)):
-                language, gender, _ = speaker_match.groups()
+                language, gender, number = speaker_match.groups()
+                speaker_id = f"{language.lower()}-{gender.lower()}-{number}"  # e.g., 'tagalog-female-2'
+                
                 if language == 'TAGALOG':
-                    voice_id = "fil-PH-BlessicaNeural" if gender == 'FEMALE' else "fil-PH-AngeloNeural"
+                    if gender == 'FEMALE':
+                        # Both TAGALOG-FEMALE-1 and TAGALOG-FEMALE-2 use the same voice
+                        voice_id = "fil-PH-BlessicaNeural"
+                        # Set speaker_id and TTS settings in the phrase metadata
+                        if hasattr(self, 'current_phrase') and self.current_phrase:
+                            self.current_phrase.metadata['speaker_id'] = speaker_id
+                            
+                            # Set default pitch/rate for TAGALOG-FEMALE-1
+                            if number == '1':
+                                self.current_phrase.metadata['tts_pitch'] = '0.0'
+                                self.current_phrase.metadata['tts_rate'] = '1.0'
+                            # Set custom pitch/rate for TAGALOG-FEMALE-2
+                            elif number == '2':
+                                self.current_phrase.metadata['tts_pitch'] = '-15.0'
+                                self.current_phrase.metadata['tts_rate'] = '0.6'
+                            else:
+                                # Default pitch/rate for TAGALOG-FEMALE-1
+                                self.current_phrase.metadata['tts_pitch'] = '0.0'
+                                self.current_phrase.metadata['tts_rate'] = '1.0'
+                    else:
+                        voice_id = "fil-PH-AngeloNeural"  # Male Tagalog voice
                 else:  # Default to English for any other language
-                    voice_id = "en-US-AriaNeural"  # Always use Aria for English
-            # Fallback to language detection from speaker name
+                    voice_id = DEFAULT_ENGLISH_VOICE
+            elif 'NARRATOR' in speaker_upper or 'ENGLISH' in speaker_upper:
+                voice_id = "en-US-GuyNeural"  # Always use Guy for English
             elif 'TAGALOG' in speaker_upper or 'FILIPINO' in speaker_upper:
                 voice_id = "fil-PH-BlessicaNeural" if 'FEMALE' in speaker_upper else "fil-PH-AngeloNeural"
-            elif 'NARRATOR' in speaker_upper or 'ENGLISH' in speaker_upper:
-                voice_id = "en-US-AriaNeural"  # Always use Aria for English
+                # Set default pitch/rate for non-pattern matched Tagalog female speakers
+                if hasattr(self, 'current_phrase') and self.current_phrase and 'FEMALE' in speaker_upper:
+                    self.current_phrase.metadata['tts_pitch'] = '0.0'
+                    self.current_phrase.metadata['tts_rate'] = '1.0'
             
             # If we couldn't determine a valid voice, use the last used voice or default
             if not voice_id or voice_id not in valid_voice_ids:

@@ -36,8 +36,12 @@ def create_tts_service(config: Any) -> TTSService:
     provider = config_dict.get('provider', 'edge').lower()
     
     if provider == 'edge':
-        logger.info("Using Edge TTS service")
-        return EdgeTTSService(config_dict.get('edge_tts', {}))
+        logger.info("Using Edge TTS service with caching disabled")
+        # Create edge_tts config with cache disabled by default
+        edge_config = config_dict.get('edge_tts', {})
+        if 'cache_dir' not in edge_config:
+            edge_config['cache_dir'] = None
+        return EdgeTTSService(edge_config)
     
     elif provider == 'google':
         logger.info("Using Google TTS service")
@@ -107,6 +111,8 @@ def create_lesson_processor(
         An instance of a lesson processor
     """
     from tunatale.core.services.lesson_processor import LessonProcessor
+    from tunatale.infrastructure.services.voice.default_voice_selector import DefaultVoiceSelector
+    from tunatale.infrastructure.services.word.default_word_selector import DefaultWordSelector
     
     tts_config = tts_config or {}
     audio_config = audio_config or {}
@@ -115,13 +121,15 @@ def create_lesson_processor(
     tts_service = create_tts_service(tts_config)
     audio_processor = create_audio_processor(audio_config)
     
+    # Create voice selector with default voices
+    voice_selector = DefaultVoiceSelector()
+    word_selector = DefaultWordSelector()
+    
     return LessonProcessor(
         tts_service=tts_service,
         audio_processor=audio_processor,
-        config={
-            'output_format': audio_config.get('output_format', 'mp3'),
-            'silence_between_phrases': audio_config.get('silence_between_phrases', 0.5),
-            'silence_between_sections': audio_config.get('silence_between_sections', 1.0),
-            'cleanup_temp_files': audio_config.get('cleanup_temp_files', True),
-        }
+        voice_selector=voice_selector,
+        word_selector=word_selector,
+        max_workers=4,  # Default value from LessonProcessor.__init__
+        output_dir="output"  # Default value from LessonProcessor.__init__
     )
