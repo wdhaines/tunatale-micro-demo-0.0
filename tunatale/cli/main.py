@@ -187,11 +187,17 @@ class ProgressReporter:
         if task_type:
             description = f"[{task_type.upper()}] {description}"
         
-        # Simple progress bar
+        # Simple progress bar - handle zero total case
         bar_length = 40
-        filled_length = int(bar_length * completed // total)
+        if total > 0:
+            filled_length = min(bar_length, int(bar_length * completed // total))
+            percent = min(100, int(100 * completed / total))
+        else:
+            # If total is zero, show an indeterminate progress bar
+            filled_length = bar_length if completed > 0 else 0
+            percent = 100 if completed > 0 else 0
+            
         bar = '█' * filled_length + ' ' * (bar_length - filled_length)
-        percent = int(100 * completed / total)
         
         # Elapsed time
         elapsed = time.time() - self._start_time
@@ -401,20 +407,19 @@ async def process_lesson(
     processor.output_dir = str(output_dir.absolute())
     processor.max_workers = max_parallel_phrases
 
-    # Create the output directory structure
-    sections_dir = output_dir / "sections"
+    # Create the output directory structure (without sections subdirectory)
     phrases_dir = output_dir / "phrases"
     metadata_dir = output_dir / "metadata"
     
     # Ensure output directories exist
-    sections_dir.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
     phrases_dir.mkdir(parents=True, exist_ok=True)
     metadata_dir.mkdir(parents=True, exist_ok=True)
     
     # Process the lesson
     try:
-        # Update the output_dir in config to use the sections directory for section outputs
-        config = config.copy(update={"output_dir": str(sections_dir.absolute())})
+        # Use the main output directory directly for all files
+        config = config.copy(update={"output_dir": str(output_dir.absolute())})
         
         # Process the lesson with progress reporting
         if progress:
@@ -452,7 +457,7 @@ async def process_lesson(
         # Only pass supported arguments to process_lesson
         result = await processor.process_lesson(
             lesson=lesson,
-            output_dir=str(sections_dir.absolute())
+            output_dir=str(output_dir.absolute())
         )
         
         logger.info("Lesson processing completed")
@@ -461,15 +466,17 @@ async def process_lesson(
         # Log output directory contents
         if output_dir.exists():
             logger.info(f"Output directory contents: {list(output_dir.glob('*'))}")
-            if (output_dir / 'sections').exists():
-                logger.info(f"Sections directory contents: {list((output_dir / 'sections').glob('*'))}")
+            # List audio files specifically
+            audio_files = list(output_dir.glob('*.mp3'))
+            if audio_files:
+                logger.info(f"Audio files generated: {[f.name for f in audio_files]}")
             else:
-                logger.warning("Sections directory does not exist")
+                logger.warning("No audio files found in output directory")
         else:
             logger.error("Output directory was not created")
         
-        # Ensure output directories exist
-        sections_dir.mkdir(parents=True, exist_ok=True)
+        # Ensure output directories exist (already created above but keeping for safety)
+        output_dir.mkdir(parents=True, exist_ok=True)
         phrases_dir.mkdir(parents=True, exist_ok=True)
         metadata_dir.mkdir(parents=True, exist_ok=True)
         

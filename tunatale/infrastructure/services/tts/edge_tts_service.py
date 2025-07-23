@@ -13,6 +13,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 
+from tunatale.core.utils.tts_preprocessor import preprocess_text_for_tts
+
 import aiofiles
 import aiohttp
 import edge_tts
@@ -917,6 +919,28 @@ class EdgeTTSService(TTSService):
             # Log all available speaker IDs for debugging
             available_speaker_ids = ['tagalog-female-1', 'tagalog-female-2']
             logger.debug(f"[DEBUG] Available speaker IDs: {available_speaker_ids}")
+            
+            # Convert voice_id to lowercase for consistent comparison
+            voice_id_lower = voice_id.lower()
+            
+            # Determine language code based on voice ID
+            if 'tagalog' in voice_id_lower or 'fil' in voice_id_lower:
+                language_code = 'fil-PH'  # Tagalog/Filipino language code
+            elif 'en-' in voice_id_lower:
+                # Extract the full language code if it follows 'en-' (e.g., 'en-US')
+                language_code = 'en-US'  # Default English variant
+            else:
+                language_code = 'en-US'  # Default to US English
+                
+            logger.debug(f"Using language code '{language_code}' for voice ID: {voice_id}")
+            
+            # Log original text before preprocessing
+            logger.debug(f"Original text for TTS: '{text}'")
+            logger.debug(f"Using language code: '{language_code}'")
+            
+            # Apply text preprocessing for TTS (abbreviations, language-specific fixes)
+            text = preprocess_text_for_tts(text, language_code)
+            logger.debug(f"Preprocessed text for TTS: '{text}'")
             
             # Check if voice_id contains tagalog but speaker_id is not set
             if ('tagalog' in voice_id_lower or 'fil' in voice_id_lower) and not speaker_id:
