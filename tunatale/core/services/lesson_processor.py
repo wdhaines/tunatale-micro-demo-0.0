@@ -93,6 +93,8 @@ class LessonProcessor(LessonProcessorInterface):
         word_selector: WordSelector,
         max_workers: int = 4,
         output_dir: str = "output",
+        ellipsis_pause_duration_ms: int = 800,
+        use_natural_pauses: bool = True,
     ):
         """Initialize the lesson processor with performance monitoring.
 
@@ -103,6 +105,8 @@ class LessonProcessor(LessonProcessorInterface):
             word_selector: The word selector to use for selecting words.
             max_workers: The maximum number of worker threads to use for parallel processing.
             output_dir: The base directory where output files will be saved.
+            ellipsis_pause_duration_ms: Duration in milliseconds for pauses created by ellipsis (...).
+            use_natural_pauses: Whether to use the natural pause system based on linguistic boundaries.
         """
         self.tts_service = tts_service
         self.audio_processor = audio_processor
@@ -110,6 +114,14 @@ class LessonProcessor(LessonProcessorInterface):
         self.word_selector = word_selector
         self.max_workers = max_workers
         self.output_dir = Path(output_dir)
+        self.ellipsis_pause_duration_ms = ellipsis_pause_duration_ms
+        self.use_natural_pauses = use_natural_pauses
+        
+        # Initialize natural pause system if enabled
+        if self.use_natural_pauses:
+            from .natural_pause_calculator import NaturalPauseCalculator
+            self.natural_pause_calculator = NaturalPauseCalculator()
+        
         self.metrics = PerformanceMetrics()
 
     async def process_lesson(
@@ -153,7 +165,7 @@ class LessonProcessor(LessonProcessorInterface):
                 await progress.update(task_id=task_id, completed=current_step, total=total_steps, status="Processing sections...")
 
             # Process sections in parallel with progress reporting
-            processed_sections = await self._process_sections(lesson.sections, output_path, progress=progress)
+            processed_sections = await self._process_sections(lesson, output_path, progress=progress)
             current_step += 1
             
             if progress:
@@ -168,6 +180,7 @@ class LessonProcessor(LessonProcessorInterface):
 
             # Generate lesson audio file with progress reporting
             lesson_audio_file = await self._generate_lesson_audio(
+                lesson,
                 section_audio_files, 
                 output_path,
                 progress=progress  # Pass progress reporter to lesson audio generation
@@ -255,12 +268,12 @@ class LessonProcessor(LessonProcessorInterface):
             raise
 
     async def _process_sections(
-        self, sections: List[Section], output_path: Path, progress: Optional[Any] = None
+        self, lesson: Lesson, output_path: Path, progress: Optional[Any] = None
     ) -> List[ProcessedSection]:
         """Process all sections in parallel.
 
         Args:
-            sections: List of sections to process.
+            lesson: The lesson containing sections to process.
             output_path: Path to the output directory.
             progress: Optional progress reporter for tracking progress.
 
@@ -268,20 +281,21 @@ class LessonProcessor(LessonProcessorInterface):
             List of processed sections.
         """
         section_tasks = []
-        for section in sections:
+        for section in lesson.sections:
             section_output_path = output_path / f"section_{section.id}"
             section_output_path.mkdir(exist_ok=True)
-            task = self._process_section(section, section_output_path, progress=progress)
+            task = self._process_section(lesson, section, section_output_path, progress=progress)
             section_tasks.append(task)
 
         return await asyncio.gather(*section_tasks)
 
     async def _process_section(
-        self, section: Section, output_path: Path, progress: Optional[Any] = None
+        self, lesson: Optional[Lesson], section: Section, output_path: Path, progress: Optional[Any] = None
     ) -> ProcessedSection:
         """Process a single section.
 
         Args:
+            lesson: The lesson containing this section (needed for day number extraction).
             section: The section to process.
             output_path: Path to the output directory for this section.
             progress: Optional progress reporter for tracking progress.
@@ -318,8 +332,17 @@ class LessonProcessor(LessonProcessorInterface):
 
         processed_phrases = await asyncio.gather(*phrase_tasks)
 
-        # Generate section audio with MP3 extension using sanitized title
-        section_filename = self._sanitize_filename(section.title)
+        # Generate section audio with new naming pattern when lesson context is available
+        if lesson:
+            # New naming pattern: [Number of day].[suffix] – [type].mp3
+            day_number = self._extract_day_number(lesson)
+            section_suffix = self._classify_section_type(section)
+            section_type = self._get_section_type_name(section_suffix)
+            section_filename = f"{day_number}.{section_suffix} – {section_type}"
+        else:
+            # Fallback to old naming for standalone section processing
+            section_filename = self._sanitize_filename(section.title)
+        
         temp_section_audio_file = output_path / f"{section_filename}.mp3"
         
         # Update progress before concatenation
@@ -343,12 +366,13 @@ class LessonProcessor(LessonProcessorInterface):
                 progress=progress  # Pass progress reporter to concatenation
             )
         
-        # Move the section audio file to the top-level directory (parent of output_path)
+        # Place the section audio file in the main output directory
+        # Since CLI now passes main directory directly, we move to parent to get to main level
         top_level_dir = output_path.parent
         final_section_audio_file = top_level_dir / f"{section_filename}.mp3"
         
         if temp_section_audio_file.exists():
-            # Move the file to the top-level directory
+            # Move the file to the main output directory
             shutil.move(str(temp_section_audio_file), str(final_section_audio_file))
             logger.debug(f"Moved section audio file from {temp_section_audio_file} to {final_section_audio_file}")
             section_audio_file = final_section_audio_file
@@ -396,7 +420,7 @@ class LessonProcessor(LessonProcessorInterface):
             section_output_path.mkdir(exist_ok=True)
             
             # Process the section using the internal implementation
-            processed_section = await self._process_section(section, section_output_path, None)
+            processed_section = await self._process_section(None, section, section_output_path, None)
             
             # Move the final section audio file to the requested output directory
             if processed_section.audio_file and processed_section.audio_file.exists():
@@ -463,8 +487,11 @@ class LessonProcessor(LessonProcessorInterface):
             # Ensure output directory exists
             output_dir.mkdir(parents=True, exist_ok=True)
             
-            # Process the phrase using the internal implementation
-            processed_phrase = await self._process_phrase(phrase, output_dir)
+            # Process the phrase using natural pauses if enabled, otherwise use standard processing
+            if self.use_natural_pauses:
+                processed_phrase = await self._process_phrase_with_natural_pauses(phrase, output_dir)
+            else:
+                processed_phrase = await self._process_phrase(phrase, output_dir)
             
             # Convert to the expected dictionary format
             result = {
@@ -549,9 +576,17 @@ class LessonProcessor(LessonProcessorInterface):
             if hasattr(self.tts_service, 'validate_voice'):
                 await self.tts_service.validate_voice(voice_id)
                 
+            # Handle ellipsis with configurable pause duration
+            has_ellipsis = "..." in preprocessed_text
+            if has_ellipsis:
+                # Replace ellipsis with semicolons for better natural TTS pauses than commas
+                tts_text = preprocessed_text.replace("...", "; ")
+            else:
+                tts_text = preprocessed_text
+                
             # Retry TTS synthesis with exponential backoff
             await self._synthesize_speech_with_retry(
-                text=preprocessed_text,
+                text=tts_text,
                 voice_id=voice_id,
                 output_path=str(audio_file),
                 rate=phrase.metadata.get("rate", 1.0) if phrase.metadata else 1.0,
@@ -560,6 +595,25 @@ class LessonProcessor(LessonProcessorInterface):
                 speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
                 phrase_text=phrase.text
             )
+            
+            # If the original text had ellipsis, add configurable silence for longer pauses
+            if has_ellipsis and self.ellipsis_pause_duration_ms > 0:
+                original_file = audio_file.with_suffix('.mp3')
+                temp_file = output_path / f"temp_{original_file.name}"
+                
+                # Add silence to create longer pauses
+                silence_duration_s = self.ellipsis_pause_duration_ms / 1000.0
+                await self.audio_processor.add_silence(
+                    input_file=original_file,
+                    output_file=temp_file,
+                    duration=silence_duration_s,
+                    position="end"
+                )
+                
+                # Replace original file with processed version
+                if temp_file.exists():
+                    original_file.unlink()
+                    temp_file.rename(original_file)
             
             # Update audio_file path to include the correct extension
             audio_file = audio_file.with_suffix('.mp3')  # Edge TTS always outputs MP3
@@ -588,40 +642,162 @@ class LessonProcessor(LessonProcessorInterface):
             logger.error("Error processing phrase '%s': %s", phrase.text, str(e))
             raise
 
-    def _preprocess_text(self, text: str, language: str) -> str:
-        """Preprocess text before TTS processing.
-
-        Args:
-            text: The text to preprocess.
-            language: The language of the text.
-
-        Returns:
-            Preprocessed text.
-        """
-        # Remove extra whitespace
-        text = re.sub(r"\s+", " ", text.strip())
-
-        # Language-specific preprocessing
-        language_str = str(language).lower()
-        if language_str == "tagalog":
-            # Add any Tagalog-specific preprocessing here
-            pass
-
-        return text
-
-    def _sanitize_filename(self, title: str) -> str:
-        """Convert a section title to a filename-friendly name.
+    async def _process_phrase_with_natural_pauses(
+        self, phrase: Phrase, output_path: Path
+    ) -> ProcessedPhrase:
+        """Process a phrase using natural pause system based on linguistic boundaries.
         
         Args:
-            title: The section title to sanitize.
+            phrase: The phrase to process.
+            output_path: Path to the output directory for this phrase.
             
         Returns:
-            A filename-friendly version of the title.
+            Processed phrase with audio file path.
         """
-        # Convert to lowercase and replace spaces with underscores
-        filename = title.lower().replace(' ', '_')
+        from .linguistic_boundary_detector import split_with_natural_pauses
         
-        # Remove special characters, keeping only alphanumeric and underscores
+        self.metrics.phrases_processed += 1
+        logger.debug("Processing phrase with natural pauses: %s", phrase.text)
+
+        try:
+            # Preprocess text
+            preprocessed_text = self._preprocess_text(phrase.text, phrase.language)
+
+            # Get voice ID
+            if hasattr(phrase, 'voice_id') and phrase.voice_id:
+                voice_id = phrase.voice_id
+            else:
+                voice_id = await self.voice_selector.get_voice_id(
+                    language=phrase.language,
+                    gender=phrase.metadata.get("gender") if phrase.metadata else None,
+                    speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
+                )
+
+            # Validate voice
+            if hasattr(self.tts_service, 'validate_voice'):
+                await self.tts_service.validate_voice(voice_id)
+
+            # Determine if this should be slow speech
+            is_slow = (
+                "..." in preprocessed_text or  # Contains ellipsis
+                (phrase.metadata and phrase.metadata.get("rate", 1.0) < 0.8) or  # Slow rate setting
+                "[SLOW]" in preprocessed_text.upper()  # Explicit slow marker
+            )
+
+            # Split text into natural segments
+            segments = split_with_natural_pauses(preprocessed_text, is_slow=is_slow)
+            
+            if not segments:
+                # Fallback to original processing if no segments
+                return await self._process_phrase(phrase, output_path)
+
+            # Generate audio for each segment
+            audio_parts = []
+            for i, segment in enumerate(segments):
+                if segment['type'] == 'text':
+                    # Create temporary audio file for this segment
+                    segment_file = output_path / f"phrase_{phrase.id}_segment_{i}"
+                    
+                    # Get voice settings from segment
+                    voice_settings = segment.get('voice_settings', {})
+                    rate = voice_settings.get('rate', 1.0)
+                    
+                    # Synthesize speech for this text segment
+                    await self._synthesize_speech_with_retry(
+                        text=segment['content'],
+                        voice_id=voice_id,
+                        output_path=str(segment_file),
+                        rate=rate,
+                        pitch=phrase.metadata.get("pitch", 0.0) if phrase.metadata else 0.0,
+                        volume=1.0,
+                        speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
+                        phrase_text=phrase.text
+                    )
+                    
+                    segment_file = segment_file.with_suffix('.mp3')
+                    if segment_file.exists():
+                        audio_parts.append(segment_file)
+                
+                elif segment['type'] == 'pause':
+                    # Create silence for pause
+                    pause_file = output_path / f"phrase_{phrase.id}_pause_{i}.mp3"
+                    silence_duration_s = segment['duration'] / 1000.0
+                    
+                    # Create a minimal audio file and add silence
+                    if audio_parts:  # Only add silence if we have previous audio
+                        await self.audio_processor.add_silence(
+                            input_file=audio_parts[-1],  # Use last audio file as base
+                            output_file=pause_file,
+                            duration=silence_duration_s,
+                            position="end"
+                        )
+                        # Replace the last audio file with the one with silence
+                        if pause_file.exists():
+                            audio_parts[-1] = pause_file
+
+            # Combine all audio parts into final file
+            final_audio_file = output_path / f"phrase_{phrase.id}.mp3"
+            
+            if len(audio_parts) > 1:
+                await self.audio_processor.concatenate_audio(
+                    [str(f) for f in audio_parts],
+                    str(final_audio_file)
+                )
+                
+                # Clean up temporary segment files
+                for part in audio_parts:
+                    if part != final_audio_file and part.exists():
+                        try:
+                            part.unlink()
+                        except Exception as cleanup_error:
+                            logger.warning(f"Failed to clean up temporary file {part}: {cleanup_error}")
+            elif len(audio_parts) == 1:
+                # Just one part, rename it to final name
+                audio_parts[0].rename(final_audio_file)
+            
+            # Process audio if audio_config is provided
+            audio_config = phrase.metadata.get("audio_config") if phrase.metadata else None
+            if audio_config:
+                await self._process_audio(final_audio_file, audio_config)
+
+            # Create processed phrase data
+            processed_data = {
+                "id": phrase.id,
+                "text": phrase.text,
+                "language": phrase.language,
+                "audio_file": final_audio_file,
+                "metadata": phrase.metadata or {},
+            }
+
+            # Only add translation if it exists
+            if hasattr(phrase, 'translation') and phrase.translation is not None:
+                processed_data["translation"] = phrase.translation
+                
+            return ProcessedPhrase(**processed_data)
+
+        except Exception as e:
+            logger.error("Error processing phrase with natural pauses '%s': %s", phrase.text, str(e))
+            raise
+
+    def _sanitize_filename(self, title: str) -> str:
+        """Convert a section title to a safe filename.
+        
+        Args:
+            title: The section title to convert.
+            
+        Returns:
+            A safe filename string with only alphanumeric characters and underscores.
+        """
+        import re
+        import unicodedata
+        
+        # Normalize unicode characters
+        filename = unicodedata.normalize('NFKD', title)
+        
+        # Replace spaces with underscores and convert to lowercase
+        filename = filename.strip().lower().replace(' ', '_')
+        
+        # Remove any characters that are not alphanumeric or underscores
         filename = re.sub(r'[^a-z0-9_]', '', filename)
         
         # Remove multiple consecutive underscores
@@ -635,6 +811,126 @@ class LessonProcessor(LessonProcessorInterface):
             filename = 'section'
             
         return filename
+
+    def _extract_day_number(self, lesson: Lesson) -> str:
+        """Extract day number from lesson title or content.
+        
+        Args:
+            lesson: The lesson object to extract day number from.
+            
+        Returns:
+            Day number as string, or "0" if not found.
+        """
+        # First check the lesson title
+        if lesson.title:
+            day_match = re.search(r'day\s*(\d+)', lesson.title.lower())
+            if day_match:
+                return day_match.group(1)
+        
+        # Then check the first section for narrator day announcements
+        for section in lesson.sections:
+            for phrase in section.phrases:
+                # Check if this phrase is from the narrator (stored in metadata)
+                speaker_info = phrase.metadata.get('speaker', '')
+                if speaker_info and 'narrator' in speaker_info.lower():
+                    day_match = re.search(r'day\s*(\d+)', phrase.text.lower())
+                    if day_match:
+                        return day_match.group(1)
+        
+        # Fallback: try to extract from filename in the lesson description
+        if lesson.description and 'day-' in lesson.description.lower():
+            day_match = re.search(r'day-(\d+)', lesson.description.lower())
+            if day_match:
+                return day_match.group(1)
+        
+        return "0"
+    
+    def _classify_section_type(self, section: Section) -> str:
+        """Classify section type to determine suffix (a/b/c/d).
+        
+        Args:
+            section: The section to classify.
+            
+        Returns:
+            Single letter suffix: 'a' for key_phrases, 'b' for natural_speed, 
+            'c' for slow_speed, 'd' for translated.
+        """
+        section_title = section.title.lower() if section.title else ""
+        
+        if 'key' in section_title or 'phrase' in section_title or 'vocabulary' in section_title:
+            return 'a'
+        elif 'natural' in section_title or 'normal' in section_title:
+            return 'b'
+        elif 'slow' in section_title:
+            return 'c'
+        elif 'translat' in section_title or 'english' in section_title:
+            return 'd'
+        
+        # Fallback based on section order (common pattern in lessons)
+        # This is a heuristic based on typical lesson structure
+        return 'a'  # Default to key phrases
+    
+    def _get_section_type_name(self, suffix: str) -> str:
+        """Get the readable name for a section type suffix.
+        
+        Args:
+            suffix: Single letter suffix (a/b/c/d).
+            
+        Returns:
+            Readable section type name.
+        """
+        suffix_to_name = {
+            'a': 'key_phrases',
+            'b': 'natural_speed',
+            'c': 'slow_speed',
+            'd': 'translated'
+        }
+        return suffix_to_name.get(suffix, 'key_phrases')
+        
+    def _preprocess_text(self, text: str, language: str) -> str:
+        """Preprocess text before TTS processing.
+
+        Args:
+            text: The text to preprocess.
+            language: The language of the text (can be string or Language enum).
+
+        Returns:
+            Preprocessed text with abbreviations and language-specific fixes applied.
+        """
+        # Remove extra whitespace
+        text = re.sub(r'\s+', ' ', text.strip())
+        
+        # Apply TTS preprocessing (abbreviations, language-specific fixes)
+        try:
+            from tunatale.core.utils.tts_preprocessor import preprocess_text_for_tts
+            from tunatale.core.models.enums import Language
+            
+            # Handle both string and Language enum input
+            if hasattr(language, 'code'):  # It's a Language enum
+                lang_code = language.code
+            else:  # It's a string
+                lang_code = str(language).lower()
+            
+            # Map language to full language code for TTS
+            language_code = {
+                'tagalog': 'fil-PH',
+                'fil': 'fil-PH',
+                'tl': 'fil-PH',  # Alternative Tagalog code
+                'english': 'en-US',
+                'en': 'en-US',
+                'spanish': 'es-ES',
+                'es': 'es-ES'
+            }.get(lang_code, 'en-US')  # Default to en-US if not found
+            
+            logger.debug(f"Preprocessing text with language code: {language_code}")
+            text = preprocess_text_for_tts(text, language_code)
+            logger.debug(f"Preprocessed text for TTS: '{text}'")
+        except ImportError as e:
+            logger.warning(f"Failed to import TTS preprocessor: {e}")
+        except Exception as e:
+            logger.warning(f"Error in TTS preprocessing: {e}")
+            
+        return text
 
     async def _synthesize_speech_with_retry(
         self,
@@ -771,7 +1067,19 @@ class LessonProcessor(LessonProcessorInterface):
             progress: Optional progress reporter for tracking progress.
         """
         if not input_files:
+            logger.warning("No input files provided for concatenation")
             return
+
+        # Filter out any non-existent files
+        valid_inputs = [f for f in input_files if f.exists()]
+        if not valid_inputs:
+            logger.error("No valid input files found for concatenation")
+            return
+            
+        if len(valid_inputs) != len(input_files):
+            logger.warning("Some input files were not found and will be skipped")
+            
+        input_files = valid_inputs
 
         # Create a task ID for progress reporting
         task_id = f"concat_{output_file.stem}"
@@ -822,14 +1130,33 @@ class LessonProcessor(LessonProcessorInterface):
                     )
                 
                 if input_file.suffix.lower() != first_ext:
-                    # Convert to the target format
-                    converted_file = input_file.with_suffix(first_ext)
-                    await self.audio_processor.convert_format(
-                        str(input_file), str(converted_file), first_ext[1:]
-                    )
-                    audio_files.append(converted_file)
+                    try:
+                        # Convert to the target format
+                        converted_file = input_file.with_suffix(first_ext)
+                        await self.audio_processor.convert_format(
+                            str(input_file), str(converted_file), first_ext[1:]
+                        )
+                        if converted_file.exists() and converted_file.stat().st_size > 0:
+                            audio_files.append(converted_file)
+                        else:
+                            logger.warning(f"Failed to convert {input_file} - file is empty or not created")
+                    except Exception as e:
+                        logger.error(f"Error converting {input_file}: {str(e)}")
                 else:
-                    audio_files.append(input_file)
+                    if input_file.stat().st_size > 0:
+                        audio_files.append(input_file)
+                    else:
+                        logger.warning(f"Skipping empty file: {input_file}")
+
+        if not audio_files:
+            logger.error("No valid audio files to concatenate after filtering")
+            if progress:
+                await progress.update(
+                    task_id=task_id,
+                    status="Error: No valid audio files to concatenate",
+                    phase="error"
+                )
+            return
 
         try:
             # Update progress before concatenation
@@ -848,6 +1175,10 @@ class LessonProcessor(LessonProcessorInterface):
                 str(output_file)
             )
 
+            # Verify output file was created and has content
+            if not output_file.exists() or output_file.stat().st_size == 0:
+                raise RuntimeError("Failed to create valid output file")
+
             # Update progress after successful concatenation
             if progress:
                 await progress.update(
@@ -862,21 +1193,16 @@ class LessonProcessor(LessonProcessorInterface):
                 
         except Exception as e:
             # Update progress on error
+            error_msg = f"Error during concatenation: {str(e)}"
+            logger.error(error_msg)
             if progress:
                 await progress.update(
                     task_id=task_id,
-                    status=f"Error: {str(e)}",
+                    status=error_msg,
                     phase="error"
                 )
+            # Re-raise the exception to be handled by the caller
             raise
-        finally:
-            # Clean up temporary files
-            for temp_file in audio_files:
-                if temp_file not in input_files and temp_file.exists():
-                    try:
-                        os.remove(temp_file)
-                    except Exception as e:
-                        logger.warning(f"Failed to remove temporary file {temp_file}: {e}")
         
         self.metrics.audio_generated += 1
 
@@ -901,6 +1227,7 @@ class LessonProcessor(LessonProcessorInterface):
 
     async def _generate_lesson_audio(
         self, 
+        lesson: Lesson,
         section_audio_files: Dict[str, Path], 
         output_path: Path,
         progress: Optional[Any] = None
@@ -908,6 +1235,7 @@ class LessonProcessor(LessonProcessorInterface):
         """Generate a single audio file for the entire lesson.
 
         Args:
+            lesson: The lesson object to extract day number from.
             section_audio_files: Dictionary mapping section IDs to audio file paths.
             output_path: Path to the output directory.
             progress: Optional progress reporter for tracking progress.
@@ -915,8 +1243,12 @@ class LessonProcessor(LessonProcessorInterface):
         Returns:
             Path to the generated lesson audio file.
         """
-        # Use MP3 extension for the lesson audio file
-        lesson_audio_file = output_path / "lesson.mp3"
+        # Extract day number for new naming scheme
+        day_number = self._extract_day_number(lesson)
+        
+        # Use new naming pattern: [Number of day] - lesson.mp3
+        # Place the lesson file at the top level of the run directory
+        lesson_audio_file = output_path / f"{day_number} - lesson.mp3"
         audio_files = list(section_audio_files.values())
 
         if audio_files:
