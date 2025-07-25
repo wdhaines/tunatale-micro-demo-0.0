@@ -327,7 +327,9 @@ class LessonProcessor(LessonProcessorInterface):
                     status=f"Processing phrase {i+1}/{len(section.phrases)}"
                 )
             
-            task = self._process_phrase(phrase, output_path)
+            # Get section type for TTS preprocessing
+            section_type = self._get_section_type_name(self._classify_section_type(section)) if lesson else None
+            task = self._process_phrase(phrase, output_path, section_type)
             phrase_tasks.append(task)
 
         processed_phrases = await asyncio.gather(*phrase_tasks)
@@ -488,10 +490,11 @@ class LessonProcessor(LessonProcessorInterface):
             output_dir.mkdir(parents=True, exist_ok=True)
             
             # Process the phrase using natural pauses if enabled, otherwise use standard processing
+            # Note: section_type is None for standalone phrase processing
             if self.use_natural_pauses:
-                processed_phrase = await self._process_phrase_with_natural_pauses(phrase, output_dir)
+                processed_phrase = await self._process_phrase_with_natural_pauses(phrase, output_dir, None)
             else:
-                processed_phrase = await self._process_phrase(phrase, output_dir)
+                processed_phrase = await self._process_phrase(phrase, output_dir, None)
             
             # Convert to the expected dictionary format
             result = {
@@ -540,13 +543,14 @@ class LessonProcessor(LessonProcessorInterface):
             }
 
     async def _process_phrase(
-        self, phrase: Phrase, output_path: Path
+        self, phrase: Phrase, output_path: Path, section_type: Optional[str] = None
     ) -> ProcessedPhrase:
         """Process a single phrase (internal implementation).
 
         Args:
             phrase: The phrase to process.
             output_path: Path to the output directory for this phrase.
+            section_type: Type of section for context-aware processing.
 
         Returns:
             Processed phrase with audio file path.
@@ -556,7 +560,7 @@ class LessonProcessor(LessonProcessorInterface):
 
         try:
             # Preprocess text
-            preprocessed_text = self._preprocess_text(phrase.text, phrase.language)
+            preprocessed_text = self._preprocess_text(phrase.text, phrase.language, section_type)
 
             # Use the voice ID from the phrase if available, otherwise get it from voice selector
             if hasattr(phrase, 'voice_id') and phrase.voice_id:
@@ -643,13 +647,14 @@ class LessonProcessor(LessonProcessorInterface):
             raise
 
     async def _process_phrase_with_natural_pauses(
-        self, phrase: Phrase, output_path: Path
+        self, phrase: Phrase, output_path: Path, section_type: Optional[str] = None
     ) -> ProcessedPhrase:
         """Process a phrase using natural pause system based on linguistic boundaries.
         
         Args:
             phrase: The phrase to process.
             output_path: Path to the output directory for this phrase.
+            section_type: Type of section for context-aware processing.
             
         Returns:
             Processed phrase with audio file path.
@@ -661,7 +666,7 @@ class LessonProcessor(LessonProcessorInterface):
 
         try:
             # Preprocess text
-            preprocessed_text = self._preprocess_text(phrase.text, phrase.language)
+            preprocessed_text = self._preprocess_text(phrase.text, phrase.language, section_type)
 
             # Get voice ID
             if hasattr(phrase, 'voice_id') and phrase.voice_id:
@@ -853,10 +858,11 @@ class LessonProcessor(LessonProcessorInterface):
             
         Returns:
             Single letter suffix: 'a' for key_phrases, 'b' for natural_speed, 
-            'c' for slow_speed, 'd' for translated.
+            'c' for slow_speed, 'd' for translated, 'x' for unknown/intro.
         """
         section_title = section.title.lower() if section.title else ""
         
+        # Explicit section type detection
         if 'key' in section_title or 'phrase' in section_title or 'vocabulary' in section_title:
             return 'a'
         elif 'natural' in section_title or 'normal' in section_title:
@@ -866,15 +872,18 @@ class LessonProcessor(LessonProcessorInterface):
         elif 'translat' in section_title or 'english' in section_title:
             return 'd'
         
-        # Fallback based on section order (common pattern in lessons)
-        # This is a heuristic based on typical lesson structure
-        return 'a'  # Default to key phrases
+        # Check for auto-generated section titles (like "Section 1", "Section 2", etc.)
+        if re.match(r'^section\s+\d+$', section_title) or section_title.startswith('syllable'):
+            return 'x'  # Unknown/intro section, not key phrases
+        
+        # For other ambiguous cases, classify as unknown rather than assuming key phrases
+        return 'x'  # Changed from 'a' to avoid misclassification
     
     def _get_section_type_name(self, suffix: str) -> str:
         """Get the readable name for a section type suffix.
         
         Args:
-            suffix: Single letter suffix (a/b/c/d).
+            suffix: Single letter suffix (a/b/c/d/x).
             
         Returns:
             Readable section type name.
@@ -883,16 +892,18 @@ class LessonProcessor(LessonProcessorInterface):
             'a': 'key_phrases',
             'b': 'natural_speed',
             'c': 'slow_speed',
-            'd': 'translated'
+            'd': 'translated',
+            'x': 'intro'
         }
-        return suffix_to_name.get(suffix, 'key_phrases')
+        return suffix_to_name.get(suffix, 'intro')
         
-    def _preprocess_text(self, text: str, language: str) -> str:
+    def _preprocess_text(self, text: str, language: str, section_type: Optional[str] = None) -> str:
         """Preprocess text before TTS processing.
 
         Args:
             text: The text to preprocess.
             language: The language of the text (can be string or Language enum).
+            section_type: Type of section for context-aware processing.
 
         Returns:
             Preprocessed text with abbreviations and language-specific fixes applied.
@@ -922,8 +933,8 @@ class LessonProcessor(LessonProcessorInterface):
                 'es': 'es-ES'
             }.get(lang_code, 'en-US')  # Default to en-US if not found
             
-            logger.debug(f"Preprocessing text with language code: {language_code}")
-            text = preprocess_text_for_tts(text, language_code)
+            logger.debug(f"Preprocessing text with language code: {language_code}, section: {section_type}")
+            text = preprocess_text_for_tts(text, language_code, section_type)
             logger.debug(f"Preprocessed text for TTS: '{text}'")
         except ImportError as e:
             logger.warning(f"Failed to import TTS preprocessor: {e}")
