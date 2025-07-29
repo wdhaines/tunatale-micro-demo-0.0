@@ -1,0 +1,245 @@
+[NARRATOR]: Syllable Pronunciation Test
+
+Key Phrases:
+
+[NARRATOR]: Single vowels - testing different transliterations
+
+[NARRATOR]: Testing i transliterations 
+[NARRATOR]: i
+[TAGALOG-FEMALE-1]: i
+
+[NARRATOR]: Testing o transliterations
+[NARRATOR]: o 
+[TAGALOG-FEMALE-1]: o
+
+[NARRATOR]: Testing a transliterations
+[NARRATOR]: a
+[TAGALOG-FEMALE-1]: a
+
+[NARRATOR]: Testing e transliterations
+[NARRATOR]: e
+[TAGALOG-FEMALE-1]: e
+
+[NARRATOR]: Testing u transliterations
+[NARRATOR]: u
+[TAGALOG-FEMALE-1]: u
+
+[NARRATOR]: Common consonant + i syllables (most problematic)
+[NARRATOR]: bi (from gabi - should sound like "bee")
+[TAGALOG-FEMALE-1]: bi
+
+[NARRATOR]: si (from susi - should sound like "see")
+[TAGALOG-FEMALE-1]: si
+
+[NARRATOR]: ti (should sound like "tee")
+[TAGALOG-FEMALE-1]: ti
+
+[NARRATOR]: mi (should sound like "mee")
+[TAGALOG-FEMALE-1]: mi
+
+[NARRATOR]: ni (should sound like "nee")
+[TAGALOG-FEMALE-1]: ni
+
+[NARRATOR]: li (should sound like "lee")
+[TAGALOG-FEMALE-1]: li
+
+[NARRATOR]: ki (should sound like "kee")
+[TAGALOG-FEMALE-1]: ki
+
+[NARRATOR]: di (should sound like "dee")
+[TAGALOG-FEMALE-1]: di
+
+[NARRATOR]: gi (should sound like "ghee")
+[TAGALOG-FEMALE-1]: gi
+
+[NARRATOR]: pi (should sound like "pee")
+[TAGALOG-FEMALE-1]: pi
+
+[NARRATOR]: Common consonant + e syllables
+
+[NARRATOR]: le (should sound like "leh")
+[TAGALOG-FEMALE-1]: le
+
+[NARRATOR]: me (should sound like "meh")
+[TAGALOG-FEMALE-1]: me
+
+[NARRATOR]: te (should sound like "teh")
+[TAGALOG-FEMALE-1]: te
+
+[NARRATOR]: se (should sound like "seh")
+[TAGALOG-FEMALE-1]: se
+
+[NARRATOR]: ne (should sound like "neh")
+[TAGALOG-FEMALE-1]: ne
+
+[NARRATOR]: re (should sound like "reh")
+[TAGALOG-FEMALE-1]: re
+
+[NARRATOR]: ke (should sound like "keh")
+[TAGALOG-FEMALE-1]: ke
+
+[NARRATOR]: de (should sound like "deh")
+[TAGALOG-FEMALE-1]: de
+
+[NARRATOR]: ge (should sound like "geh")
+[TAGALOG-FEMALE-1]: ge
+
+[NARRATOR]: pe (should sound like "peh")
+[TAGALOG-FEMALE-1]: pe
+
+[NARRATOR]: Common consonant + o syllables
+[NARRATOR]: to (from kwarto, ito - should sound like "toh")
+[TAGALOG-FEMALE-1]: to
+
+[NARRATOR]: po (polite particle - should sound like "poh")
+[TAGALOG-FEMALE-1]: po
+
+[NARRATOR]: so (should sound like "soh")
+[TAGALOG-FEMALE-1]: so
+
+[NARRATOR]: no (should sound like "noh")
+[TAGALOG-FEMALE-1]: no
+
+[NARRATOR]: mo (should sound like "moh")
+[TAGALOG-FEMALE-1]: mo
+
+[NARRATOR]: ko (should sound like "koh")
+[TAGALOG-FEMALE-1]: ko
+
+[NARRATOR]: lo (should sound like "loh")
+[TAGALOG-FEMALE-1]: lo
+
+[NARRATOR]: go (should sound like "goh")
+[TAGALOG-FEMALE-1]: go
+
+[NARRATOR]: do (should sound like "doh")
+[TAGALOG-FEMALE-1]: do
+
+[NARRATOR]: ro (should sound like "roh")
+[TAGALOG-FEMALE-1]: ro
+
+[NARRATOR]: Common consonant + a syllables
+[NARRATOR]: ba (from gabi - should sound like "bah")
+[TAGALOG-FEMALE-1]: ba
+
+[NARRATOR]: ga (should sound like "gah")
+[TAGALOG-FEMALE-1]: ga
+
+[NARRATOR]: ma (should sound like "mah")
+[TAGALOG-FEMALE-1]: ma
+
+[NARRATOR]: na (should sound like "nah")
+[TAGALOG-FEMALE-1]: na
+
+[NARRATOR]: sa (should sound like "sah")
+[TAGALOG-FEMALE-1]: sa
+
+[NARRATOR]: ta (should sound like "tah")
+[TAGALOG-FEMALE-1]: ta
+
+[NARRATOR]: la (should sound like "lah")
+[TAGALOG-FEMALE-1]: la
+
+[NARRATOR]: ka (should sound like "kah")
+[TAGALOG-FEMALE-1]: ka
+
+[NARRATOR]: da (should sound like "dah")
+[TAGALOG-FEMALE-1]: da
+
+[NARRATOR]: ra (should sound like "rah")
+[TAGALOG-FEMALE-1]: ra
+
+[NARRATOR]: pa (should sound like "pah")
+[TAGALOG-FEMALE-1]: pa
+
+[NARRATOR]: Common consonant + u syllables
+[NARRATOR]: su (from susi - should sound like "soo")
+[TAGALOG-FEMALE-1]: su
+
+[NARRATOR]: tu (should sound like "too")
+[TAGALOG-FEMALE-1]: tu
+
+[NARRATOR]: nu (should sound like "noo")
+[TAGALOG-FEMALE-1]: nu
+
+[NARRATOR]: mu (should sound like "moo")
+[TAGALOG-FEMALE-1]: mu
+
+[NARRATOR]: lu (should sound like "loo")
+[TAGALOG-FEMALE-1]: lu
+
+[NARRATOR]: ru (should sound like "roo")
+[TAGALOG-FEMALE-1]: ru
+
+[NARRATOR]: ku (should sound like "koo")
+[TAGALOG-FEMALE-1]: ku
+
+[NARRATOR]: du (should sound like "doo")
+[TAGALOG-FEMALE-1]: du
+
+[NARRATOR]: gu (should sound like "goo")
+[TAGALOG-FEMALE-1]: gu
+
+[NARRATOR]: pu (should sound like "poo")
+[TAGALOG-FEMALE-1]: pu
+
+[NARRATOR]: Common consonant endings
+[NARRATOR]: ar (from kwarto - should sound like "ahr")
+[TAGALOG-FEMALE-1]: ar
+
+[NARRATOR]: ng (Tagalog particle - should sound like "nahng")
+[TAGALOG-FEMALE-1]: ng
+
+[NARRATOR]: an (should sound like "ahn")
+[TAGALOG-FEMALE-1]: an
+
+[NARRATOR]: at (should sound like "aht")
+[TAGALOG-FEMALE-1]: at
+
+[NARRATOR]: al (should sound like "ahl")
+[TAGALOG-FEMALE-1]: al
+
+[NARRATOR]: Real-world examples to test in context
+[TAGALOG-FEMALE-1]: gabi po
+[NARRATOR]: good evening (gabi should be normal, po should sound like "poh")
+[TAGALOG-FEMALE-1]: gabi po
+bi
+po
+gabi po
+
+[TAGALOG-FEMALE-1]: susi po
+[NARRATOR]: key please (susi should be normal, po should sound like "poh")
+[TAGALOG-FEMALE-1]: susi po
+si
+su
+susi
+susi po
+
+[TAGALOG-FEMALE-1]: ito po
+[NARRATOR]: here it is (ito already fixed to "ee-toh", po should sound like "poh")
+[TAGALOG-FEMALE-1]: ito po
+i
+to
+ito
+ito po
+
+[NARRATOR]: Natural Speed
+
+[TAGALOG-FEMALE-1]: Kumusta po? Ang ganda ng lugar na ito!
+[TAGALOG-FEMALE-2]: Salamat po! First time po ba kayo dito?
+[TAGALOG-FEMALE-1]: Opo! Maganda po talaga ang El Nido.
+
+[NARRATOR]: Slow Speed
+
+[TAGALOG-FEMALE-1]: Kumusta... po?... Ang... ganda... ng... lugar... na... ito!
+[TAGALOG-FEMALE-2]: Salamat... po!... First... time... po... ba... kayo... dito?
+[TAGALOG-FEMALE-1]: Opo!... Maganda... po... talaga... ang... El Nido.
+
+[NARRATOR]: Translated
+
+[TAGALOG-FEMALE-1]: Kumusta po? Ang ganda ng lugar na ito!
+[NARRATOR]: How are you? This place is beautiful!
+[TAGALOG-FEMALE-2]: Salamat po! First time po ba kayo dito?
+[NARRATOR]: Thank you! Is this your first time here?
+[TAGALOG-FEMALE-1]: Opo! Maganda po talaga ang El Nido.
+[NARRATOR]: Yes! El Nido is really beautiful.
