@@ -1,0 +1,308 @@
+# Day 4: Getting Around Town
+
+[NARRATOR]: Day 4: Getting Around Town
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: paano po pumunta
+[NARRATOR]: how to get to
+[TAGALOG-FEMALE-1]: paano po pumunta
+ta
+pun
+munta
+pu
+pumunta
+pumunta
+po pumunta
+po
+no
+paa
+paano
+paano po
+paano po pumunta
+paano po pumunta
+
+[TAGALOG-FEMALE-1]: malayo po ba
+[NARRATOR]: is it far?
+[TAGALOG-FEMALE-1]: malayo po ba
+ba
+po ba
+po
+yo
+la
+layo
+ma
+malayo
+malayo po
+malayo po ba
+malayo po ba
+
+[TAGALOG-FEMALE-1]: malapit lang po
+[NARRATOR]: just nearby
+[TAGALOG-FEMALE-1]: malapit lang po
+po
+lang po
+lang
+pit
+la
+lapit
+ma
+malapit
+malapit lang
+malapit lang po
+malapit lang po
+
+[TAGALOG-FEMALE-1]: kanan po
+[NARRATOR]: right
+[TAGALOG-FEMALE-1]: kanan po
+po
+nan
+ka
+kanan
+kanan po
+kanan po
+
+[TAGALOG-FEMALE-1]: kaliwa po
+[NARRATOR]: left
+[TAGALOG-FEMALE-1]: kaliwa po
+po
+wa
+li
+liwa
+ka
+kaliwa
+kaliwa po
+kaliwa po
+
+[NARRATOR]: Natural Speed
+
+Looking for the Beach
+
+[TAGALOG-MALE-1]: Kuya, paano po pumunta sa Corong-Corong Beach?
+[TAGALOG-MALE-2]: Paano po pumunta? Ah, sakay ka tricycle.
+[TAGALOG-MALE-1]: Malayo po ba?
+[TAGALOG-MALE-2]: Hindi naman. Malapit lang po.
+[TAGALOG-MALE-1]: Malapit lang po?
+[TAGALOG-MALE-2]: Mga ten minutes tricycle.
+[TAGALOG-MALE-1]: Ah. Saan po sakayan?
+[TAGALOG-MALE-2]: Labas lang po. Kanan po palabas, tapos derecho.
+
+[NARRATOR]: Taking a Tricycle
+
+[TAGALOG-MALE-1]: Kuya! Corong-Corong po.
+[TAGALOG-MALE-3]: Saan doon?
+[TAGALOG-MALE-1]: Beach po. Paano po pumunta doon?
+[TAGALOG-MALE-3]: Alam ko na! Sakay na!
+[TAGALOG-MALE-1]: Malayo po ba?
+[TAGALOG-MALE-3]: Malapit lang po. Sampu minuto.
+[TAGALOG-MALE-1]: Magkano po?
+[TAGALOG-MALE-3]: Fifty lang.
+
+[NARRATOR]: Asking for Directions
+
+[TAGALOG-MALE-1]: Salamat kuya! Paano po pumunta pabalik sa town?
+[TAGALOG-MALE-3]: May tricycle din dito. O kaya, lakad lang.
+[TAGALOG-MALE-1]: Lakad? Malayo po ba?
+[TAGALOG-MALE-3]: Hindi! Malapit lang po. Twenty minutes.
+
+[NARRATOR]: At the Beach
+
+[TAGALOG-MALE-1]: Ate, CR po?
+[TAGALOG-FEMALE-2]: Kaliwa po. Tapos kanan po sa dulo.
+[TAGALOG-MALE-1]: Kaliwa po... tapos?
+[TAGALOG-FEMALE-2]: Kanan po. May sign.
+[TAGALOG-MALE-1]: Salamat po!
+
+[NARRATOR]: Walking Back
+
+[TAGALOG-MALE-1]: Excuse me po. Paano po pumunta sa town?
+[TAGALOG-FEMALE-1]: Lakad lang? Derecho lang po dito.
+[TAGALOG-MALE-1]: Malayo po ba?
+[TAGALOG-FEMALE-1]: Malapit lang po! Kita mo na yung mga building.
+
+[NARRATOR]: Helping Another Tourist
+
+[TAGALOG-FEMALE-2]: Excuse me! Paano po pumunta sa Corong-Corong?
+[TAGALOG-MALE-1]: Doon po! Kaliwa po sa intersection.
+[TAGALOG-FEMALE-2]: Malayo po ba?
+[TAGALOG-MALE-1]: Hindi! Malapit lang po!
+[TAGALOG-FEMALE-2]: Thank you!
+[TAGALOG-MALE-1]: Welcome po!
+
+[NARRATOR]: Back at Hotel
+
+[TAGALOG-MALE-1]: May map po ba kayo ng beaches?
+[TAGALOG-FEMALE-1]: Opo! Ito po.
+[TAGALOG-MALE-1]: Paano po pumunta sa Secret Beach?
+[TAGALOG-FEMALE-1]: Boat lang po yan. Hindi tricycle.
+[TAGALOG-MALE-1]: Ah. Malayo po ba?
+[TAGALOG-FEMALE-1]: By boat, malapit lang po.
+
+[NARRATOR]: Slow Speed
+
+Looking for the Beach
+
+[TAGALOG-MALE-1]: Kuya... paano... po... pumunta... sa... Corong-Corong... Beach?
+[TAGALOG-MALE-2]: Paano... po... pumunta?... Ah... sakay... ka... tricycle.
+[TAGALOG-MALE-1]: Malayo... po... ba?
+[TAGALOG-MALE-2]: Hindi... naman... Malapit... lang... po.
+[TAGALOG-MALE-1]: Malapit... lang... po?
+[TAGALOG-MALE-2]: Mga... ten... minutes... tricycle.
+[TAGALOG-MALE-1]: Ah... Saan... po... sakayan?
+[TAGALOG-MALE-2]: Labas... lang... po... Kanan... po... palabas... tapos... derecho.
+
+[NARRATOR]: Taking a Tricycle
+
+[TAGALOG-MALE-1]: Kuya!... Corong-Corong... po.
+[TAGALOG-MALE-3]: Saan... doon?
+[TAGALOG-MALE-1]: Beach... po... Paano... po... pumunta... doon?
+[TAGALOG-MALE-3]: Alam... ko... na!... Sakay... na!
+[TAGALOG-MALE-1]: Malayo... po... ba?
+[TAGALOG-MALE-3]: Malapit... lang... po... Sampu... minuto.
+[TAGALOG-MALE-1]: Magkano... po?
+[TAGALOG-MALE-3]: Fifty... lang.
+
+[NARRATOR]: Asking for Directions
+
+[TAGALOG-MALE-1]: Salamat... kuya!... Paano... po... pumunta... pabalik... sa... town?
+[TAGALOG-MALE-3]: May... tricycle... din... dito... O... kaya... lakad... lang.
+[TAGALOG-MALE-1]: Lakad?... Malayo... po... ba?
+[TAGALOG-MALE-3]: Hindi!... Malapit... lang... po... Twenty... minutes.
+
+[NARRATOR]: At the Beach
+
+[TAGALOG-MALE-1]: Ate... CR... po?
+[TAGALOG-FEMALE-2]: Kaliwa... po... Tapos... kanan... po... sa... dulo.
+[TAGALOG-MALE-1]: Kaliwa... po... tapos?
+[TAGALOG-FEMALE-2]: Kanan... po... May... sign.
+[TAGALOG-MALE-1]: Salamat... po!
+
+[NARRATOR]: Walking Back
+
+[TAGALOG-MALE-1]: Excuse... me... po... Paano... po... pumunta... sa... town?
+[TAGALOG-FEMALE-1]: Lakad... lang?... Derecho... lang... po... dito.
+[TAGALOG-MALE-1]: Malayo... po... ba?
+[TAGALOG-FEMALE-1]: Malapit... lang... po!... Kita... mo... na... yung... mga... building.
+
+[NARRATOR]: Helping Another Tourist
+
+[TAGALOG-FEMALE-2]: Excuse... me!... Paano... po... pumunta... sa... Corong-Corong?
+[TAGALOG-MALE-1]: Doon... po!... Kaliwa... po... sa... intersection.
+[TAGALOG-FEMALE-2]: Malayo... po... ba?
+[TAGALOG-MALE-1]: Hindi!... Malapit... lang... po!
+[TAGALOG-FEMALE-2]: Thank... you!
+[TAGALOG-MALE-1]: Welcome... po!
+
+[NARRATOR]: Back at Hotel
+
+[TAGALOG-MALE-1]: May... map... po... ba... kayo... ng... beaches?
+[TAGALOG-FEMALE-1]: Opo!... Ito... po.
+[TAGALOG-MALE-1]: Paano... po... pumunta... sa... Secret... Beach?
+[TAGALOG-FEMALE-1]: Boat... lang... po... yan... Hindi... tricycle.
+[TAGALOG-MALE-1]: Ah... Malayo... po... ba?
+[TAGALOG-FEMALE-1]: By... boat... malapit... lang... po.
+
+[NARRATOR]: Translated
+
+Looking for the Beach
+
+[TAGALOG-MALE-1]: Kuya, paano po pumunta sa Corong-Corong Beach?
+[NARRATOR]: Brother, how do I get to Corong-Corong Beach?
+[TAGALOG-MALE-2]: Paano po pumunta? Ah, sakay ka tricycle.
+[NARRATOR]: How to get there? Ah, ride a tricycle.
+[TAGALOG-MALE-1]: Malayo po ba?
+[NARRATOR]: Is it far?
+[TAGALOG-MALE-2]: Hindi naman. Malapit lang po.
+[NARRATOR]: Not really. Just nearby.
+[TAGALOG-MALE-1]: Malapit lang po?
+[NARRATOR]: Just nearby?
+[TAGALOG-MALE-2]: Mga ten minutes tricycle.
+[NARRATOR]: About ten minutes by tricycle.
+[TAGALOG-MALE-1]: Ah. Saan po sakayan?
+[NARRATOR]: Ah. Where's the tricycle stand?
+[TAGALOG-MALE-2]: Labas lang po. Kanan po palabas, tapos derecho.
+[NARRATOR]: Just outside. Right when you exit, then straight.
+
+[NARRATOR]: Taking a Tricycle
+
+[TAGALOG-MALE-1]: Kuya! Corong-Corong po.
+[NARRATOR]: Brother! Corong-Corong please.
+[TAGALOG-MALE-3]: Saan doon?
+[NARRATOR]: Where there?
+[TAGALOG-MALE-1]: Beach po. Paano po pumunta doon?
+[NARRATOR]: Beach. How do I get there?
+[TAGALOG-MALE-3]: Alam ko na! Sakay na!
+[NARRATOR]: I know! Get in!
+[TAGALOG-MALE-1]: Malayo po ba?
+[NARRATOR]: Is it far?
+[TAGALOG-MALE-3]: Malapit lang po. Sampu minuto.
+[NARRATOR]: Just nearby. Ten minutes.
+[TAGALOG-MALE-1]: Magkano po?
+[NARRATOR]: How much?
+[TAGALOG-MALE-3]: Fifty lang.
+[NARRATOR]: Just fifty.
+
+[NARRATOR]: Asking for Directions
+
+[TAGALOG-MALE-1]: Salamat kuya! Paano po pumunta pabalik sa town?
+[NARRATOR]: Thanks brother! How do I get back to town?
+[TAGALOG-MALE-3]: May tricycle din dito. O kaya, lakad lang.
+[NARRATOR]: There are tricycles here too. Or, just walk.
+[TAGALOG-MALE-1]: Lakad? Malayo po ba?
+[NARRATOR]: Walk? Is it far?
+[TAGALOG-MALE-3]: Hindi! Malapit lang po. Twenty minutes.
+[NARRATOR]: No! Just nearby. Twenty minutes.
+
+[NARRATOR]: At the Beach
+
+[TAGALOG-MALE-1]: Ate, CR po?
+[NARRATOR]: Sister, restroom?
+[TAGALOG-FEMALE-2]: Kaliwa po. Tapos kanan po sa dulo.
+[NARRATOR]: Left. Then right at the end.
+[TAGALOG-MALE-1]: Kaliwa po... tapos?
+[NARRATOR]: Left... then?
+[TAGALOG-FEMALE-2]: Kanan po. May sign.
+[NARRATOR]: Right. There's a sign.
+[TAGALOG-MALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+[NARRATOR]: Walking Back
+
+[TAGALOG-MALE-1]: Excuse me po. Paano po pumunta sa town?
+[NARRATOR]: Excuse me. How do I get to town?
+[TAGALOG-FEMALE-1]: Lakad lang? Derecho lang po dito.
+[NARRATOR]: Just walk? Just straight here.
+[TAGALOG-MALE-1]: Malayo po ba?
+[NARRATOR]: Is it far?
+[TAGALOG-FEMALE-1]: Malapit lang po! Kita mo na yung mga building.
+[NARRATOR]: Just nearby! You can see the buildings already.
+
+[NARRATOR]: Helping Another Tourist
+
+[TAGALOG-FEMALE-2]: Excuse me! Paano po pumunta sa Corong-Corong?
+[NARRATOR]: Excuse me! How do I get to Corong-Corong?
+[TAGALOG-MALE-1]: Doon po! Kaliwa po sa intersection.
+[NARRATOR]: There! Left at the intersection.
+[TAGALOG-FEMALE-2]: Malayo po ba?
+[NARRATOR]: Is it far?
+[TAGALOG-MALE-1]: Hindi! Malapit lang po!
+[NARRATOR]: No! Just nearby!
+[TAGALOG-FEMALE-2]: Thank you!
+[NARRATOR]: Thank you!
+[TAGALOG-MALE-1]: Welcome po!
+[NARRATOR]: You're welcome!
+
+[NARRATOR]: Back at Hotel
+
+[TAGALOG-MALE-1]: May map po ba kayo ng beaches?
+[NARRATOR]: Do you have a map of beaches?
+[TAGALOG-FEMALE-1]: Opo! Ito po.
+[NARRATOR]: Yes! Here.
+[TAGALOG-MALE-1]: Paano po pumunta sa Secret Beach?
+[NARRATOR]: How do I get to Secret Beach?
+[TAGALOG-FEMALE-1]: Boat lang po yan. Hindi tricycle.
+[NARRATOR]: That's by boat only. Not tricycle.
+[TAGALOG-MALE-1]: Ah. Malayo po ba?
+[NARRATOR]: Ah. Is it far?
+[TAGALOG-FEMALE-1]: By boat, malapit lang po.
+[NARRATOR]: By boat, just nearby.

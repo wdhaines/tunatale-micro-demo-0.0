@@ -1,0 +1,296 @@
+# Day 3: Breakfast and Basic Needs
+
+[NARRATOR]: Day 3: Breakfast and Basic Needs
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: saan po
+[NARRATOR]: where?
+[TAGALOG-FEMALE-1]: saan po
+po
+an
+sa
+saan
+saan po
+saan po
+
+[TAGALOG-FEMALE-1]: meron po ba
+[NARRATOR]: do you have?
+[TAGALOG-FEMALE-1]: meron po ba
+ba
+po ba
+po
+ron
+me
+meron
+meron po
+meron po ba
+meron po ba
+
+[TAGALOG-FEMALE-1]: gusto ko po
+[NARRATOR]: I want
+[TAGALOG-FEMALE-1]: gusto ko po
+po
+ko po
+ko
+to
+gus
+gusto
+gusto ko
+gusto ko po
+gusto ko po
+
+[TAGALOG-FEMALE-1]: puwede po ba
+[NARRATOR]: may I? can I?
+[TAGALOG-FEMALE-1]: puwede po ba
+ba
+po ba
+po
+de
+we
+puwede
+pu
+puwede
+puwede po
+puwede po ba
+puwede po ba
+
+[TAGALOG-FEMALE-1]: walking distance po
+[NARRATOR]: walking distance
+[TAGALOG-FEMALE-1]: walking distance po
+po
+distance
+distance po
+walking
+walking distance
+walking distance po
+walking distance po
+
+[NARRATOR]: Natural Speed
+
+Morning at the Hotel
+
+[TAGALOG-FEMALE-1]: Good morning! Saan po ang breakfast?
+[TAGALOG-MALE-1]: Saan po? Sa second floor po.
+[TAGALOG-FEMALE-1]: Second floor?
+[TAGALOG-MALE-1]: Opo. Stairs po, tapos kanan.
+[TAGALOG-FEMALE-1]: Salamat po!
+
+[NARRATOR]: At the Restaurant
+
+[TAGALOG-FEMALE-2]: Good morning po!
+[TAGALOG-FEMALE-1]: Good morning! Breakfast po?
+[TAGALOG-FEMALE-2]: Opo! Saan po kayo uupo?
+[TAGALOG-FEMALE-1]: Saan po?
+[TAGALOG-FEMALE-2]: Table po. Dito? Doon?
+[TAGALOG-FEMALE-1]: Ah! Doon po.
+[TAGALOG-FEMALE-2]: Sige po!
+
+[NARRATOR]: Ordering Food
+
+[TAGALOG-FEMALE-1]: Meron po ba kayong menu?
+[TAGALOG-FEMALE-2]: Buffet po. Doon po.
+[TAGALOG-FEMALE-1]: Ah! Meron po ba kayong kape?
+[TAGALOG-FEMALE-2]: Opo! Meron po ba... opo, meron!
+[TAGALOG-FEMALE-1]: Gusto ko po.
+[TAGALOG-FEMALE-2]: Sige po! Hot coffee po?
+[TAGALOG-FEMALE-1]: Opo. Gusto ko po ng hot coffee.
+
+[NARRATOR]: At the Buffet
+
+[TAGALOG-FEMALE-1]: Excuse me, meron po ba kayong rice?
+[TAGALOG-MALE-1]: Meron po ba? Opo! Dito po.
+[TAGALOG-FEMALE-1]: Salamat! Gusto ko po ito.
+[TAGALOG-MALE-1]: Sunny side up po?
+[TAGALOG-FEMALE-1]: Opo!
+
+[NARRATOR]: Meeting Another Guest
+
+[TAGALOG-MALE-2]: Puwede po ba dito?
+[TAGALOG-FEMALE-1]: Opo! Puwede po ba... oo, libre po.
+[TAGALOG-MALE-2]: Salamat! Sarap ng pagkain?
+[TAGALOG-FEMALE-1]: Opo! Gusto ko po ang longganisa!
+[TAGALOG-MALE-2]: Talaga? Saan po?
+[TAGALOG-FEMALE-1]: Doon po. Sa buffet.
+
+[NARRATOR]: Asking About Beach
+
+[TAGALOG-FEMALE-1]: Kuya, saan po ang beach?
+[TAGALOG-MALE-1]: Walking distance po lang. Derecho, tapos kaliwa.
+[TAGALOG-FEMALE-1]: Walking distance po? Malapit lang?
+[TAGALOG-MALE-1]: Opo! Lima minuto lang. Walking distance po talaga.
+[TAGALOG-FEMALE-1]: Meron po ba kayong map?
+[TAGALOG-MALE-1]: Sa reception po. Meron po ba sila.
+
+[NARRATOR]: At Reception
+
+[TAGALOG-FEMALE-1]: Meron po ba kayong map?
+[TAGALOG-FEMALE-2]: Opo! Ito po. Puwede po ba... ah, puwede niyo pong dalhin.
+[TAGALOG-FEMALE-1]: Salamat! Puwede po ba akong bumalik kahit gabi?
+[TAGALOG-FEMALE-2]: Opo! Puwede po ba... opo, 24 hours po kami.
+
+[NARRATOR]: Slow Speed
+
+Morning at the Hotel
+
+[TAGALOG-FEMALE-1]: Good... morning!... Saan... po... ang... breakfast?
+[TAGALOG-MALE-1]: Saan... po?... Sa... second... floor... po.
+[TAGALOG-FEMALE-1]: Second... floor?
+[TAGALOG-MALE-1]: Opo... Stairs... po... tapos... kanan.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+[NARRATOR]: At the Restaurant
+
+[TAGALOG-FEMALE-2]: Good... morning... po!
+[TAGALOG-FEMALE-1]: Good... morning!... Breakfast... po?
+[TAGALOG-FEMALE-2]: Opo!... Saan... po... kayo... uupo?
+[TAGALOG-FEMALE-1]: Saan... po?
+[TAGALOG-FEMALE-2]: Table... po... Dito?... Doon?
+[TAGALOG-FEMALE-1]: Ah!... Doon... po.
+[TAGALOG-FEMALE-2]: Sige... po!
+
+[NARRATOR]: Ordering Food
+
+[TAGALOG-FEMALE-1]: Meron... po... ba... kayong... menu?
+[TAGALOG-FEMALE-2]: Buffet... po... Doon... po.
+[TAGALOG-FEMALE-1]: Ah!... Meron... po... ba... kayong... kape?
+[TAGALOG-FEMALE-2]: Opo!... Meron... po... ba... opo... meron!
+[TAGALOG-FEMALE-1]: Gusto... ko... po.
+[TAGALOG-FEMALE-2]: Sige... po!... Hot... coffee... po?
+[TAGALOG-FEMALE-1]: Opo... Gusto... ko... po... ng... hot... coffee.
+
+[NARRATOR]: At the Buffet
+
+[TAGALOG-FEMALE-1]: Excuse... me... meron... po... ba... kayong... rice?
+[TAGALOG-MALE-1]: Meron... po... ba?... Opo!... Dito... po.
+[TAGALOG-FEMALE-1]: Salamat!... Gusto... ko... po... ito.
+[TAGALOG-MALE-1]: Sunny... side... up... po?
+[TAGALOG-FEMALE-1]: Opo!
+
+[NARRATOR]: Meeting Another Guest
+
+[TAGALOG-MALE-2]: Puwede... po... ba... dito?
+[TAGALOG-FEMALE-1]: Opo!... Puwede... po... ba... oo... libre... po.
+[TAGALOG-MALE-2]: Salamat!... Sarap... ng... pagkain?
+[TAGALOG-FEMALE-1]: Opo!... Gusto... ko... po... ang... longganisa!
+[TAGALOG-MALE-2]: Talaga?... Saan... po?
+[TAGALOG-FEMALE-1]: Doon... po... Sa... buffet.
+
+[NARRATOR]: Asking About Beach
+
+[TAGALOG-FEMALE-1]: Kuya... saan... po... ang... beach?
+[TAGALOG-MALE-1]: Walking... distance... po... lang... Derecho... tapos... kaliwa.
+[TAGALOG-FEMALE-1]: Walking... distance... po?... Malapit... lang?
+[TAGALOG-MALE-1]: Opo!... Lima... minuto... lang... Walking... distance... po... talaga.
+[TAGALOG-FEMALE-1]: Meron... po... ba... kayong... map?
+[TAGALOG-MALE-1]: Sa... reception... po... Meron... po... ba... sila.
+
+[NARRATOR]: At Reception
+
+[TAGALOG-FEMALE-1]: Meron... po... ba... kayong... map?
+[TAGALOG-FEMALE-2]: Opo!... Ito... po... Puwede... po... ba... ah... puwede... niyo... pong... dalhin.
+[TAGALOG-FEMALE-1]: Salamat!... Puwede... po... ba... akong... bumalik... kahit... gabi?
+[TAGALOG-FEMALE-2]: Opo!... Puwede... po... ba... opo... 24... hours... po... kami.
+
+[NARRATOR]: Translated
+
+Morning at the Hotel
+
+[TAGALOG-FEMALE-1]: Good morning! Saan po ang breakfast?
+[NARRATOR]: Good morning! Where is breakfast?
+[TAGALOG-MALE-1]: Saan po? Sa second floor po.
+[NARRATOR]: Where? On the second floor.
+[TAGALOG-FEMALE-1]: Second floor?
+[NARRATOR]: Second floor?
+[TAGALOG-MALE-1]: Opo. Stairs po, tapos kanan.
+[NARRATOR]: Yes. Stairs, then right.
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+[NARRATOR]: At the Restaurant
+
+[TAGALOG-FEMALE-2]: Good morning po!
+[NARRATOR]: Good morning!
+[TAGALOG-FEMALE-1]: Good morning! Breakfast po?
+[NARRATOR]: Good morning! Breakfast?
+[TAGALOG-FEMALE-2]: Opo! Saan po kayo uupo?
+[NARRATOR]: Yes! Where will you sit?
+[TAGALOG-FEMALE-1]: Saan po?
+[NARRATOR]: Where?
+[TAGALOG-FEMALE-2]: Table po. Dito? Doon?
+[NARRATOR]: Table. Here? There?
+[TAGALOG-FEMALE-1]: Ah! Doon po.
+[NARRATOR]: Ah! There.
+[TAGALOG-FEMALE-2]: Sige po!
+[NARRATOR]: Okay!
+
+[NARRATOR]: Ordering Food
+
+[TAGALOG-FEMALE-1]: Meron po ba kayong menu?
+[NARRATOR]: Do you have a menu?
+[TAGALOG-FEMALE-2]: Buffet po. Doon po.
+[NARRATOR]: Buffet. Over there.
+[TAGALOG-FEMALE-1]: Ah! Meron po ba kayong kape?
+[NARRATOR]: Ah! Do you have coffee?
+[TAGALOG-FEMALE-2]: Opo! Meron po ba... opo, meron!
+[NARRATOR]: Yes! Do we have... yes, we have!
+[TAGALOG-FEMALE-1]: Gusto ko po.
+[NARRATOR]: I want some.
+[TAGALOG-FEMALE-2]: Sige po! Hot coffee po?
+[NARRATOR]: Okay! Hot coffee?
+[TAGALOG-FEMALE-1]: Opo. Gusto ko po ng hot coffee.
+[NARRATOR]: Yes. I want hot coffee.
+
+[NARRATOR]: At the Buffet
+
+[TAGALOG-FEMALE-1]: Excuse me, meron po ba kayong rice?
+[NARRATOR]: Excuse me, do you have rice?
+[TAGALOG-MALE-1]: Meron po ba? Opo! Dito po.
+[NARRATOR]: Do we have? Yes! Here.
+[TAGALOG-FEMALE-1]: Salamat! Gusto ko po ito.
+[NARRATOR]: Thanks! I want this.
+[TAGALOG-MALE-1]: Sunny side up po?
+[NARRATOR]: Sunny side up?
+[TAGALOG-FEMALE-1]: Opo!
+[NARRATOR]: Yes!
+
+[NARRATOR]: Meeting Another Guest
+
+[TAGALOG-MALE-2]: Puwede po ba dito?
+[NARRATOR]: May I sit here?
+[TAGALOG-FEMALE-1]: Opo! Puwede po ba... oo, libre po.
+[NARRATOR]: Yes! May you... yes, it's free.
+[TAGALOG-MALE-2]: Salamat! Sarap ng pagkain?
+[NARRATOR]: Thanks! Is the food delicious?
+[TAGALOG-FEMALE-1]: Opo! Gusto ko po ang longganisa!
+[NARRATOR]: Yes! I like the sausage!
+[TAGALOG-MALE-2]: Talaga? Saan po?
+[NARRATOR]: Really? Where?
+[TAGALOG-FEMALE-1]: Doon po. Sa buffet.
+[NARRATOR]: Over there. At the buffet.
+
+[NARRATOR]: Asking About Beach
+
+[TAGALOG-FEMALE-1]: Kuya, saan po ang beach?
+[NARRATOR]: Brother, where is the beach?
+[TAGALOG-MALE-1]: Walking distance po lang. Derecho, tapos kaliwa.
+[NARRATOR]: Just walking distance. Straight, then left.
+[TAGALOG-FEMALE-1]: Walking distance po? Malapit lang?
+[NARRATOR]: Walking distance? Just nearby?
+[TAGALOG-MALE-1]: Opo! Lima minuto lang. Walking distance po talaga.
+[NARRATOR]: Yes! Just five minutes. Really walking distance.
+[TAGALOG-FEMALE-1]: Meron po ba kayong map?
+[NARRATOR]: Do you have a map?
+[TAGALOG-MALE-1]: Sa reception po. Meron po ba sila.
+[NARRATOR]: At reception. They have.
+
+[NARRATOR]: At Reception
+
+[TAGALOG-FEMALE-1]: Meron po ba kayong map?
+[NARRATOR]: Do you have a map?
+[TAGALOG-FEMALE-2]: Opo! Ito po. Puwede po ba... ah, puwede niyo pong dalhin.
+[NARRATOR]: Yes! Here. May you... ah, you may take it.
+[TAGALOG-FEMALE-1]: Salamat! Puwede po ba akong bumalik kahit gabi?
+[NARRATOR]: Thanks! May I come back even at night?
+[TAGALOG-FEMALE-2]: Opo! Puwede po ba... opo, 24 hours po kami.
+[NARRATOR]: Yes! May you... yes, we're 24 hours.
