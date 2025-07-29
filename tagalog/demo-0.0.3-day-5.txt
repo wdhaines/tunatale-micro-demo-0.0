@@ -1,0 +1,314 @@
+# Day 5: Shopping for Beach Day
+
+[NARRATOR]: Day 5: Shopping for Beach Day
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: meron po ba kayong
+[NARRATOR]: do you have
+[TAGALOG-FEMALE-1]: meron po ba kayong
+yong
+ka
+kayong
+ba kayong
+po ba kayong
+po
+ron
+me
+meron
+meron po
+meron po ba
+meron po ba kayong
+meron po ba kayong
+
+[TAGALOG-FEMALE-1]: ilan po
+[NARRATOR]: how many
+[TAGALOG-FEMALE-1]: ilan po
+po
+lan
+i
+ilan
+ilan po
+ilan po
+
+[TAGALOG-FEMALE-1]: piso lang po
+[NARRATOR]: just pesos
+[TAGALOG-FEMALE-1]: piso lang po
+po
+lang po
+lang
+so
+pi
+piso
+piso lang
+piso lang po
+piso lang po
+
+[TAGALOG-FEMALE-1]: kulang po
+[NARRATOR]: not enough
+[TAGALOG-FEMALE-1]: kulang po
+po
+lang
+ku
+kulang
+kulang po
+kulang po
+
+[TAGALOG-FEMALE-1]: sukli po
+[NARRATOR]: change
+[TAGALOG-FEMALE-1]: sukli po
+po
+li
+suk
+sukli
+sukli po
+sukli po
+
+[NARRATOR]: Natural Speed
+
+At the Store
+
+[TAGALOG-FEMALE-1]: Ate, meron po ba kayong sunblock?
+[TAGALOG-FEMALE-2]: Meron po ba kayong... oo, meron!
+[TAGALOG-FEMALE-1]: Magkano po?
+[TAGALOG-FEMALE-2]: Dalawang daan po.
+[TAGALOG-FEMALE-1]: Ay! Meron po ba kayong mas mura?
+[TAGALOG-FEMALE-2]: Meron din. Isang daang piso lang po.
+[TAGALOG-FEMALE-1]: Sige, yun na lang. Meron po ba kayong tsinelas?
+
+[NARRATOR]: Looking for Slippers
+
+[TAGALOG-FEMALE-2]: Tsinelas po? Opo, doon po.
+[TAGALOG-FEMALE-1]: Ilan po ang size mo?
+[TAGALOG-FEMALE-2]: Size 7 po.
+[TAGALOG-FEMALE-1]: Ilan po? Isa lang?
+[TAGALOG-FEMALE-2]: Opo, isa lang po.
+[TAGALOG-FEMALE-1]: Pink o blue?
+[TAGALOG-FEMALE-2]: Blue po. Magkano?
+[TAGALOG-FEMALE-1]: Isang daang limampung piso lang po.
+
+[NARRATOR]: At the Counter
+
+[TAGALOG-FEMALE-1]: Sunblock, tsinelas... meron po ba kayong tubig?
+[TAGALOG-FEMALE-2]: Opo! Ilan po?
+[TAGALOG-FEMALE-1]: Dalawa po. Yung malamig.
+[TAGALOG-FEMALE-2]: Thirty each po. Sixty lahat.
+[TAGALOG-FEMALE-1]: Sige po. Lahat magkano?
+[TAGALOG-FEMALE-2]: Sunblock isang daan, tsinelas isang fifty, tubig sixty... Tatlong daan sampung piso lang po.
+
+[NARRATOR]: Payment Issue
+
+[TAGALOG-FEMALE-1]: Ito po, five hundred.
+[TAGALOG-FEMALE-2]: Salamat po. Ay, kulang po.
+[TAGALOG-FEMALE-1]: Kulang po? Bakit?
+[TAGALOG-FEMALE-2]: Ay sorry! Mali compute ko. Three hundred ten po pala.
+[TAGALOG-FEMALE-1]: Ah okay. Ito po, five hundred.
+[TAGALOG-FEMALE-2]: Sukli po, one ninety.
+[TAGALOG-FEMALE-1]: Salamat po!
+
+[NARRATOR]: At the Beach
+
+[TAGALOG-FEMALE-2]: Hi! Meron po ba kayong extra goggles?
+[TAGALOG-FEMALE-1]: Wala po, sorry. Pero meron ata doon.
+[TAGALOG-FEMALE-2]: Salamat! Ilan po kaya presyo?
+[TAGALOG-FEMALE-1]: Mga isang daang piso lang po siguro.
+
+[NARRATOR]: Beach Vendor
+
+[TAGALOG-FEMALE-1]: Kuya, goggles po. Ilan po?
+[TAGALOG-MALE-1]: Ilan po? May tatlong klase.
+[TAGALOG-FEMALE-1]: Yung pinakamura po.
+[TAGALOG-MALE-1]: Ochenta piso lang po ito.
+[TAGALOG-FEMALE-1]: Sige po.
+[TAGALOG-MALE-1]: Sukli po, twenty.
+[TAGALOG-FEMALE-1]: Keep the change na lang po.
+
+[NARRATOR]: Back at Store
+
+[TAGALOG-FEMALE-1]: Ate, meron po ba kayong aloe vera?
+[TAGALOG-FEMALE-2]: Para sa sunburn? Meron po ba kayong... ay, wala na!
+[TAGALOG-FEMALE-1]: Sayang! Kulang po kasi sunblock ko kanina.
+[TAGALOG-FEMALE-2]: Bukas meron na ulit. Umaga po.
+[TAGALOG-FEMALE-1]: Ilan po need ko?
+[TAGALOG-FEMALE-2]: Isa lang po. Limampung piso lang po!
+
+[NARRATOR]: Slow Speed
+
+At the Store
+
+[TAGALOG-FEMALE-1]: Ate... meron... po... ba... kayong... sunblock?
+[TAGALOG-FEMALE-2]: Meron... po... ba... kayong... oo... meron!
+[TAGALOG-FEMALE-1]: Magkano... po?
+[TAGALOG-FEMALE-2]: Dalawang... daan... po.
+[TAGALOG-FEMALE-1]: Ay!... Meron... po... ba... kayong... mas... mura?
+[TAGALOG-FEMALE-2]: Meron... din... Isang... daang... piso... lang... po.
+[TAGALOG-FEMALE-1]: Sige... yun... na... lang... Meron... po... ba... kayong... tsinelas?
+
+[NARRATOR]: Looking for Slippers
+
+[TAGALOG-FEMALE-2]: Tsinelas... po?... Opo... doon... po.
+[TAGALOG-FEMALE-1]: Ilan... po... ang... size... mo?
+[TAGALOG-FEMALE-2]: Size... 7... po.
+[TAGALOG-FEMALE-1]: Ilan... po?... Isa... lang?
+[TAGALOG-FEMALE-2]: Opo... isa... lang... po.
+[TAGALOG-FEMALE-1]: Pink... o... blue?
+[TAGALOG-FEMALE-2]: Blue... po... Magkano?
+[TAGALOG-FEMALE-1]: Isang... daang... limampung... piso... lang... po.
+
+[NARRATOR]: At the Counter
+
+[TAGALOG-FEMALE-1]: Sunblock... tsinelas... meron... po... ba... kayong... tubig?
+[TAGALOG-FEMALE-2]: Opo!... Ilan... po?
+[TAGALOG-FEMALE-1]: Dalawa... po... Yung... malamig.
+[TAGALOG-FEMALE-2]: Thirty... each... po... Sixty... lahat.
+[TAGALOG-FEMALE-1]: Sige... po... Lahat... magkano?
+[TAGALOG-FEMALE-2]: Sunblock... isang... daan... tsinelas... isang... fifty... tubig... sixty... Tatlong... daan... sampung... piso... lang... po.
+
+[NARRATOR]: Payment Issue
+
+[TAGALOG-FEMALE-1]: Ito... po... five... hundred.
+[TAGALOG-FEMALE-2]: Salamat... po... Ay... kulang... po.
+[TAGALOG-FEMALE-1]: Kulang... po?... Bakit?
+[TAGALOG-FEMALE-2]: Ay... sorry!... Mali... compute... ko... Three... hundred... ten... po... pala.
+[TAGALOG-FEMALE-1]: Ah... okay... Ito... po... five... hundred.
+[TAGALOG-FEMALE-2]: Sukli... po... one... ninety.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+[NARRATOR]: At the Beach
+
+[TAGALOG-FEMALE-2]: Hi!... Meron... po... ba... kayong... extra... goggles?
+[TAGALOG-FEMALE-1]: Wala... po... sorry... Pero... meron... ata... doon.
+[TAGALOG-FEMALE-2]: Salamat!... Ilan... po... kaya... presyo?
+[TAGALOG-FEMALE-1]: Mga... isang... daang... piso... lang... po... siguro.
+
+[NARRATOR]: Beach Vendor
+
+[TAGALOG-FEMALE-1]: Kuya... goggles... po... Ilan... po?
+[TAGALOG-MALE-1]: Ilan... po?... May... tatlong... klase.
+[TAGALOG-FEMALE-1]: Yung... pinakamura... po.
+[TAGALOG-MALE-1]: Ochenta... piso... lang... po... ito.
+[TAGALOG-FEMALE-1]: Sige... po.
+[TAGALOG-MALE-1]: Sukli... po... twenty.
+[TAGALOG-FEMALE-1]: Keep... the... change... na... lang... po.
+
+[NARRATOR]: Back at Store
+
+[TAGALOG-FEMALE-1]: Ate... meron... po... ba... kayong... aloe... vera?
+[TAGALOG-FEMALE-2]: Para... sa... sunburn?... Meron... po... ba... kayong... ay... wala... na!
+[TAGALOG-FEMALE-1]: Sayang!... Kulang... po... kasi... sunblock... ko... kanina.
+[TAGALOG-FEMALE-2]: Bukas... meron... na... ulit... Umaga... po.
+[TAGALOG-FEMALE-1]: Ilan... po... need... ko?
+[TAGALOG-FEMALE-2]: Isa... lang... po... Limampung... piso... lang... po!
+
+[NARRATOR]: Translated
+
+At the Store
+
+[TAGALOG-FEMALE-1]: Ate, meron po ba kayong sunblock?
+[NARRATOR]: Sister, do you have sunblock?
+[TAGALOG-FEMALE-2]: Meron po ba kayong... oo, meron!
+[NARRATOR]: Do we have... yes, we have!
+[TAGALOG-FEMALE-1]: Magkano po?
+[NARRATOR]: How much?
+[TAGALOG-FEMALE-2]: Dalawang daan po.
+[NARRATOR]: Two hundred.
+[TAGALOG-FEMALE-1]: Ay! Meron po ba kayong mas mura?
+[NARRATOR]: Oh! Do you have something cheaper?
+[TAGALOG-FEMALE-2]: Meron din. Isang daang piso lang po.
+[NARRATOR]: We have this. Just one hundred pesos.
+[TAGALOG-FEMALE-1]: Sige, yun na lang. Meron po ba kayong tsinelas?
+[NARRATOR]: Okay, that one. Do you have slippers?
+
+[NARRATOR]: Looking for Slippers
+
+[TAGALOG-FEMALE-2]: Tsinelas po? Opo, doon po.
+[NARRATOR]: Slippers? Yes, over there.
+[TAGALOG-FEMALE-1]: Ilan po ang size mo?
+[NARRATOR]: What's your size?
+[TAGALOG-FEMALE-2]: Size 7 po.
+[NARRATOR]: Size 7.
+[TAGALOG-FEMALE-1]: Ilan po? Isa lang?
+[NARRATOR]: How many? Just one?
+[TAGALOG-FEMALE-2]: Opo, isa lang po.
+[NARRATOR]: Yes, just one.
+[TAGALOG-FEMALE-1]: Pink o blue?
+[NARRATOR]: Pink or blue?
+[TAGALOG-FEMALE-2]: Blue po. Magkano?
+[NARRATOR]: Blue. How much?
+[TAGALOG-FEMALE-1]: Isang daang limampung piso lang po.
+[NARRATOR]: Just one hundred fifty pesos.
+
+[NARRATOR]: At the Counter
+
+[TAGALOG-FEMALE-1]: Sunblock, tsinelas... meron po ba kayong tubig?
+[NARRATOR]: Sunblock, slippers... do you have water?
+[TAGALOG-FEMALE-2]: Opo! Ilan po?
+[NARRATOR]: Yes! How many?
+[TAGALOG-FEMALE-1]: Dalawa po. Yung malamig.
+[NARRATOR]: Two. The cold ones.
+[TAGALOG-FEMALE-2]: Thirty each po. Sixty lahat.
+[NARRATOR]: Thirty each. Sixty total.
+[TAGALOG-FEMALE-1]: Sige po. Lahat magkano?
+[NARRATOR]: Okay. How much for everything?
+[TAGALOG-FEMALE-2]: Sunblock isang daan, tsinelas isang fifty, tubig sixty... Tatlong daan sampung piso lang po.
+[NARRATOR]: Sunblock one hundred, slippers one fifty, water sixty... Just three hundred ten pesos.
+
+[NARRATOR]: Payment Issue
+
+[TAGALOG-FEMALE-1]: Ito po, five hundred.
+[NARRATOR]: Here, five hundred.
+[TAGALOG-FEMALE-2]: Salamat po. Ay, kulang po.
+[NARRATOR]: Thank you. Oh, not enough.
+[TAGALOG-FEMALE-1]: Kulang po? Bakit?
+[NARRATOR]: Not enough? Why?
+[TAGALOG-FEMALE-2]: Ay sorry! Mali compute ko. Three hundred ten po pala.
+[NARRATOR]: Oh sorry! I calculated wrong. It's three hundred ten.
+[TAGALOG-FEMALE-1]: Ah okay. Ito po, five hundred.
+[NARRATOR]: Ah okay. Here, five hundred.
+[TAGALOG-FEMALE-2]: Sukli po, one ninety.
+[NARRATOR]: Your change, one ninety.
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+[NARRATOR]: At the Beach
+
+[TAGALOG-FEMALE-2]: Hi! Meron po ba kayong extra goggles?
+[NARRATOR]: Hi! Do you have extra goggles?
+[TAGALOG-FEMALE-1]: Wala po, sorry. Pero meron ata doon.
+[NARRATOR]: None, sorry. But I think there's some there.
+[TAGALOG-FEMALE-2]: Salamat! Ilan po kaya presyo?
+[NARRATOR]: Thanks! How much do you think?
+[TAGALOG-FEMALE-1]: Mga isang daang piso lang po siguro.
+[NARRATOR]: Maybe just one hundred pesos.
+
+[NARRATOR]: Beach Vendor
+
+[TAGALOG-FEMALE-1]: Kuya, goggles po. Ilan po?
+[NARRATOR]: Brother, goggles. How many?
+[TAGALOG-MALE-1]: Ilan po? May tatlong klase.
+[NARRATOR]: How many? There are three types.
+[TAGALOG-FEMALE-1]: Yung pinakamura po.
+[NARRATOR]: The cheapest one.
+[TAGALOG-MALE-1]: Ochenta piso lang po ito.
+[NARRATOR]: Just eighty pesos for this.
+[TAGALOG-FEMALE-1]: Sige po.
+[NARRATOR]: Okay.
+[TAGALOG-MALE-1]: Sukli po, twenty.
+[NARRATOR]: Your change, twenty.
+[TAGALOG-FEMALE-1]: Keep the change na lang po.
+[NARRATOR]: Just keep the change.
+
+[NARRATOR]: Back at Store
+
+[TAGALOG-FEMALE-1]: Ate, meron po ba kayong aloe vera?
+[NARRATOR]: Sister, do you have aloe vera?
+[TAGALOG-FEMALE-2]: Para sa sunburn? Meron po ba kayong... ay, wala na!
+[NARRATOR]: For sunburn? Do we have... oh, we're out!
+[TAGALOG-FEMALE-1]: Sayang! Kulang po kasi sunblock ko kanina.
+[NARRATOR]: Too bad! My sunblock wasn't enough earlier.
+[TAGALOG-FEMALE-2]: Bukas meron na ulit. Umaga po.
+[NARRATOR]: Tomorrow we'll have more. Morning.
+[TAGALOG-FEMALE-1]: Ilan po need ko?
+[NARRATOR]: How many do I need?
+[TAGALOG-FEMALE-2]: Isa lang po. Limampung piso lang po!
+[NARRATOR]: Just one. Just fifty pesos!

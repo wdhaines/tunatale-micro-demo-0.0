@@ -106,8 +106,13 @@ tagalog-tts-*.json
 
 # Development scripts
 process_short_lesson.py
+
+# Test files
+# Allow test files in the root directory and tests/ directory
 test_*.py
-!tests/
+tests/**/test_*.py
+!tests/e2e/test_file_naming.py
+!tests/e2e/test_file_naming_fixed.py
 
 test_config.yaml
 

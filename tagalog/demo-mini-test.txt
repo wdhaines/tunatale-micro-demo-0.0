@@ -2,44 +2,88 @@
 
 Key Phrases:
 
-[TAGALOG-FEMALE-1]: magandang hapon po
-[NARRATOR]: good afternoon (polite) 
-[TAGALOG-FEMALE-1]: magandang hapon po
+[TAGALOG-FEMALE-1]: ito po
+[NARRATOR]: here it is
+[TAGALOG-FEMALE-1]: ito po
 po
-hapon
-pon
-ha
-hapon
-hapon po
-magandang
-dang
-gan
-gandang
-ma
-magandang
-magandang hapon po
-magandang hapon po
+ito
+to
+i
+ito
+ito po
+ito po
+
+[TAGALOG-FEMALE-1]: ID po
+[NARRATOR]: ID please
+[TAGALOG-FEMALE-1]: ID po
+po
+ID
+ID po
+ID po
+
+[TAGALOG-FEMALE-1]: may kwarto po ba
+[NARRATOR]: do you have a room?
+[TAGALOG-FEMALE-1]: may kwarto po ba
+ba
+po ba
+po
+to
+ar
+warto
+kwar
+kwarto
+kwarto po
+kwarto po ba
+may
+may kwarto
+may kwarto po ba
+may kwarto po ba
 
 [NARRATOR]: Natural Speed
 
-Airport Shop
+Hotel Lobby
 
-[TAGALOG-FEMALE-1]: Excuse me po.
-[TAGALOG-FEMALE-2]: Magandang hapon po!
-[TAGALOG-FEMALE-1]: Magandang hapon po. Tubig?
-[TAGALOG-FEMALE-2]: Tubig? Opo. Malamig o normal?
-[TAGALOG-FEMALE-1]: Malamig. Magkano po?
-[TAGALOG-FEMALE-2]: Bente pesos.
-[TAGALOG-FEMALE-1]: Bente?
-[TAGALOG-FEMALE-2]: Opo. Bente.
-[TAGALOG-FEMALE-1]: Ah, salamat. Ito po.
-[TAGALOG-FEMALE-2]: Salamat din! Ito sukli mo.
+[TAGALOG-FEMALE-1]: Good evening po! May kwarto po ba?
+[TAGALOG-FEMALE-2]: May kwarto po ba? Single o double po?
+[TAGALOG-FEMALE-1]: Single po.
+[TAGALOG-FEMALE-2]: Opo, meron po!
+[TAGALOG-FEMALE-1]: Salamat po!
+[TAGALOG-FEMALE-2]: Ilang gabi po?
+[TAGALOG-FEMALE-1]: Tatlo po. Tatlong gabi.
+[TAGALOG-FEMALE-2]: Tatlong gabi po. Okay po. ID po?
+[TAGALOG-FEMALE-1]: Ito po.
+[TAGALOG-FEMALE-2]: Salamat po. Maria Santos?
+[TAGALOG-FEMALE-1]: Opo!
+[TAGALOG-FEMALE-2]: Okay po. Susi po!
+[TAGALOG-FEMALE-1]: Susi po?
+[TAGALOG-FEMALE-2]: Key po. Susi po. Room 205.
+[TAGALOG-FEMALE-1]: Ah, susi po. Salamat!
+
+[NARRATOR]: Rest Stop
+
+[TAGALOG-MALE-1]: Excuse me po. CR break muna. Five minutes lang.
+[TAGALOG-FEMALE-1]: Excuse me po. CR?
+[TAGALOG-FEMALE-2]: Doon po. Sa likod ng tindahan.
 
 [NARRATOR]: Slow Speed
 
-Airport Shop
+Morning at the Hotel
 
-[TAGALOG-FEMALE-1]: Excuse... me... po.
+[TAGALOG-FEMALE-1]: Good... morning!... Saan... po... ang... breakfast?
+[TAGALOG-MALE-1]: Saan... po?... Sa... second... floor... po.
+[TAGALOG-FEMALE-1]: Second... floor?
+[TAGALOG-MALE-1]: Opo... Stairs... po... tapos... kanan.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+[NARRATOR]: At the Restaurant
+
+[TAGALOG-FEMALE-2]: Good... morning... po!
+[TAGALOG-FEMALE-1]: Good... morning!... Breakfast... po?
+[TAGALOG-FEMALE-2]: Opo!... Saan... po... kayo... uupo?
+[TAGALOG-FEMALE-1]: Saan... po?
+[TAGALOG-FEMALE-2]: Table... po... Dito?... Doon?
+[TAGALOG-FEMALE-1]: Ah!... Doon... po.
+[TAGALOG-FEMALE-2]: Sige... po!
 
 [NARRATOR]: Translated
 

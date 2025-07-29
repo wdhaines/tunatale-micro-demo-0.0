@@ -1,0 +1,169 @@
+[NARRATOR]: Syllable Pronunciation Test
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: i
+
+[TAGALOG-FEMALE-1]: o
+
+[TAGALOG-FEMALE-1]: a
+
+[TAGALOG-FEMALE-1]: e
+
+[TAGALOG-FEMALE-1]: u
+
+[TAGALOG-FEMALE-1]: bi
+
+[TAGALOG-FEMALE-1]: si
+
+[TAGALOG-FEMALE-1]: ti
+
+[TAGALOG-FEMALE-1]: mi
+
+[TAGALOG-FEMALE-1]: ni
+
+[TAGALOG-FEMALE-1]: li
+
+[TAGALOG-FEMALE-1]: ki
+
+[TAGALOG-FEMALE-1]: di
+
+[TAGALOG-FEMALE-1]: gi
+
+[TAGALOG-FEMALE-1]: pi
+
+[TAGALOG-FEMALE-1]: le
+
+[TAGALOG-FEMALE-1]: me
+
+[TAGALOG-FEMALE-1]: te
+
+[TAGALOG-FEMALE-1]: se
+
+[TAGALOG-FEMALE-1]: ne
+
+[TAGALOG-FEMALE-1]: re
+
+[TAGALOG-FEMALE-1]: ke
+
+[TAGALOG-FEMALE-1]: de
+
+[TAGALOG-FEMALE-1]: ge
+
+[TAGALOG-FEMALE-1]: pe
+
+[TAGALOG-FEMALE-1]: to
+
+[TAGALOG-FEMALE-1]: po
+
+[TAGALOG-FEMALE-1]: so
+
+[TAGALOG-FEMALE-1]: no
+
+[TAGALOG-FEMALE-1]: mo
+
+[TAGALOG-FEMALE-1]: ko
+
+[TAGALOG-FEMALE-1]: lo
+
+[TAGALOG-FEMALE-1]: go
+
+[TAGALOG-FEMALE-1]: do
+
+[TAGALOG-FEMALE-1]: ro
+
+[TAGALOG-FEMALE-1]: ba
+
+[TAGALOG-FEMALE-1]: ga
+
+[TAGALOG-FEMALE-1]: ma
+
+[TAGALOG-FEMALE-1]: na
+
+[TAGALOG-FEMALE-1]: sa
+
+[TAGALOG-FEMALE-1]: ta
+
+[TAGALOG-FEMALE-1]: la
+
+[TAGALOG-FEMALE-1]: ka
+
+[TAGALOG-FEMALE-1]: da
+
+[TAGALOG-FEMALE-1]: ra
+
+[TAGALOG-FEMALE-1]: pa
+
+[TAGALOG-FEMALE-1]: su
+
+[TAGALOG-FEMALE-1]: tu
+
+[TAGALOG-FEMALE-1]: nu
+
+[TAGALOG-FEMALE-1]: mu
+
+[TAGALOG-FEMALE-1]: lu
+
+[TAGALOG-FEMALE-1]: ru
+
+[TAGALOG-FEMALE-1]: ku
+
+[TAGALOG-FEMALE-1]: du
+
+[TAGALOG-FEMALE-1]: gu
+
+[TAGALOG-FEMALE-1]: pu
+
+[TAGALOG-FEMALE-1]: ar
+
+[TAGALOG-FEMALE-1]: ng
+
+[TAGALOG-FEMALE-1]: an
+
+[TAGALOG-FEMALE-1]: at
+
+[TAGALOG-FEMALE-1]: al
+
+[TAGALOG-FEMALE-1]: gabi po
+
+[TAGALOG-FEMALE-1]: gabi po
+bi
+po
+gabi po
+
+[TAGALOG-FEMALE-1]: susi po
+
+[TAGALOG-FEMALE-1]: susi po
+si
+su
+susi
+susi po
+
+[TAGALOG-FEMALE-1]: ito po
+
+[TAGALOG-FEMALE-1]: ito po
+i
+to
+ito
+ito po
+
+[NARRATOR]: Natural Speed
+
+[TAGALOG-FEMALE-1]: Kumusta po? Ang ganda ng lugar na ito!
+[TAGALOG-FEMALE-2]: Salamat po! First time po ba kayo dito?
+[TAGALOG-FEMALE-1]: Opo! Maganda po talaga ang El Nido.
+
+[NARRATOR]: Slow Speed
+
+[TAGALOG-FEMALE-1]: Kumusta... po?... Ang... ganda... ng... lugar... na... ito!
+[TAGALOG-FEMALE-2]: Salamat... po!... First... time... po... ba... kayo... dito?
+[TAGALOG-FEMALE-1]: Opo!... Maganda... po... talaga... ang... El Nido.
+
+[NARRATOR]: Translated
+
+[TAGALOG-FEMALE-1]: Kumusta po? Ang ganda ng lugar na ito!
+[NARRATOR]: How are you? This place is beautiful!
+[TAGALOG-FEMALE-2]: Salamat po! First time po ba kayo dito?
+[NARRATOR]: Thank you! Is this your first time here?
+[TAGALOG-FEMALE-1]: Opo! Maganda po talaga ang El Nido.
+[NARRATOR]: Yes! El Nido is really beautiful.
