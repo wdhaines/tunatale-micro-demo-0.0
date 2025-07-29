@@ -4,14 +4,16 @@
 import sys
 import os
 from pathlib import Path
+import pytest
 
 # Add the project root to the Python path
-sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from tunatale.core.parsers.lesson_parser import LessonParser
 from tunatale.core.services.lesson_processor import LessonProcessor
 
-def test_day_extraction():
+@pytest.mark.asyncio
+async def test_day_extraction():
     """Test day number extraction from lesson files."""
     print("🔍 Testing Day Number Extraction")
     print("=" * 50)
@@ -28,23 +30,16 @@ def test_day_extraction():
     lesson_file = Path("tagalog/demo-0.0.3-day-1.txt")
     if lesson_file.exists():
         parser = LessonParser()
-        lesson = parser.parse_file(lesson_file)
+        lesson = await parser.parse_file(lesson_file)
         
         print(f"Lesson title: {lesson.title}")
-        print(f"Lesson description: {lesson.description}")
+        print(f"Sections found: {len(lesson.sections)}")
         
-        # Test day number extraction
+        # Test the day number extraction
         day_number = processor._extract_day_number(lesson)
-        print(f"Extracted day number: {day_number}")
+        print(f"\nExtracted day number: {day_number}")
         
-        # Test section classification
-        print(f"\nSection Classifications:")
-        for i, section in enumerate(lesson.sections):
-            section_suffix = processor._classify_section_type(section)
-            section_type = processor._get_section_type_name(section_suffix)
-            print(f"  Section {i+1}: '{section.title}' -> {section_suffix} ({section_type})")
-            
-        # Show what the file names would be
+        # Test the file naming
         print(f"\nExpected File Names:")
         print(f"  Main lesson: {day_number} - lesson.mp3")
         
@@ -55,35 +50,8 @@ def test_day_extraction():
             
     else:
         print(f"❌ Lesson file not found: {lesson_file}")
-
-def test_other_days():
-    """Test with other day files."""
-    print(f"\n🔍 Testing Other Day Files")
-    print("=" * 50)
-    
-    processor = LessonProcessor(
-        tts_service=None,
-        audio_processor=None,
-        voice_selector=None,
-        word_selector=None
-    )
-    
-    # Test other day files
-    day_files = [
-        "tagalog/demo-0.0.3-day-2.txt",
-        "tagalog/demo-0.0.3-day-3.txt"
-    ]
-    
-    for day_file in day_files:
-        day_path = Path(day_file)
-        if day_path.exists():
-            parser = LessonParser()
-            lesson = parser.parse_file(day_path)
-            day_number = processor._extract_day_number(lesson)
-            print(f"{day_file}: Day {day_number}")
-        else:
-            print(f"❌ {day_file}: File not found")
+        pytest.fail(f"Lesson file not found: {lesson_file}")
 
 if __name__ == "__main__":
-    test_day_extraction()
-    test_other_days()
+    import asyncio
+    asyncio.run(test_day_extraction())
