@@ -106,9 +106,13 @@ tagalog-tts-*.json
 
 # Development scripts
 process_short_lesson.py
-# Allow specific test files in the tests directory
+
+# Test files
+# Allow test files in the tests/ directory
+tests/**/test_*.py
 !tests/**/test_*.py
-# Ignore other test_*.py files
+
+# Ignore test files in root directory
 test_*.py
 
 test_config.yaml
