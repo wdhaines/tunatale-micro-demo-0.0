@@ -58,12 +58,15 @@ def detect_linguistic_boundaries(text: str) -> List[Tuple[str, int]]:
     return sorted(boundaries, key=lambda x: x[1])
 
 
-def split_with_natural_pauses(text: str, is_slow: bool = False) -> List[Dict]:
+def split_with_natural_pauses(text: str, is_slow: bool = False, 
+                            segment_audio_durations: List[float] = None) -> List[Dict]:
     """Split text with appropriate pauses for natural speech.
     
     Args:
         text: Input text to split
         is_slow: Whether this is slow speech (longer pauses)
+        segment_audio_durations: List of audio durations (in seconds) for each text segment,
+                               used for dynamic pause calculation
         
     Returns:
         List of segments with text and pause information
@@ -77,6 +80,7 @@ def split_with_natural_pauses(text: str, is_slow: bool = False) -> List[Dict]:
     
     calculator = NaturalPauseCalculator()
     complexity = 'slow' if is_slow else 'normal'
+    text_segment_index = 0  # Track which text segment we're processing for duration lookup
     
     for boundary_type, pos in boundaries:
         # Add the text segment before this boundary
@@ -89,8 +93,14 @@ def split_with_natural_pauses(text: str, is_slow: bool = False) -> List[Dict]:
                     'voice_settings': {'rate': 0.5 if is_slow else 1.0}
                 })
         
-        # Add the pause
-        pause_duration = calculator.get_pause_for_boundary(boundary_type, complexity)
+        # Add the pause - use audio duration if available for this segment
+        audio_duration = None
+        if segment_audio_durations and text_segment_index < len(segment_audio_durations):
+            audio_duration = segment_audio_durations[text_segment_index]
+        
+        pause_duration = calculator.get_pause_for_boundary(
+            boundary_type, complexity, audio_duration_seconds=audio_duration
+        )
         
         segments.append({
             'type': 'pause',
@@ -98,6 +108,7 @@ def split_with_natural_pauses(text: str, is_slow: bool = False) -> List[Dict]:
             'boundary': boundary_type
         })
         
+        text_segment_index += 1
         last_pos = pos
     
     # Add remaining text after the last boundary
