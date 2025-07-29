@@ -693,8 +693,25 @@ class LessonParser:
                                 # Default pitch/rate for TAGALOG-FEMALE-1
                                 self.current_phrase.metadata['tts_pitch'] = '0.0'
                                 self.current_phrase.metadata['tts_rate'] = '1.0'
-                    else:
-                        voice_id = "fil-PH-AngeloNeural"  # Male Tagalog voice
+                    elif gender == 'MALE':
+                        # Both TAGALOG-MALE-1 and TAGALOG-MALE-2 use the same voice
+                        voice_id = "fil-PH-AngeloNeural"
+                        # Set speaker_id and TTS settings in the phrase metadata
+                        if hasattr(self, 'current_phrase') and self.current_phrase:
+                            self.current_phrase.metadata['speaker_id'] = speaker_id
+                            
+                            # Set default pitch/rate for TAGALOG-MALE-1
+                            if number == '1':
+                                self.current_phrase.metadata['tts_pitch'] = '0.0'
+                                self.current_phrase.metadata['tts_rate'] = '1.0'
+                            # Set custom pitch/rate for TAGALOG-MALE-2
+                            elif number == '2':
+                                self.current_phrase.metadata['tts_pitch'] = '10.0'  # Slightly higher pitch
+                                self.current_phrase.metadata['tts_rate'] = '0.9'    # Slightly slower rate
+                            else:
+                                # Default pitch/rate for TAGALOG-MALE-1
+                                self.current_phrase.metadata['tts_pitch'] = '0.0'
+                                self.current_phrase.metadata['tts_rate'] = '1.0'
                 else:  # Default to English for any other language
                     voice_id = DEFAULT_ENGLISH_VOICE
             elif 'NARRATOR' in speaker_upper or 'ENGLISH' in speaker_upper:

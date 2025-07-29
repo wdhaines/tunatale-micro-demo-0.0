@@ -20,38 +20,42 @@ logger = logging.getLogger(__name__)
 # Vowel-ending syllables (most problematic - TTS uses English vowel sounds)
 VOWEL_SYLLABLE_PATTERNS = {
     # Single vowels - UPDATED BASED ON TESTING
+    r'\ba\b': 'ah',           # a → ah (tested and chosen)
+    r'\be\b': 'eh',           # e → eh (tested and chosen)
     r'\bi\b': 'eey',          # i → eey (tested and chosen)
     # r'\bo\b': 'o',          # o → unchanged (natural sounds best)
-    r'\ba\b': 'ah',           # a → ah (tested and chosen) 
-    r'\be\b': 'eh',           # e → eh (tested and chosen)
     r'\bu\b': 'ooh',          # u → ooh (tested and chosen)
     
     # Consonant + i (very common in Tagalog) - using "eey" ending
     r'\bbi\b': 'beey',        # bi → beey (from gabi, etc.)
-    r'\bti\b': 'teey',        # ti → teey
-    r'\bmi\b': 'meey',        # mi → meey
     r'\bki\b': 'keey',        # ki → keey
+    r'\bmi\b': 'meey',        # mi → meey
+    r'\bti\b': 'teey',        # ti → teey
     
     # Consonant + o (also very common)
-    r'\bto\b': 'toh',         # to → toh (from kwarto, ito, etc.)
     r'\bdo\b': 'doh',         # do → doh
+    r'\bto\b': 'toh',         # to → toh (from kwarto, ito, etc.)
         
     # Consonant + e
-    r'\ble\b': 'leh',         # le → leh
-    r'\bme\b': 'meh',         # me → meh
-    r'\bte\b': 'teh',         # te → teh
-    r'\bse\b': 'seh',         # se → seh
-    r'\bne\b': 'neh',         # ne → neh
-    r'\bre\b': 'reh',         # re → reh
-    r'\bke\b': 'keh',         # ke → keh
     r'\bde\b': 'deh',         # de → deh
     r'\bge\b': 'geh',         # ge → geh
+    r'\bke\b': 'keh',         # ke → keh
+    r'\ble\b': 'leh',         # le → leh
+    r'\bme\b': 'meh',         # me → meh
+    r'\bne\b': 'neh',         # ne → neh
     r'\bpe\b': 'peh',         # pe → peh
+    r'\bre\b': 'reh',         # re → reh
+    r'\bse\b': 'seh',         # se → seh
+    r'\bte\b': 'teh',         # te → teh
     
     # Consonant + u - using "ooh" ending (tested and chosen)
-    r'\bmu\b': 'mooh',        # mu → mooh
     r'\bdu\b': 'dooh',        # du → dooh
     r'\bgu\b': 'gooh',        # gu → gooh
+    r'\bmu\b': 'mooh',        # mu → mooh
+
+    # Other words pronounced as English
+    r'\bate\b': 'ahteh',      # ate → ahteh
+    r'\bpit\b': 'peeyt',      # pit → peeyt
 }
 
 # Consonant-ending syllables (less problematic but still need fixes)
