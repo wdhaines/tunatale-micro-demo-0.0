@@ -689,56 +689,152 @@ class LessonProcessor(LessonProcessorInterface):
                 "[SLOW]" in preprocessed_text.upper()  # Explicit slow marker
             )
 
-            # Split text into natural segments
-            segments = split_with_natural_pauses(preprocessed_text, is_slow=is_slow)
+            # Check if this is a key phrases section to use dynamic pauses
+            use_dynamic_pauses = (section_type == 'key_phrases')
+            logger.debug(f"Processing phrase '{phrase.text}' in section_type='{section_type}', using {'dynamic' if use_dynamic_pauses else 'fixed'} pauses")
             
-            if not segments:
-                # Fallback to original processing if no segments
-                return await self._process_phrase(phrase, output_path)
-
-            # Generate audio for each segment
-            audio_parts = []
-            for i, segment in enumerate(segments):
-                if segment['type'] == 'text':
-                    # Create temporary audio file for this segment
-                    segment_file = output_path / f"phrase_{phrase.id}_segment_{i}"
-                    
-                    # Get voice settings from segment
-                    voice_settings = segment.get('voice_settings', {})
-                    rate = voice_settings.get('rate', 1.0)
-                    
-                    # Synthesize speech for this text segment
-                    await self._synthesize_speech_with_retry(
-                        text=segment['content'],
-                        voice_id=voice_id,
-                        output_path=str(segment_file),
-                        rate=rate,
-                        pitch=phrase.metadata.get("pitch", 0.0) if phrase.metadata else 0.0,
-                        volume=1.0,
-                        speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
-                        phrase_text=phrase.text
-                    )
-                    
-                    segment_file = segment_file.with_suffix('.mp3')
-                    if segment_file.exists():
-                        audio_parts.append(segment_file)
+            if use_dynamic_pauses:
+                # Dynamic pause mode for key phrases: Single-pass with duration measurement
+                initial_segments = split_with_natural_pauses(preprocessed_text, is_slow=is_slow)
                 
-                elif segment['type'] == 'pause':
-                    # Create silence for pause
-                    pause_file = output_path / f"phrase_{phrase.id}_pause_{i}.mp3"
-                    silence_duration_s = segment['duration'] / 1000.0
-                    
-                    # Create a minimal audio file and add silence
-                    if audio_parts:  # Only add silence if we have previous audio
-                        await self.audio_processor.add_silence(
-                            input_file=audio_parts[-1],  # Use last audio file as base
-                            output_file=pause_file,
-                            duration=silence_duration_s,
-                            position="end"
+                if not initial_segments:
+                    # Fallback to original processing if no segments
+                    return await self._process_phrase(phrase, output_path)
+
+                # Generate audio for text segments and collect their durations
+                audio_parts = []
+                segment_durations = []
+                
+                for i, segment in enumerate(initial_segments):
+                    if segment['type'] == 'text':
+                        # Create audio file for this segment
+                        segment_file = output_path / f"phrase_{phrase.id}_segment_{i}"
+                        
+                        # Get voice settings from segment
+                        voice_settings = segment.get('voice_settings', {})
+                        rate = voice_settings.get('rate', 1.0)
+                        
+                        # Synthesize speech for this text segment (only once!)
+                        await self._synthesize_speech_with_retry(
+                            text=segment['content'],
+                            voice_id=voice_id,
+                            output_path=str(segment_file),
+                            rate=rate,
+                            pitch=phrase.metadata.get("pitch", 0.0) if phrase.metadata else 0.0,
+                            volume=1.0,
+                            speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
+                            phrase_text=phrase.text
                         )
-                        # Replace the last audio file with the one with silence
-                        if pause_file.exists():
-                            audio_parts[-1] = pause_file
+                        
+                        segment_file = segment_file.with_suffix('.mp3')
+                        if segment_file.exists():
+                            audio_parts.append(segment_file)
+                            # Get duration of this audio segment
+                            try:
+                                duration = await self.audio_processor.get_audio_duration(segment_file)
+                                segment_durations.append(duration)
+                            except Exception as e:
+                                logger.warning(f"Failed to get duration for segment {i}: {e}")
+                                segment_durations.append(0.0)  # Fallback to 0 duration
+                        
+                # Calculate dynamic pauses and add them between existing audio segments
+                from .natural_pause_calculator import NaturalPauseCalculator
+                from .linguistic_boundary_detector import detect_linguistic_boundaries
+                
+                calculator = NaturalPauseCalculator()
+                complexity = 'slow' if is_slow else 'normal'
+                boundaries = detect_linguistic_boundaries(preprocessed_text)
+                
+                # Build final audio with dynamic pauses inserted
+                final_audio_parts = []
+                segment_index = 0
+                
+                for boundary_type, pos in boundaries:
+                    # Add the audio segment if we have one
+                    if segment_index < len(audio_parts):
+                        final_audio_parts.append(audio_parts[segment_index])
+                        
+                        # Calculate dynamic pause for this segment
+                        audio_duration = segment_durations[segment_index] if segment_index < len(segment_durations) else None
+                        pause_duration = calculator.get_pause_for_boundary(
+                            boundary_type, complexity, audio_duration_seconds=audio_duration
+                        )
+                        
+                        # Add pause after this segment
+                        if segment_index < len(audio_parts) - 1:  # Don't add pause after last segment
+                            pause_file = output_path / f"phrase_{phrase.id}_pause_{segment_index}.mp3"
+                            silence_duration_s = pause_duration / 1000.0
+                            
+                            await self.audio_processor.add_silence(
+                                input_file=audio_parts[segment_index],
+                                output_file=pause_file,
+                                duration=silence_duration_s,
+                                position="end"
+                            )
+                            
+                            if pause_file.exists():
+                                final_audio_parts[-1] = pause_file  # Replace with version that has silence
+                        
+                        segment_index += 1
+                
+                # If there are remaining audio segments without boundaries, add them
+                while segment_index < len(audio_parts):
+                    final_audio_parts.append(audio_parts[segment_index])
+                    segment_index += 1
+                
+                audio_parts = final_audio_parts
+            
+            else:
+                # Fixed pause mode for non-key phrases: Use original natural pause system
+                segments = split_with_natural_pauses(preprocessed_text, is_slow=is_slow)  # No audio durations = fixed pauses
+                
+                if not segments:
+                    # Fallback to original processing if no segments
+                    return await self._process_phrase(phrase, output_path)
+
+                # Generate audio with fixed pauses
+                audio_parts = []
+                for i, segment in enumerate(segments):
+                    if segment['type'] == 'text':
+                        # Create temporary audio file for this segment
+                        segment_file = output_path / f"phrase_{phrase.id}_segment_{i}"
+                        
+                        # Get voice settings from segment
+                        voice_settings = segment.get('voice_settings', {})
+                        rate = voice_settings.get('rate', 1.0)
+                        
+                        # Synthesize speech for this text segment
+                        await self._synthesize_speech_with_retry(
+                            text=segment['content'],
+                            voice_id=voice_id,
+                            output_path=str(segment_file),
+                            rate=rate,
+                            pitch=phrase.metadata.get("pitch", 0.0) if phrase.metadata else 0.0,
+                            volume=1.0,
+                            speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
+                            phrase_text=phrase.text
+                        )
+                        
+                        segment_file = segment_file.with_suffix('.mp3')
+                        if segment_file.exists():
+                            audio_parts.append(segment_file)
+                    
+                    elif segment['type'] == 'pause':
+                        # Create silence for pause
+                        pause_file = output_path / f"phrase_{phrase.id}_pause_{i}.mp3"
+                        silence_duration_s = segment['duration'] / 1000.0
+                        
+                        # Create a minimal audio file and add silence
+                        if audio_parts:  # Only add silence if we have previous audio
+                            await self.audio_processor.add_silence(
+                                input_file=audio_parts[-1],  # Use last audio file as base
+                                output_file=pause_file,
+                                duration=silence_duration_s,
+                                position="end"
+                            )
+                            # Replace the last audio file with the one with silence
+                            if pause_file.exists():
+                                audio_parts[-1] = pause_file
 
             # Combine all audio parts into final file
             final_audio_file = output_path / f"phrase_{phrase.id}.mp3"
