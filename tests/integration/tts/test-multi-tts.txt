@@ -1,0 +1,10 @@
+[NARRATOR]: Multi-TTS Test
+
+[TAGALOG-FEMALE-1]: Kumusta po!
+[NARRATOR]: Hello! (EdgeTTS voice)
+
+[TAGALOG-FEMALE-2]: Salamat po!
+[NARRATOR]: Thank you! (gTTS voice)
+
+[TAGALOG-MALE-1]: Paalam po!
+[NARRATOR]: Goodbye! (EdgeTTS voice)
