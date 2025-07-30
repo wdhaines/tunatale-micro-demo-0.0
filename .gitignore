@@ -122,3 +122,6 @@ local_*.yml
 
 # Keep empty directories
 !.gitkeep
+
+# Local cache directory
+cache/
