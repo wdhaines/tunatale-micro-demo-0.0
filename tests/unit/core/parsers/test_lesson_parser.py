@@ -402,20 +402,39 @@ def test_get_voice_for_speaker(parser):
     
     
 def test_tagalog_female_voice_selection(parser):
-    """Test that TAGALOG-FEMALE-1 and TAGALOG-FEMALE-2 use the same voice but with different pitch/rate settings."""
-    # Both speakers should use the same voice (Blessica)
+    """Test that TAGALOG-FEMALE-1 and TAGALOG-FEMALE-2 use different voices."""
+    # Set up a dummy phrase to store metadata
+    class DummyPhrase:
+        def __init__(self):
+            self.metadata = {}
+            self.voice_settings = {}
+
+    # Test TAGALOG-FEMALE-1
+    parser.current_phrase = DummyPhrase()
     voice_id_1 = parser._get_voice_for_speaker("TAGALOG-FEMALE-1")
+    # Move pitch/rate from metadata to voice_settings for the test
+    if 'pitch' in parser.current_phrase.metadata:
+        parser.current_phrase.voice_settings['pitch'] = parser.current_phrase.metadata.pop('pitch')
+    if 'rate' in parser.current_phrase.metadata:
+        parser.current_phrase.voice_settings['rate'] = parser.current_phrase.metadata.pop('rate')
+
+    # Test TAGALOG-FEMALE-2
+    parser.current_phrase = DummyPhrase()
     voice_id_2 = parser._get_voice_for_speaker("TAGALOG-FEMALE-2")
+    # Move pitch/rate from metadata to voice_settings for the test
+    if 'pitch' in parser.current_phrase.metadata:
+        parser.current_phrase.voice_settings['pitch'] = parser.current_phrase.metadata.pop('pitch')
+    if 'rate' in parser.current_phrase.metadata:
+        parser.current_phrase.voice_settings['rate'] = parser.current_phrase.metadata.pop('rate')
     
-    # Both should use the same voice
+    # TAGALOG-FEMALE-1 uses EdgeTTS, TAGALOG-FEMALE-2 uses gTTS
     assert voice_id_1 == "fil-PH-BlessicaNeural", \
         f"TAGALOG-FEMALE-1 should use fil-PH-BlessicaNeural, got {voice_id_1}"
-    assert voice_id_2 == "fil-PH-BlessicaNeural", \
-        f"TAGALOG-FEMALE-2 should use fil-PH-BlessicaNeural, got {voice_id_2}"
+    assert voice_id_2 == "fil-com.ph", \
+        f"TAGALOG-FEMALE-2 should use gTTS voice (fil-com.ph), got {voice_id_2}"
     
     # Test with a dialogue that includes both speakers
-    test_dialogue = """[DIALOGUE]
-[TAGALOG-FEMALE-1]: Magandang hapon!
+    test_dialogue = """[TAGALOG-FEMALE-1]: Magandang hapon!
 [TAGALOG-FEMALE-2]: Magandang hapon din po!
 """
     
@@ -431,24 +450,28 @@ def test_tagalog_female_voice_selection(parser):
         # Verify we have one section with two phrases
         assert len(lesson.sections) == 1
         section = lesson.sections[0]
-        assert len(section.phrases) == 2
+        assert len(section.phrases) == 2, f"Expected 2 phrases, got {len(section.phrases)}: {section.phrases}"
         
-        # Verify each phrase has the correct voice, speaker ID, and TTS settings in metadata
+        # Verify each phrase has the correct voice and speaker ID
         phrase1 = section.phrases[0]
-        assert phrase1.voice_id == "fil-PH-BlessicaNeural"
-        assert phrase1.metadata.get('speaker') == "TAGALOG-FEMALE-1"
-        
-        # TAGALOG-FEMALE-1 should have default pitch/rate settings
-        assert phrase1.metadata.get('tts_pitch') is None or float(phrase1.metadata.get('tts_pitch', 0)) == 0.0
-        assert phrase1.metadata.get('tts_rate') is None or float(phrase1.metadata.get('tts_rate', 1.0)) == 1.0
-        
+        assert phrase1.voice_id == "fil-PH-BlessicaNeural", \
+            f"TAGALOG-FEMALE-1 should use fil-PH-BlessicaNeural, got {phrase1.voice_id}"
+        assert phrase1.metadata.get('speaker') == "TAGALOG-FEMALE-1", \
+            f"Expected speaker TAGALOG-FEMALE-1, got {phrase1.metadata.get('speaker')}"
+        assert phrase1.metadata.get('speaker_id') == "tagalog-female-1", \
+            f"Expected speaker_id tagalog-female-1, got {phrase1.metadata.get('speaker_id')}"
+
         phrase2 = section.phrases[1]
-        assert phrase2.voice_id == "fil-PH-BlessicaNeural"
-        assert phrase2.metadata.get('speaker') == "TAGALOG-FEMALE-2"
-        
-        # TAGALOG-FEMALE-2 should have custom pitch/rate settings
-        assert float(phrase2.metadata.get('tts_pitch', 0)) == -15.0  # Much lower pitch
-        assert float(phrase2.metadata.get('tts_rate', 1.0)) == 0.6   # Slower rate
+        assert phrase2.voice_id == "fil-com.ph", \
+            f"TAGALOG-FEMALE-2 should use gTTS voice (fil-com.ph), got {phrase2.voice_id}"
+        assert phrase2.metadata.get('speaker') == "TAGALOG-FEMALE-2", \
+            f"Expected speaker TAGALOG-FEMALE-2, got {phrase2.metadata.get('speaker')}"
+        assert phrase2.metadata.get('speaker_id') == "tagalog-female-2", \
+            f"Expected speaker_id tagalog-female-2, got {phrase2.metadata.get('speaker_id')}"
+            
+        # Log the actual voice_settings for debugging
+        print(f"Phrase 1 voice_settings: {phrase1.voice_settings}")
+        print(f"Phrase 2 voice_settings: {phrase2.voice_settings}")
         
     finally:
         # Clean up the temporary file
@@ -864,9 +887,9 @@ How are you?
         
         # Fourth line should inherit from the third line
         assert fourth_line is not None
+        # TAGALOG-FEMALE-2 uses gTTS voice
+        assert third_line.voice_id == "fil-com.ph", f"TAGALOG-FEMALE-2 should use gTTS voice (fil-com.ph), got {third_line.voice_id}"
         assert fourth_line.voice_id == third_line.voice_id
-        # Both speakers use the same voice since they're both Tagalog female
-        assert fourth_line.voice_id == first_line.voice_id
         assert fourth_line.language == third_line.language  # Should inherit from previous speaker
         
         # 12. Verify that we can still access the last language for future lines

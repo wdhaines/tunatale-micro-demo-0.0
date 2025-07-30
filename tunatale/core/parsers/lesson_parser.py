@@ -290,9 +290,15 @@ class LessonParser:
                 # Extract any TTS settings that were set by _get_voice_for_speaker
                 tts_metadata = {}
                 if hasattr(self.current_phrase, 'metadata'):
+                    # Handle both 'pitch'/'rate' and 'tts_pitch'/'tts_rate' naming conventions
+                    pitch = self.current_phrase.metadata.get('pitch', self.current_phrase.metadata.get('tts_pitch'))
+                    rate = self.current_phrase.metadata.get('rate', self.current_phrase.metadata.get('tts_rate'))
+                    
                     tts_metadata = {
-                        'tts_pitch': self.current_phrase.metadata.get('tts_pitch'),
-                        'tts_rate': self.current_phrase.metadata.get('tts_rate'),
+                        'pitch': pitch,
+                        'rate': rate,
+                        'tts_pitch': pitch,  # Keep for backward compatibility
+                        'tts_rate': rate,    # Keep for backward compatibility
                         'speaker_id': self.current_phrase.metadata.get('speaker_id')
                     }
                 
@@ -468,13 +474,20 @@ class LessonParser:
                         metadata = {"speaker": line.speaker or "NARRATOR"}
                         
                         # Include any TTS settings from the parsed line
-                        if hasattr(line, 'metadata'):
-                            if line.metadata and 'tts_pitch' in line.metadata and line.metadata['tts_pitch'] is not None:
-                                metadata['tts_pitch'] = line.metadata['tts_pitch']
-                            if line.metadata and 'tts_rate' in line.metadata and line.metadata['tts_rate'] is not None:
-                                metadata['tts_rate'] = line.metadata['tts_rate']
-                            if line.metadata and 'speaker_id' in line.metadata and line.metadata['speaker_id'] is not None:
-                                metadata['speaker_id'] = line.metadata['speaker_id']
+                        if hasattr(line, 'metadata') and line.metadata:
+                            # Handle both 'pitch'/'rate' and 'tts_pitch'/'tts_rate' naming conventions
+                            pitch = line.metadata.get('pitch', line.metadata.get('tts_pitch'))
+                            rate = line.metadata.get('rate', line.metadata.get('tts_rate'))
+                            speaker_id = line.metadata.get('speaker_id')
+                            
+                            if pitch is not None:
+                                metadata['pitch'] = pitch
+                                metadata['tts_pitch'] = pitch  # Keep for backward compatibility
+                            if rate is not None:
+                                metadata['rate'] = rate
+                                metadata['tts_rate'] = rate    # Keep for backward compatibility
+                            if speaker_id is not None:
+                                metadata['speaker_id'] = speaker_id
                         
                         current_phrase = Phrase(
                             text=line.content,
@@ -645,6 +658,7 @@ class LessonParser:
             "fil-PH-BlessicaNeural",  # Tagalog Female 1
             "fil-PH-RosaNeural",      # Tagalog Female 2
             "fil-PH-AngeloNeural",    # Tagalog Male
+            "fil-com.ph",             # Google Translate TTS Filipino (free alternative)
             "en-US-GuyNeural",        # English Male (Guy)
             "en-US-AriaNeural"        # English Female (Aria) - kept for backward compatibility
         }
@@ -675,43 +689,53 @@ class LessonParser:
                 
                 if language == 'TAGALOG':
                     if gender == 'FEMALE':
-                        # Both TAGALOG-FEMALE-1 and TAGALOG-FEMALE-2 use the same voice
-                        voice_id = "fil-PH-BlessicaNeural"
                         # Set speaker_id and TTS settings in the phrase metadata
                         if hasattr(self, 'current_phrase') and self.current_phrase:
                             self.current_phrase.metadata['speaker_id'] = speaker_id
                             
-                            # Set default pitch/rate for TAGALOG-FEMALE-1
+                            # TAGALOG-FEMALE-1 uses EdgeTTS with default settings
                             if number == '1':
-                                self.current_phrase.metadata['tts_pitch'] = '0.0'
-                                self.current_phrase.metadata['tts_rate'] = '1.0'
-                            # Set custom pitch/rate for TAGALOG-FEMALE-2
+                                voice_id = "fil-PH-BlessicaNeural"
+                                self.current_phrase.metadata['pitch'] = 0.0    # Default pitch
+                                self.current_phrase.metadata['rate'] = 1.0     # Normal rate
+                            # TAGALOG-FEMALE-2 uses Google Translate TTS (gTTS)
                             elif number == '2':
-                                self.current_phrase.metadata['tts_pitch'] = '-15.0'
-                                self.current_phrase.metadata['tts_rate'] = '0.6'
+                                voice_id = "fil-com.ph"  # gTTS Filipino voice
+                                self.current_phrase.metadata['pitch'] = 0.0
+                                self.current_phrase.metadata['rate'] = 1.0
                             else:
-                                # Default pitch/rate for TAGALOG-FEMALE-1
-                                self.current_phrase.metadata['tts_pitch'] = '0.0'
-                                self.current_phrase.metadata['tts_rate'] = '1.0'
+                                # Default to EdgeTTS with lower voice for other numbers
+                                voice_id = "fil-PH-BlessicaNeural"
+                                self.current_phrase.metadata['pitch'] = -15.0
+                                self.current_phrase.metadata['rate'] = 0.8
                     elif gender == 'MALE':
-                        # Both TAGALOG-MALE-1 and TAGALOG-MALE-2 use the same voice
+                        # Both TAGALOG-MALE-1 and TAGALOG-MALE-2 use the same Filipino voice
                         voice_id = "fil-PH-AngeloNeural"
                         # Set speaker_id and TTS settings in the phrase metadata
                         if hasattr(self, 'current_phrase') and self.current_phrase:
                             self.current_phrase.metadata['speaker_id'] = speaker_id
                             
-                            # Set default pitch/rate for TAGALOG-MALE-1
+                            # TAGALOG-MALE-1 uses default settings
                             if number == '1':
-                                self.current_phrase.metadata['tts_pitch'] = '0.0'
-                                self.current_phrase.metadata['tts_rate'] = '1.0'
-                            # Set custom pitch/rate for TAGALOG-MALE-2
+                                self.current_phrase.metadata['pitch'] = 0.0
+                                self.current_phrase.metadata['rate'] = 1.0
+                            # TAGALOG-MALE-2 uses distinctive voice settings
                             elif number == '2':
-                                self.current_phrase.metadata['tts_pitch'] = '10.0'  # Slightly higher pitch
-                                self.current_phrase.metadata['tts_rate'] = '0.9'    # Slightly slower rate
+                                self.current_phrase.metadata['pitch'] = -15.0  # Much deeper voice (-15Hz)
+                                self.current_phrase.metadata['rate'] = 0.8     # Slower rate (-20%)
                             else:
-                                # Default pitch/rate for TAGALOG-MALE-1
-                                self.current_phrase.metadata['tts_pitch'] = '0.0'
-                                self.current_phrase.metadata['tts_rate'] = '1.0'
+                                # Slightly varied settings for other numbers
+                                self.current_phrase.metadata['pitch'] = 10.0
+                                self.current_phrase.metadata['rate'] = 0.9
+                    elif gender == 'GTTS':
+                        # TAGALOG-GTTS-1 uses Google Translate TTS (free alternative)
+                        voice_id = "fil-com.ph"
+                        # Set speaker_id and TTS settings in the phrase metadata
+                        if hasattr(self, 'current_phrase') and self.current_phrase:
+                            self.current_phrase.metadata['speaker_id'] = speaker_id
+                            # Use default pitch/rate for gTTS voice
+                            self.current_phrase.metadata['pitch'] = 0.0
+                            self.current_phrase.metadata['rate'] = 1.0
                 else:  # Default to English for any other language
                     voice_id = DEFAULT_ENGLISH_VOICE
             elif 'NARRATOR' in speaker_upper or 'ENGLISH' in speaker_upper:
@@ -720,8 +744,8 @@ class LessonParser:
                 voice_id = "fil-PH-BlessicaNeural" if 'FEMALE' in speaker_upper else "fil-PH-AngeloNeural"
                 # Set default pitch/rate for non-pattern matched Tagalog female speakers
                 if hasattr(self, 'current_phrase') and self.current_phrase and 'FEMALE' in speaker_upper:
-                    self.current_phrase.metadata['tts_pitch'] = '0.0'
-                    self.current_phrase.metadata['tts_rate'] = '1.0'
+                    self.current_phrase.metadata['pitch'] = 0.0
+                    self.current_phrase.metadata['rate'] = 1.0
             
             # If we couldn't determine a valid voice, use the last used voice or default
             if not voice_id or voice_id not in valid_voice_ids:

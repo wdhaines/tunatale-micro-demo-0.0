@@ -46,6 +46,23 @@ class DefaultVoiceSelector(VoiceSelector):
                 gender="male",
                 provider="edge",
             ),
+            # Google Translate TTS voices (free alternative)
+            Voice(
+                id="fil-com.ph",
+                provider_id="fil-com.ph",
+                name="Filipino (Google Translate)",
+                language=Language.TAGALOG,
+                gender="neutral",
+                provider="gtts",
+            ),
+            Voice(
+                id="en-com",
+                provider_id="en-com",
+                name="English US (Google Translate)",
+                language=Language.ENGLISH,
+                gender="neutral",
+                provider="gtts",
+            ),
             # Spanish voices
             Voice(
                 id="es-MX-JorgeNeural",
