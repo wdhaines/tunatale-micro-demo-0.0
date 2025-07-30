@@ -6,10 +6,13 @@ pydub>=0.25.1
 aiohttp>=3.8.0
 numpy>=1.21.0
 
-# For Google TTS
+# For Google TTS (paid service)
 google-cloud-texttospeech>=2.14.0
 google-auth>=2.15.0
 google-api-core>=2.11.0
+
+# For Google Translate TTS (free service)
+gTTS>=2.3.0
 
 # For script parsing
 markdown>=3.4.1
