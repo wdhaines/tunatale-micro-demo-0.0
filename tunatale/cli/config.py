@@ -17,7 +17,7 @@ class TTSSettings(BaseModel):
     
     provider: str = Field(
         default="edge",
-        description="TTS provider to use (e.g., 'edge', 'google')",
+        description="TTS provider to use (e.g., 'edge', 'google', 'gtts', 'multi')",
     )
     
     # Edge TTS specific settings
@@ -30,6 +30,36 @@ class TTSSettings(BaseModel):
     google_tts: Dict[str, Any] = Field(
         default_factory=dict,
         description="Google TTS specific configuration",
+    )
+    
+    # Google Translate TTS specific settings
+    gtts: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Google Translate TTS specific configuration",
+    )
+    
+    # Generic TTS settings
+    cache_dir: Optional[str] = Field(
+        default=None,
+        description="Cache directory for TTS files",
+    )
+    rate: float = Field(
+        default=1.0,
+        description="Speech rate",
+        ge=0.1,
+        le=3.0,
+    )
+    pitch: float = Field(
+        default=0.0,
+        description="Pitch adjustment",
+        ge=-20.0,
+        le=20.0,
+    )
+    volume: float = Field(
+        default=1.0,
+        description="Volume level",
+        ge=0.0,
+        le=2.0,
     )
 
 

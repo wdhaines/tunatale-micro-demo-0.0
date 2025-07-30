@@ -5,8 +5,10 @@ TunaTale is a comprehensive toolkit for creating engaging language learning mate
 ## 🚀 Features
 
 - **Multi-Voice Support**: Different Filipino and English voices for natural dialogue
+- **Multiple TTS Providers**: EdgeTTS (premium) and Google Translate TTS (free) support
 - **Structured Lessons**: Automatic section detection (Key Phrases, Natural Speed, Slow Speed, Translated)
 - **High-Quality Audio**: Professional audio processing with normalization and enhancements
+- **Dynamic Pauses**: Smart pause duration based on audio length for key phrases repetition
 - **Flexible Configuration**: Customize voices, speeds, and processing options
 - **Modern Architecture**: Clean architecture with clear separation of concerns
 - **Extensible**: Easy to add new TTS providers and audio processing features
