@@ -13,33 +13,16 @@ ito
 ito po
 ito po
 
-[TAGALOG-FEMALE-1]: ID po
-[NARRATOR]: ID please
-[TAGALOG-FEMALE-1]: ID po
-po
-ID
-ID po
-ID po
-
-[TAGALOG-FEMALE-1]: may kwarto po ba
-[NARRATOR]: do you have a room?
-[TAGALOG-FEMALE-1]: may kwarto po ba
-ba
-po ba
-po
-to
-ar
-warto
-kwar
-kwarto
-kwarto po
-kwarto po ba
-may
-may kwarto
-may kwarto po ba
-may kwarto po ba
-
 [NARRATOR]: Natural Speed
+
+[TAGALOG-MALE-1]: Kuya, paano po pumunta sa Corong-Corong Beach?
+[TAGALOG-MALE-2]: Paano po pumunta? Ah, sakay ka tricycle.
+[TAGALOG-MALE-1]: Malayo po ba?
+[TAGALOG-MALE-2]: Hindi naman. Malapit lang po.
+[TAGALOG-MALE-1]: Malapit lang po?
+[TAGALOG-MALE-2]: Mga ten minutes tricycle.
+[TAGALOG-MALE-1]: Ah. Saan po sakayan?
+[TAGALOG-MALE-2]: Labas lang po. Kanan po palabas, tapos derecho.
 
 Hotel Lobby
 
@@ -91,3 +74,11 @@ Airport Shop
 
 [TAGALOG-FEMALE-1]: Excuse me po.
 [NARRATOR]: Excuse me.
+[TAGALOG-MALE-1]: Saan po ang gate 12?
+[NARRATOR]: Where is gate 12?
+[TAGALOG-MALE-1]: Gate 12 po?
+[NARRATOR]: Gate 12?
+[TAGALOG-FEMALE-2]: Doon po sa kanan.
+[NARRATOR]: Over there on the right. (gTTS voice)
+[TAGALOG-MALE-1]: Salamat po!
+[NARRATOR]: Thank you!

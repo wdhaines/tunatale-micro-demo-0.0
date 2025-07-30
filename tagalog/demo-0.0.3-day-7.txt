@@ -1,0 +1,506 @@
+# Day 7: Restaurant Confidence
+
+**Target collocations:** "para sa ilan po" / "specialty po namin" / "masarap po ba" / "order na po" / "tubig lang po"
+
+[NARRATOR]: Day 7: Restaurant Confidence
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: para sa ilan po
+[NARRATOR]: for how many
+[TAGALOG-FEMALE-1]: para sa ilan po
+po
+lan po
+i
+ilan
+ilan po
+sa ilan
+sa ilan po
+ra
+pa
+para
+para sa
+para sa ilan
+para sa ilan po
+para sa ilan po
+
+[TAGALOG-FEMALE-1]: specialty po namin
+[NARRATOR]: our specialty
+[TAGALOG-FEMALE-1]: specialty po namin
+min
+na
+namin
+po namin
+ty
+cial
+specialty
+spe
+specialty
+specialty po
+specialty po namin
+specialty po namin
+
+[TAGALOG-FEMALE-1]: masarap po ba
+[NARRATOR]: is it delicious
+[TAGALOG-FEMALE-1]: masarap po ba
+ba
+po ba
+po
+rap
+sa
+sarap
+ma
+masarap
+masarap po
+masarap po ba
+masarap po ba
+
+[TAGALOG-FEMALE-1]: order na po
+[NARRATOR]: ready to order
+[TAGALOG-FEMALE-1]: order na po
+po
+na po
+na
+der
+or
+order
+order na
+order na po
+order na po
+
+[TAGALOG-FEMALE-1]: tubig lang po
+[NARRATOR]: just water
+[TAGALOG-FEMALE-1]: tubig lang po
+po
+lang po
+lang
+big
+tu
+tubig
+tubig lang
+tubig lang po
+tubig lang po
+
+[NARRATOR]: Natural Speed
+
+Arriving at Restaurant
+
+[TAGALOG-MALE-1]: Good evening! Para sa ilan po?
+[TAGALOG-FEMALE-1]: Para sa dalawa po.
+[TAGALOG-MALE-1]: Saan po gusto? Inside or outside?
+[TAGALOG-FEMALE-1]: Outside po. May table po ba?
+[TAGALOG-MALE-1]: Opo! Para sa ilan po ulit?
+[TAGALOG-FEMALE-1]: Dalawa po kami.
+[TAGALOG-MALE-1]: This way po!
+
+[NARRATOR]: At the Table
+
+[TAGALOG-MALE-2]: Ano po ang specialty?
+[TAGALOG-MALE-1]: Specialty po namin, grilled seafood.
+[TAGALOG-MALE-2]: Masarap po ba yung prawns?
+[TAGALOG-MALE-1]: Opo! Specialty po namin yan. Fresh today!
+[TAGALOG-MALE-2]: Sige, yun na. Ana?
+[TAGALOG-FEMALE-1]: Ano pa pong specialty?
+[TAGALOG-MALE-1]: Sinigang na lapu-lapu, specialty po namin din.
+[TAGALOG-FEMALE-1]: Masarap po ba?
+[TAGALOG-MALE-1]: The best po!
+
+[NARRATOR]: Ordering
+
+[TAGALOG-MALE-1]: Order na po ba kayo?
+[TAGALOG-FEMALE-1]: Wait lang po. Drinks muna.
+[TAGALOG-MALE-1]: Ano pong drinks?
+[TAGALOG-FEMALE-1]: Mango shake po. Dalawa. Masarap po ba?
+[TAGALOG-MALE-1]: Opo! Fresh mango po.
+[TAGALOG-FEMALE-1]: Ben, order na po ba tayo?
+[TAGALOG-MALE-2]: Opo. Order na po kami.
+
+[NARRATOR]: Taking the Order
+
+[TAGALOG-MALE-1]: Ano po order ninyo?
+[TAGALOG-MALE-2]: Grilled prawns po. Para sa ilan po yung serving?
+[TAGALOG-MALE-1]: Para sa isa po. Malaki naman.
+[TAGALOG-MALE-2]: Ah, isa lang. Tapos sinigang.
+[TAGALOG-MALE-1]: Rice po?
+[TAGALOG-MALE-2]: Ilan po kasama?
+[TAGALOG-MALE-1]: Wala po. Separate order.
+[TAGALOG-MALE-2]: Dalawang rice po.
+[TAGALOG-MALE-1]: Drinks po?
+[TAGALOG-FEMALE-1]: Mango shake, dalawa po.
+[TAGALOG-MALE-1]: Okay po. Anything else?
+[TAGALOG-FEMALE-1]: Tubig lang po. May service water po ba?
+[TAGALOG-MALE-1]: Opo! Tubig lang po, libre.
+
+[NARRATOR]: During the Meal
+
+[TAGALOG-MALE-1]: Masarap po ba?
+[TAGALOG-FEMALE-1]: Sobrang sarap po!
+[TAGALOG-MALE-1]: Specialty po namin talaga yan!
+[TAGALOG-FEMALE-2]: Excuse me! Para sa ilan po serving ng prawns?
+[TAGALOG-MALE-1]: Para sa isa po.
+[TAGALOG-FEMALE-2]: Masarap po ba?
+[TAGALOG-FEMALE-1]: Opo! Super sarap!
+[TAGALOG-FEMALE-2]: Ah sige, order na po ako!
+
+[NARRATOR]: After Eating
+
+[TAGALOG-MALE-1]: Dessert po?
+[TAGALOG-FEMALE-1]: Ano pong meron?
+[TAGALOG-MALE-1]: Halo-halo, specialty po namin!
+[TAGALOG-FEMALE-1]: Para sa ilan po yun?
+[TAGALOG-MALE-1]: Puwede share. Malaki po.
+[TAGALOG-FEMALE-1]: Ben, order po ba tayo?
+[TAGALOG-MALE-2]: Tubig lang po muna ako. Busog na!
+[TAGALOG-FEMALE-1]: Ako rin. Maybe later na lang.
+[TAGALOG-MALE-2]: Bill na lang po?
+[TAGALOG-MALE-1]: Sige po!
+
+[NARRATOR]: Slow Speed
+
+Arriving at Restaurant
+
+[TAGALOG-MALE-1]: Good... evening!... Para... sa... ilan... po?
+[TAGALOG-FEMALE-1]: Para... sa... dalawa... po.
+[TAGALOG-MALE-1]: Saan... po... gusto?... Inside... or... outside?
+[TAGALOG-FEMALE-1]: Outside... po... May... table... po... ba?
+[TAGALOG-MALE-1]: Opo!... Para... sa... ilan... po... ulit?
+[TAGALOG-FEMALE-1]: Dalawa... po... kami.
+[TAGALOG-MALE-1]: This... way... po!
+
+[NARRATOR]: At the Table
+
+[TAGALOG-MALE-2]: Ano... po... ang... specialty?
+[TAGALOG-MALE-1]: Specialty... po... namin... grilled... seafood.
+[TAGALOG-MALE-2]: Masarap... po... ba... yung... prawns?
+[TAGALOG-MALE-1]: Opo!... Specialty... po... namin... yan... Fresh... today!
+[TAGALOG-MALE-2]: Sige... yun... na... Ana?
+[TAGALOG-FEMALE-1]: Ano... pa... pong... specialty?
+[TAGALOG-MALE-1]: Sinigang... na... lapu-lapu... specialty... po... namin... din.
+[TAGALOG-FEMALE-1]: Masarap... po... ba?
+[TAGALOG-MALE-1]: The... best... po!
+
+[NARRATOR]: Ordering
+
+[TAGALOG-MALE-1]: Order... na... po... ba... kayo?
+[TAGALOG-FEMALE-1]: Wait... lang... po... Drinks... muna.
+[TAGALOG-MALE-1]: Ano... pong... drinks?
+[TAGALOG-FEMALE-1]: Mango... shake... po... Dalawa... Masarap... po... ba?
+[TAGALOG-MALE-1]: Opo!... Fresh... mango... po.
+[TAGALOG-FEMALE-1]: Ben... order... na... po... ba... tayo?
+[TAGALOG-MALE-2]: Opo... Order... na... po... kami.
+
+[NARRATOR]: Taking the Order
+
+[TAGALOG-MALE-1]: Ano... po... order... ninyo?
+[TAGALOG-MALE-2]: Grilled... prawns... po... Para... sa... ilan... po... yung... serving?
+[TAGALOG-MALE-1]: Para... sa... isa... po... Malaki... naman.
+[TAGALOG-MALE-2]: Ah... isa... lang... Tapos... sinigang.
+[TAGALOG-MALE-1]: Rice... po?
+[TAGALOG-MALE-2]: Ilan... po... kasama?
+[TAGALOG-MALE-1]: Wala... po... Separate... order.
+[TAGALOG-MALE-2]: Dalawang... rice... po.
+[TAGALOG-MALE-1]: Drinks... po?
+[TAGALOG-FEMALE-1]: Mango... shake... dalawa... po.
+[TAGALOG-MALE-1]: Okay... po... Anything... else?
+[TAGALOG-FEMALE-1]: Tubig... lang... po... May... service... water... po... ba?
+[TAGALOG-MALE-1]: Opo!... Tubig... lang... po... libre.
+
+[NARRATOR]: During the Meal
+
+[TAGALOG-MALE-1]: Masarap... po... ba?
+[TAGALOG-FEMALE-1]: Sobrang... sarap... po!
+[TAGALOG-MALE-1]: Specialty... po... namin... talaga... yan!
+[TAGALOG-FEMALE-2]: Excuse... me!... Para... sa... ilan... po... serving... ng... prawns?
+[TAGALOG-MALE-1]: Para... sa... isa... po.
+[TAGALOG-FEMALE-2]: Masarap... po... ba?
+[TAGALOG-FEMALE-1]: Opo!... Super... sarap!
+[TAGALOG-FEMALE-2]: Ah... sige... order... na... po... ako!
+
+[NARRATOR]: After Eating
+
+[TAGALOG-MALE-1]: Dessert... po?
+[TAGALOG-FEMALE-1]: Ano... pong... meron?
+[TAGALOG-MALE-1]: Halo-halo... specialty... po... namin!
+[TAGALOG-FEMALE-1]: Para... sa... ilan... po... yun?
+[TAGALOG-MALE-1]: Puwede... share... Malaki... po.
+[TAGALOG-FEMALE-1]: Ben... order... po... ba... tayo?
+[TAGALOG-MALE-2]: Tubig... lang... po... muna... ako... Busog... na!
+[TAGALOG-FEMALE-1]: Ako... rin... Maybe... later... na... lang.
+[TAGALOG-MALE-2]: Bill... na... lang... po?
+[TAGALOG-MALE-1]: Sige... po!
+
+[NARRATOR]: Translated
+
+Arriving at Restaurant
+
+[TAGALOG-MALE-1]: Good evening! Para sa ilan po?
+[NARRATOR]: Good evening! For how many?
+[TAGALOG-FEMALE-1]: Para sa dalawa po.
+[NARRATOR]: For two.
+[TAGALOG-MALE-1]: Saan po gusto? Inside or outside?
+[NARRATOR]: Where would you like? Inside or outside?
+[TAGALOG-FEMALE-1]: Outside po. May table po ba?
+[NARRATOR]: Outside. Is there a table?
+[TAGALOG-MALE-1]: Opo! Para sa ilan po ulit?
+[NARRATOR]: Yes! For how many again?
+[TAGALOG-FEMALE-1]: Dalawa po kami.
+[NARRATOR]: We're two.
+[TAGALOG-MALE-1]: This way po!
+[NARRATOR]: This way!
+
+[NARRATOR]: At the Table
+
+[TAGALOG-MALE-2]: Ano po ang specialty?
+[NARRATOR]: What's the specialty?
+[TAGALOG-MALE-1]: Specialty po namin, grilled seafood.
+[NARRATOR]: Our specialty is grilled seafood.
+[TAGALOG-MALE-2]: Masarap po ba yung prawns?
+[NARRATOR]: Are the prawns delicious?
+[TAGALOG-MALE-1]: Opo! Specialty po namin yan. Fresh today!
+[NARRATOR]: Yes! That's our specialty. Fresh today!
+[TAGALOG-MALE-2]: Sige, yun na. Ana?
+[NARRATOR]: Okay, that one. Ana?
+[TAGALOG-FEMALE-1]: Ano pa pong specialty?
+[NARRATOR]: What other specialties?
+[TAGALOG-MALE-1]: Sinigang na lapu-lapu, specialty po namin din.
+[NARRATOR]: Sour soup with grouper, that's our specialty too.
+[TAGALOG-FEMALE-1]: Masarap po ba?
+[NARRATOR]: Is it delicious?
+[TAGALOG-MALE-1]: The best po!
+[NARRATOR]: The best!
+
+[NARRATOR]: Ordering
+
+[TAGALOG-MALE-1]: Order na po ba kayo?
+[NARRATOR]: Are you ready to order?
+[TAGALOG-FEMALE-1]: Wait lang po. Drinks muna.
+[NARRATOR]: Wait. Drinks first.
+[TAGALOG-MALE-1]: Ano pong drinks?
+[NARRATOR]: What drinks?
+[TAGALOG-FEMALE-1]: Mango shake po. Dalawa. Masarap po ba?
+[NARRATOR]: Mango shake. Two. Is it delicious?
+[TAGALOG-MALE-1]: Opo! Fresh mango po.
+[NARRATOR]: Yes! Fresh mango.
+[TAGALOG-FEMALE-1]: Ben, order na po ba tayo?
+[NARRATOR]: Ben, are we ready to order?
+[TAGALOG-MALE-2]: Opo. Order na po kami.
+[NARRATOR]: Yes. We're ready to order.
+
+[NARRATOR]: Taking the Order
+
+[TAGALOG-MALE-1]: Ano po order ninyo?
+[NARRATOR]: What's your order?
+[TAGALOG-MALE-2]: Grilled prawns po. Para sa ilan po yung serving?
+[NARRATOR]: Grilled prawns. For how many is the serving?
+[TAGALOG-MALE-1]: Para sa isa po. Malaki naman.
+[NARRATOR]: For one. But it's big.
+[TAGALOG-MALE-2]: Ah, isa lang. Tapos sinigang.
+[NARRATOR]: Ah, just one. Then sour soup.
+[TAGALOG-MALE-1]: Rice po?
+[NARRATOR]: Rice?
+[TAGALOG-MALE-2]: Ilan po kasama?
+[NARRATOR]: How many come with it?
+[TAGALOG-MALE-1]: Wala po. Separate order.
+[NARRATOR]: None. Separate order.
+[TAGALOG-MALE-2]: Dalawang rice po.
+[NARRATOR]: Two rice.
+[TAGALOG-MALE-1]: Drinks po?
+[NARRATOR]: Drinks?
+[TAGALOG-FEMALE-1]: Mango shake, dalawa po.
+[NARRATOR]: Mango shake, two.
+[TAGALOG-MALE-1]: Okay po. Anything else?
+[NARRATOR]: Okay. Anything else?
+[TAGALOG-FEMALE-1]: Tubig lang po. May service water po ba?
+[NARRATOR]: Just water. Is there service water?
+[TAGALOG-MALE-1]: Opo! Tubig lang po, libre.
+[NARRATOR]: Yes! Just water, free.
+
+[NARRATOR]: During the Meal
+
+[TAGALOG-MALE-1]: Masarap po ba?
+[NARRATOR]: Is it delicious?
+[TAGALOG-FEMALE-1]: Sobrang sarap po!
+[NARRATOR]: Very delicious!
+[TAGALOG-MALE-1]: Specialty po namin talaga yan!
+[NARRATOR]: That's really our specialty!
+[TAGALOG-FEMALE-2]: Excuse me! Para sa ilan po serving ng prawns?
+[NARRATOR]: Excuse me! For how many is the prawn serving?
+[TAGALOG-MALE-1]: Para sa isa po.
+[NARRATOR]: For one.
+[TAGALOG-FEMALE-2]: Masarap po ba?
+[NARRATOR]: Is it delicious?
+[TAGALOG-FEMALE-1]: Opo! Super sarap!
+[NARRATOR]: Yes! Super delicious!
+[TAGALOG-FEMALE-2]: Ah sige, order na po ako!
+[NARRATOR]: Ah okay, I'll order now!
+
+[NARRATOR]: After Eating
+
+[TAGALOG-MALE-1]: Dessert po?
+[NARRATOR]: Dessert?
+[TAGALOG-FEMALE-1]: Ano pong meron?
+[NARRATOR]: What do you have?
+[TAGALOG-MALE-1]: Halo-halo, specialty po namin!
+[NARRATOR]: Mixed dessert, our specialty!
+[TAGALOG-FEMALE-1]: Para sa ilan po yun?
+[NARRATOR]: For how many is that?
+[TAGALOG-MALE-1]: Puwede share. Malaki po.
+[NARRATOR]: Can share. It's big.
+[TAGALOG-FEMALE-1]: Ben, order po ba tayo?
+[NARRATOR]: Ben, should we order?
+[TAGALOG-MALE-2]: Tubig lang po muna ako. Busog na!
+[NARRATOR]: Just water for me first. I'm full!
+[TAGALOG-FEMALE-1]: Ako rin. Maybe later na lang.
+[NARRATOR]: Me too. Maybe later.
+[TAGALOG-MALE-2]: Bill na lang po?
+[NARRATOR]: Just the bill?
+[TAGALOG-MALE-1]: Sige po!
+[NARRATOR]: Okay!
+
+[NARRATOR]: Slow Speed
+
+Airport Shop
+
+[TAGALOG-FEMALE-1]: Excuse... me... po.
+[TAGALOG-FEMALE-2]: Magandang... hapon... po!
+[TAGALOG-FEMALE-1]: Magandang... hapon... po... Tubig?
+[TAGALOG-FEMALE-2]: Tubig?... Opo... Malamig... o... normal?
+[TAGALOG-FEMALE-1]: Malamig... Magkano... po?
+[TAGALOG-FEMALE-2]: Bente... pesos.
+[TAGALOG-FEMALE-1]: Bente?
+[TAGALOG-FEMALE-2]: Opo... Bente.
+[TAGALOG-FEMALE-1]: Ah... salamat... Ito... po.
+[TAGALOG-FEMALE-2]: Salamat... din!... Ito... sukli... mo.
+
+[NARRATOR]: Van Terminal
+
+[TAGALOG-FEMALE-1]: Excuse... me... po... El Nido?
+[TAGALOG-MALE-1]: El Nido?... Opo!... Dito... po.
+[TAGALOG-FEMALE-1]: Salamat... Magkano... po?
+[TAGALOG-MALE-1]: Apat... na... raan.
+[TAGALOG-MALE-1]: Apat... na... raan... po.
+[TAGALOG-FEMALE-1]: Ah!... Sige... Ito... po.
+[TAGALOG-MALE-1]: Salamat!... Sakay... na... Alis... na... maya-maya.
+
+[NARRATOR]: Inside the Van
+
+[TAGALOG-FEMALE-2]: Magandang... hapon!
+[TAGALOG-FEMALE-1]: Magandang... hapon... po!
+[TAGALOG-FEMALE-2]: Unang... beses... mo... sa... El Nido?
+[TAGALOG-FEMALE-1]: Ah!... Opo!
+[TAGALOG-FEMALE-2]: Ay... magugustuhan... mo!... Sobrang... ganda... doon.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+[NARRATOR]: Rest Stop
+
+[TAGALOG-MALE-1]: Excuse... me... po... CR... break... muna... Five... minutes... lang.
+[TAGALOG-FEMALE-1]: Excuse... me... po... CR?
+[TAGALOG-FEMALE-2]: Doon... po... Sa... likod... ng... tindahan.
+
+[NARRATOR]: Roadside Store
+
+[TAGALOG-FEMALE-1]: Magandang... hapon!... Chips?
+[TAGALOG-MALE-2]: Opo... Piattos... Nova... Chippy?
+[TAGALOG-FEMALE-1]: Piattos... Magkano?
+[TAGALOG-MALE-2]: Tatlumpu.
+[TAGALOG-FEMALE-1]: Ito... po.
+[TAGALOG-MALE-2]: Salamat... Ito... sukli... mo.
+[TAGALOG-FEMALE-1]: Salamat!
+
+[NARRATOR]: El Nido Town
+
+[TAGALOG-MALE-1]: El Nido... na... po!
+[TAGALOG-FEMALE-1]: Salamat... po... kuya!
+[TAGALOG-MALE-1]: Walang... anuman!... Enjoy!
+
+[NARRATOR]: Translated
+
+Airport Shop
+
+[TAGALOG-FEMALE-1]: Excuse me po.
+[NARRATOR]: Excuse me.
+[TAGALOG-FEMALE-2]: Magandang hapon po!
+[NARRATOR]: Good afternoon!
+[TAGALOG-FEMALE-1]: Magandang hapon po. Tubig?
+[NARRATOR]: Good afternoon. Water?
+[TAGALOG-FEMALE-2]: Tubig? Opo. Malamig o normal?
+[NARRATOR]: Water? Yes. Cold or regular?
+[TAGALOG-FEMALE-1]: Malamig. Magkano po?
+[NARRATOR]: Cold. How much?
+[TAGALOG-FEMALE-2]: Bente pesos.
+[NARRATOR]: Twenty pesos.
+[TAGALOG-FEMALE-1]: Bente?
+[NARRATOR]: Twenty?
+[TAGALOG-FEMALE-2]: Opo. Bente.
+[NARRATOR]: Yes. Twenty.
+[TAGALOG-FEMALE-1]: Ah, salamat. Ito po.
+[NARRATOR]: Ah, thanks. Here you go.
+[TAGALOG-FEMALE-2]: Salamat din! Ito sukli mo.
+[NARRATOR]: Thank you too! Here's your change.
+
+[NARRATOR]: Van Terminal
+
+[TAGALOG-FEMALE-1]: Excuse me po. El Nido?
+[NARRATOR]: Excuse me. El Nido?
+[TAGALOG-MALE-1]: El Nido? Opo! Dito po.
+[NARRATOR]: El Nido? Yes! Over here.
+[TAGALOG-FEMALE-1]: Salamat. Magkano po?
+[NARRATOR]: Thanks. How much?
+[TAGALOG-MALE-1]: Apat na raan.
+[NARRATOR]: Four hundred.
+[TAGALOG-MALE-1]: Apat na raan po.
+[NARRATOR]: Four hundred.
+[TAGALOG-FEMALE-1]: Ah! Sige. Ito po.
+[NARRATOR]: Ah! Okay. Here you go.
+[TAGALOG-MALE-1]: Salamat! Sakay na. Alis na maya-maya.
+[NARRATOR]: Thanks! Get in. We'll leave in a bit.
+
+[NARRATOR]: Inside the Van
+
+[TAGALOG-FEMALE-2]: Magandang hapon!
+[NARRATOR]: Good afternoon!
+[TAGALOG-FEMALE-1]: Magandang hapon po!
+[NARRATOR]: Good afternoon!
+[TAGALOG-FEMALE-2]: Unang beses mo sa El Nido?
+[NARRATOR]: First time in El Nido?
+[TAGALOG-FEMALE-1]: Ah! Opo!
+[NARRATOR]: Ah! Yes!
+[TAGALOG-FEMALE-2]: Ay, magugustuhan mo! Sobrang ganda doon.
+[NARRATOR]: Oh, you'll love it! It's so beautiful there.
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+[NARRATOR]: Rest Stop
+
+[TAGALOG-MALE-1]: Excuse me po. CR break muna. Five minutes lang.
+[NARRATOR]: Excuse me. Restroom break first. Just five minutes.
+[TAGALOG-FEMALE-1]: Excuse me po. CR?
+[NARRATOR]: Excuse me. Restroom?
+[TAGALOG-FEMALE-2]: Doon po. Sa likod ng tindahan.
+[NARRATOR]: Over there. Behind the store.
+
+[NARRATOR]: Roadside Store
+
+[TAGALOG-FEMALE-1]: Magandang hapon! Chips?
+[NARRATOR]: Good afternoon! Chips?
+[TAGALOG-MALE-2]: Opo. Piattos, Nova, Chippy?
+[NARRATOR]: Yes. Piattos, Nova, Chippy?
+[TAGALOG-FEMALE-1]: Piattos. Magkano?
+[NARRATOR]: Piattos. How much?
+[TAGALOG-MALE-2]: Tatlumpu.
+[NARRATOR]: Thirty.
+[TAGALOG-FEMALE-1]: Ito po.
+[NARRATOR]: Here you go.
+[TAGALOG-MALE-2]: Salamat. Ito sukli mo.
+[NARRATOR]: Thanks. Here's your change.
+[TAGALOG-FEMALE-1]: Salamat!
+[NARRATOR]: Thanks!
+
+[NARRATOR]: El Nido Town
+
+[TAGALOG-MALE-1]: El Nido na po!
+[NARRATOR]: We're in El Nido!
+[TAGALOG-FEMALE-1]: Salamat po, kuya!
+[NARRATOR]: Thank you, brother!
+[TAGALOG-MALE-1]: Walang anuman! Enjoy!
+[NARRATOR]: You're welcome! Enjoy!

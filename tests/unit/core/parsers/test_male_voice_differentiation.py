@@ -77,8 +77,8 @@ def test_tagalog_male_voice_differentiation(parser):
         assert phrase1.metadata.get('speaker') == "TAGALOG-MALE-1"
         
         # TAGALOG-MALE-1 should have default pitch/rate settings
-        assert phrase1.metadata.get('tts_pitch') is None or float(phrase1.metadata.get('tts_pitch', 0)) == 0.0
-        assert phrase1.metadata.get('tts_rate') is None or float(phrase1.metadata.get('tts_rate', 1.0)) == 1.0
+        assert float(phrase1.metadata.get('tts_pitch', 0)) == 0.0
+        assert float(phrase1.metadata.get('tts_rate', 1.0)) == 1.0
         
         phrase2 = section.phrases[1]
         assert phrase2.voice_id == "fil-PH-AngeloNeural"
@@ -86,8 +86,8 @@ def test_tagalog_male_voice_differentiation(parser):
         
         # TAGALOG-MALE-2 should have custom pitch/rate settings
         # These values should match the implementation in the voice selector
-        assert float(phrase2.metadata.get('tts_pitch', 0)) == 10.0  # Slightly higher pitch
-        assert float(phrase2.metadata.get('tts_rate', 1.0)) == 0.9   # Slightly slower rate
+        assert float(phrase2.metadata.get('tts_pitch', 0)) == -15.0  # Deeper voice
+        assert float(phrase2.metadata.get('tts_rate', 1.0)) == 0.8   # Slightly slower rate
         
     finally:
         # Clean up the temporary file

@@ -21,7 +21,7 @@ wheels/
 
 # Virtual Environment
 venv/
-venv3.*/
+venv*/
 ENV/
 .env
 .venv
@@ -107,23 +107,14 @@ tagalog-tts-*.json
 # Development scripts
 process_short_lesson.py
 
-# Test files
-# Allow test files in the root directory and tests/ directory
-test_*.py
-tests/**/test_*.py
-!tests/e2e/test_file_naming.py
-!tests/e2e/test_file_naming_fixed.py
+# Test files - Only ignore temporary/generated test files that shouldn't be committed
+test_temp_*.py
+test_tmp_*.py
+*_test_temp.py
 
 test_config.yaml
 
-# Virtual environments
-venv*/
-ENV/
-
-# Build and distribution
-build/
-dist/
-*.egg-info/
+# Build and distribution (duplicates removed from earlier in file)
 
 # Local development overrides
 local_*.yaml

@@ -949,26 +949,11 @@ class EdgeTTSService(TTSService):
                 # Update the original speaker_id to reflect the default value
                 original_speaker_id = speaker_id
             
-            # Apply voice settings based on speaker_id
-            if speaker_id == 'tagalog-female-1':
-                # Settings for TAGALOG-FEMALE-1
-                custom_rate = 1.0  # Normal rate
-                custom_pitch = 0.0  # Default pitch
-                logger.debug(f"[TAGALOG-FEMALE-1] Using voice settings - rate: {custom_rate}, pitch: {custom_pitch}")
-            elif speaker_id == 'tagalog-female-2':
-                # Settings for TAGALOG-FEMALE-2 - slower rate and lower pitch
-                custom_rate = 0.8  # Slower rate (-20%)
-                custom_pitch = -15.0  # Lower pitch
-                logger.debug(f"[TAGALOG-FEMALE-2] Using custom voice settings - rate: {custom_rate}, pitch: {custom_pitch}")
-            elif 'blessica' in voice_id_lower and 'tagalog' in voice_id_lower:
-                # Fallback for Tagalog voices without explicit speaker_id
-                if not speaker_id:
-                    speaker_id = 'tagalog-female-1'  # Default to female-1 if not specified
-                    custom_rate = 1.0
-                    custom_pitch = 0.0
-                    logger.debug(f"[TAGALOG-DEFAULT] Using default Tagalog voice settings - rate: {custom_rate}, pitch: {custom_pitch}")
-            else:
-                logger.debug(f"[DEBUG] Using provided voice settings - rate: {custom_rate}, pitch: {custom_pitch}")
+            # Use the pitch/rate values provided by the lesson parser (from phrase metadata)
+            # These values should come from the lesson parser's voice assignment logic
+            custom_rate = rate
+            custom_pitch = pitch
+            logger.debug(f"[DEBUG] Using lesson parser voice settings - rate: {custom_rate}, pitch: {custom_pitch}, speaker_id: {speaker_id}")
             
             # Format rate as integer percentage without decimal point
             rate_percent = int(round((custom_rate - 1.0) * 100))

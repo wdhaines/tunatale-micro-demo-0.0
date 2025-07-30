@@ -35,7 +35,11 @@ def create_tts_service(config: Any) -> TTSService:
     
     provider = config_dict.get('provider', 'edge').lower()
     
-    if provider == 'edge':
+    if provider == 'multi':
+        logger.info("Using Multi-Provider TTS service")
+        return create_multi_provider_tts_service(config_dict)
+    
+    elif provider == 'edge':
         logger.info("Using Edge TTS service with caching disabled")
         # Create edge_tts config with cache disabled by default
         edge_config = config_dict.get('edge_tts', {})
@@ -49,8 +53,45 @@ def create_tts_service(config: Any) -> TTSService:
         from tunatale.infrastructure.services.tts.google_tts_service import GoogleTTSService
         return GoogleTTSService(config_dict.get('google_tts', {}))
     
+    elif provider == 'gtts':
+        logger.info("Using Google Translate TTS service (free)")
+        # Import here to avoid dependency if not used
+        from tunatale.infrastructure.services.tts.gtts_service import GTTSService
+        return GTTSService(config_dict.get('gtts', {}))
+    
     else:
         raise ValueError(f"Unsupported TTS provider: {provider}")
+
+
+def create_multi_provider_tts_service(config: Dict[str, Any]) -> 'MultiProviderTTSService':
+    """Create a multi-provider TTS service with EdgeTTS and gTTS.
+    
+    Args:
+        config: Configuration dictionary
+        
+    Returns:
+        MultiProviderTTSService instance with both EdgeTTS and gTTS
+    """
+    from tunatale.infrastructure.services.tts.multi_provider_tts_service import MultiProviderTTSService
+    from tunatale.infrastructure.services.tts.gtts_service import GTTSService
+    
+    # Create EdgeTTS service
+    edge_config = config.get('edge_tts', {})
+    if 'cache_dir' not in edge_config:
+        edge_config['cache_dir'] = None
+    edge_service = EdgeTTSService(edge_config)
+    
+    # Create gTTS service
+    gtts_config = config.get('gtts', {})
+    gtts_service = GTTSService(gtts_config)
+    
+    # Create multi-provider service
+    providers = {
+        'edge': edge_service,
+        'gtts': gtts_service
+    }
+    
+    return MultiProviderTTSService(providers)
 
 
 def create_audio_processor(config: Any, **kwargs) -> AudioProcessor:
