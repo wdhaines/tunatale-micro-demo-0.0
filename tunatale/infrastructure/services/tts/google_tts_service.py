@@ -19,6 +19,7 @@ from tunatale.core.exceptions import (
 )
 from tunatale.core.models.voice import AudioFormat, Gender, Voice
 from tunatale.core.ports.tts_service import TTSService, TTSVoice
+from tunatale.core.utils.tts_preprocessor import enhanced_preprocess_text_for_tts
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -288,22 +289,34 @@ class GoogleTTSService(TTSService):
         try:
             await self._initialize_client()
             
-            # Get voice
+            # Get voice configuration
             voice_config = texttospeech.VoiceSelectionParams()
             
             if voice_id:
                 voice = await self.get_voice(voice_id)
                 voice_config.language_code = voice.language_code
                 voice_config.name = voice.provider_id
+                language_code = voice.language_code
             else:
                 # Use default voice
                 try:
                     voice = await self.get_voice(self.default_voice_id)
                     voice_config.language_code = voice.language_code
                     voice_config.name = voice.provider_id
+                    language_code = voice.language_code
                 except VoiceNotAvailableError:
                     # Fall back to just using the language code
-                    voice_config.language_code = kwargs.get("language_code", "en-US")
+                    language_code = kwargs.get("language_code", "en-US")
+                    voice_config.language_code = language_code
+            
+            # Apply enhanced text preprocessing with hybrid SSML support
+            text, ssml_result = enhanced_preprocess_text_for_tts(
+                text=text,
+                language_code=language_code,
+                provider_name='google_tts',
+                supports_ssml=True,  # Google TTS supports SSML
+                section_type=kwargs.get('section_type')
+            )
             
             # Set SSML voice gender
             ssml_gender = getattr(
@@ -324,8 +337,11 @@ class GoogleTTSService(TTSService):
                 effects_profile_id=kwargs.get("effects_profile_id", None),
             )
             
-            # Set the text input
-            synthesis_input = texttospeech.SynthesisInput(text=text)
+            # Set the text input based on SSML result
+            if ssml_result.has_ssml_markup:
+                synthesis_input = texttospeech.SynthesisInput(ssml=text)
+            else:
+                synthesis_input = texttospeech.SynthesisInput(text=text)
             
             # Perform the text-to-speech request
             response = await self._client.synthesize_speech(

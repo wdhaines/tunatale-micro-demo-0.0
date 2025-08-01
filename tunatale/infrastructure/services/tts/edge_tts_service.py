@@ -13,7 +13,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 
-from tunatale.core.utils.tts_preprocessor import preprocess_text_for_tts
+from tunatale.core.utils.tts_preprocessor import (
+    preprocess_text_for_tts,
+    enhanced_preprocess_text_for_tts,
+    SSMLProcessingResult
+)
 
 import aiofiles
 import aiohttp
@@ -938,9 +942,16 @@ class EdgeTTSService(TTSService):
             logger.debug(f"Original text for TTS: '{text}'")
             logger.debug(f"Using language code: '{language_code}'")
             
-            # Apply text preprocessing for TTS (abbreviations, language-specific fixes)
-            text = preprocess_text_for_tts(text, language_code)
-            logger.debug(f"Preprocessed text for TTS: '{text}'")
+            # Apply enhanced text preprocessing with hybrid SSML support
+            text, ssml_result = enhanced_preprocess_text_for_tts(
+                text=text,
+                language_code=language_code,
+                provider_name='edge_tts',
+                supports_ssml=False,  # EdgeTTS does NOT support SSML
+                section_type=kwargs.get('section_type')
+            )
+            logger.debug(f"Enhanced preprocessed text for TTS: '{text}'")
+            logger.debug(f"SSML processing metadata: {ssml_result}")
             
             # Check if voice_id contains tagalog but speaker_id is not set
             if ('tagalog' in voice_id_lower or 'fil' in voice_id_lower) and not speaker_id:

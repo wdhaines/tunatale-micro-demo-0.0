@@ -239,3 +239,131 @@ class MultiProviderTTSService:
                 all_valid = False
         
         return all_valid
+    
+    async def synthesize_speech_with_pauses(
+        self,
+        text: str,
+        voice_id: str,
+        output_path: Union[str, Path],
+        rate: float = 1.0,
+        pitch: float = 0.0,
+        volume: float = 1.0,
+        **kwargs,
+    ) -> Dict[str, Any]:
+        """
+        Synthesize speech with proper pause handling for non-SSML providers.
+        
+        This method detects pause markers in text and synthesizes segments separately
+        with actual silence inserted between them for precise pause control.
+        
+        Args:
+            text: The text to synthesize (may contain [PAUSE:Xs] markers)
+            voice_id: The ID of the voice to use
+            output_path: Path to save the audio file
+            rate: Speech rate
+            pitch: Pitch adjustment  
+            volume: Volume level
+            **kwargs: Additional arguments
+            
+        Returns:
+            Dict containing metadata about the synthesis
+            
+        Raises:
+            TTSServiceError: If synthesis fails
+            VoiceNotAvailableError: If the voice is not available
+        """
+        try:
+            from tunatale.core.utils.tts_preprocessor import split_text_with_pauses
+            from tunatale.infrastructure.services.audio.audio_processor import AudioProcessorService
+            import tempfile
+            from pathlib import Path
+            from pydub import AudioSegment
+            
+            # Check if text contains pause markers
+            if '[PAUSE:' not in text:
+                # No pause markers, use regular synthesis
+                return await self.synthesize_speech(
+                    text=text,
+                    voice_id=voice_id,
+                    output_path=output_path,
+                    rate=rate,
+                    pitch=pitch,
+                    volume=volume,
+                    **kwargs
+                )
+            
+            logger.debug(f"Processing text with pause markers: '{text}'")
+            
+            # Split text into segments with pause durations
+            segments = split_text_with_pauses(text)
+            logger.debug(f"Split into {len(segments)} segments: {segments}")
+            
+            # Get provider for routing
+            provider_name = self._get_provider_for_voice(voice_id)
+            provider = self.providers[provider_name]
+            
+            # Create temporary files for each segment
+            temp_files = []
+            combined_audio = AudioSegment.empty()
+            
+            try:
+                for i, (segment_text, pause_duration_ms) in enumerate(segments):
+                    if segment_text.strip():  # Only process non-empty segments
+                        # Create temporary file for this segment
+                        with tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) as tmp:
+                            temp_path = Path(tmp.name)
+                            temp_files.append(temp_path)
+                        
+                        # Synthesize this segment using the provider's regular method
+                        await provider.synthesize_speech(
+                            text=segment_text,
+                            voice_id=voice_id,
+                            output_path=temp_path,
+                            rate=rate,
+                            pitch=pitch,
+                            volume=volume,
+                            **kwargs
+                        )
+                        
+                        # Load the audio segment
+                        segment_audio = AudioSegment.from_mp3(str(temp_path))
+                        combined_audio += segment_audio
+                        
+                        logger.debug(f"Added segment {i+1}: '{segment_text}' ({len(segment_audio)}ms)")
+                    
+                    # Add pause if specified
+                    if pause_duration_ms is not None and pause_duration_ms > 0:
+                        pause_audio = AudioSegment.silent(duration=int(pause_duration_ms))
+                        combined_audio += pause_audio
+                        logger.debug(f"Added pause: {pause_duration_ms}ms")
+                
+                # Export the combined audio
+                output_path = Path(output_path)
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                combined_audio.export(str(output_path), format="mp3")
+                
+                logger.info(f"Successfully synthesized speech with pauses: {output_path}")
+                
+                return {
+                    'provider': provider_name,
+                    'output_path': str(output_path),
+                    'voice_id': voice_id,
+                    'segments_count': len(segments),
+                    'total_duration_ms': len(combined_audio),
+                    'pause_processing': True
+                }
+                
+            finally:
+                # Clean up temporary files
+                for temp_file in temp_files:
+                    try:
+                        if temp_file.exists():
+                            temp_file.unlink()
+                    except Exception as cleanup_error:
+                        logger.warning(f"Failed to clean up temp file {temp_file}: {cleanup_error}")
+                        
+        except VoiceNotAvailableError:
+            raise
+        except Exception as e:
+            logger.error(f"Pause-aware speech synthesis failed for voice {voice_id}: {e}")
+            raise TTSServiceError(f"Failed to synthesize speech with pauses: {e}") from e
