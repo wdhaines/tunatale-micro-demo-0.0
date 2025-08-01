@@ -330,6 +330,11 @@ class MultiProviderTTSService:
                         combined_audio += segment_audio
                         
                         logger.debug(f"Added segment {i+1}: '{segment_text}' ({len(segment_audio)}ms)")
+                        
+                        # Small delay between segments to be gentle on the TTS service
+                        if i < len(segments) - 1:  # Don't delay after the last segment
+                            import asyncio
+                            await asyncio.sleep(0.1)  # 100ms between segments
                     
                     # Add pause if specified
                     if pause_duration_ms is not None and pause_duration_ms > 0:
