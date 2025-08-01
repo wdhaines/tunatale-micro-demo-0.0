@@ -670,7 +670,7 @@ def generate(
         
         # Set default output directory if not specified
         if output_dir is None:
-            output_dir = input_file.parent / "output"
+            output_dir = Path.cwd() / "output"
         else:
             output_dir = output_dir.resolve()
         

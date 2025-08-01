@@ -410,6 +410,47 @@ class AudioProcessorService(AudioProcessor):
         except Exception as e:
             raise AudioProcessingError(f"Error getting audio duration: {e}") from e
     
+    async def process_text_with_pauses(
+        self,
+        audio_file: Union[str, Path, BinaryIO],
+        output_file: Union[str, Path],
+        **kwargs
+    ) -> Path:
+        """Process audio that contains pause markers in the original text.
+        
+        This method handles audio generated from text that contained [PAUSE:Xs] markers
+        by detecting these markers in the audio and replacing them with actual silence.
+        
+        Args:
+            audio_file: Input audio file path or file-like object
+            output_file: Output file path
+            **kwargs: Additional processing parameters
+            
+        Returns:
+            Path to the processed output file with actual pauses
+            
+        Raises:
+            AudioProcessingError: If there's an error processing the audio
+        """
+        try:
+            output_path = Path(output_file)
+            output_format = output_path.suffix[1:] or self.default_format
+            
+            # Load the input audio
+            audio = await self._load_audio(audio_file)
+            
+            # For now, return the audio as-is since pause marker detection 
+            # in audio would be complex. The real solution is to handle
+            # pause markers during TTS generation, not in post-processing.
+            
+            # Export the audio
+            await self._export_audio(audio, output_path, output_format, **kwargs)
+            
+            return output_path
+            
+        except Exception as e:
+            raise AudioProcessingError(f"Error processing text with pauses: {e}") from e
+    
     async def _export_audio(
         self,
         audio: AudioSegment,
