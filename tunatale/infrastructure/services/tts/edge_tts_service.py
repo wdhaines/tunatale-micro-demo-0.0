@@ -47,11 +47,20 @@ MAX_TEXT_LENGTH = 5000
 # Maximum number of retries for failed requests
 MAX_RETRIES = 3
 
-# Delay between retries in seconds
+# Delay between retries in seconds (exponential backoff)
 RETRY_DELAY = 1.0
 
 # Timeout for TTS requests in seconds
 REQUEST_TIMEOUT = 30.0
+
+# Rate limiting: minimum delay between TTS requests (seconds)
+MIN_REQUEST_DELAY = 0.2
+
+# Rate limiting: additional delay for connection errors (seconds)
+CONNECTION_ERROR_DELAY = 2.0
+
+# Maximum concurrent TTS operations
+MAX_CONCURRENT_REQUESTS = 3
 
 # Minimum audio file size to be considered valid (bytes)
 MIN_AUDIO_SIZE = 100
@@ -72,7 +81,7 @@ class EdgeTTSService(TTSService):
     def __init__(
         self,
         cache_dir: Optional[Union[str, Path, Dict[str, Any]]] = None,
-        connection_limit: int = 5,
+        connection_limit: int = MAX_CONCURRENT_REQUESTS,
         rate: float = 1.0,
         pitch: float = 0.0,
         volume: float = 1.0,
@@ -123,6 +132,11 @@ class EdgeTTSService(TTSService):
         self._session: Optional[aiohttp.ClientSession] = None
         self._semaphore: Optional[asyncio.Semaphore] = None
         
+        # Rate limiting state
+        self._last_request_time: float = 0.0
+        self._request_count: int = 0
+        self._rate_limit_semaphore: Optional[asyncio.Semaphore] = None
+        
         # Store cache directory
         self.cache_dir = cache_dir
 
@@ -130,6 +144,7 @@ class EdgeTTSService(TTSService):
         """Async context manager entry."""
         self._session = aiohttp.ClientSession()
         self._semaphore = asyncio.Semaphore(self.connection_limit)
+        self._rate_limit_semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
         return self
 
     async def __aexit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
@@ -803,6 +818,32 @@ class EdgeTTSService(TTSService):
             
         return True
 
+    async def _rate_limit_delay(self, connection_error: bool = False) -> None:
+        """Apply rate limiting delay before making TTS requests.
+        
+        Args:
+            connection_error: If True, applies additional delay for connection errors
+        """
+        current_time = time.time()
+        time_since_last = current_time - self._last_request_time
+        
+        # Calculate required delay
+        min_delay = MIN_REQUEST_DELAY
+        if connection_error:
+            min_delay += CONNECTION_ERROR_DELAY
+            logger.debug(f"Applying connection error delay: {CONNECTION_ERROR_DELAY}s")
+        
+        # Apply delay if needed
+        if time_since_last < min_delay:
+            delay = min_delay - time_since_last
+            logger.debug(f"Rate limiting: waiting {delay:.2f}s (last request {time_since_last:.2f}s ago)")
+            await asyncio.sleep(delay)
+        
+        # Update last request time
+        self._last_request_time = time.time()
+        self._request_count += 1
+        logger.debug(f"TTS request #{self._request_count}")
+
     async def _synthesize_single(
         self,
         text: str,
@@ -990,50 +1031,92 @@ class EdgeTTSService(TTSService):
             }
             logger.debug(f"[DEBUG] Voice configuration: {voice_config}")
             
-            try:
-                communicate = self._communicate_class(
-                    text=text,
-                    voice=voice_id,
-                    rate=rate_str,
-                    pitch=pitch_str,
-                    volume=f"+{int((volume - 1) * 100)}%" if volume != 1.0 else "+0%",
-                )
+            # Implement retry logic with rate limiting and exponential backoff
+            retry_count = 0
+            last_error = None
+            
+            # Apply initial rate limiting
+            await self._rate_limit_delay()
+            
+            while retry_count <= MAX_RETRIES:
+                try:
+                    # Apply rate limiting semaphore to control concurrent requests
+                    if self._rate_limit_semaphore is None:
+                        self._rate_limit_semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
+                    
+                    async with self._rate_limit_semaphore:
+                        logger.debug(f"TTS attempt {retry_count + 1}/{MAX_RETRIES + 1} for text: '{text[:50]}...'")
+                        
+                        communicate = self._communicate_class(
+                            text=text,
+                            voice=voice_id,
+                            rate=rate_str,
+                            pitch=pitch_str,
+                            volume=f"+{int((volume - 1) * 100)}%" if volume != 1.0 else "+0%",
+                        )
 
-                # Save the audio file
-                await communicate.save(temp_file)
-                
-                # Verify the generated file exists and has content
-                if not os.path.exists(temp_file):
-                    raise TTSValidationError(f"Audio file was not created: {temp_file}")
+                        # Save the audio file with timeout
+                        try:
+                            await asyncio.wait_for(
+                                communicate.save(temp_file), 
+                                timeout=REQUEST_TIMEOUT
+                            )
+                            # Success! Break out of retry loop
+                            break
+                            
+                        except asyncio.TimeoutError:
+                            raise TTSTransientError(f"TTS request timed out after {REQUEST_TIMEOUT}s")
+                            
+                except (aiohttp.ClientConnectionError, aiohttp.ClientError, ConnectionError, 
+                        TTSTransientError, asyncio.TimeoutError) as e:
+                    last_error = e
+                    retry_count += 1
                     
-                file_size = os.path.getsize(temp_file)
-                if file_size == 0:
-                    raise TTSValidationError(f"Generated audio file is empty: {temp_file}")
-                
-                # Log file info for debugging
-                logger.debug(f"Generated audio file: {temp_file}, size: {file_size} bytes")
-                
-                # Verify the file format
-                if not await self._validate_audio_file(temp_file):
-                    # Read first few bytes for debugging
-                    with open(temp_file, 'rb') as f:
-                        header = f.read(16)
-                    logger.error(f"Audio file header: {header.hex(' ')}")
-                    logger.error(f"File size: {file_size} bytes")
-                    raise TTSValidationError(
-                        f"Generated audio file failed validation. "
-                        f"File size: {file_size} bytes, "
-                        f"Header: {header.hex(' ')}"
-                    )
+                    # Log the connection error
+                    error_type = type(e).__name__
+                    logger.warning(f"TTS connection error (attempt {retry_count}/{MAX_RETRIES + 1}): {error_type}: {e}")
                     
-            except Exception as e:
-                # Clean up the temporary file if there was an error
-                if os.path.exists(temp_file):
-                    try:
-                        os.unlink(temp_file)
-                    except Exception as cleanup_err:
-                        logger.warning(f"Error cleaning up temp file: {cleanup_err}")
-                raise
+                    if retry_count <= MAX_RETRIES:
+                        # Calculate exponential backoff delay
+                        backoff_delay = RETRY_DELAY * (2 ** (retry_count - 1))
+                        logger.info(f"Retrying TTS in {backoff_delay:.1f}s...")
+                        
+                        # Apply connection error delay + exponential backoff
+                        await self._rate_limit_delay(connection_error=True)
+                        await asyncio.sleep(backoff_delay)
+                    else:
+                        # All retries exhausted
+                        logger.error(f"TTS failed after {MAX_RETRIES + 1} attempts. Last error: {last_error}")
+                        raise TTSTransientError(f"Network error during TTS: {last_error}")
+                        
+                except Exception as e:
+                    # Non-retriable error, fail immediately
+                    logger.error(f"Non-retriable TTS error: {type(e).__name__}: {e}")
+                    raise
+            
+            # Verify the generated file exists and has content
+            if not os.path.exists(temp_file):
+                raise TTSValidationError(f"Audio file was not created: {temp_file}")
+                
+            file_size = os.path.getsize(temp_file)
+            if file_size == 0:
+                raise TTSValidationError(f"Generated audio file is empty: {temp_file}")
+            
+            # Log file info for debugging
+            logger.debug(f"Generated audio file: {temp_file}, size: {file_size} bytes")
+            
+            # Verify the file format
+            if not await self._validate_audio_file(temp_file):
+                # Read first few bytes for debugging
+                with open(temp_file, 'rb') as f:
+                    header = f.read(16)
+                logger.error(f"Audio file header: {header.hex(' ')}")
+                logger.error(f"File size: {file_size} bytes")
+                raise TTSValidationError(
+                    f"Generated audio file failed validation. "
+                    f"File size: {file_size} bytes, "
+                    f"Header: {header.hex(' ')}"
+                )
 
             # Move the temporary file to the final output path
             shutil.move(temp_file, output_path)
