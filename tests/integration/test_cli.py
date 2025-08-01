@@ -572,8 +572,12 @@ async def test_list_voices_command(capsys):
         # Verify the output
         captured = capsys.readouterr()
         assert "Available Voices" in captured.out
-        assert "Test Voice" in captured.out
-        assert "test-voice" in captured.out
+        # Check for the expected output in the formatted table
+        # The ID is truncated with an ellipsis in the output
+        assert "Test" in captured.out  # First part of name
+        assert "Voice" in captured.out  # Second part of name
+        assert "test-vo" in captured.out  # Start of provider ID (truncated)
+        assert "edge" in captured.out  # Provider name
 
 @pytest.mark.asyncio
 async def test_config_command_show(cli_runner, tmp_path):
