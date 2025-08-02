@@ -115,40 +115,159 @@ def fix_tagalog_syllables_for_key_phrases(text: str, section_type: Optional[str]
     
     return text
 
+# =============================================================================
+# UNIVERSAL ABBREVIATION HANDLER
+# =============================================================================
+
+# Phonetic pronunciation mapping for letters A-Z
+LETTER_PHONETICS = {
+    'A': 'eh', 'B': 'bee', 'C': 'see', 'D': 'dee', 'E': 'eey', 'F': 'eff',
+    'G': 'gee', 'H': 'aych', 'I': 'eye', 'J': 'jay', 'K': 'kay', 'L': 'ell',
+    'M': 'em', 'N': 'en', 'O': 'oh', 'P': 'pee', 'Q': 'cue', 'R': 'are',
+    'S': 'ess', 'T': 'tee', 'U': 'you', 'V': 'vee', 'W': 'double-you', 
+    'X': 'ex', 'Y': 'wyee', 'Z': 'zee'
+}
+
+# Protected words that should NOT be converted even if they're all caps
+# These are common words that might appear in caps for emphasis
+PROTECTED_WORDS = {
+    'TO', 'IN', 'ON', 'AT', 'BY', 'FOR', 'WITH', 'FROM', 'UP', 'OUT', 'OFF',
+    'PO', 'ANG', 'NG', 'SA', 'NA', 'KO', 'MO', 'SYA', 'KAMI', 'KAYO', 'SILA',  # Common Tagalog words
+    'THE', 'AND', 'OR', 'BUT', 'SO', 'IF', 'AS', 'IS', 'IT', 'BE', 'DO', 'GO',
+    'WE', 'HE', 'SHE', 'YOU', 'ME', 'HIM', 'HER', 'US', 'MY', 'HIS', 'OUR',
+    'ARE', 'WAS', 'WERE', 'BEEN', 'HAVE', 'HAS', 'HAD', 'WILL', 'WOULD',
+    'CAN', 'COULD', 'MAY', 'MIGHT', 'MUST', 'SHALL', 'SHOULD', 'OUGHT'
+}
+
+# Common English words that might look like abbreviations but aren't
+COMMON_WORDS = {
+    'ALL', 'ANY', 'BAD', 'BIG', 'BOY', 'CAR', 'DAY', 'END', 'FAR', 'GET',
+    'GOD', 'HOW', 'JOB', 'LAW', 'LOT', 'MAN', 'NEW', 'NOW', 'OLD', 'OWN',
+    'PAY', 'PUT', 'RUN', 'SAY', 'SEE', 'SIT', 'TRY', 'TWO', 'USE', 'WAY',
+    'WHO', 'WIN', 'YES', 'YET', 'YOU', 'BAG', 'BED', 'BOX', 'BUS', 'CUT',
+    'EAR', 'EYE', 'FUN', 'GUN', 'HAT', 'HOT', 'ICE', 'JOB', 'KEY', 'LEG',
+    'MAP', 'NET', 'OIL', 'PEN', 'RED', 'SUN', 'TOP', 'VAN', 'WAR', 'WET',
+    'CODE', 'DOOR', 'FOOD', 'GOOD', 'HELP', 'HOME', 'HOPE', 'KEEP', 'KNOW',
+    'LAST', 'LEFT', 'LIFE', 'LIKE', 'LIVE', 'LONG', 'LOOK', 'MAKE', 'MOVE',
+    'NAME', 'NEED', 'NEXT', 'ONCE', 'ONLY', 'OPEN', 'OVER', 'PART', 'PLAY',
+    'READ', 'REAL', 'RIGHT', 'ROOM', 'SAME', 'SEEM', 'SHOW', 'SIDE', 'SOME',
+    'TAKE', 'TELL', 'THAT', 'THEM', 'THEN', 'THEY', 'THINK', 'THIS', 'TIME',
+    'TURN', 'VERY', 'WANT', 'WEEK', 'WELL', 'WERE', 'WHAT', 'WHEN', 'WHERE',
+    'WHICH', 'WILL', 'WITH', 'WORD', 'WORK', 'YEAR', 'YOUR'
+}
+
+
+def _is_likely_abbreviation(word: str) -> bool:
+    """Determine if a word is likely an abbreviation vs a real word.
+    
+    Args:
+        word: The word to check (should be all caps)
+        
+    Returns:
+        True if likely an abbreviation, False if likely a real word
+    """
+    # Check protected words first
+    if word.upper() in PROTECTED_WORDS:
+        return False
+    
+    # Check common English words
+    if word.upper() in COMMON_WORDS:
+        return False
+    
+    # Length-based heuristics
+    length = len(word)
+    
+    # Single letters are usually abbreviations (except protected ones like 'I', 'A')
+    if length == 1:
+        return word.upper() not in {'I', 'A'}
+    
+    # 2-letter words: Most are likely abbreviations unless they're common words
+    if length == 2:
+        return True  # Common 2-letter words already filtered out above
+    
+    # 3-letter words: Check for vowel patterns
+    # Real words usually have at least one vowel, abbreviations often don't
+    if length == 3:
+        vowels = set('AEIOU')
+        has_vowel = any(c in vowels for c in word.upper())
+        # If no vowels, likely an abbreviation (like 'BBC', 'CNN')
+        # If has vowels but is not in common words, could be either - lean toward abbreviation
+        return not has_vowel or word.upper() not in COMMON_WORDS
+    
+    # 4+ letter words: Check for common abbreviation patterns
+    if length >= 4:
+        vowels = set('AEIOU')
+        vowel_count = sum(1 for c in word.upper() if c in vowels)
+        vowel_ratio = vowel_count / length
+        
+        # Known abbreviation patterns that should be converted despite having vowels
+        known_abbreviations = {'NASA', 'JPEG', 'HTML', 'HTTP', 'HTTPS', 'JSON', 'AJAX', 'SOAP'}
+        if word.upper() in known_abbreviations:
+            return True
+        
+        # If very few vowels relative to length, likely abbreviation
+        if vowel_ratio < 0.3:  # Less than 30% vowels suggests abbreviation
+            return True
+        
+        # For 4-letter words specifically, be more aggressive
+        if length == 4 and vowel_ratio <= 0.5:  # 50% or less vowels for 4-letter words
+            return True
+        
+        return False
+    
+    return False
+
+
 def fix_abbreviation_pronunciation(text: str) -> str:
-    """Add dots to abbreviations for proper TTS pronunciation.
+    """Universal abbreviation handler that converts abbreviations to phonetic pronunciation.
+    
+    Automatically detects abbreviations (1-6 capital letters as word boundaries) and 
+    converts each letter to its phonetic pronunciation (A→"ay", B→"bee", etc.).
     
     Args:
         text: Input text potentially containing abbreviations
         
     Returns:
-        Text with abbreviations formatted for better TTS pronunciation
+        Text with abbreviations converted to phonetic pronunciation
     """
     if not text:
         return text
         
     original_text = text
-    # Dictionary of abbreviations and their TTS-friendly versions
-    # Keys are regex patterns, values are replacements
-    abbreviation_fixes: Dict[Union[str, Pattern], str] = {
-        # Try phonetic respelling instead of periods
-        r'\bCR\b': 'see are',        # Convenience Room
-        r'\bID\b': 'eye dee',        # Identification
+    
+    # Pattern to match potential abbreviations: 1-6 capital letters as word boundaries
+    # Use word boundaries to avoid matching parts of longer words
+    abbreviation_pattern = r'\b[A-Z]{1,6}\b'
+    
+    def replace_abbreviation(match):
+        """Replace a matched abbreviation with phonetic pronunciation."""
+        abbrev = match.group(0)
         
-        # Alternative: Try with hyphens
-        # r'\bCR\b': 'C-R',          # Convenience Room
-        # r'\bID\b': 'I-D',          # Identification
-    }
+        # Check if this is likely an abbreviation vs a real word
+        if not _is_likely_abbreviation(abbrev):
+            logger.debug(f"Skipping protected/common word: '{abbrev}'")
+            return abbrev  # Keep original
+        
+        # Convert each letter to phonetic pronunciation
+        phonetic_parts = []
+        for letter in abbrev.upper():
+            if letter in LETTER_PHONETICS:
+                phonetic_parts.append(LETTER_PHONETICS[letter])
+            else:
+                # Fallback for unexpected characters
+                phonetic_parts.append(letter.lower())
+        
+        phonetic_result = ' '.join(phonetic_parts)
+        logger.debug(f"Abbreviation conversion: '{abbrev}' -> '{phonetic_result}'")
+        return phonetic_result
     
-    for pattern, replacement in abbreviation_fixes.items():
-        new_text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
-        if new_text != text:
-            logger.debug(f"Abbreviation fix: '{text}' -> '{new_text}'")
-            text = new_text
+    # Apply the universal abbreviation conversion
+    processed_text = re.sub(abbreviation_pattern, replace_abbreviation, text)
     
-    if original_text != text:
-        logger.debug(f"Abbreviation preprocessing complete: '{original_text}' -> '{text}'")
-    return text
+    if original_text != processed_text:
+        logger.debug(f"Universal abbreviation processing complete: '{original_text}' -> '{processed_text}'")
+    
+    return processed_text
 
 def preprocess_tagalog_for_tts(text: str) -> str:
     """Fix common Tagalog TTS interpretation issues.

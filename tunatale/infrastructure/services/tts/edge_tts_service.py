@@ -162,19 +162,27 @@ class EdgeTTSService(TTSService):
         Returns:
             Path to the cached file if it exists, None otherwise.
         """
-        if not self.cache_dir:
+        if not self.cache_dir or not cache_key:
             return None
+            
+        # Ensure the cache key ends with .mp3
+        if not cache_key.endswith('.mp3'):
+            cache_key = f"{cache_key}.mp3"
         
-        # If the cache key already ends with .mp3, use it as is
-        if cache_key.endswith('.mp3'):
-            cache_path = self.cache_dir / cache_key
-        else:
-            # Otherwise, append .mp3 to the cache key
-            cache_path = self.cache_dir / f"{cache_key}.mp3"
-        
-        # Verify the file exists and has content
-        if cache_path.exists() and cache_path.stat().st_size > 0:
+        # Try exact match first
+        cache_path = self.cache_dir / cache_key
+        if cache_path.exists():
             return cache_path
+            
+        # If no exact match, try to find a file with the same base name
+        # This handles cases where the cache key might have additional parameters
+        base_name = cache_key.rsplit('_', 1)[0] if '_' in cache_key else ''
+        if base_name:
+            for file in self.cache_dir.glob(f"{base_name}*"):
+                if file.suffix == '.mp3':
+                    logger.debug(f"Found matching cache file: {file.name} for key: {cache_key}")
+                    return file
+                    
         return None
     
     def _convert_to_voice(self, voice_data: Dict[str, Any]) -> Optional[Voice]:
