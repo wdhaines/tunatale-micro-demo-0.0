@@ -630,11 +630,8 @@ class LessonProcessor(LessonProcessorInterface):
                 # Text has pause markers - use as-is for pause-aware synthesis
                 tts_text = preprocessed_text
                 logger.debug(f"Text contains pause markers: '{tts_text}'")
-            elif has_ellipsis:
-                # Legacy fallback: Replace ellipsis with semicolons for natural TTS pauses
-                tts_text = preprocessed_text.replace("...", "; ")
-                logger.debug(f"Replaced ellipsis with semicolons: '{tts_text}'")
             else:
+                # Use text as-is - let TTS handle single ellipsis naturally
                 tts_text = preprocessed_text
                 
             # Retry TTS synthesis with exponential backoff
@@ -732,8 +729,13 @@ class LessonProcessor(LessonProcessorInterface):
                 await self.tts_service.validate_voice(voice_id)
 
             # Determine if this should be slow speech (check original text before preprocessing)
+            # Only trigger on longer ellipsis patterns (4+ dots) that we actually process
+            has_long_ellipsis = any(pattern in phrase.text for pattern in [
+                '....', '.....', '......', '.......', '........', 
+                '.........', '..........', '...........', '............', '.............'
+            ])
             is_slow = (
-                "..." in phrase.text or  # Contains ellipsis in original text
+                has_long_ellipsis or  # Contains long ellipsis (4+ dots) in original text
                 (phrase.metadata and phrase.metadata.get("rate", 1.0) < 0.8) or  # Slow rate setting
                 "[SLOW]" in phrase.text.upper()  # Explicit slow marker in original text
             )

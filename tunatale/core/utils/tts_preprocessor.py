@@ -222,17 +222,17 @@ class SSMLProcessingResult:
 
 # Ellipses to SSML timing mapping
 ELLIPSES_TO_SSML_MAPPING = {
-    '...': '<break time="0.5s"/>',      # Base pause (0.5 seconds)
-    '....': '<break time="0.75s"/>',    # Short pause (0.75 seconds)
-    '.....': '<break time="1s"/>',      # Medium pause (1 second)
-    '......': '<break time="1.25s"/>',  # Medium-long pause (1.25 seconds)
-    '.......': '<break time="1.5s"/>',  # Long pause (1.5 seconds)
-    '........': '<break time="1.75s"/>',# Extra long pause (1.75 seconds)
-    '.........': '<break time="2s"/>',  # Very long pause (2 seconds)
-    '..........': '<break time="2.25s"/>',# Very long pause (2.25 seconds)
-    '...........': '<break time="2.5s"/>',# Very long pause (2.5 seconds)
-    '............': '<break time="2.75s"/>',# Maximum pause (2.75 seconds)
-    '.............': '<break time="3s"/>',# Maximum pause (3 seconds) - cap at 13 dots
+    # Note: Single '...' excluded - let TTS handle naturally
+    '....': '<break time="0.5s"/>',     # Short pause (0.5 seconds)
+    '.....': '<break time="0.75s"/>',   # Medium pause (0.75 seconds)
+    '......': '<break time="1s"/>',     # Medium-long pause (1 second)
+    '.......': '<break time="1.25s"/>', # Long pause (1.25 seconds)
+    '........': '<break time="1.5s"/>', # Extra long pause (1.5 seconds)
+    '.........': '<break time="1.75s"/>',# Very long pause (1.75 seconds)
+    '..........': '<break time="2s"/>',  # Very long pause (2 seconds)
+    '...........': '<break time="2.25s"/>',# Very long pause (2.25 seconds)
+    '............': '<break time="2.5s"/>',# Extra long pause (2.5 seconds)
+    '.............': '<break time="2.75s"/>',# Maximum pause (2.75 seconds) - cap at 13 dots
 }
 
 

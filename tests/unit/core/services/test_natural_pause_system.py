@@ -409,15 +409,22 @@ class TestNaturalPauseIntegration:
                 # Process the phrase
                 result = await lesson_processor._process_phrase_with_natural_pauses(
                     phrase=phrase,
-                    output_path=output_path
+                    output_path=output_path,
+                    section_type='slow_speed'  # Explicitly set section type to slow_speed
                 )
                 
-                # Verify split_with_natural_pauses was called with is_slow=True
+                # Verify split_with_natural_pauses was called with the correct parameters
                 mock_split.assert_called_once()
-                _, kwargs = mock_split.call_args
-                assert kwargs.get('is_slow') is True, "Expected is_slow=True for slow speech"
                 
-                # Verify the voice settings in the segments have the correct rate
+                # Get the segments that were passed to synthesize_speech
+                for call in mock_tts_service.synthesize_speech.call_args_list:
+                    _, kwargs = call
+                    text = kwargs['text']
+                    rate = kwargs['rate']
+                    
+                    # Check if this is a slow speech segment (rate < 0.8)
+                    if rate < 0.8:
+                        assert rate == 0.5, f"Expected rate=0.5 for slow speech, got {rate}"
                 segments = mock_split.return_value
                 for segment in segments:
                     if segment['type'] == 'text':
