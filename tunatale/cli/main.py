@@ -42,8 +42,9 @@ from tunatale.core.services.lesson_processor import LessonProcessor
 from tunatale.infrastructure.factories import create_audio_processor, create_tts_service
 
 # Configure basic logging with Rich handler for console output
+# Default to WARNING level - only show INFO/DEBUG with --verbose flag
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.WARNING,
     format="%(message)s",
     datefmt="[%X]",
     handlers=[RichHandler(rich_tracebacks=True, tracebacks_show_locals=False)],
@@ -399,8 +400,8 @@ async def process_lesson(
     
     # Create the lesson processor with the factory
     processor = create_lesson_processor(
-        tts_config=config.tts.dict() if hasattr(config, 'tts') else {},
-        audio_config=config.audio.dict() if hasattr(config, 'audio') else {}
+        tts_config=config.tts.model_dump() if hasattr(config, 'tts') else {},
+        audio_config=config.audio.model_dump() if hasattr(config, 'audio') else {}
     )
     
     # Update the processor's output directory and max_workers
@@ -419,7 +420,7 @@ async def process_lesson(
     # Process the lesson
     try:
         # Use the main output directory directly for all files
-        config = config.copy(update={"output_dir": str(output_dir.absolute())})
+        config = config.model_copy(update={"output_dir": str(output_dir.absolute())})
         
         # Process the lesson with progress reporting
         if progress:
@@ -457,7 +458,8 @@ async def process_lesson(
         # Only pass supported arguments to process_lesson
         result = await processor.process_lesson(
             lesson=lesson,
-            output_dir=str(output_dir.absolute())
+            output_dir=str(output_dir.absolute()),
+            progress=progress
         )
         
         logger.info("Lesson processing completed")
@@ -635,8 +637,12 @@ def generate(
 ) -> None:
     """Generate audio for a lesson file."""
     # Set log level for root logger and our own loggers
-    log_level = logging.DEBUG if verbose else logging.INFO
-    logging.basicConfig(level=log_level)
+    log_level = logging.DEBUG if verbose else logging.WARNING
+    
+    # Don't call basicConfig again - it was already called at module level
+    # Just set individual logger levels
+    root_logger = logging.getLogger()
+    root_logger.setLevel(log_level)
     
     # Set level for our application loggers
     app_loggers = [
@@ -650,8 +656,9 @@ def generate(
     for logger_name in app_loggers:
         logging.getLogger(logger_name).setLevel(log_level)
     
-    # Enable debug logging for EdgeTTS service
-    logging.getLogger('tunatale.infrastructure.services.tts.edge_tts_service').setLevel(logging.DEBUG)
+    # Only enable debug for edge_tts_service if verbose mode is on
+    edge_tts_level = logging.DEBUG if verbose else logging.WARNING
+    logging.getLogger('tunatale.infrastructure.services.tts.edge_tts_service').setLevel(edge_tts_level)
     
     # Initialize logger
     logger = logging.getLogger(__name__)

@@ -8,7 +8,13 @@ from tunatale.core.utils.tts_preprocessor import (
     _is_likely_abbreviation,
     LETTER_PHONETICS,
     PROTECTED_WORDS,
-    COMMON_WORDS
+    COMMON_WORDS,
+    process_number_clarification,
+    convert_time_to_spanish,
+    convert_digits_to_tagalog,
+    clarify_number,
+    SPANISH_NUMBERS,
+    TAGALOG_DIGITS
 )
 
 class TestUniversalAbbreviationHandler:
@@ -265,3 +271,184 @@ class TestTTSPreprocessor:
     def test_preprocess_edge_cases(self, input_text, expected, lang):
         """Test various edge cases for text preprocessing."""
         assert preprocess_text_for_tts(input_text, lang) == expected
+
+
+class TestFilipinoNumberClarification:
+    """Tests for the Filipino number clarification system."""
+
+    def test_spanish_numbers_mapping(self):
+        """Test that Spanish numbers are correctly mapped."""
+        assert SPANISH_NUMBERS[1] == 'una'
+        assert SPANISH_NUMBERS[8] == 'otso'
+        assert SPANISH_NUMBERS[12] == 'dose'
+
+    def test_tagalog_digits_mapping(self):
+        """Test that Tagalog digits are correctly mapped."""
+        assert TAGALOG_DIGITS['0'] == 'zero'
+        assert TAGALOG_DIGITS['1'] == 'isa'
+        assert TAGALOG_DIGITS['5'] == 'lima'
+        assert TAGALOG_DIGITS['9'] == 'siyam'
+
+    def test_convert_time_to_spanish_basic(self):
+        """Test basic time conversion to Spanish."""
+        assert convert_time_to_spanish(8, 30) == "Alas otso y medya."
+        assert convert_time_to_spanish(12, 0) == "Alas dose."
+        assert convert_time_to_spanish(3, 15) == "Alas tres kinse."
+        assert convert_time_to_spanish(6, 45) == "Kinse para alas syete."
+
+    def test_convert_time_to_spanish_24_hour(self):
+        """Test 24-hour to 12-hour conversion."""
+        assert convert_time_to_spanish(14, 30) == "Alas dos y medya."  # 2:30 PM
+        assert convert_time_to_spanish(20, 0) == "Alas otso."         # 8:00 PM
+        assert convert_time_to_spanish(0, 30) == "Alas dose y medya." # 12:30 AM
+
+    def test_convert_time_to_spanish_irregular_minutes(self):
+        """Test time conversion with irregular minutes."""
+        assert convert_time_to_spanish(9, 20) == "Alas nuwebe, 20."
+        assert convert_time_to_spanish(11, 55) == "Alas onse, 55."
+
+    def test_convert_digits_to_tagalog(self):
+        """Test digit breakdown to Tagalog."""
+        assert convert_digits_to_tagalog("150") == "isa lima zero."
+        assert convert_digits_to_tagalog("203") == "dalawa zero tatlo."
+        assert convert_digits_to_tagalog("1205") == "isa dalawa zero lima."
+        assert convert_digits_to_tagalog("9") == "siyam."
+
+    def test_convert_digits_to_tagalog_with_non_digits(self):
+        """Test digit conversion ignoring non-digit characters."""
+        assert convert_digits_to_tagalog("Room 203") == "dalawa zero tatlo."
+        assert convert_digits_to_tagalog("555-1234") == "lima lima lima isa dalawa tatlo apat."
+
+    def test_clarify_number_time_patterns(self):
+        """Test clarification of time patterns."""
+        assert clarify_number("8:30") == "8:30. Alas otso y medya."
+        assert clarify_number("12:45") == "12:45. Kinse para alas una."
+        assert clarify_number("3:15") == "3:15. Alas tres kinse."
+        assert clarify_number("6:00") == "6:00. Alas seys."
+
+    def test_clarify_number_phone_patterns(self):
+        """Test clarification of phone number patterns."""
+        assert clarify_number("555-1234") == "555-1234. lima lima lima, isa dalawa tatlo apat."
+        assert clarify_number("123-456-7890") == "123-456-7890. isa dalawa tatlo, apat lima anim, pito walo siyam zero."
+
+    def test_clarify_number_large_numbers(self):
+        """Test clarification of large numbers."""
+        assert clarify_number("150") == "150. isa lima zero."
+        assert clarify_number("1205") == "1205. isa dalawa zero lima."
+        assert clarify_number("500") == "500. lima zero zero."
+
+    def test_clarify_number_small_numbers_no_clarification(self):
+        """Test that small numbers don't get clarified by default."""
+        assert clarify_number("5") == "5"
+        assert clarify_number("25") == "25"
+        assert clarify_number("99") == "99"
+
+    def test_clarify_number_room_context(self):
+        """Test clarification with room context."""
+        assert clarify_number("203", "Room 203") == "203. dalawa zero tatlo."
+        assert clarify_number("15", "kwarto 15") == "15. isa lima."
+
+    def test_process_number_clarification_slow_speed(self):
+        """Test number clarification in slow_speed sections."""
+        # Time should be clarified
+        result = process_number_clarification("Alis tayo ng 8:30 para sa 150 pesos.", "slow_speed")
+        assert "8:30. Alas otso y medya." in result
+        assert "150. isa lima zero." in result
+
+    def test_process_number_clarification_natural_speed_no_tags(self):
+        """Test that natural speed doesn't clarify without tags."""
+        result = process_number_clarification("Alis tayo ng 8:30 para sa 150 pesos.", "natural_speed")
+        # Should not have clarification
+        assert "Alas otso y medya" not in result
+        assert "isa lima zero" not in result
+
+    def test_process_number_clarification_with_clarify_tags(self):
+        """Test clarification with clarify tags."""
+        result = process_number_clarification("Alis tayo ng <clarify>8:30</clarify> para sa 150 pesos.", "natural_speed")
+        assert "8:30. Alas otso y medya." in result
+        assert "isa lima zero" not in result  # 150 not in tags
+        assert "<clarify>" not in result  # Tags should be removed
+
+    def test_process_number_clarification_small_numbers_in_tags(self):
+        """Test that small numbers in clarify tags get clarified."""
+        result = process_number_clarification("Kwarto <clarify>5</clarify> po.", "natural_speed")
+        assert "5. lima." in result
+        assert "<clarify>" not in result
+
+    def test_process_number_clarification_multiple_patterns(self):
+        """Test multiple number patterns in one text."""
+        text = "Meeting at <clarify>9:15</clarify> in Room 203, call 555-1234."
+        result = process_number_clarification(text, "slow_speed")
+        assert "9:15. Alas nuwebe kinse." in result
+        assert "203. dalawa zero tatlo." in result
+        assert "555-1234. lima lima lima, isa dalawa tatlo apat." in result
+
+    def test_process_number_clarification_tag_removal(self):
+        """Test that all clarify tags are removed from output."""
+        result = process_number_clarification("Go to <clarify>Room 5</clarify> at <clarify>8:30</clarify>.", "natural_speed")
+        assert "<clarify>" not in result
+        assert "</clarify>" not in result
+        assert "Room 5. lima. at 8:30. Alas otso y medya." in result
+
+    def test_integration_with_preprocess_text_for_tts_slow_speed(self):
+        """Test integration with main preprocessing function in slow speed."""
+        result = preprocess_text_for_tts("Alis tayo ng 8:30 para sa 150 pesos.", "fil-PH", "slow_speed")
+        assert "8:30. Alas otso y medya." in result
+        assert "150. isa lima zero." in result
+
+    def test_integration_with_preprocess_text_for_tts_clarify_tags(self):
+        """Test integration with main preprocessing function using clarify tags."""
+        result = preprocess_text_for_tts("Alis sa <clarify>8:30</clarify> ng umaga.", "fil-PH", "natural_speed")
+        assert "8:30. Alas otso y medya." in result
+        assert "<clarify>" not in result
+
+    def test_integration_preserves_other_preprocessing(self):
+        """Test that number clarification works with other preprocessing."""
+        result = preprocess_text_for_tts("CR break at <clarify>8:30</clarify> po.", "fil-PH", "natural_speed")
+        assert "see are break at 8:30. Alas otso y medya. po." in result
+
+    @pytest.mark.parametrize("time_input,expected_spanish", [
+        ("8:30", "Alas otso y medya."),
+        ("12:00", "Alas dose."),
+        ("3:15", "Alas tres kinse."),
+        ("6:45", "Kinse para alas syete."),
+        ("1:30", "Alas una y medya."),
+        ("11:15", "Alas onse kinse."),
+    ])
+    def test_time_clarification_parametrized(self, time_input, expected_spanish):
+        """Parametrized test for time clarification."""
+        result = clarify_number(time_input)
+        assert expected_spanish in result
+
+    @pytest.mark.parametrize("number_input,expected_tagalog", [
+        ("150", "isa lima zero."),
+        ("203", "dalawa zero tatlo."),
+        ("1205", "isa dalawa zero lima."),
+        ("999", "siyam siyam siyam."),
+        ("100", "isa zero zero."),
+    ])
+    def test_large_number_clarification_parametrized(self, number_input, expected_tagalog):
+        """Parametrized test for large number clarification."""
+        result = clarify_number(number_input)
+        assert expected_tagalog in result
+
+    def test_edge_cases_empty_and_invalid(self):
+        """Test edge cases with empty and invalid inputs."""
+        assert process_number_clarification("", "slow_speed") == ""
+        assert process_number_clarification(None, "slow_speed") is None
+        assert clarify_number("abc") == "abc"
+        assert convert_digits_to_tagalog("") == ""
+
+    def test_complex_real_world_examples(self):
+        """Test complex real-world examples."""
+        # Hotel check-in scenario
+        text = "Kwarto <clarify>203</clarify>, check-in at 3:00 PM, checkout 11:00 AM."
+        result = process_number_clarification(text, "natural_speed")
+        assert "203. dalawa zero tatlo." in result
+        assert "clarify" not in result
+
+        # Travel scenario  
+        text = "Flight departs 7:45, gate 150, call 555-HELP."
+        result = process_number_clarification(text, "slow_speed")
+        assert "7:45. Kinse para alas otso." in result
+        assert "150. isa lima zero." in result

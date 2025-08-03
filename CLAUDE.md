@@ -17,6 +17,10 @@
 - Comprehensive rate limiting with 200ms delays and connection pooling
 - All 15 ellipsis handling tests passing
 - **NEW**: Universal abbreviation handler implemented (automatically detects and converts abbreviations to phonetic pronunciation)
+- **NEW**: Filipino number clarification system with authentic Spanish time and Tagalog digit breakdown
+- **FIXED**: TTS cache collision bug that served wrong audio after preprocessing changes
+- **FIXED**: Cache lookup fallback logic that was causing wrong audio to be served
+- **NEW**: Dynamic pause multipliers based on phrase length for better collocation timing
 
 ## Key Files
 - `tunatale/core/utils/tts_preprocessor.py` - ELLIPSES_TO_SSML_MAPPING configuration + Universal abbreviation handler
@@ -42,7 +46,37 @@
 - **Parametrized tests**: Systematic testing of all common abbreviations
 - **Integration**: Works seamlessly with existing ellipsis handling (107/107 total tests pass)
 
+## Filipino Number Clarification System
+- **Implementation**: `process_number_clarification()` in `tts_preprocessor.py`
+- **Spanish time system**: Authentic Filipino usage (alas otso y medya, kinse para alas una)
+- **Tagalog digit breakdown**: isa, dalawa, tatlo for large numbers (150 → "isa lima zero")
+- **Section-based behavior**: Auto-clarify in slow_speed, tag-controlled in natural_speed
+- **SSML tags**: Uses `<clarify></clarify>` tags for manual control, removes from output
+- **Integration**: Runs BEFORE abbreviation fixes but AFTER text preprocessing
+- **Test coverage**: 35+ comprehensive unit tests covering all scenarios
+
+## TTS Cache System
+- **Cache location**: `cache/` directory with voice-specific subdirectories
+- **Cache key format**: `{voice_id}_{rate}_{pitch}_{volume}_{text_hash}.mp3`
+- **Hash algorithm**: SHA-256 (upgraded from MD5 for collision resistance)
+- **Hash length**: 16 characters (upgraded from 8 to reduce collisions)
+- **Preprocessing versioning**: v2 includes Filipino number clarification changes
+- **IMPORTANT**: Cache keys include preprocessing version to invalidate when logic changes
+
+## Dynamic Pause Multipliers for Collocations
+- **Word count-based scaling**: Longer phrases get progressively longer pause multipliers
+  - 1 word: 1.5x multiplier (baseline)
+  - 2 words: 1.8x multiplier  
+  - 3 words: 2.2x multiplier
+  - 4 words: 2.6x multiplier
+  - 5 words: 3.0x multiplier
+  - 6+ words: 3.5x multiplier
+- **Audio duration bonus**: Extra 200ms per second of audio over 3 seconds
+- **Implementation**: `natural_pause_calculator.py:_get_dynamic_multiplier()`
+
 ## EdgeTTS Service Issues
 - Previously had 52 ClientConnectionResetError failures from too many concurrent requests
 - Fixed with rate limiting: MIN_REQUEST_DELAY=0.2s, MAX_CONCURRENT_REQUESTS=3
 - Enhanced pause processing increased TTS calls from ~172 to ~280+, requiring optimization
+- **Cache collision bug**: Fixed MD5 8-char hash collisions that served wrong audio after preprocessing changes
+- **Cache lookup bug**: Fixed fallback logic that matched wrong files with same base pattern

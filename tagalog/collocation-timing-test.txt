@@ -1,0 +1,280 @@
+[NARRATOR]: Collocation Timing Test - Repetition Pause Tuning
+
+Key Phrases:
+
+# =============================================
+# 1-SYLLABLE WORDS (baseline - should work well)
+# =============================================
+
+[TAGALOG-FEMALE-1]: po
+[NARRATOR]: please/polite marker
+[TAGALOG-FEMALE-1]: po
+po
+po
+po
+
+[TAGALOG-FEMALE-1]: na
+[NARRATOR]: already/now
+[TAGALOG-FEMALE-1]: na
+na
+na
+na
+
+[TAGALOG-FEMALE-1]: sa
+[NARRATOR]: in/at/to
+[TAGALOG-FEMALE-1]: sa
+sa
+sa
+sa
+
+# =============================================
+# 2-SYLLABLE WORDS (should work well)
+# =============================================
+
+[TAGALOG-FEMALE-1]: ako
+[NARRATOR]: I/me
+[TAGALOG-FEMALE-1]: ako
+ako
+ako
+ako
+
+[TAGALOG-FEMALE-1]: kayo
+[NARRATOR]: you (plural)
+[TAGALOG-FEMALE-1]: kayo
+kayo
+kayo
+kayo
+
+[TAGALOG-FEMALE-1]: ano
+[NARRATOR]: what
+[TAGALOG-FEMALE-1]: ano
+ano
+ano
+ano
+
+# =============================================
+# 2-WORD COLLOCATIONS (may need adjustment)
+# =============================================
+
+[TAGALOG-FEMALE-1]: salamat po
+[NARRATOR]: thank you
+[TAGALOG-FEMALE-1]: salamat po
+salamat po
+salamat po
+salamat po
+
+[TAGALOG-FEMALE-1]: magkano po
+[NARRATOR]: how much
+[TAGALOG-FEMALE-1]: magkano po
+magkano po
+magkano po
+magkano po
+
+[TAGALOG-FEMALE-1]: saan po
+[NARRATOR]: where
+[TAGALOG-FEMALE-1]: saan po
+saan po
+saan po
+saan po
+
+# =============================================
+# 3-WORD COLLOCATIONS (likely need more time)
+# =============================================
+
+[TAGALOG-FEMALE-1]: magandang umaga po
+[NARRATOR]: good morning
+[TAGALOG-FEMALE-1]: magandang umaga po
+magandang umaga po
+magandang umaga po
+magandang umaga po
+
+[TAGALOG-FEMALE-1]: magandang hapon po
+[NARRATOR]: good afternoon
+[TAGALOG-FEMALE-1]: magandang hapon po
+magandang hapon po
+magandang hapon po
+magandang hapon po
+
+[TAGALOG-FEMALE-1]: kumusta ka po
+[NARRATOR]: how are you
+[TAGALOG-FEMALE-1]: kumusta ka po
+kumusta ka po
+kumusta ka po
+kumusta ka po
+
+[TAGALOG-FEMALE-1]: pwede po ba
+[NARRATOR]: is it possible/may I
+[TAGALOG-FEMALE-1]: pwede po ba
+pwede po ba
+pwede po ba
+pwede po ba
+
+# =============================================
+# 4-WORD COLLOCATIONS (definitely need more time)
+# =============================================
+
+[TAGALOG-FEMALE-1]: salamat po sa inyo
+[NARRATOR]: thank you all
+[TAGALOG-FEMALE-1]: salamat po sa inyo
+salamat po sa inyo
+salamat po sa inyo
+salamat po sa inyo
+
+[TAGALOG-FEMALE-1]: saan ang banyo po
+[NARRATOR]: where is the bathroom
+[TAGALOG-FEMALE-1]: saan ang banyo po
+saan ang banyo po
+saan ang banyo po
+saan ang banyo po
+
+[TAGALOG-FEMALE-1]: magkano ang bayad po
+[NARRATOR]: how much is the payment
+[TAGALOG-FEMALE-1]: magkano ang bayad po
+magkano ang bayad po
+magkano ang bayad po
+magkano ang bayad po
+
+[TAGALOG-FEMALE-1]: anong oras po ito
+[NARRATOR]: what time is this
+[TAGALOG-FEMALE-1]: anong oras po ito
+anong oras po ito
+anong oras po ito
+anong oras po ito
+
+# =============================================
+# 5-WORD COLLOCATIONS (maximum complexity - need most time)
+# =============================================
+
+[TAGALOG-FEMALE-1]: salamat po sa inyong tulong
+[NARRATOR]: thank you for your help
+[TAGALOG-FEMALE-1]: salamat po sa inyong tulong
+salamat po sa inyong tulong
+salamat po sa inyong tulong
+salamat po sa inyong tulong
+
+[TAGALOG-FEMALE-1]: saan ang pinakamalaking tindahan po
+[NARRATOR]: where is the biggest store
+[TAGALOG-FEMALE-1]: saan ang pinakamalaking tindahan po
+saan ang pinakamalaking tindahan po
+saan ang pinakamalaking tindahan po
+saan ang pinakamalaking tindahan po
+
+[TAGALOG-FEMALE-1]: magkano ang ticket papunta doon
+[NARRATOR]: how much is the ticket going there
+[TAGALOG-FEMALE-1]: magkano ang ticket papunta doon
+magkano ang ticket papunta doon
+magkano ang ticket papunta doon
+magkano ang ticket papunta doon
+
+[TAGALOG-FEMALE-1]: anong oras kayo bukas po
+[NARRATOR]: what time are you open tomorrow
+[TAGALOG-FEMALE-1]: anong oras kayo bukas po
+anong oras kayo bukas po
+anong oras kayo bukas po
+anong oras kayo bukas po
+
+# =============================================
+# 6+ WORD COLLOCATIONS (extreme complexity)
+# =============================================
+
+[TAGALOG-FEMALE-1]: pwede po ba akong kumuha ng larawan
+[NARRATOR]: may I please take a picture
+[TAGALOG-FEMALE-1]: pwede po ba akong kumuha ng larawan
+pwede po ba akong kumuha ng larawan
+pwede po ba akong kumuha ng larawan
+pwede po ba akong kumuha ng larawan
+
+[TAGALOG-FEMALE-1]: saan po ang pinakamagandang restaurant dito sa lugar
+[NARRATOR]: where is the best restaurant here in this place
+[TAGALOG-FEMALE-1]: saan po ang pinakamagandang restaurant dito sa lugar
+saan po ang pinakamagandang restaurant dito sa lugar
+saan po ang pinakamagandang restaurant dito sa lugar
+saan po ang pinakamagandang restaurant dito sa lugar
+
+# =============================================
+# COMPLEX PHRASES WITH MIXED WORD LENGTHS
+# =============================================
+
+[TAGALOG-FEMALE-1]: excuse me po
+[NARRATOR]: excuse me please
+[TAGALOG-FEMALE-1]: excuse me po
+excuse me po
+excuse me po
+excuse me po
+
+[TAGALOG-FEMALE-1]: hindi po ako marunong mag-Tagalog
+[NARRATOR]: I don't know how to speak Tagalog
+[TAGALOG-FEMALE-1]: hindi po ako marunong mag-Tagalog
+hindi po ako marunong mag-Tagalog
+hindi po ako marunong mag-Tagalog
+hindi po ako marunong mag-Tagalog
+
+[NARRATOR]: Natural Speed
+
+Testing Notes:
+- 1-2 syllables: Current 1.5x should work well
+- 2-3 words: May need 1.8x - 2.0x multiplier
+- 4-5 words: Likely need 2.2x - 2.5x multiplier  
+- 6+ words: May need 2.5x - 3.0x multiplier
+
+Listen for:
+- Can you comfortably repeat each collocation during the pause?
+- Do longer phrases feel rushed?
+- Do shorter phrases have too much dead time?
+- Is there a sweet spot for different collocation lengths?
+
+Suggested Testing Process:
+1. Run this file with current 1.5x timing
+2. Note which collocations feel rushed vs. comfortable
+3. Adjust multipliers based on word count/syllable count
+4. Test again with new timing parameters
+5. Fine-tune until all lengths feel natural
+
+[NARRATOR]: Slow Speed
+
+# Same content repeated at slow speed for comparison
+
+[TAGALOG-FEMALE-1]: po
+[NARRATOR]: please/polite marker
+[TAGALOG-FEMALE-1]: po
+po
+po
+po
+
+[TAGALOG-FEMALE-1]: salamat... po
+[NARRATOR]: thank you
+[TAGALOG-FEMALE-1]: salamat... po
+salamat... po
+salamat... po
+salamat... po
+
+[TAGALOG-FEMALE-1]: magandang... hapon... po
+[NARRATOR]: good afternoon
+[TAGALOG-FEMALE-1]: magandang... hapon... po
+magandang... hapon... po
+magandang... hapon... po
+magandang... hapon... po
+
+[TAGALOG-FEMALE-1]: salamat... po... sa... inyong... tulong
+[NARRATOR]: thank you for your help
+[TAGALOG-FEMALE-1]: salamat... po... sa... inyong... tulong
+salamat... po... sa... inyong... tulong
+salamat... po... sa... inyong... tulong
+salamat... po... sa... inyong... tulong
+
+[NARRATOR]: Translated
+
+[TAGALOG-FEMALE-1]: po
+[NARRATOR]: please/polite marker
+
+[TAGALOG-FEMALE-1]: salamat po
+[NARRATOR]: thank you
+
+[TAGALOG-FEMALE-1]: magandang hapon po
+[NARRATOR]: good afternoon
+
+[TAGALOG-FEMALE-1]: salamat po sa inyong tulong
+[NARRATOR]: thank you for your help
+
+[TAGALOG-FEMALE-1]: saan po ang pinakamagandang restaurant dito sa lugar
+[NARRATOR]: where is the best restaurant here in this place

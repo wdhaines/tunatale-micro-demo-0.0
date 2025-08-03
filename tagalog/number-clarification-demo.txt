@@ -1,0 +1,133 @@
+[NARRATOR]: Number Clarification System Demo
+
+Key Phrases:
+
+# Basic time expressions
+[TAGALOG-FEMALE-1]: 8:30
+[NARRATOR]: eight thirty
+[TAGALOG-FEMALE-1]: <clarify>8:30</clarify>
+8:30
+
+[TAGALOG-FEMALE-1]: 12:45
+[NARRATOR]: twelve forty-five  
+[TAGALOG-FEMALE-1]: <clarify>12:45</clarify>
+12:45
+
+[TAGALOG-FEMALE-1]: 3:15
+[NARRATOR]: three fifteen
+[TAGALOG-FEMALE-1]: <clarify>3:15</clarify>
+3:15
+
+# Large numbers
+[TAGALOG-FEMALE-1]: 150 pesos
+[NARRATOR]: one hundred fifty pesos
+[TAGALOG-FEMALE-1]: <clarify>150</clarify> pesos
+150 pesos
+
+[TAGALOG-FEMALE-1]: 1205
+[NARRATOR]: one thousand two hundred five
+[TAGALOG-FEMALE-1]: <clarify>1205</clarify>
+1205
+
+# Room numbers
+[TAGALOG-FEMALE-1]: Room 203
+[NARRATOR]: Room two oh three
+[TAGALOG-FEMALE-1]: <clarify>Room 203</clarify>
+Room 203
+
+[TAGALOG-FEMALE-1]: Kwarto 15
+[NARRATOR]: Room fifteen
+[TAGALOG-FEMALE-1]: <clarify>Kwarto 15</clarify>
+Kwarto 15
+
+# Phone numbers
+[TAGALOG-FEMALE-1]: 555-1234
+[NARRATOR]: five five five, one two three four
+[TAGALOG-FEMALE-1]: <clarify>555-1234</clarify>
+555-1234
+
+[NARRATOR]: Natural Speed
+
+# These should NOT have clarification (no tags)
+[TAGALOG-FEMALE-1]: Alis tayo ng 8:30 para sa 150 pesos tour.
+[NARRATOR]: Let's leave at 8:30 for the 150 peso tour.
+
+[TAGALOG-FEMALE-1]: Magkano ang Room 203?
+[NARRATOR]: How much is Room 203?
+
+[TAGALOG-FEMALE-1]: Tawagan mo ako sa 555-1234.
+[NARRATOR]: Call me at 555-1234.
+
+# These SHOULD have clarification (with tags)
+[TAGALOG-FEMALE-1]: Alis tayo ng <clarify>8:30</clarify> para sa tour.
+[NARRATOR]: Let's leave at 8:30 for the tour.
+
+[TAGALOG-FEMALE-1]: Magkano ang <clarify>Room 203</clarify>?
+[NARRATOR]: How much is Room 203?
+
+[TAGALOG-FEMALE-1]: Tawagan mo ako sa <clarify>555-1234</clarify>.
+[NARRATOR]: Call me at 555-1234.
+
+# Mixed examples
+[TAGALOG-FEMALE-1]: Meeting at <clarify>9:15</clarify> in Room 150, bring 200 pesos.
+[NARRATOR]: Meeting at 9:15 in Room 150, bring 200 pesos.
+
+[TAGALOG-FEMALE-1]: Check-in <clarify>3:00</clarify> PM, checkout 11:00 AM, kwarto <clarify>205</clarify>.
+[NARRATOR]: Check-in 3:00 PM, checkout 11:00 AM, room 205.
+
+[NARRATOR]: Slow Speed
+
+# In slow speed sections, ALL numbers should be clarified automatically
+[TAGALOG-FEMALE-1]: Alis... tayo... ng... 8:30... para... sa... 150... pesos... tour.
+[NARRATOR]: Let's... leave... at... 8:30... for... the... 150... peso... tour.
+
+[TAGALOG-FEMALE-1]: Magkano... ang... Room... 203?
+[NARRATOR]: How... much... is... Room... 203?
+
+[TAGALOG-FEMALE-1]: Tawagan... mo... ako... sa... 555-1234.
+[NARRATOR]: Call... me... at... 555-1234.
+
+[TAGALOG-FEMALE-1]: Meeting... at... 9:15... sa... Room... 150... dala... 200... pesos.
+[NARRATOR]: Meeting... at... 9:15... in... Room... 150... bring... 200... pesos.
+
+[TAGALOG-FEMALE-1]: Check-in... 3:00... PM... checkout... 11:00... AM... kwarto... 205.
+[NARRATOR]: Check-in... 3:00... PM... checkout... 11:00... AM... room... 205.
+
+# Complex time examples
+[TAGALOG-FEMALE-1]: Umaga... 6:45... tanghali... 12:30... gabi... 7:15.
+[NARRATOR]: Morning... 6:45... noon... 12:30... evening... 7:15.
+
+# Large number examples  
+[TAGALOG-FEMALE-1]: Bayad... 1500... pesos... Room... 1205... tawag... 123-456-7890.
+[NARRATOR]: Payment... 1500... pesos... Room... 1205... call... 123-456-7890.
+
+[NARRATOR]: Translated
+
+Expected Clarification Results:
+
+Key Phrases with <clarify> tags:
+- "8:30" → "8:30. Alas otso y medya."
+- "12:45" → "12:45. Kinse para alas una."
+- "3:15" → "3:15. Alas tres kinse."
+- "150" → "150. isa lima zero."
+- "1205" → "1205. isa dalawa zero lima."
+- "Room 203" → "Room 203. dalawa zero tatlo."
+- "Kwarto 15" → "Kwarto 15. isa lima."
+- "555-1234" → "555-1234. lima lima lima, isa dalawa tatlo apat."
+
+Slow Speed (all numbers clarified):
+- "8:30" → "8:30. Alas otso y medya."
+- "150" → "150. isa lima zero."
+- "Room 203" → "Room 203. dalawa zero tatlo." 
+- "555-1234" → "555-1234. lima lima lima, isa dalawa tatlo apat."
+- "9:15" → "9:15. Alas nuwebe kinse."
+- "6:45" → "6:45. Kinse para alas syete."
+- "12:30" → "12:30. Alas dose y medya."
+- "7:15" → "7:15. Alas syete kinse."
+- "1500" → "1500. isa lima zero zero."
+- "123-456-7890" → "123-456-7890. isa dalawa tatlo, apat lima anim, pito walo siyam zero."
+
+Natural Speed (no clarification unless tagged):
+- Times, room numbers, phone numbers appear as-is
+- Only tagged numbers get clarification
+- Small numbers (1-99) not clarified unless in tags

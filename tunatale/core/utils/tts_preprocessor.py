@@ -283,6 +283,271 @@ def preprocess_tagalog_for_tts(text: str) -> str:
     # Currently no additional fixes needed beyond syllable preprocessing.
     return text
 
+# =============================================================================
+# FILIPINO NUMBER CLARIFICATION SYSTEM
+# =============================================================================
+
+# Spanish time system (authentic Filipino usage)
+SPANISH_NUMBERS = {
+    1: 'una', 2: 'dos', 3: 'tres', 4: 'kuwatro', 5: 'singko', 
+    6: 'seys', 7: 'syete', 8: 'otso', 9: 'nuwebe', 10: 'diyes',
+    11: 'onse', 12: 'dose'
+}
+
+# Tagalog digits for breakdown
+TAGALOG_DIGITS = {
+    '0': 'zero', '1': 'isa', '2': 'dalawa', '3': 'tatlo', '4': 'apat',
+    '5': 'lima', '6': 'anim', '7': 'pito', '8': 'walo', '9': 'siyam'
+}
+
+def convert_time_to_spanish(hour: int, minute: int) -> str:
+    """Convert time to Filipino Spanish format.
+    
+    Args:
+        hour: Hour (1-12 or 0-23)
+        minute: Minute (0-59)
+        
+    Returns:
+        Spanish time expression
+    """
+    # Convert 24-hour to 12-hour format
+    display_hour = hour if hour <= 12 else hour - 12
+    if display_hour == 0:
+        display_hour = 12
+    
+    # Get Spanish hour
+    if display_hour in SPANISH_NUMBERS:
+        spanish_hour = SPANISH_NUMBERS[display_hour]
+    else:
+        # Fallback for invalid hours
+        spanish_hour = str(display_hour)
+    
+    # Handle minutes
+    if minute == 0:
+        return f"Alas {spanish_hour}."
+    elif minute == 15:
+        return f"Alas {spanish_hour} kinse."
+    elif minute == 30:
+        return f"Alas {spanish_hour} y medya."
+    elif minute == 45:
+        next_hour = display_hour + 1 if display_hour < 12 else 1
+        next_spanish = SPANISH_NUMBERS.get(next_hour, str(next_hour))
+        return f"Kinse para alas {next_spanish}."
+    else:
+        # For other minutes, just use the number
+        return f"Alas {spanish_hour}, {minute}."
+
+def convert_digits_to_tagalog(number_str: str) -> str:
+    """Convert digits to Tagalog pronunciation.
+    
+    Args:
+        number_str: String of digits (e.g., "150", "203", "5")
+        
+    Returns:
+        Tagalog digit breakdown
+    """
+    # Remove any non-digit characters for processing
+    clean_digits = ''.join(c for c in number_str if c.isdigit())
+    
+    if not clean_digits:
+        return number_str
+    
+    # For single digits, we want the digit name, not the number name
+    # e.g., "5" should be "lima" not "lima" (which is confusing)
+    # But for clarity in breakdown, we want "isa lima" for "15", etc.
+    
+    # Convert each digit individually
+    tagalog_parts = []
+    for digit in clean_digits:
+        if digit in TAGALOG_DIGITS:
+            tagalog_parts.append(TAGALOG_DIGITS[digit])
+        else:
+            tagalog_parts.append(digit)  # Fallback
+    
+    return ' '.join(tagalog_parts) + '.'
+
+def clarify_number(number_match: str, context: str = '', force_clarify: bool = False) -> str:
+    """Generate clarification for a number based on context.
+    
+    Args:
+        number_match: The number string to clarify
+        context: Surrounding context to determine clarification type
+        force_clarify: If True, clarify even small numbers (for clarify tags)
+        
+    Returns:
+        Clarified number string
+    """
+    # Time pattern: HH:MM or H:MM
+    time_pattern = r'^(\d{1,2}):(\d{2})$'
+    time_match = re.match(time_pattern, number_match)
+    
+    if time_match:
+        hour = int(time_match.group(1))
+        minute = int(time_match.group(2))
+        spanish_time = convert_time_to_spanish(hour, minute)
+        return f"{number_match}. {spanish_time}"
+    
+    # Phone number pattern: XXX-XXXX or similar
+    if '-' in number_match and len(number_match.replace('-', '')) >= 4:
+        parts = number_match.split('-')
+        tagalog_parts = []
+        for part in parts:
+            if part.isdigit():
+                tagalog_parts.append(convert_digits_to_tagalog(part).rstrip('.'))
+        return f"{number_match}. {', '.join(tagalog_parts)}."
+    
+    # Regular number - check clarification rules
+    clean_number = ''.join(c for c in number_match if c.isdigit())
+    
+    # Always clarify if force_clarify is True (from clarify tags)
+    if force_clarify:
+        tagalog_digits = convert_digits_to_tagalog(number_match)
+        return f"{number_match}. {tagalog_digits}"
+    
+    # Check for room/kwarto context - these should always be clarified
+    if any(keyword in context.lower() for keyword in ['room', 'kwarto', 'numero']):
+        tagalog_digits = convert_digits_to_tagalog(number_match)
+        return f"{number_match}. {tagalog_digits}"
+    
+    # Large numbers (3+ digits) get digit breakdown
+    if clean_number.isdigit() and len(clean_number) >= 3:
+        tagalog_digits = convert_digits_to_tagalog(number_match)
+        return f"{number_match}. {tagalog_digits}"
+    
+    # Small numbers (1-99) don't get clarified by default
+    if clean_number.isdigit() and 1 <= int(clean_number) <= 99:
+        return number_match
+    
+    # Default: no clarification
+    return number_match
+
+def process_number_clarification(text: str, section_type: Optional[str] = None) -> str:
+    """Process number clarification based on section type and clarify tags.
+    
+    Args:
+        text: Input text that may contain numbers and clarify tags
+        section_type: Type of section ('slow_speed', 'natural_speed', 'key_phrases', etc.)
+        
+    Returns:
+        Text with appropriate number clarifications applied
+    """
+    if not text:
+        return text
+    
+    original_text = text
+    processed_text = text
+    
+    # First, handle clarify tags (highest priority)
+    clarify_pattern = r'<clarify>(.*?)</clarify>'
+    
+    def process_clarify_tag(match):
+        content = match.group(1)
+        logger.debug(f"Processing clarify tag content: '{content}'")
+        
+        # Simple approach: try patterns in order of specificity and stop after first match
+        clarify_patterns = [
+            (r'\b\d{1,2}:\d{2}\b', 'time'),           # Time: 8:30, 12:45 (most specific)
+            (r'\b\d{3}-\d{3}-\d{4}\b', 'phone'),      # Full phone: 123-456-7890
+            (r'\b\d{3,4}-\d{4}\b', 'phone'),          # Phone: 555-1234
+            (r'\bRoom\s+\d+\b', 'room'),              # Room numbers: Room 203
+            (r'\bKwarto\s+\d+\b', 'room'),            # Filipino room: Kwarto 203
+            (r'\b\d+\b', 'number'),                   # Any number (including small ones) - least specific
+        ]
+        
+        # Find the BEST match (most specific) and process only that one
+        best_match = None
+        for pattern, pattern_type in clarify_patterns:
+            matches = list(re.finditer(pattern, content, re.IGNORECASE))
+            if matches:
+                # Take the first match of this type since it's the most specific pattern that matched
+                match_obj = matches[0]
+                best_match = (match_obj.start(), match_obj.end(), match_obj.group(0), pattern_type)
+                break  # Stop at first matching pattern type (most specific)
+        
+        # Process the best match if found
+        if best_match:
+            start, end, number_str, pattern_type = best_match
+            context = content  # Use the original clarify tag content as context
+            clarified = clarify_number(number_str, context, force_clarify=True)
+            
+            # Replace in the content
+            processed_content = content[:start] + clarified + content[end:]
+            logger.debug(f"Clarify tag clarification ({pattern_type}): '{number_str}' → '{clarified}'")
+            return processed_content
+        else:
+            # No number patterns found, return as-is
+            return content
+    
+    # Process clarify tags and remove them
+    processed_text = re.sub(clarify_pattern, process_clarify_tag, processed_text, flags=re.IGNORECASE)
+    
+    # Then handle slow_speed sections for numbers NOT in clarify tags
+    if section_type == 'slow_speed':
+        logger.debug("Processing slow_speed section: clarifying remaining numbers")
+        
+        # Pattern to match numbers in various formats (for slow speed)
+        slow_speed_patterns = [
+            r'\b\d{1,2}:\d{2}\b',          # Time: 8:30, 12:45
+            r'\b\d{3,4}-\d{4}\b',          # Phone: 555-1234
+            r'\b\d{3}-\d{3}-\d{4}\b',      # Full phone: 123-456-7890
+            r'\bRoom\s+\d+\b',             # Room numbers: Room 203
+            r'\bKwarto\s+\d+\b',           # Filipino room: Kwarto 203
+            r'\b\d{3,}\b',                 # Large numbers: 150, 1205
+        ]
+        
+        # Find all matches first to avoid overlap issues
+        all_slow_matches = []
+        for pattern in slow_speed_patterns:
+            for match in re.finditer(pattern, processed_text, re.IGNORECASE):
+                all_slow_matches.append((match.start(), match.end(), match.group(0)))
+        
+        # Sort by start position and remove overlaps (prefer longer/more specific matches)
+        all_slow_matches.sort()
+        non_overlapping_slow = []
+        for start, end, text in all_slow_matches:
+            # Check if this overlaps with any existing match
+            overlaps = False
+            for existing_start, existing_end, _ in non_overlapping_slow:
+                if not (end <= existing_start or start >= existing_end):
+                    # There's an overlap - prefer the longer match
+                    existing_length = existing_end - existing_start
+                    current_length = end - start
+                    if current_length > existing_length:
+                        # Remove the shorter existing match
+                        non_overlapping_slow = [(s, e, t) for s, e, t in non_overlapping_slow 
+                                              if not (s == existing_start and e == existing_end)]
+                    else:
+                        # Skip the current shorter match
+                        overlaps = True
+                        break
+            if not overlaps:
+                non_overlapping_slow.append((start, end, text))
+        
+        # Process matches from end to start to preserve indices
+        for start, end, number_str in reversed(non_overlapping_slow):
+            # Skip if this exact text has already been clarified (more precise check)
+            # Look for clarification markers immediately after this number
+            text_after = processed_text[end:end+50] if end < len(processed_text) else ""
+            if text_after.startswith('. ') and ('alas' in text_after.lower() or 
+                any(tagalog in text_after.lower() for tagalog in ['isa', 'dalawa', 'tatlo', 'lima'])):
+                continue
+            
+            context = processed_text[max(0, start-20):end+20]  # Get surrounding context
+            clarified = clarify_number(number_str, context)
+            
+            # Only replace if clarification was applied
+            if clarified != number_str:
+                processed_text = processed_text[:start] + clarified + processed_text[end:]
+                logger.debug(f"Slow speed clarification: '{number_str}' → '{clarified}'")
+    
+    # Final cleanup: remove any remaining clarify tags
+    processed_text = re.sub(r'</?clarify>', '', processed_text, flags=re.IGNORECASE)
+    
+    if original_text != processed_text:
+        logger.debug(f"Number clarification complete: '{original_text}' → '{processed_text}'")
+    
+    return processed_text
+
 def preprocess_text_for_tts(text: str, language_code: str, section_type: Optional[str] = None) -> str:
     """Preprocess text for TTS based on language and section context.
     
@@ -303,6 +568,9 @@ def preprocess_text_for_tts(text: str, language_code: str, section_type: Optiona
     
     # Apply syllable fixes for Key Phrases sections (before other fixes)
     text = fix_tagalog_syllables_for_key_phrases(text, section_type, language_code)
+    
+    # Apply number clarification (before abbreviation fixes)
+    text = process_number_clarification(text, section_type)
     
     # Always apply abbreviation fixes (language-agnostic)
     text = fix_abbreviation_pronunciation(text)

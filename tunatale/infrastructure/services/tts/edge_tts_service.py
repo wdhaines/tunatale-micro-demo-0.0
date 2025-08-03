@@ -169,20 +169,14 @@ class EdgeTTSService(TTSService):
         if not cache_key.endswith('.mp3'):
             cache_key = f"{cache_key}.mp3"
         
-        # Try exact match first
+        # Try exact match only - this prevents cache collisions
         cache_path = self.cache_dir / cache_key
         if cache_path.exists():
             return cache_path
             
-        # If no exact match, try to find a file with the same base name
-        # This handles cases where the cache key might have additional parameters
-        base_name = cache_key.rsplit('_', 1)[0] if '_' in cache_key else ''
-        if base_name:
-            for file in self.cache_dir.glob(f"{base_name}*"):
-                if file.suffix == '.mp3':
-                    logger.debug(f"Found matching cache file: {file.name} for key: {cache_key}")
-                    return file
-                    
+        # No fallback matching - exact match only to prevent cache collisions
+        # The old fallback logic was causing cache collisions where different texts
+        # with the same voice settings would share cache files
         return None
     
     def _convert_to_voice(self, voice_data: Dict[str, Any]) -> Optional[Voice]:
@@ -1024,9 +1018,9 @@ class EdgeTTSService(TTSService):
             pitch_str = f"{pitch_value:+d}Hz"
             
             # Log the final values being used
-            logger.warning(f"[TTS PARAMS] Final values - rate: {rate_str} (from {custom_rate}), "
-                         f"pitch: {pitch_str} (from {custom_pitch}), voice: {voice_id}, "
-                         f"speaker_id: {speaker_id} (original: {original_speaker_id})")
+            logger.debug(f"[TTS PARAMS] Final values - rate: {rate_str} (from {custom_rate}), "
+                        f"pitch: {pitch_str} (from {custom_pitch}), voice: {voice_id}, "
+                        f"speaker_id: {speaker_id} (original: {original_speaker_id})")
             logger.debug(f"[DEBUG] Rate string: {rate_str}, Pitch string: {pitch_str}")
             
             # Log the full voice configuration including speaker ID
@@ -1080,9 +1074,19 @@ class EdgeTTSService(TTSService):
                     last_error = e
                     retry_count += 1
                     
-                    # Log the connection error
+                    # Log the connection error with progressive severity
                     error_type = type(e).__name__
-                    logger.warning(f"TTS connection error (attempt {retry_count}/{MAX_RETRIES + 1}): {error_type}: {e}")
+                    error_msg = f"TTS connection error (attempt {retry_count}/{MAX_RETRIES + 1}): {error_type}: {e}"
+                    
+                    # Progressive logging levels: attempt 1=debug, 2=info, 3=warning, 4=error
+                    if retry_count == 1:
+                        logger.debug(error_msg)
+                    elif retry_count == 2:
+                        logger.info(error_msg)
+                    elif retry_count == 3:
+                        logger.warning(error_msg)
+                    else:  # attempt 4+
+                        logger.error(error_msg)
                     
                     if retry_count <= MAX_RETRIES:
                         # Calculate exponential backoff delay
@@ -1362,7 +1366,15 @@ class EdgeTTSService(TTSService):
         """
         # Normalize text by removing extra whitespace
         text = re.sub(r"\s+", " ", text.strip())
-        text_hash = hashlib.md5(text.encode("utf-8")).hexdigest()
+        
+        # Use SHA-256 for better collision resistance and include preprocessing version
+        # Version 2: Added Filipino number clarification preprocessing
+        preprocessing_version = "v2"
+        text_with_version = f"{preprocessing_version}:{text}"
+        text_hash = hashlib.sha256(text_with_version.encode("utf-8")).hexdigest()
+        
+        # Debug logging to track cache key generation
+        logger.debug(f"Cache key generation: text='{text}' -> hash={text_hash[:16]}")
 
         # Create a unique key based on the hash and voice settings
         key_parts = [
@@ -1375,11 +1387,11 @@ class EdgeTTSService(TTSService):
         # Add speaker ID to the key if provided
         if speaker_id:
             # Create a short hash of the speaker ID to keep the filename reasonable
-            speaker_hash = hashlib.md5(speaker_id.encode("utf-8")).hexdigest()[:4]
+            speaker_hash = hashlib.sha256(speaker_id.encode("utf-8")).hexdigest()[:8]
             key_parts.append(f"s{speaker_hash}")
         
-        # Add text hash last
-        key_parts.append(text_hash[:8])
+        # Add text hash last - use 16 characters instead of 8 for better collision resistance
+        key_parts.append(text_hash[:16])
 
         # Join with underscores to create a safe filename
         return "_".join(key_parts) + ".mp3"
