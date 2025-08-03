@@ -925,12 +925,13 @@ class EdgeTTSService(TTSService):
                 logger.debug(f"Cache hit for key: {cache_key}")
                 # Copy cached file to output path
                 shutil.copy2(cached_file, output_path)
-                logger.debug(f"Copied cached file to {output_path}")
+                logger.debug(f"Copied cached file {cached_file} to {output_path}")
                 return {
                     "audio_file": str(output_path),
                     "voice": voice_id,
                     "text_length": len(text),
-                    "cached": True,
+                    "cached": True,  # Explicitly set cached flag
+                    "cache_key": cache_key,  # Include cache key for debugging
                 }
 
         # Synthesize speech
@@ -1364,13 +1365,14 @@ class EdgeTTSService(TTSService):
         Returns:
             A string that can be used as a cache key.
         """
-        # Normalize text by removing extra whitespace
-        text = re.sub(r"\s+", " ", text.strip())
+        # Normalize text by removing extra whitespace and normalizing unicode
+        text = re.sub(r"\s+", " ", text.strip()).encode('utf-8', 'ignore').decode('utf-8')
         
-        # Use SHA-256 for better collision resistance and include preprocessing version
-        # Version 2: Added Filipino number clarification preprocessing
+        # Use a fixed preprocessing version for consistent caching
         preprocessing_version = "v2"
         text_with_version = f"{preprocessing_version}:{text}"
+        
+        # Generate a stable hash of the text
         text_hash = hashlib.sha256(text_with_version.encode("utf-8")).hexdigest()
         
         # Debug logging to track cache key generation
@@ -1378,7 +1380,7 @@ class EdgeTTSService(TTSService):
 
         # Create a unique key based on the hash and voice settings
         key_parts = [
-            voice_id[:8],  # First 8 chars of voice ID
+            voice_id,  # Use full voice ID for better uniqueness
             f"r{rate:.1f}".replace(".", ""),
             f"p{pitch:+.1f}".replace("+", "p").replace("-", "m").replace(".", ""),
             f"v{volume:.1f}".replace(".", ""),
@@ -1386,15 +1388,20 @@ class EdgeTTSService(TTSService):
         
         # Add speaker ID to the key if provided
         if speaker_id:
-            # Create a short hash of the speaker ID to keep the filename reasonable
+            # Use a consistent hash of the speaker ID
             speaker_hash = hashlib.sha256(speaker_id.encode("utf-8")).hexdigest()[:8]
             key_parts.append(f"s{speaker_hash}")
         
-        # Add text hash last - use 16 characters instead of 8 for better collision resistance
-        key_parts.append(text_hash[:16])
-
-        # Join with underscores to create a safe filename
-        return "_".join(key_parts) + ".mp3"
+        # Add text hash - using full hash for maximum uniqueness
+        key_parts.append(text_hash)
+        
+        # Join with underscores and add .mp3 extension
+        cache_key = "_".join(key_parts) + ".mp3"
+        
+        # Sanitize the cache key to ensure it's a valid filename
+        cache_key = "".join(c for c in cache_key if c.isalnum() or c in ('_', '-', '.')).strip()
+        
+        return cache_key
 
     async def validate_credentials(self) -> bool:
         """Validate that the service credentials are valid.

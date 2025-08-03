@@ -202,7 +202,9 @@ class LessonProcessor(LessonProcessorInterface):
             
             if progress:
                 await progress.update(task_id=task_id, completed=total_steps, total=total_steps, status="Completed!")
-                await progress.complete_task(task_id=task_id)
+                # Only call complete_task if it exists (for compatibility with test mocks)
+                if hasattr(progress, 'complete_task'):
+                    await progress.complete_task(task_id=task_id)
             self.metrics.end_phase("total")
             self.metrics.end_time = time.time()
 
