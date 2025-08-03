@@ -3,6 +3,7 @@ import asyncio
 import json
 import hashlib
 import logging
+import re
 import traceback
 import os
 import sys
@@ -406,21 +407,37 @@ async def test_synthesize_speech_with_caching(tmp_path, mocker):
         logger.debug("  Cache directory does not exist!")
 
     # Generate the expected cache key using the same format as the implementation
-    # The format is: "{voice_short_id}_r{rate}p{pitch}v{volume}_{text_hash_short}.mp3"
-    voice_short = voice_id[:8]  # First 8 chars of voice ID
-    text_hash = hashlib.md5(text.encode("utf-8")).hexdigest()
-    text_hash_short = text_hash[:8]  # First 8 chars of hash
+    # The implementation now uses full voice ID and full hash
+    
+    # Normalize text by removing extra whitespace and normalizing unicode
+    normalized_text = re.sub(r"\s+", " ", text.strip()).encode('utf-8', 'ignore').decode('utf-8')
+    
+    # Use the same preprocessing version as the implementation
+    preprocessing_version = "v2"
+    text_with_version = f"{preprocessing_version}:{normalized_text}"
+    
+    # Generate the full hash as in the implementation
+    text_hash = hashlib.sha256(text_with_version.encode("utf-8")).hexdigest()
     
     # Default values from the implementation
     rate = 1.0
     pitch = 0.0
     volume = 1.0
     
-    # Format the cache key to match the implementation
-    cache_key = f"{voice_short}_r{rate:.1f}".replace(".", "") + \
-               f"_p{pitch:+.1f}".replace("+", "p").replace("-", "m").replace(".", "") + \
-               f"_v{volume:.1f}".replace(".", "") + \
-               f"_{text_hash_short}.mp3"
+    # Format the cache key to match the implementation exactly
+    key_parts = [
+        voice_id,  # Full voice ID
+        f"r{rate:.1f}".replace(".", ""),
+        f"p{pitch:+.1f}".replace("+", "p").replace("-", "m").replace(".", ""),
+        f"v{volume:.1f}".replace(".", ""),
+        text_hash  # Full hash
+    ]
+    
+    # Join with underscores and add .mp3 extension
+    cache_key = "_".join(key_parts) + ".mp3"
+    
+    # Sanitize the cache key to match the implementation
+    cache_key = "".join(c for c in cache_key if c.isalnum() or c in ('_', '-', '.')).strip()
     
     cache_file = cache_dir / cache_key
     logger.debug(f"Expected cache file: {cache_file}")
