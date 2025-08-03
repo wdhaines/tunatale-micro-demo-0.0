@@ -114,43 +114,38 @@ class AppConfig(BaseModel):
     
     # Add other configuration sections here as needed
     
-    class Config:
-        """Pydantic config."""
-        
-        json_encoders = {
+    model_config = {
+        "json_encoders": {
             Path: str,
+        },
+        "json_schema_extra": {
+            "example": {
+                "tts": {
+                    "provider": "edge",
+                    "edge_tts": {
+                        "voice": "en-US-AriaNeural",
+                        "rate": "+0%",
+                        "pitch": "+0Hz",
+                        "volume": "+0%",
+                    },
+                    "google_tts": {
+                        "voice": "en-US-Wavenet-A",
+                        "speaking_rate": 1.0,
+                        "pitch": 0.0,
+                        "volume_gain_db": 0.0,
+                    },
+                },
+                "audio": {
+                    "output_format": "mp3",
+                    "silence_between_phrases": 0.5,
+                    "silence_between_sections": 1.0,
+                    "normalize_audio": True,
+                    "trim_silence": True,
+                    "cleanup_temp_files": True,
+                },
+            }
         }
-        
-        @classmethod
-        def schema_extra(cls, schema: Dict[str, Any], model: Any) -> None:
-            """Add example to schema."""
-            if "properties" in schema:
-                # Add example to the schema
-                schema["example"] = {
-                    "tts": {
-                        "provider": "edge",
-                        "edge_tts": {
-                            "voice": "en-US-AriaNeural",
-                            "rate": "+0%",
-                            "pitch": "+0Hz",
-                            "volume": "+0%",
-                        },
-                        "google_tts": {
-                            "voice": "en-US-Wavenet-A",
-                            "speaking_rate": 1.0,
-                            "pitch": 0.0,
-                            "volume_gain_db": 0.0,
-                        },
-                    },
-                    "audio": {
-                        "output_format": "mp3",
-                        "silence_between_phrases": 0.5,
-                        "silence_between_sections": 1.0,
-                        "normalize_audio": True,
-                        "trim_silence": True,
-                        "cleanup_temp_files": True,
-                    },
-                }
+    }
 
 
 def ensure_config_dir() -> Path:

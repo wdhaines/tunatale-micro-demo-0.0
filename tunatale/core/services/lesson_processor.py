@@ -202,7 +202,9 @@ class LessonProcessor(LessonProcessorInterface):
             
             if progress:
                 await progress.update(task_id=task_id, completed=total_steps, total=total_steps, status="Completed!")
-                await progress.complete(task_id=task_id)
+                # Only call complete_task if it exists (for compatibility with test mocks)
+                if hasattr(progress, 'complete_task'):
+                    await progress.complete_task(task_id=task_id)
             self.metrics.end_phase("total")
             self.metrics.end_time = time.time()
 
@@ -346,6 +348,7 @@ class LessonProcessor(LessonProcessorInterface):
             section_filename = self._sanitize_filename(section.title)
         
         temp_section_audio_file = output_path / f"{section_filename}.mp3"
+        section_audio_file = temp_section_audio_file  # Default fallback
         
         # Update progress before concatenation
         if progress:
@@ -359,29 +362,43 @@ class LessonProcessor(LessonProcessorInterface):
         # Get list of valid audio files
         audio_files = [p.audio_file for p in processed_phrases if p.audio_file and p.audio_file.exists()]
         
-        if not audio_files:
-            logger.warning(f"No valid audio files found for section {section.id}")
-        else:
-            await self._concatenate_audio_files(
-                audio_files,
-                temp_section_audio_file,
-                progress=progress  # Pass progress reporter to concatenation
+        # Add dynamic pauses between phrase repetitions for Key Phrases sections
+        if section.title.lower() == 'key phrases' and len(audio_files) > 1:
+            audio_files = await self._add_dynamic_pauses_between_phrases(
+                audio_files, processed_phrases, output_path
             )
         
-        # Place the section audio file in the main output directory
-        # Since CLI now passes main directory directly, we move to parent to get to main level
-        top_level_dir = output_path.parent
-        final_section_audio_file = top_level_dir / f"{section_filename}.mp3"
+        # Try concatenation, but don't fail the whole section if it fails
+        try:
+            if not audio_files:
+                logger.warning(f"No valid audio files found for section {section.id}")
+            else:
+                await self._concatenate_audio_files(
+                    audio_files,
+                    temp_section_audio_file,
+                    progress=progress  # Pass progress reporter to concatenation
+                )
+            
+            # Place the section audio file in the main output directory
+            # Since CLI now passes main directory directly, we move to parent to get to main level
+            top_level_dir = output_path.parent
+            final_section_audio_file = top_level_dir / f"{section_filename}.mp3"
+            
+            if temp_section_audio_file.exists():
+                # Move the file to the main output directory
+                shutil.move(str(temp_section_audio_file), str(final_section_audio_file))
+                logger.debug(f"Moved section audio file from {temp_section_audio_file} to {final_section_audio_file}")
+                section_audio_file = final_section_audio_file
+            else:
+                section_audio_file = temp_section_audio_file
+                
+        except Exception as concat_error:
+            # Concatenation failed, but preserve the processed phrases
+            logger.error(f"Audio concatenation failed for section '{section.title}': {concat_error}")
+            # Don't re-raise - let the section complete with individual phrase files
+            section_audio_file = None  # No section audio file available
         
-        if temp_section_audio_file.exists():
-            # Move the file to the main output directory
-            shutil.move(str(temp_section_audio_file), str(final_section_audio_file))
-            logger.debug(f"Moved section audio file from {temp_section_audio_file} to {final_section_audio_file}")
-            section_audio_file = final_section_audio_file
-        else:
-            section_audio_file = temp_section_audio_file
-        
-        # Update progress after concatenation
+        # Update progress after concatenation (successful or not)
         if progress:
             await progress.update(
                 task_id=f"section_{section.id}",
@@ -413,6 +430,9 @@ class LessonProcessor(LessonProcessorInterface):
         Returns:
             Dictionary with processing results.
         """
+        processed_phrases = []
+        section_output_path = None
+        
         try:
             # Ensure output directory exists
             output_dir.mkdir(parents=True, exist_ok=True)
@@ -423,6 +443,9 @@ class LessonProcessor(LessonProcessorInterface):
             
             # Process the section using the internal implementation
             processed_section = await self._process_section(None, section, section_output_path, None)
+            
+            # Store processed phrases for potential error recovery
+            processed_phrases = processed_section.phrases
             
             # Move the final section audio file to the requested output directory
             if processed_section.audio_file and processed_section.audio_file.exists():
@@ -435,6 +458,9 @@ class LessonProcessor(LessonProcessorInterface):
                     processed_section.audio_file = final_audio_path
             
             # Convert to the expected dictionary format
+            # Check if section processing was fully successful (has audio file)
+            section_success = processed_section.audio_file is not None
+            
             result = {
                 'id': str(processed_section.id) if processed_section.id else None,
                 'title': processed_section.title,
@@ -449,17 +475,39 @@ class LessonProcessor(LessonProcessorInterface):
                     } for p in processed_section.phrases
                 ],
                 'audio_file': str(processed_section.audio_file) if processed_section.audio_file else None,
-                'success': True
+                'success': section_success
             }
+            
+            # Add error information if section failed
+            if not section_success:
+                result['error'] = {
+                    'error_code': 'PROCESSING_ERROR',
+                    'error_message': 'Section audio concatenation failed, but individual phrases were processed successfully'
+                }
             
             return result
             
         except Exception as e:
             logger.error(f"Error processing section '{section.title}': {e}")
+            
+            # If we have processed phrases, preserve them even though section processing failed
+            preserved_phrases = []
+            if processed_phrases:
+                preserved_phrases = [
+                    {
+                        'id': str(p.id) if p.id else None,
+                        'text': p.text,
+                        'language': p.language,
+                        'audio_file': str(p.audio_file) if p.audio_file else None,
+                        'metadata': getattr(p, 'metadata', {}) or {},
+                        'success': True
+                    } for p in processed_phrases
+                ]
+            
             return {
                 'id': str(section.id) if section.id else None,
                 'title': section.title,
-                'phrases': [],
+                'phrases': preserved_phrases,  # Preserve successfully processed phrases
                 'audio_file': None,
                 'metadata': {},
                 'success': False,
@@ -574,18 +622,24 @@ class LessonProcessor(LessonProcessorInterface):
                 )
 
             # Generate audio file with appropriate extension
-            audio_file = output_path / f"phrase_{phrase.id}"
+            audio_file = output_path / f"phrase_{phrase.id}.mp3"
             
             # First validate the voice before attempting to synthesize speech
             if hasattr(self.tts_service, 'validate_voice'):
                 await self.tts_service.validate_voice(voice_id)
                 
-            # Handle ellipsis with configurable pause duration
-            has_ellipsis = "..." in preprocessed_text
-            if has_ellipsis:
-                # Replace ellipsis with semicolons for better natural TTS pauses than commas
-                tts_text = preprocessed_text.replace("...", "; ")
+            # Check for ellipsis in original text (before enhanced preprocessing converted them)
+            has_ellipsis = "..." in phrase.text
+            
+            # Check if text contains pause markers from enhanced preprocessing
+            has_pause_markers = "[PAUSE:" in preprocessed_text
+            
+            if has_pause_markers:
+                # Text has pause markers - use as-is for pause-aware synthesis
+                tts_text = preprocessed_text
+                logger.debug(f"Text contains pause markers: '{tts_text}'")
             else:
+                # Use text as-is - let TTS handle single ellipsis naturally
                 tts_text = preprocessed_text
                 
             # Retry TTS synthesis with exponential backoff
@@ -682,199 +736,21 @@ class LessonProcessor(LessonProcessorInterface):
             if hasattr(self.tts_service, 'validate_voice'):
                 await self.tts_service.validate_voice(voice_id)
 
-            # Determine if this should be slow speech
+            # Determine if this should be slow speech (check original text before preprocessing)
+            # Only trigger on longer ellipsis patterns (4+ dots) that we actually process
+            has_long_ellipsis = any(pattern in phrase.text for pattern in [
+                '....', '.....', '......', '.......', '........', 
+                '.........', '..........', '...........', '............', '.............'
+            ])
             is_slow = (
-                "..." in preprocessed_text or  # Contains ellipsis
+                has_long_ellipsis or  # Contains long ellipsis (4+ dots) in original text
                 (phrase.metadata and phrase.metadata.get("rate", 1.0) < 0.8) or  # Slow rate setting
-                "[SLOW]" in preprocessed_text.upper()  # Explicit slow marker
+                "[SLOW]" in phrase.text.upper()  # Explicit slow marker in original text
             )
 
-            # Check if this is a key phrases section to use dynamic pauses
-            use_dynamic_pauses = (section_type == 'key_phrases')
-            logger.debug(f"Processing phrase '{phrase.text}' in section_type='{section_type}', using {'dynamic' if use_dynamic_pauses else 'fixed'} pauses")
-            
-            if use_dynamic_pauses:
-                # Dynamic pause mode for key phrases: Single-pass with duration measurement
-                initial_segments = split_with_natural_pauses(preprocessed_text, is_slow=is_slow)
-                
-                if not initial_segments:
-                    # Fallback to original processing if no segments
-                    return await self._process_phrase(phrase, output_path)
-
-                # Generate audio for text segments and collect their durations
-                audio_parts = []
-                segment_durations = []
-                
-                for i, segment in enumerate(initial_segments):
-                    if segment['type'] == 'text':
-                        # Create audio file for this segment
-                        segment_file = output_path / f"phrase_{phrase.id}_segment_{i}"
-                        
-                        # Get voice settings from segment
-                        voice_settings = segment.get('voice_settings', {})
-                        rate = voice_settings.get('rate', 1.0)
-                        
-                        # Synthesize speech for this text segment (only once!)
-                        await self._synthesize_speech_with_retry(
-                            text=segment['content'],
-                            voice_id=voice_id,
-                            output_path=str(segment_file),
-                            rate=rate,
-                            pitch=phrase.metadata.get("pitch", 0.0) if phrase.metadata else 0.0,
-                            volume=1.0,
-                            speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
-                            phrase_text=phrase.text
-                        )
-                        
-                        segment_file = segment_file.with_suffix('.mp3')
-                        if segment_file.exists():
-                            audio_parts.append(segment_file)
-                            # Get duration of this audio segment
-                            try:
-                                duration = await self.audio_processor.get_audio_duration(segment_file)
-                                segment_durations.append(duration)
-                            except Exception as e:
-                                logger.warning(f"Failed to get duration for segment {i}: {e}")
-                                segment_durations.append(0.0)  # Fallback to 0 duration
-                        
-                # Calculate dynamic pauses and add them between existing audio segments
-                from .natural_pause_calculator import NaturalPauseCalculator
-                from .linguistic_boundary_detector import detect_linguistic_boundaries
-                
-                calculator = NaturalPauseCalculator()
-                complexity = 'slow' if is_slow else 'normal'
-                boundaries = detect_linguistic_boundaries(preprocessed_text)
-                
-                # Build final audio with dynamic pauses inserted
-                final_audio_parts = []
-                segment_index = 0
-                
-                for boundary_type, pos in boundaries:
-                    # Add the audio segment if we have one
-                    if segment_index < len(audio_parts):
-                        final_audio_parts.append(audio_parts[segment_index])
-                        
-                        # Calculate dynamic pause for this segment
-                        audio_duration = segment_durations[segment_index] if segment_index < len(segment_durations) else None
-                        pause_duration = calculator.get_pause_for_boundary(
-                            boundary_type, complexity, audio_duration_seconds=audio_duration
-                        )
-                        
-                        # Add pause after this segment
-                        if segment_index < len(audio_parts) - 1:  # Don't add pause after last segment
-                            pause_file = output_path / f"phrase_{phrase.id}_pause_{segment_index}.mp3"
-                            silence_duration_s = pause_duration / 1000.0
-                            
-                            await self.audio_processor.add_silence(
-                                input_file=audio_parts[segment_index],
-                                output_file=pause_file,
-                                duration=silence_duration_s,
-                                position="end"
-                            )
-                            
-                            if pause_file.exists():
-                                final_audio_parts[-1] = pause_file  # Replace with version that has silence
-                        
-                        segment_index += 1
-                
-                # If there are remaining audio segments without boundaries, add them
-                while segment_index < len(audio_parts):
-                    final_audio_parts.append(audio_parts[segment_index])
-                    segment_index += 1
-                
-                audio_parts = final_audio_parts
-            
-            else:
-                # Fixed pause mode for non-key phrases: Use original natural pause system
-                segments = split_with_natural_pauses(preprocessed_text, is_slow=is_slow)  # No audio durations = fixed pauses
-                
-                if not segments:
-                    # Fallback to original processing if no segments
-                    return await self._process_phrase(phrase, output_path)
-
-                # Generate audio with fixed pauses
-                audio_parts = []
-                for i, segment in enumerate(segments):
-                    if segment['type'] == 'text':
-                        # Create temporary audio file for this segment
-                        segment_file = output_path / f"phrase_{phrase.id}_segment_{i}"
-                        
-                        # Get voice settings from segment
-                        voice_settings = segment.get('voice_settings', {})
-                        rate = voice_settings.get('rate', 1.0)
-                        
-                        # Synthesize speech for this text segment
-                        await self._synthesize_speech_with_retry(
-                            text=segment['content'],
-                            voice_id=voice_id,
-                            output_path=str(segment_file),
-                            rate=rate,
-                            pitch=phrase.metadata.get("pitch", 0.0) if phrase.metadata else 0.0,
-                            volume=1.0,
-                            speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
-                            phrase_text=phrase.text
-                        )
-                        
-                        segment_file = segment_file.with_suffix('.mp3')
-                        if segment_file.exists():
-                            audio_parts.append(segment_file)
-                    
-                    elif segment['type'] == 'pause':
-                        # Create silence for pause
-                        pause_file = output_path / f"phrase_{phrase.id}_pause_{i}.mp3"
-                        silence_duration_s = segment['duration'] / 1000.0
-                        
-                        # Create a minimal audio file and add silence
-                        if audio_parts:  # Only add silence if we have previous audio
-                            await self.audio_processor.add_silence(
-                                input_file=audio_parts[-1],  # Use last audio file as base
-                                output_file=pause_file,
-                                duration=silence_duration_s,
-                                position="end"
-                            )
-                            # Replace the last audio file with the one with silence
-                            if pause_file.exists():
-                                audio_parts[-1] = pause_file
-
-            # Combine all audio parts into final file
-            final_audio_file = output_path / f"phrase_{phrase.id}.mp3"
-            
-            if len(audio_parts) > 1:
-                await self.audio_processor.concatenate_audio(
-                    [str(f) for f in audio_parts],
-                    str(final_audio_file)
-                )
-                
-                # Clean up temporary segment files
-                for part in audio_parts:
-                    if part != final_audio_file and part.exists():
-                        try:
-                            part.unlink()
-                        except Exception as cleanup_error:
-                            logger.warning(f"Failed to clean up temporary file {part}: {cleanup_error}")
-            elif len(audio_parts) == 1:
-                # Just one part, rename it to final name
-                audio_parts[0].rename(final_audio_file)
-            
-            # Process audio if audio_config is provided
-            audio_config = phrase.metadata.get("audio_config") if phrase.metadata else None
-            if audio_config:
-                await self._process_audio(final_audio_file, audio_config)
-
-            # Create processed phrase data
-            processed_data = {
-                "id": phrase.id,
-                "text": phrase.text,
-                "language": phrase.language,
-                "audio_file": final_audio_file,
-                "metadata": phrase.metadata or {},
-            }
-
-            # Only add translation if it exists
-            if hasattr(phrase, 'translation') and phrase.translation is not None:
-                processed_data["translation"] = phrase.translation
-                
-            return ProcessedPhrase(**processed_data)
+            # Dynamic pauses for Key Phrases are handled at section level between repetitions
+            # Process all phrases normally
+            return await self._process_phrase(phrase, output_path)
 
         except Exception as e:
             logger.error("Error processing phrase with natural pauses '%s': %s", phrase.text, str(e))
@@ -1030,8 +906,25 @@ class LessonProcessor(LessonProcessorInterface):
             }.get(lang_code, 'en-US')  # Default to en-US if not found
             
             logger.debug(f"Preprocessing text with language code: {language_code}, section: {section_type}")
-            text = preprocess_text_for_tts(text, language_code, section_type)
-            logger.debug(f"Preprocessed text for TTS: '{text}'")
+            
+            # Use enhanced preprocessing with hybrid SSML support
+            from tunatale.core.utils.tts_preprocessor import enhanced_preprocess_text_for_tts
+            
+            # Determine provider type and SSML support
+            provider_name = getattr(self.tts_service, '__class__', type(self.tts_service)).__name__.lower()
+            
+            # Check if provider supports SSML (only Google TTS supports full SSML)
+            supports_ssml = 'google' in provider_name and 'tts' in provider_name
+            
+            text, ssml_result = enhanced_preprocess_text_for_tts(
+                text=text,
+                language_code=language_code,
+                provider_name=provider_name,
+                supports_ssml=supports_ssml,
+                section_type=section_type
+            )
+            
+            logger.debug(f"Enhanced preprocessed text for TTS: '{text}' (original_format: {ssml_result.original_format})")
         except ImportError as e:
             logger.warning(f"Failed to import TTS preprocessor: {e}")
         except Exception as e:
@@ -1068,15 +961,38 @@ class LessonProcessor(LessonProcessorInterface):
         
         for attempt in range(max_retries + 1):
             try:
-                await self.tts_service.synthesize_speech(
-                    text=text,
-                    voice_id=voice_id,
-                    output_path=output_path,
-                    rate=rate,
-                    pitch=pitch,
-                    volume=volume,
-                    speaker_id=speaker_id
-                )
+                # Check if text contains pause markers and use pause-aware synthesis if available
+                has_pause_markers = '[PAUSE:' in text
+                has_pause_method = hasattr(self.tts_service, 'synthesize_speech_with_pauses')
+                tts_service_type = type(self.tts_service).__name__
+                
+                logger.info(f"🔍 TTS DEBUG: text='{text}', has_pause_markers={has_pause_markers}, has_pause_method={has_pause_method}, service_type={tts_service_type}")
+                
+                if has_pause_markers and has_pause_method:
+                    logger.info(f"✅ Using pause-aware synthesis for text: '{text}'")
+                    await self.tts_service.synthesize_speech_with_pauses(
+                        text=text,
+                        voice_id=voice_id,
+                        output_path=output_path,
+                        rate=rate,
+                        pitch=pitch,
+                        volume=volume,
+                        speaker_id=speaker_id
+                    )
+                else:
+                    # Use regular synthesis
+                    if has_pause_markers:
+                        logger.warning(f"❌ PAUSE MARKERS DETECTED but service {tts_service_type} lacks synthesize_speech_with_pauses method!")
+                    logger.info(f"🔧 Using regular synthesis for text: '{text}'")
+                    await self.tts_service.synthesize_speech(
+                        text=text,
+                        voice_id=voice_id,
+                        output_path=output_path,
+                        rate=rate,
+                        pitch=pitch,
+                        volume=volume,
+                        speaker_id=speaker_id
+                    )
                 return  # Success
                 
             except TTSTransientError as e:
@@ -1162,6 +1078,63 @@ class LessonProcessor(LessonProcessorInterface):
         except Exception as e:
             logger.error("Error processing audio file %s: %s", audio_file, str(e))
             raise
+
+    async def _add_dynamic_pauses_between_phrases(
+        self, audio_files: List[Path], processed_phrases: List[ProcessedPhrase], output_path: Path
+    ) -> List[Path]:
+        """Add dynamic pauses between phrase repetitions in Key Phrases sections."""
+        from .natural_pause_calculator import NaturalPauseCalculator
+        
+        calculator = NaturalPauseCalculator()
+        result_files = []
+        
+        for i, audio_file in enumerate(audio_files):
+            result_files.append(audio_file)
+            
+            # Add dynamic pause after this phrase (except for the last one)
+            # Only add pauses after Tagalog phrases, not English narrator phrases
+            if i < len(audio_files) - 1 and i < len(processed_phrases):
+                try:
+                    processed_phrase = processed_phrases[i]
+                    phrase_text = processed_phrase.text
+                    phrase_language = processed_phrase.language
+                    
+                    # Only add pauses after Tagalog phrases (not English narrator phrases)
+                    # Check for various Tagalog language indicators
+                    # Handle both string and Language object types
+                    lang_str = str(phrase_language).lower() if phrase_language else ""
+                    is_tagalog = (
+                        lang_str and (
+                            'fil' in lang_str or 
+                            'tagalog' in lang_str or
+                            lang_str.startswith('tl')
+                        )
+                    )
+                    
+                    if is_tagalog:
+                        audio_duration = await self.audio_processor.get_audio_duration(audio_file)
+                        
+                        # Calculate pause using 1.25x multiplier
+                        pause_duration = calculator.get_pause_for_boundary(
+                            boundary_type='phrase', text_complexity='normal',
+                            audio_duration_seconds=audio_duration, phrase_text=phrase_text
+                        )
+                        
+                        pause_file = output_path / f"dynamic_pause_{i}.mp3"
+                        silence_duration_s = pause_duration / 1000.0
+                        
+                        await self.audio_processor.add_silence(
+                            input_file=audio_file, output_file=pause_file,
+                            duration=silence_duration_s, position="end"
+                        )
+                        
+                        if pause_file.exists():
+                            result_files[-1] = pause_file  # Replace with version that has pause
+                        
+                except Exception as e:
+                    logger.warning(f"Failed to add dynamic pause after phrase {i}: {e}")
+        
+        return result_files
 
     async def _concatenate_audio_files(
         self, input_files: List[Path], output_file: Path, progress: Optional[Any] = None

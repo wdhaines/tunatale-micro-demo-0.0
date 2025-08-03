@@ -1,0 +1,252 @@
+[NARRATOR]: Abbreviation Pronunciation Test
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: eh, bee, see, dee, eey, eff, gee, ehch, eye, jay, kay, ell, em, en, oh, pee, cue, are, ess, tee, you, vee, double-you, ex, wyee, zee
+
+[TAGALOG-FEMALE-1]: CR po
+[NARRATOR]: restroom please
+[TAGALOG-FEMALE-1]: CR po
+CR
+CR po
+CR po
+
+[TAGALOG-FEMALE-1]: ID po
+[NARRATOR]: identification please
+[TAGALOG-FEMALE-1]: ID po
+ID
+ID po
+ID po
+
+[TAGALOG-FEMALE-1]: ATM po
+[NARRATOR]: cash machine please
+[TAGALOG-FEMALE-1]: ATM po
+ATM
+ATM po
+ATM po
+
+[TAGALOG-FEMALE-1]: GPS po
+[NARRATOR]: navigation please
+[TAGALOG-FEMALE-1]: GPS po
+GPS
+GPS po
+GPS po
+
+[TAGALOG-FEMALE-1]: 9 AM po
+[NARRATOR]: nine in the morning please
+[TAGALOG-FEMALE-1]: 9 AM po
+AM
+9 AM
+9 AM po
+
+[TAGALOG-FEMALE-1]: 3 PM po
+[NARRATOR]: three in the afternoon please
+[TAGALOG-FEMALE-1]: 3 PM po
+PM
+3 PM
+3 PM po
+
+[NARRATOR]: Natural Speed
+
+Hotel Check-in
+
+[TAGALOG-FEMALE-1]: Good evening po! May kwarto po ba?
+[TAGALOG-FEMALE-2]: May kwarto po ba? Single o double po?
+[TAGALOG-FEMALE-1]: Single po.
+[TAGALOG-FEMALE-2]: Opo, meron po! ID po?
+[TAGALOG-FEMALE-1]: Ito po ang ID ko.
+[TAGALOG-FEMALE-2]: Salamat po. Maria Santos?
+[TAGALOG-FEMALE-1]: Opo!
+[TAGALOG-FEMALE-2]: Okay po. Susi po!
+
+Travel Break
+
+[TAGALOG-MALE-1]: Excuse me po. CR break muna. Five minutes lang.
+[TAGALOG-FEMALE-1]: Excuse me po. CR?
+[TAGALOG-FEMALE-2]: Doon po. Sa likod ng tindahan.
+[TAGALOG-FEMALE-1]: Salamat po!
+
+Tourist Information
+
+[TAGALOG-FEMALE-1]: Excuse me po. Where is the ATM?
+[TAGALOG-MALE-1]: ATM po? Doon po sa hotel lobby.
+[TAGALOG-FEMALE-1]: Salamat! Can I use GPS here?
+[TAGALOG-MALE-1]: GPS? Opo! Signal malakas dito.
+
+Banking
+
+[TAGALOG-FEMALE-1]: Excuse me po. Do you accept USD?
+[TAGALOG-MALE-2]: USD po? Opo! Exchange rate ngayon ay 56 pesos.
+[TAGALOG-FEMALE-1]: Okay po. Where can I find an ATM for PHP?
+[TAGALOG-MALE-2]: ATM po? May ATM doon sa BPI.
+
+Technology Help
+
+[TAGALOG-FEMALE-1]: Excuse me po. WiFi password?
+[TAGALOG-MALE-1]: WiFi po? ELNIDO2025 po.
+[TAGALOG-FEMALE-1]: Can you help me with GPS?
+[TAGALOG-MALE-1]: GPS po? Sige po! Download mo ang app na ito.
+
+Time and Schedule
+
+[TAGALOG-FEMALE-1]: What time po? 9 AM or 3 PM?
+[TAGALOG-MALE-1]: 9 AM po ang breakfast. 3 PM ang tour.
+[TAGALOG-FEMALE-1]: Perfect! Check-out time?
+[TAGALOG-MALE-1]: 11 AM po ang check-out. 2 PM ang latest.
+
+Mixed Abbreviations
+
+[TAGALOG-FEMALE-1]: I need to find the CR, ATM, and WiFi.
+[TAGALOG-MALE-1]: CR sa second floor, ATM sa lobby, WiFi password ay BEACH2025.
+[TAGALOG-FEMALE-1]: Perfect! Do you accept USD or need PHP?
+[TAGALOG-MALE-1]: Both USD and PHP okay po. May ID ka ba?
+[TAGALOG-FEMALE-1]: Tour starts at 9 AM? Need to use ATM first.
+[TAGALOG-MALE-1]: Opo! 9 AM sharp. ATM open 7 AM to 10 PM po.
+
+[NARRATOR]: Slow Speed
+
+Hotel Check-in
+
+[TAGALOG-FEMALE-1]: Good evening... po!... May... kwarto... po... ba?
+[TAGALOG-FEMALE-2]: May... kwarto... po... ba?... Single... o... double... po?
+[TAGALOG-FEMALE-1]: Single... po.
+[TAGALOG-FEMALE-2]: Opo... meron... po!... ID... po?
+[TAGALOG-FEMALE-1]: Ito... po... ang... ID... ko.
+[TAGALOG-FEMALE-2]: Salamat... po... Maria... Santos?
+[TAGALOG-FEMALE-1]: Opo!
+[TAGALOG-FEMALE-2]: Okay... po... Susi... po!
+
+Travel Break
+
+[TAGALOG-MALE-1]: Excuse... me... po... CR... break... muna... Five... minutes... lang.
+[TAGALOG-FEMALE-1]: Excuse... me... po... CR?
+[TAGALOG-FEMALE-2]: Doon... po... Sa... likod... ng... tindahan.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+Tourist Information
+
+[TAGALOG-FEMALE-1]: Excuse... me... po... Where... is... the... ATM?
+[TAGALOG-MALE-1]: ATM... po?... Doon... po... sa... hotel... lobby.
+[TAGALOG-FEMALE-1]: Salamat!... Can... I... use... GPS... here?
+[TAGALOG-MALE-1]: GPS?... Opo!... Signal... malakas... dito.
+
+Banking
+
+[TAGALOG-FEMALE-1]: Excuse... me... po... Do... you... accept... USD?
+[TAGALOG-MALE-2]: USD... po?... Opo!... Exchange... rate... ngayon... ay... 56... pesos.
+[TAGALOG-FEMALE-1]: Okay... po... Where... can... I... find... an... ATM... for... PHP?
+[TAGALOG-MALE-2]: ATM... po?... May... ATM... doon... sa... BPI.
+
+Technology Help
+
+[TAGALOG-FEMALE-1]: Excuse... me... po... WiFi... password?
+[TAGALOG-MALE-1]: WiFi... po?... ELNIDO2025... po.
+[TAGALOG-FEMALE-1]: Can... you... help... me... with... GPS?
+[TAGALOG-MALE-1]: GPS... po?... Sige... po!... Download... mo... ang... app... na... ito.
+
+Time and Schedule
+
+[TAGALOG-FEMALE-1]: What... time... po?... 9... AM... or... 3... PM?
+[TAGALOG-MALE-1]: 9... AM... po... ang... breakfast... 3... PM... ang... tour.
+[TAGALOG-FEMALE-1]: Perfect!... Check-out... time?
+[TAGALOG-MALE-1]: 11... AM... po... ang... check-out... 2... PM... ang... latest.
+
+Mixed Abbreviations
+
+[TAGALOG-FEMALE-1]: I... need... to... find... the... CR... ATM... and... WiFi.
+[TAGALOG-MALE-1]: CR... sa... second... floor... ATM... sa... lobby... WiFi... password... ay... BEACH2025.
+[TAGALOG-FEMALE-1]: Perfect!... Do... you... accept... USD... or... need... PHP?
+[TAGALOG-MALE-1]: Both... USD... and... PHP... okay... po... May... ID... ka... ba?
+[TAGALOG-FEMALE-1]: Tour... starts... at... 9... AM?... Need... to... use... ATM... first.
+[TAGALOG-MALE-1]: Opo!... 9... AM... sharp... ATM... open... 7... AM... to... 10... PM... po.
+
+[NARRATOR]: Translated
+
+Hotel Check-in
+
+[TAGALOG-FEMALE-1]: Good evening po! May kwarto po ba?
+[NARRATOR]: Good evening! Do you have a room?
+[TAGALOG-FEMALE-2]: May kwarto po ba? Single o double po?
+[NARRATOR]: Do you have a room? Single or double?
+[TAGALOG-FEMALE-1]: Single po.
+[NARRATOR]: Single please.
+[TAGALOG-FEMALE-2]: Opo, meron po! ID po?
+[NARRATOR]: Yes, we have one! ID please?
+[TAGALOG-FEMALE-1]: Ito po ang ID ko.
+[NARRATOR]: Here is my ID.
+[TAGALOG-FEMALE-2]: Salamat po. Maria Santos?
+[NARRATOR]: Thank you. Maria Santos?
+[TAGALOG-FEMALE-1]: Opo!
+[NARRATOR]: Yes!
+[TAGALOG-FEMALE-2]: Okay po. Susi po!
+[NARRATOR]: Okay. Here's your key!
+
+Travel Break
+
+[TAGALOG-MALE-1]: Excuse me po. CR break muna. Five minutes lang.
+[NARRATOR]: Excuse me. Restroom break first. Just five minutes.
+[TAGALOG-FEMALE-1]: Excuse me po. CR?
+[NARRATOR]: Excuse me. Restroom?
+[TAGALOG-FEMALE-2]: Doon po. Sa likod ng tindahan.
+[NARRATOR]: Over there. Behind the store.
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+Tourist Information
+
+[TAGALOG-FEMALE-1]: Excuse me po. Where is the ATM?
+[NARRATOR]: Excuse me. Where is the cash machine?
+[TAGALOG-MALE-1]: ATM po? Doon po sa hotel lobby.
+[NARRATOR]: Cash machine? Over there in the hotel lobby.
+[TAGALOG-FEMALE-1]: Salamat! Can I use GPS here?
+[NARRATOR]: Thanks! Can I use navigation here?
+[TAGALOG-MALE-1]: GPS? Opo! Signal malakas dito.
+[NARRATOR]: Navigation? Yes! The signal is strong here.
+
+Banking
+
+[TAGALOG-FEMALE-1]: Excuse me po. Do you accept USD?
+[NARRATOR]: Excuse me. Do you accept US dollars?
+[TAGALOG-MALE-2]: USD po? Opo! Exchange rate ngayon ay 56 pesos.
+[NARRATOR]: US dollars? Yes! The exchange rate today is 56 pesos.
+[TAGALOG-FEMALE-1]: Okay po. Where can I find an ATM for PHP?
+[NARRATOR]: Okay. Where can I find a cash machine for Philippine pesos?
+[TAGALOG-MALE-2]: ATM po? May ATM doon sa BPI.
+[NARRATOR]: Cash machine? There's a cash machine over at BPI.
+
+Technology Help
+
+[TAGALOG-FEMALE-1]: Excuse me po. WiFi password?
+[NARRATOR]: Excuse me. WiFi password?
+[TAGALOG-MALE-1]: WiFi po? ELNIDO2025 po.
+[NARRATOR]: WiFi? ELNIDO2025.
+[TAGALOG-FEMALE-1]: Can you help me with GPS?
+[NARRATOR]: Can you help me with navigation?
+[TAGALOG-MALE-1]: GPS po? Sige po! Download mo ang app na ito.
+[NARRATOR]: Navigation? Sure! Download this app.
+
+Time and Schedule
+
+[TAGALOG-FEMALE-1]: What time po? 9 AM or 3 PM?
+[NARRATOR]: What time? Nine in the morning or three in the afternoon?
+[TAGALOG-MALE-1]: 9 AM po ang breakfast. 3 PM ang tour.
+[NARRATOR]: Nine in the morning is breakfast. Three in the afternoon is the tour.
+[TAGALOG-FEMALE-1]: Perfect! Check-out time?
+[NARRATOR]: Perfect! Check-out time?
+[TAGALOG-MALE-1]: 11 AM po ang check-out. 2 PM ang latest.
+[NARRATOR]: Eleven in the morning is check-out. Two in the afternoon is the latest.
+
+Mixed Abbreviations
+
+[TAGALOG-FEMALE-1]: I need to find the CR, ATM, and WiFi.
+[NARRATOR]: I need to find the restroom, cash machine, and WiFi.
+[TAGALOG-MALE-1]: CR sa second floor, ATM sa lobby, WiFi password ay BEACH2025.
+[NARRATOR]: Restroom on the second floor, cash machine in the lobby, WiFi password is BEACH2025.
+[TAGALOG-FEMALE-1]: Perfect! Do you accept USD or need PHP?
+[NARRATOR]: Perfect! Do you accept US dollars or need Philippine pesos?
+[TAGALOG-MALE-1]: Both USD and PHP okay po. May ID ka ba?
+[NARRATOR]: Both US dollars and Philippine pesos are okay. Do you have ID?
+[TAGALOG-FEMALE-1]: Tour starts at 9 AM? Need to use ATM first.
+[NARRATOR]: Tour starts at nine in the morning? Need to use the cash machine first.
+[TAGALOG-MALE-1]: Opo! 9 AM sharp. ATM open 7 AM to 10 PM po.
+[NARRATOR]: Yes! Nine in the morning sharp. Cash machine open seven in the morning to ten at night.

@@ -13,7 +13,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 
-from tunatale.core.utils.tts_preprocessor import preprocess_text_for_tts
+from tunatale.core.utils.tts_preprocessor import (
+    preprocess_text_for_tts,
+    enhanced_preprocess_text_for_tts,
+    SSMLProcessingResult
+)
 
 import aiofiles
 import aiohttp
@@ -43,11 +47,20 @@ MAX_TEXT_LENGTH = 5000
 # Maximum number of retries for failed requests
 MAX_RETRIES = 3
 
-# Delay between retries in seconds
+# Delay between retries in seconds (exponential backoff)
 RETRY_DELAY = 1.0
 
 # Timeout for TTS requests in seconds
 REQUEST_TIMEOUT = 30.0
+
+# Rate limiting: minimum delay between TTS requests (seconds)
+MIN_REQUEST_DELAY = 0.2
+
+# Rate limiting: additional delay for connection errors (seconds)
+CONNECTION_ERROR_DELAY = 2.0
+
+# Maximum concurrent TTS operations
+MAX_CONCURRENT_REQUESTS = 3
 
 # Minimum audio file size to be considered valid (bytes)
 MIN_AUDIO_SIZE = 100
@@ -68,7 +81,7 @@ class EdgeTTSService(TTSService):
     def __init__(
         self,
         cache_dir: Optional[Union[str, Path, Dict[str, Any]]] = None,
-        connection_limit: int = 5,
+        connection_limit: int = MAX_CONCURRENT_REQUESTS,
         rate: float = 1.0,
         pitch: float = 0.0,
         volume: float = 1.0,
@@ -119,6 +132,11 @@ class EdgeTTSService(TTSService):
         self._session: Optional[aiohttp.ClientSession] = None
         self._semaphore: Optional[asyncio.Semaphore] = None
         
+        # Rate limiting state
+        self._last_request_time: float = 0.0
+        self._request_count: int = 0
+        self._rate_limit_semaphore: Optional[asyncio.Semaphore] = None
+        
         # Store cache directory
         self.cache_dir = cache_dir
 
@@ -126,6 +144,7 @@ class EdgeTTSService(TTSService):
         """Async context manager entry."""
         self._session = aiohttp.ClientSession()
         self._semaphore = asyncio.Semaphore(self.connection_limit)
+        self._rate_limit_semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
         return self
 
     async def __aexit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
@@ -143,19 +162,21 @@ class EdgeTTSService(TTSService):
         Returns:
             Path to the cached file if it exists, None otherwise.
         """
-        if not self.cache_dir:
+        if not self.cache_dir or not cache_key:
             return None
+            
+        # Ensure the cache key ends with .mp3
+        if not cache_key.endswith('.mp3'):
+            cache_key = f"{cache_key}.mp3"
         
-        # If the cache key already ends with .mp3, use it as is
-        if cache_key.endswith('.mp3'):
-            cache_path = self.cache_dir / cache_key
-        else:
-            # Otherwise, append .mp3 to the cache key
-            cache_path = self.cache_dir / f"{cache_key}.mp3"
-        
-        # Verify the file exists and has content
-        if cache_path.exists() and cache_path.stat().st_size > 0:
+        # Try exact match only - this prevents cache collisions
+        cache_path = self.cache_dir / cache_key
+        if cache_path.exists():
             return cache_path
+            
+        # No fallback matching - exact match only to prevent cache collisions
+        # The old fallback logic was causing cache collisions where different texts
+        # with the same voice settings would share cache files
         return None
     
     def _convert_to_voice(self, voice_data: Dict[str, Any]) -> Optional[Voice]:
@@ -799,6 +820,32 @@ class EdgeTTSService(TTSService):
             
         return True
 
+    async def _rate_limit_delay(self, connection_error: bool = False) -> None:
+        """Apply rate limiting delay before making TTS requests.
+        
+        Args:
+            connection_error: If True, applies additional delay for connection errors
+        """
+        current_time = time.time()
+        time_since_last = current_time - self._last_request_time
+        
+        # Calculate required delay
+        min_delay = MIN_REQUEST_DELAY
+        if connection_error:
+            min_delay += CONNECTION_ERROR_DELAY
+            logger.debug(f"Applying connection error delay: {CONNECTION_ERROR_DELAY}s")
+        
+        # Apply delay if needed
+        if time_since_last < min_delay:
+            delay = min_delay - time_since_last
+            logger.debug(f"Rate limiting: waiting {delay:.2f}s (last request {time_since_last:.2f}s ago)")
+            await asyncio.sleep(delay)
+        
+        # Update last request time
+        self._last_request_time = time.time()
+        self._request_count += 1
+        logger.debug(f"TTS request #{self._request_count}")
+
     async def _synthesize_single(
         self,
         text: str,
@@ -878,12 +925,13 @@ class EdgeTTSService(TTSService):
                 logger.debug(f"Cache hit for key: {cache_key}")
                 # Copy cached file to output path
                 shutil.copy2(cached_file, output_path)
-                logger.debug(f"Copied cached file to {output_path}")
+                logger.debug(f"Copied cached file {cached_file} to {output_path}")
                 return {
                     "audio_file": str(output_path),
                     "voice": voice_id,
                     "text_length": len(text),
-                    "cached": True,
+                    "cached": True,  # Explicitly set cached flag
+                    "cache_key": cache_key,  # Include cache key for debugging
                 }
 
         # Synthesize speech
@@ -938,9 +986,16 @@ class EdgeTTSService(TTSService):
             logger.debug(f"Original text for TTS: '{text}'")
             logger.debug(f"Using language code: '{language_code}'")
             
-            # Apply text preprocessing for TTS (abbreviations, language-specific fixes)
-            text = preprocess_text_for_tts(text, language_code)
-            logger.debug(f"Preprocessed text for TTS: '{text}'")
+            # Apply enhanced text preprocessing with hybrid SSML support
+            text, ssml_result = enhanced_preprocess_text_for_tts(
+                text=text,
+                language_code=language_code,
+                provider_name='edge_tts',
+                supports_ssml=False,  # EdgeTTS does NOT support SSML
+                section_type=kwargs.get('section_type')
+            )
+            logger.debug(f"Enhanced preprocessed text for TTS: '{text}'")
+            logger.debug(f"SSML processing metadata: {ssml_result}")
             
             # Check if voice_id contains tagalog but speaker_id is not set
             if ('tagalog' in voice_id_lower or 'fil' in voice_id_lower) and not speaker_id:
@@ -964,9 +1019,9 @@ class EdgeTTSService(TTSService):
             pitch_str = f"{pitch_value:+d}Hz"
             
             # Log the final values being used
-            logger.warning(f"[TTS PARAMS] Final values - rate: {rate_str} (from {custom_rate}), "
-                         f"pitch: {pitch_str} (from {custom_pitch}), voice: {voice_id}, "
-                         f"speaker_id: {speaker_id} (original: {original_speaker_id})")
+            logger.debug(f"[TTS PARAMS] Final values - rate: {rate_str} (from {custom_rate}), "
+                        f"pitch: {pitch_str} (from {custom_pitch}), voice: {voice_id}, "
+                        f"speaker_id: {speaker_id} (original: {original_speaker_id})")
             logger.debug(f"[DEBUG] Rate string: {rate_str}, Pitch string: {pitch_str}")
             
             # Log the full voice configuration including speaker ID
@@ -979,50 +1034,102 @@ class EdgeTTSService(TTSService):
             }
             logger.debug(f"[DEBUG] Voice configuration: {voice_config}")
             
-            try:
-                communicate = self._communicate_class(
-                    text=text,
-                    voice=voice_id,
-                    rate=rate_str,
-                    pitch=pitch_str,
-                    volume=f"+{int((volume - 1) * 100)}%" if volume != 1.0 else "+0%",
-                )
+            # Implement retry logic with rate limiting and exponential backoff
+            retry_count = 0
+            last_error = None
+            
+            # Apply initial rate limiting
+            await self._rate_limit_delay()
+            
+            while retry_count <= MAX_RETRIES:
+                try:
+                    # Apply rate limiting semaphore to control concurrent requests
+                    if self._rate_limit_semaphore is None:
+                        self._rate_limit_semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
+                    
+                    async with self._rate_limit_semaphore:
+                        logger.debug(f"TTS attempt {retry_count + 1}/{MAX_RETRIES + 1} for text: '{text[:50]}...'")
+                        
+                        communicate = self._communicate_class(
+                            text=text,
+                            voice=voice_id,
+                            rate=rate_str,
+                            pitch=pitch_str,
+                            volume=f"+{int((volume - 1) * 100)}%" if volume != 1.0 else "+0%",
+                        )
 
-                # Save the audio file
-                await communicate.save(temp_file)
-                
-                # Verify the generated file exists and has content
-                if not os.path.exists(temp_file):
-                    raise TTSValidationError(f"Audio file was not created: {temp_file}")
+                        # Save the audio file with timeout
+                        try:
+                            await asyncio.wait_for(
+                                communicate.save(temp_file), 
+                                timeout=REQUEST_TIMEOUT
+                            )
+                            # Success! Break out of retry loop
+                            break
+                            
+                        except asyncio.TimeoutError:
+                            raise TTSTransientError(f"TTS request timed out after {REQUEST_TIMEOUT}s")
+                            
+                except (aiohttp.ClientConnectionError, aiohttp.ClientError, ConnectionError, 
+                        TTSTransientError, asyncio.TimeoutError) as e:
+                    last_error = e
+                    retry_count += 1
                     
-                file_size = os.path.getsize(temp_file)
-                if file_size == 0:
-                    raise TTSValidationError(f"Generated audio file is empty: {temp_file}")
-                
-                # Log file info for debugging
-                logger.debug(f"Generated audio file: {temp_file}, size: {file_size} bytes")
-                
-                # Verify the file format
-                if not await self._validate_audio_file(temp_file):
-                    # Read first few bytes for debugging
-                    with open(temp_file, 'rb') as f:
-                        header = f.read(16)
-                    logger.error(f"Audio file header: {header.hex(' ')}")
-                    logger.error(f"File size: {file_size} bytes")
-                    raise TTSValidationError(
-                        f"Generated audio file failed validation. "
-                        f"File size: {file_size} bytes, "
-                        f"Header: {header.hex(' ')}"
-                    )
+                    # Log the connection error with progressive severity
+                    error_type = type(e).__name__
+                    error_msg = f"TTS connection error (attempt {retry_count}/{MAX_RETRIES + 1}): {error_type}: {e}"
                     
-            except Exception as e:
-                # Clean up the temporary file if there was an error
-                if os.path.exists(temp_file):
-                    try:
-                        os.unlink(temp_file)
-                    except Exception as cleanup_err:
-                        logger.warning(f"Error cleaning up temp file: {cleanup_err}")
-                raise
+                    # Progressive logging levels: attempt 1=debug, 2=info, 3=warning, 4=error
+                    if retry_count == 1:
+                        logger.debug(error_msg)
+                    elif retry_count == 2:
+                        logger.info(error_msg)
+                    elif retry_count == 3:
+                        logger.warning(error_msg)
+                    else:  # attempt 4+
+                        logger.error(error_msg)
+                    
+                    if retry_count <= MAX_RETRIES:
+                        # Calculate exponential backoff delay
+                        backoff_delay = RETRY_DELAY * (2 ** (retry_count - 1))
+                        logger.info(f"Retrying TTS in {backoff_delay:.1f}s...")
+                        
+                        # Apply connection error delay + exponential backoff
+                        await self._rate_limit_delay(connection_error=True)
+                        await asyncio.sleep(backoff_delay)
+                    else:
+                        # All retries exhausted
+                        logger.error(f"TTS failed after {MAX_RETRIES + 1} attempts. Last error: {last_error}")
+                        raise TTSTransientError(f"Network error during TTS: {last_error}")
+                        
+                except Exception as e:
+                    # Non-retriable error, fail immediately
+                    logger.error(f"Non-retriable TTS error: {type(e).__name__}: {e}")
+                    raise
+            
+            # Verify the generated file exists and has content
+            if not os.path.exists(temp_file):
+                raise TTSValidationError(f"Audio file was not created: {temp_file}")
+                
+            file_size = os.path.getsize(temp_file)
+            if file_size == 0:
+                raise TTSValidationError(f"Generated audio file is empty: {temp_file}")
+            
+            # Log file info for debugging
+            logger.debug(f"Generated audio file: {temp_file}, size: {file_size} bytes")
+            
+            # Verify the file format
+            if not await self._validate_audio_file(temp_file):
+                # Read first few bytes for debugging
+                with open(temp_file, 'rb') as f:
+                    header = f.read(16)
+                logger.error(f"Audio file header: {header.hex(' ')}")
+                logger.error(f"File size: {file_size} bytes")
+                raise TTSValidationError(
+                    f"Generated audio file failed validation. "
+                    f"File size: {file_size} bytes, "
+                    f"Header: {header.hex(' ')}"
+                )
 
             # Move the temporary file to the final output path
             shutil.move(temp_file, output_path)
@@ -1258,13 +1365,22 @@ class EdgeTTSService(TTSService):
         Returns:
             A string that can be used as a cache key.
         """
-        # Normalize text by removing extra whitespace
-        text = re.sub(r"\s+", " ", text.strip())
-        text_hash = hashlib.md5(text.encode("utf-8")).hexdigest()
+        # Normalize text by removing extra whitespace and normalizing unicode
+        text = re.sub(r"\s+", " ", text.strip()).encode('utf-8', 'ignore').decode('utf-8')
+        
+        # Use a fixed preprocessing version for consistent caching
+        preprocessing_version = "v2"
+        text_with_version = f"{preprocessing_version}:{text}"
+        
+        # Generate a stable hash of the text
+        text_hash = hashlib.sha256(text_with_version.encode("utf-8")).hexdigest()
+        
+        # Debug logging to track cache key generation
+        logger.debug(f"Cache key generation: text='{text}' -> hash={text_hash[:16]}")
 
         # Create a unique key based on the hash and voice settings
         key_parts = [
-            voice_id[:8],  # First 8 chars of voice ID
+            voice_id,  # Use full voice ID for better uniqueness
             f"r{rate:.1f}".replace(".", ""),
             f"p{pitch:+.1f}".replace("+", "p").replace("-", "m").replace(".", ""),
             f"v{volume:.1f}".replace(".", ""),
@@ -1272,15 +1388,20 @@ class EdgeTTSService(TTSService):
         
         # Add speaker ID to the key if provided
         if speaker_id:
-            # Create a short hash of the speaker ID to keep the filename reasonable
-            speaker_hash = hashlib.md5(speaker_id.encode("utf-8")).hexdigest()[:4]
+            # Use a consistent hash of the speaker ID
+            speaker_hash = hashlib.sha256(speaker_id.encode("utf-8")).hexdigest()[:8]
             key_parts.append(f"s{speaker_hash}")
         
-        # Add text hash last
-        key_parts.append(text_hash[:8])
-
-        # Join with underscores to create a safe filename
-        return "_".join(key_parts) + ".mp3"
+        # Add text hash - using full hash for maximum uniqueness
+        key_parts.append(text_hash)
+        
+        # Join with underscores and add .mp3 extension
+        cache_key = "_".join(key_parts) + ".mp3"
+        
+        # Sanitize the cache key to ensure it's a valid filename
+        cache_key = "".join(c for c in cache_key if c.isalnum() or c in ('_', '-', '.')).strip()
+        
+        return cache_key
 
     async def validate_credentials(self) -> bool:
         """Validate that the service credentials are valid.

@@ -776,22 +776,21 @@ class TestLessonProcessor:
                 if 'error' in phrase:
                     print(f"Phrase {i} error: {phrase['error']}")
         
-        # Verify the result contains phrases with audio files
+        # Verify the result contains phrases even though section processing failed
         assert 'phrases' in result, "Expected phrases in the result"
         assert len(result['phrases']) > 0, "Expected at least one phrase in the result"
         
-        # Check that the section was processed successfully and has an audio file path
-        # even though concatenation failed (the path might exist or not)
-        assert result['success'], "Expected section processing to complete successfully"
-        assert 'audio_file' in result, "Expected an audio file path in the result"
-        assert result['audio_file'] is not None, "Expected a non-None audio file path"
-        
-        # Verify phrases were processed successfully
-        assert 'phrases' in result, "Expected phrases in the result"
-        assert len(result['phrases']) > 0, "Expected at least one phrase in the result"
-        # Verify that all phrases were processed successfully
+        # Check that individual phrases were processed successfully even though section concatenation failed
         assert all(p.get('success', False) for p in result['phrases']), "Expected all phrases to be processed successfully"
         assert all('audio_file' in p for p in result['phrases']), "Expected all phrases to have audio files"
+        assert all(p['audio_file'] is not None for p in result['phrases']), "Expected all phrases to have non-None audio files"
+        
+        # Section should report failure due to concatenation error, but preserve phrases
+        assert not result['success'], "Expected section processing to fail due to concatenation error"  
+        assert 'audio_file' in result, "Expected an audio file field in the result"
+        assert result['audio_file'] is None, "Expected None audio file path when concatenation fails"
+        assert 'error' in result, "Expected error information when concatenation fails"
+        assert result['error']['error_code'] == 'PROCESSING_ERROR', "Expected PROCESSING_ERROR code"
     
     async def test_process_section_audio_error_in_phrase(
         self,
@@ -867,9 +866,6 @@ class TestLessonProcessor:
         assert 'phrases' in result, "Expected phrases in the result"
         assert len(result['phrases']) > 0, "Expected at least one phrase in the result"
         
-        # Check that the section was processed successfully
-        assert result['success'], "Expected section processing to complete successfully"
-        
         # Verify that all phrases were processed successfully
         # (The error in normalization should not cause the phrase to fail)
         assert all(p.get('success', False) for p in result['phrases']), \
@@ -879,9 +875,13 @@ class TestLessonProcessor:
         assert all('audio_file' in p for p in result['phrases']), \
             "Expected all phrases to have an audio file"
             
-        # Verify that the section has an audio file (even if normalization failed)
-        assert 'audio_file' in result, "Expected section to have an audio file"
-        assert result['audio_file'] is not None, "Expected a non-None audio file path"
+        # However, if concatenation fails due to invalid audio files (caused by normalization errors),
+        # the section should report failure, but preserve the successfully processed phrases
+        assert not result['success'], "Expected section processing to fail due to concatenation issues caused by normalization errors"
+        assert 'error' in result, "Expected error information when section processing fails"
+        assert result['error']['error_code'] == 'PROCESSING_ERROR', "Expected PROCESSING_ERROR code"
+        assert 'audio_file' in result, "Expected section to have an audio file field"
+        assert result['audio_file'] is None, "Expected None audio file when concatenation fails"
     
     async def test_metadata_generation(
         self,

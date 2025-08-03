@@ -16,6 +16,7 @@ from tunatale.core.exceptions import (
 from tunatale.core.models.voice import Voice
 from tunatale.core.models.enums import VoiceGender
 from tunatale.core.ports.tts_service import TTSService
+from tunatale.core.utils.tts_preprocessor import enhanced_preprocess_text_for_tts
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -215,13 +216,25 @@ class GTTSService:
             if voice and 'language_code' in voice.metadata:
                 lang = voice.metadata['language_code']
                 tld = voice.metadata.get('tld', 'com')
+                language_code = f"{lang}-{tld}"
             else:
                 # Fallback: try to parse voice_id directly
                 if '-' in voice_id:
                     lang, tld = voice_id.split('-', 1)
+                    language_code = voice_id
                 else:
                     lang = voice_id
                     tld = 'com'
+                    language_code = voice_id
+            
+            # Apply enhanced text preprocessing with hybrid SSML support
+            text, ssml_result = enhanced_preprocess_text_for_tts(
+                text=text,
+                language_code=language_code,
+                provider_name='gtts',
+                supports_ssml=False,  # gTTS does not support SSML
+                section_type=kwargs.get('section_type')
+            )
             
             # Map language codes for gTTS compatibility
             if lang == 'fil':
