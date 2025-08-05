@@ -1,13 +1,6 @@
 #!/usr/bin/env python3
 """Test that abbreviation handler only applies to Tagalog TTS."""
 
-import sys
-from pathlib import Path
-
-# Add project root to path  
-project_root = Path(__file__).parent
-sys.path.append(str(project_root))
-
 from tunatale.core.utils.tts_preprocessor import preprocess_text_for_tts
 
 def test_abbreviation_language_filtering():

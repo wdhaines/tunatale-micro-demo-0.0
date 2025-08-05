@@ -436,10 +436,10 @@ class TestNaturalPauseIntegration:
             # Should use natural pause system instead of simple ellipsis replacement
             tts_calls = mock_tts_service.synthesize_speech.call_args_list
             
-            # Should NOT find semicolon replacement (old ellipsis handling)
+            # Should find semicolon replacement for ellipsis
             for call in tts_calls:
                 text = call.kwargs['text']
-                assert '; ' not in text  # Old ellipsis handling used semicolons
+                assert '...' not in text  # Ellipsis should be replaced with semicolons
             
             # Should have made at least one TTS call
             # (Note: with new architecture, phrases are processed as single units,

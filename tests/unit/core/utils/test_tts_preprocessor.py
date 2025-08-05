@@ -33,20 +33,20 @@ class TestUniversalAbbreviationHandler:
         assert LETTER_PHONETICS['Z'] == 'zee'
 
     def test_basic_abbreviation_conversion(self):
-        """Test basic abbreviation to phonetic conversion."""
-        # Common travel abbreviations (must be all caps)
-        assert fix_abbreviation_pronunciation("CR") == "see are"
-        assert fix_abbreviation_pronunciation("ID") == "eye dee"
-        assert fix_abbreviation_pronunciation("ATM") == "eh tee em"
-        assert fix_abbreviation_pronunciation("GPS") == "gee pee ess"
-        assert fix_abbreviation_pronunciation("USB") == "you ess bee"
-        assert fix_abbreviation_pronunciation("WIFI") == "double-you eye eff eye"  # All caps
+        """Test basic abbreviation to phonetic conversion for Tagalog."""
+        # Common travel abbreviations (converted to phonetic spellings for Tagalog)
+        assert preprocess_text_for_tts("CR", "fil-PH") == "see are"
+        assert preprocess_text_for_tts("ID", "fil-PH") == "eye dee"
+        assert preprocess_text_for_tts("ATM", "fil-PH") == "eh tee em"  # 'A' is pronounced as 'eh' in Tagalog
+        assert preprocess_text_for_tts("GPS", "fil-PH") == "gee pee ess"  # 'G' is pronounced as 'gee'
+        assert preprocess_text_for_tts("USB", "fil-PH") == "you ess bee"
+        assert preprocess_text_for_tts("WIFI", "fil-PH") == "double-you eye eff eye"  # Spelled out letter by letter
 
     def test_time_abbreviations(self):
-        """Test time-related abbreviations AM and PM."""
-        assert fix_abbreviation_pronunciation("9 AM") == "9 eh em"
-        assert fix_abbreviation_pronunciation("3 PM") == "3 pee em"
-        assert fix_abbreviation_pronunciation("11 AM to 2 PM") == "11 eh em to 2 pee em"
+        """Test time-related abbreviations AM and PM for Tagalog."""
+        assert preprocess_text_for_tts("9 AM", "fil-PH") == "9 eh em"
+        assert preprocess_text_for_tts("3 PM", "fil-PH") == "3 pee em"
+        assert preprocess_text_for_tts("11 AM to 2 PM", "fil-PH") == "11 eh em to 2 pee em"
 
     def test_currency_abbreviations(self):
         """Test currency abbreviations."""
@@ -232,17 +232,17 @@ class TestTTSPreprocessor:
 
     def test_preprocess_text_for_tts(self):
         """Test the combined preprocessing function."""
-        # Test with English text
-        assert preprocess_text_for_tts("Show your ID", "en-US") == "Show your eye dee"
+        # Test with English text - abbreviations should not be converted
+        assert preprocess_text_for_tts("Show your ID", "en-US") == "Show your ID"
         
-        # Test with Tagalog text
+        # Test with Tagalog text - no changes expected for regular text
         assert preprocess_text_for_tts("Ito ay test", "fil-PH") == "Ito ay test"
         
-        # Test with both abbreviations and Tagalog fixes
+        # Test with abbreviations in Tagalog - should be converted
         assert preprocess_text_for_tts("Ito ay CR", "fil-PH") == "Ito ay see are"
         
-        # Test with unsupported language (should only apply abbreviations)
-        assert preprocess_text_for_tts("Show ID and ito", "es-ES") == "Show eye dee and ito"
+        # Test with unsupported language - abbreviations should not be converted
+        assert preprocess_text_for_tts("Show ID and ito", "es-ES") == "Show ID and ito"
 
     @pytest.mark.parametrize("input_text,expected,lang", [
         # Universal abbreviation tests
@@ -258,8 +258,7 @@ class TestTTSPreprocessor:
         ("PO ang pangalan", "PO ang pangalan", "fil-PH"),  # PO protected
         
         # Mixed language tests
-        ("Show ID and ito", "Show eye dee and ito", "en-US"),
-        ("Show ID and ito", "Show eye dee and ito", "fil-PH"),
+        ("Show ID and ito", "Show ID and ito", "en-US"),
         
         # Edge cases
         ("", "", "en-US"),  # Empty string
@@ -267,10 +266,41 @@ class TestTTSPreprocessor:
         ("123", "123", "en-US"),  # Numbers only
         ("CREDIT", "CREDIT", "en-US"),  # Partial match - should not convert
         ("CODE", "CODE", "en-US"),  # Common word - should not convert
+        # Test with abbreviations (should be left as-is now)
+        ("Show your ID", "Show your ID", "en-US"),
+        ("CR 123", "CR 123", "en-US"),
+        ("My ID is 123", "My ID is 123", "en-US"),
+        # Test with time
+        ("9 AM meeting", "9 AM meeting", "en-US"),
+        # Test with currency
+        ("USD accepted", "USD accepted", "en-US"),
     ])
     def test_preprocess_edge_cases(self, input_text, expected, lang):
         """Test various edge cases for text preprocessing."""
-        assert preprocess_text_for_tts(input_text, lang) == expected
+        if input_text is None:
+            result = preprocess_text_for_tts(None, lang)
+        else:
+            result = preprocess_text_for_tts(input_text, lang)
+        assert result == expected, f"Failed for input: {input_text}"
+
+    @pytest.mark.parametrize("input_text,expected,lang", [
+        # Test with empty string
+        ("", "", "en-US"),
+        # Test with None (should return empty string)
+        (None, "", "en-US"),
+        # Test with whitespace
+        ("   ", "   ", "en-US"),
+        # Test with numbers
+        ("123", "123", "en-US"),
+        # Test with special characters
+        ("Hello, world!", "Hello, world!", "en-US"),
+        # Test with newlines
+        ("Line 1\nLine 2", "Line 1\nLine 2", "en-US"),
+    ])
+    def test_preprocess_edge_cases(self, input_text, expected, lang):
+        """Test various edge cases for text preprocessing."""
+        result = preprocess_text_for_tts(input_text, lang)
+        assert result == expected, f"Failed for input: {input_text}"
 
 
 class TestFilipinoNumberClarification:

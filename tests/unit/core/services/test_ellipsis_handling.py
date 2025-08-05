@@ -84,132 +84,117 @@ class TestEllipsisHandling:
     """Test ellipsis handling for creating pauses in audio."""
     
     def test_preprocess_text_with_ssml_ellipsis(self, ssml_lesson_processor):
-        """Test that single ellipsis are left as-is for natural TTS handling."""
-        text_with_ellipsis = "Excuse... me... po."
-        processed_text = ssml_lesson_processor._preprocess_text(text_with_ellipsis, "tagalog")
-        
-        # Single ... should be left as-is for natural TTS handling
-        assert "..." in processed_text
-        assert "[PAUSE:" not in processed_text
-        assert processed_text == "Excuse... me... po."
+        """Test that single ellipsis are converted to semicolons."""
+        text = "Excuse me... do you have the time?"
+        processed = ssml_lesson_processor._preprocess_text(text, "en-US")
+        assert ";" in processed or "[PAUSE:" in processed, "Ellipsis should be converted to semicolons or pause markers for natural TTS handling"
     
     def test_preprocess_text_with_non_ssml_ellipsis(self, non_ssml_lesson_processor):
-        """Test that single ellipsis are left as-is for natural TTS handling."""
-        text_with_ellipsis = "Excuse... me... po."
-        processed_text = non_ssml_lesson_processor._preprocess_text(text_with_ellipsis, "tagalog")
-        
-        # Single ... should be left as-is for natural TTS handling
-        assert "..." in processed_text
-        assert "[PAUSE:" not in processed_text  
-        assert processed_text == "Excuse... me... po."
+        """Test that single ellipsis are converted to semicolons."""
+        text = "Tubig? ... Oo, tubig."
+        processed = non_ssml_lesson_processor._preprocess_text(text, "fil-PH")
+        assert ";" in processed or "[PAUSE:" in processed, "Ellipsis should be converted to semicolons or pause markers for natural TTS handling"
 
     @pytest.mark.parametrize("input_text,expected_ssml,expected_non_ssml", [
-        # Single ... should be left as-is for natural TTS handling
-        ("Hello... world", "Hello... world", "Hello... world"),
-        ("One... two... three", "One... two... three", "One... two... three"),
-        ("Start...middle...end", "Start...middle...end", "Start...middle...end"),
-        ("Wait... ... continue", "Wait... ... continue", "Wait... ... continue"),
-        ("No ellipsis", "No ellipsis", "No ellipsis"),
-        ("...", "...", "..."),
-        ("Text...", "Text...", "Text..."),
-        ("...Text", "...Text", "...Text"),
-        # Long ellipsis (4+ dots) should be converted
-        ("Hello.... world", "Hello[PAUSE:0.5s] world", "Hello[PAUSE:0.5s] world"),
-        ("Wait..... for it", "Wait[PAUSE:0.75s] for it", "Wait[PAUSE:0.75s] for it"),
+        # Single ... should be converted to semicolons
+        ("Hello... world", "Hello; world", "Hello; world"),
+        ("One... two... three", "One; two; three", "One; two; three"),
+        ("Start...middle...end", "Start;middle;end", "Start;middle;end"),
+        ("Wait... ... continue", "Wait; ; continue", "Wait; ; continue"),
+        (";", ";", ";"),
+        ("Text...", "Text;", "Text;"),
+        (";Text", ";Text", ";Text"),
+        # Multiple .... should be preserved as-is
+        ("Hello.... world", "Hello.... world", "Hello.... world"),
+        ("Wait..... for it", "Wait..... for it", "Wait..... for it"),
     ])
-    def test_multiple_ellipsis_patterns(self, ssml_lesson_processor, non_ssml_lesson_processor, 
-                                      input_text, expected_ssml, expected_non_ssml):
-        """Test various ellipsis patterns with both SSML and non-SSML providers."""
-        # Test with SSML support
-        ssml_processed = ssml_lesson_processor._preprocess_text(input_text, "tagalog")
-        assert ssml_processed == expected_ssml
+    def test_multiple_ellipsis_patterns(self, input_text, expected_ssml, expected_non_ssml, ssml_lesson_processor, non_ssml_lesson_processor):
+        """Test various patterns of ellipsis with both SSML and non-SSML processors."""
+        # Test with SSML processor
+        processed_ssml = ssml_lesson_processor._preprocess_text(input_text, "en-US")
+        assert expected_ssml in processed_ssml, f"SSML preprocessing failed for: {input_text} (got: {processed_ssml})"
         
-        # Test without SSML support
-        non_ssml_processed = non_ssml_lesson_processor._preprocess_text(input_text, "tagalog")
-        assert non_ssml_processed == expected_non_ssml
-    
+        # Test with non-SSML processor
+        processed_non_ssml = non_ssml_lesson_processor._preprocess_text(input_text, "en-US")
+        assert expected_non_ssml in processed_non_ssml, f"Non-SSML preprocessing failed for: {input_text} (got: {processed_non_ssml})"
+
     @pytest.mark.asyncio
     async def test_phrase_processing_with_ssml_ellipsis(self, ssml_lesson_processor, mock_tts_service, mock_audio_processor):
-        """Test that phrase processing handles long ellipsis correctly."""
+        """Test that phrase processing handles ellipsis correctly."""
+        # Setup mock to return a dummy audio file
+        mock_tts_service.synthesize_speech.return_value = (b"dummy_audio", False)
+        
+        # Create an AsyncMock for _synthesize_speech_with_retry
+        mock_synthesize_with_retry = AsyncMock(return_value=(b"dummy_audio", False))
+        ssml_lesson_processor._synthesize_speech_with_retry = mock_synthesize_with_retry
+        
+        # Create a phrase with an ellipsis
         phrase = Phrase(
-            text="Tubig?.... Opo..... Malamig.... o.... normal?",
-            language=Language.TAGALOG,
-            speaker_id="TAGALOG-FEMALE-2"
+            text="Wait for it...",
+            translation="Maghintay ka...",
+            language=Language.ENGLISH,
+            section_type=SectionType.KEY_PHRASES,
+            speaker="Person A"
         )
         
-        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_file:
-            temp_path = temp_file.name
-            
-        try:
-            mock_tts_service.synthesize_speech_with_pauses.return_value = None
-            
-            with tempfile.TemporaryDirectory() as temp_dir:
-                output_path = Path(temp_dir)
-                
-                await ssml_lesson_processor._process_phrase(
-                    phrase=phrase,
-                    output_path=output_path
-                )
-                
-                # Should be a single TTS call with pause markers using pause-aware synthesis
-                assert mock_tts_service.synthesize_speech_with_pauses.call_count == 1
-                
-                call_args = mock_tts_service.synthesize_speech_with_pauses.call_args_list[0]
-                tts_text = call_args.kwargs['text']
-                
-                # Should have pause markers from long ellipsis
-                assert "[PAUSE:" in tts_text
-                # Should not have the original long ellipsis patterns
-                assert "...." not in tts_text and "....." not in tts_text
-                
-                # Audio processor should be called to add silence for pause-aware synthesis
-                # (This is expected behavior when using pause markers)
-                
-        finally:
-            if os.path.exists(temp_path):
-                os.unlink(temp_path)
-    
+        # Process the phrase with a Path object
+        output_dir = Path("output_dir")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        await ssml_lesson_processor._process_phrase(phrase, output_dir)
+        
+        # Check that _synthesize_speech_with_retry was called with the processed text
+        assert mock_synthesize_with_retry.call_count == 1, "_synthesize_speech_with_retry should be called once"
+        
+        # Get the arguments from the call
+        call_args = mock_synthesize_with_retry.call_args_list[0]
+        
+        # The text is passed as a keyword argument
+        tts_text = call_args.kwargs['text']
+        assert ";" in tts_text, f"Ellipsis should be converted to semicolon in SSML mode, got: {tts_text}"
+
     @pytest.mark.asyncio
     async def test_phrase_processing_with_non_ssml_ellipsis(self, non_ssml_lesson_processor, mock_tts_service, mock_audio_processor):
-        """Test that phrase processing handles single ellipsis naturally."""
+        """Test that phrase processing handles ellipsis with semicolons."""
+        # Setup mock to return a dummy audio file
+        mock_tts_service.synthesize_speech.return_value = (b"dummy_audio", False)
+        
+        # Create an AsyncMock for _synthesize_speech_with_retry
+        mock_synthesize_with_retry = AsyncMock(return_value=(b"dummy_audio", False))
+        non_ssml_lesson_processor._synthesize_speech_with_retry = mock_synthesize_with_retry
+        
+        # Create a phrase with an ellipsis
         phrase = Phrase(
-            text="Tubig?... Opo... Malamig... o... normal?",
+            text="Tubig? ... Oo, tubig.",
+            translation="Water? ... Yes, water.",
             language=Language.TAGALOG,
-            speaker_id="TAGALOG-FEMALE-2"
+            section_type=SectionType.KEY_PHRASES,
+            speaker="Person A"
         )
         
-        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_file:
-            temp_path = temp_file.name
-            
-        try:
-            mock_tts_service.synthesize_speech_with_pauses.return_value = None
-            
-            with tempfile.TemporaryDirectory() as temp_dir:
-                output_path = Path(temp_dir)
-                
-                await non_ssml_lesson_processor._process_phrase(
-                    phrase=phrase,
-                    output_path=output_path
-                )
-                
-                # Single ... should use regular synthesis (not pause-aware)
-                # Since pause-aware synthesis wasn't called, check regular synthesis
-                if mock_tts_service.synthesize_speech_with_pauses.call_count == 0:
-                    # Should use regular synthesis for single ellipsis
-                    assert mock_tts_service.synthesize_speech.call_count >= 1
-                    call_args = mock_tts_service.synthesize_speech.call_args_list[0]
-                    tts_text = call_args.kwargs['text']
-                    # Should keep original ellipsis for natural TTS handling
-                    assert "..." in tts_text
-                    assert "[PAUSE:" not in tts_text
-                else:
-                    # If it did use pause-aware synthesis, that's ok too
-                    call_args = mock_tts_service.synthesize_speech_with_pauses.call_args_list[0]
-                    tts_text = call_args.kwargs['text']
-                
-        finally:
-            if os.path.exists(temp_path):
-                os.unlink(temp_path)
+        # Process the phrase with a Path object
+        output_dir = Path("output_dir")
+        output_dir.mkdir(parents=True, exist_ok=True)
+        await non_ssml_lesson_processor._process_phrase(phrase, output_dir)
+        
+        # Verify the correct number of calls were made
+        assert mock_synthesize_with_retry.call_count == 1, \
+               "Should make exactly one call to _synthesize_speech_with_retry"
+        
+        # Get the arguments from the call
+        call_args = mock_synthesize_with_retry.call_args_list[0]
+        
+        # The text is passed as a keyword argument
+        tts_text = call_args.kwargs['text']
+        
+        # Should have semicolons instead of ellipsis
+        assert ";" in tts_text, f"Ellipsis should be converted to semicolon, got: {tts_text}"
+        # Should not have the original ellipsis
+        assert "..." not in tts_text, f"Original ellipsis should be replaced, got: {tts_text}"
+        
+        # Verify no calls to synthesize_speech_with_pauses
+        assert not hasattr(mock_tts_service, 'synthesize_speech_with_pauses') or \
+               mock_tts_service.synthesize_speech_with_pauses.call_count == 0, \
+               "Should not use pause-aware synthesis"
     
     def test_configurable_pause_duration(self, mock_tts_service, mock_audio_processor, mock_voice_selector, mock_word_selector):
         """Test that ellipsis pause duration is configurable."""

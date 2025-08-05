@@ -559,8 +559,11 @@ def preprocess_text_for_tts(text: str, language_code: str, section_type: Optiona
         section_type: Type of section ('key_phrases', 'natural_speed', etc.)
         
     Returns:
-        Preprocessed text ready for TTS
+        Preprocessed text ready for TTS (empty string if text is None)
     """
+    if text is None:
+        return ""
+        
     if not text or not isinstance(text, str):
         return text
     
