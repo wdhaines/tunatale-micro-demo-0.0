@@ -291,24 +291,24 @@ def preprocess_tagalog_for_tts(text: str) -> str:
 SPANISH_NUMBERS = {
     1: 'una', 2: 'dos', 3: 'tres', 4: 'kuwatro', 5: 'singko', 
     6: 'seys', 7: 'syete', 8: 'otso', 9: 'nuwebe', 10: 'diyes',
-    11: 'onse', 12: 'dose'
+    11: 'onse', 12: 'dose', 20: 'bente', 30: 'treinta', 40: 'kuwarenta', 50: 'singkuwenta'
 }
 
 # Tagalog digits for breakdown
 TAGALOG_DIGITS = {
-    '0': 'zero', '1': 'isa', '2': 'dalawa', '3': 'tatlo', '4': 'apat',
+    '0': 'sero', '1': 'isa', '2': 'dalawa', '3': 'tatlo', '4': 'apat',
     '5': 'lima', '6': 'anim', '7': 'pito', '8': 'walo', '9': 'siyam'
 }
 
 def convert_time_to_spanish(hour: int, minute: int) -> str:
-    """Convert time to Filipino Spanish format.
+    """Convert time to Filipino Spanish format with pauses for better comprehension.
     
     Args:
         hour: Hour (1-12 or 0-23)
         minute: Minute (0-59)
         
     Returns:
-        Spanish time expression
+        Spanish time expression with pauses between components
     """
     # Convert 24-hour to 12-hour format
     display_hour = hour if hour <= 12 else hour - 12
@@ -322,39 +322,49 @@ def convert_time_to_spanish(hour: int, minute: int) -> str:
         # Fallback for invalid hours
         spanish_hour = str(display_hour)
     
-    # Handle minutes
+    # Handle minutes with pauses between components
     if minute == 0:
-        return f"Alas {spanish_hour}."
+        return f"... alas... {spanish_hour}."
     elif minute == 15:
-        return f"Alas {spanish_hour} kinse."
+        return f"... alas... {spanish_hour}... kinse."
     elif minute == 30:
-        return f"Alas {spanish_hour} y medya."
+        return f"... alas... {spanish_hour}... y medya."
     elif minute == 45:
         next_hour = display_hour + 1 if display_hour < 12 else 1
         next_spanish = SPANISH_NUMBERS.get(next_hour, str(next_hour))
-        return f"Kinse para alas {next_spanish}."
+        return f"... kinse... para... alas... {next_spanish}."
     else:
-        # For other minutes, just use the number
-        return f"Alas {spanish_hour}, {minute}."
+        # For other minutes, break apart based on minute value
+        if minute < 10:
+            # Single digit minutes: 8:05 -> ... alas... otso... singko
+            minute_word = SPANISH_NUMBERS.get(minute, str(minute))
+            return f"... alas... {spanish_hour}... {minute_word}."
+        elif minute % 10 == 0:
+            # Round tens: 8:20 -> ... alas... otso... bente
+            minute_word = SPANISH_NUMBERS.get(minute, str(minute))
+            return f"... alas... {spanish_hour}... {minute_word}."
+        else:
+            # Compound minutes: 8:35 -> ... alas... otso... treinta't... singko
+            tens = (minute // 10) * 10
+            ones = minute % 10
+            tens_word = SPANISH_NUMBERS.get(tens, str(tens))
+            ones_word = SPANISH_NUMBERS.get(ones, str(ones))
+            return f"... alas... {spanish_hour}... {tens_word}'t... {ones_word}."
 
 def convert_digits_to_tagalog(number_str: str) -> str:
-    """Convert digits to Tagalog pronunciation.
+    """Convert digits to Tagalog pronunciation with pauses between digits.
     
     Args:
         number_str: String of digits (e.g., "150", "203", "5")
         
     Returns:
-        Tagalog digit breakdown
+        Tagalog digit breakdown with pauses
     """
     # Remove any non-digit characters for processing
     clean_digits = ''.join(c for c in number_str if c.isdigit())
     
     if not clean_digits:
         return number_str
-    
-    # For single digits, we want the digit name, not the number name
-    # e.g., "5" should be "lima" not "lima" (which is confusing)
-    # But for clarity in breakdown, we want "isa lima" for "15", etc.
     
     # Convert each digit individually
     tagalog_parts = []
@@ -364,7 +374,8 @@ def convert_digits_to_tagalog(number_str: str) -> str:
         else:
             tagalog_parts.append(digit)  # Fallback
     
-    return ' '.join(tagalog_parts) + '.'
+    # Join with pauses between digits
+    return '... '.join(tagalog_parts) + '.'
 
 def clarify_number(number_match: str, context: str = '', force_clarify: bool = False) -> str:
     """Generate clarification for a number based on context.
@@ -394,7 +405,7 @@ def clarify_number(number_match: str, context: str = '', force_clarify: bool = F
         for part in parts:
             if part.isdigit():
                 tagalog_parts.append(convert_digits_to_tagalog(part).rstrip('.'))
-        return f"{number_match}. {', '.join(tagalog_parts)}."
+        return f"{number_match}... {', '.join(tagalog_parts)}."
     
     # Regular number - check clarification rules
     clean_number = ''.join(c for c in number_match if c.isdigit())
@@ -402,17 +413,17 @@ def clarify_number(number_match: str, context: str = '', force_clarify: bool = F
     # Always clarify if force_clarify is True (from clarify tags)
     if force_clarify:
         tagalog_digits = convert_digits_to_tagalog(number_match)
-        return f"{number_match}. {tagalog_digits}"
+        return f"{number_match}... {tagalog_digits}"
     
     # Check for room/kwarto context - these should always be clarified
     if any(keyword in context.lower() for keyword in ['room', 'kwarto', 'numero']):
         tagalog_digits = convert_digits_to_tagalog(number_match)
-        return f"{number_match}. {tagalog_digits}"
+        return f"{number_match}... {tagalog_digits}"
     
     # Large numbers (3+ digits) get digit breakdown
     if clean_number.isdigit() and len(clean_number) >= 3:
         tagalog_digits = convert_digits_to_tagalog(number_match)
-        return f"{number_match}. {tagalog_digits}"
+        return f"{number_match}... {tagalog_digits}"
     
     # Small numbers (1-99) don't get clarified by default
     if clean_number.isdigit() and 1 <= int(clean_number) <= 99:
@@ -492,7 +503,7 @@ def process_number_clarification(text: str, section_type: Optional[str] = None) 
             r'\b\d{3}-\d{3}-\d{4}\b',      # Full phone: 123-456-7890
             r'\bRoom\s+\d+\b',             # Room numbers: Room 203
             r'\bKwarto\s+\d+\b',           # Filipino room: Kwarto 203
-            r'\b\d{3,}\b',                 # Large numbers: 150, 1205
+            r'\b\d{2,}\b',                 # Numbers over 10: 11, 25, 150, 1205
         ]
         
         # Find all matches first to avoid overlap issues
@@ -532,8 +543,10 @@ def process_number_clarification(text: str, section_type: Optional[str] = None) 
                 any(tagalog in text_after.lower() for tagalog in ['isa', 'dalawa', 'tatlo', 'lima'])):
                 continue
             
-            context = processed_text[max(0, start-20):end+20]  # Get surrounding context
-            clarified = clarify_number(number_str, context)
+            context = processed_text[max(0, start-20):end+20]  # Get surrounding context  
+            # For slow speed, force clarification of numbers over 10
+            force_slow_speed = len(number_str.replace('-', '').replace(':', '')) >= 2 and number_str.replace('-', '').replace(':', '').isdigit()
+            clarified = clarify_number(number_str, context, force_clarify=force_slow_speed)
             
             # Only replace if clarification was applied
             if clarified != number_str:
