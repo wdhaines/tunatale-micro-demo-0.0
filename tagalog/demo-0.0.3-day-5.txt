@@ -223,19 +223,19 @@ At the Store
 
 [TAGALOG-FEMALE-2]: Tsinelas po? Opo, doon po.
 [NARRATOR]: Slippers? Yes, over there.
-[TAGALOG-FEMALE-1]: Ilan po ang size mo?
+[TAGALOG-FEMALE-2]: Ilan po ang size mo?
 [NARRATOR]: What's your size?
-[TAGALOG-FEMALE-2]: Size 7 po.
+[TAGALOG-FEMALE-1]: Size 7 po.
 [NARRATOR]: Size 7.
-[TAGALOG-FEMALE-1]: Ilan po? Isa lang?
+[TAGALOG-FEMALE-2]: Ilan po? Isa lang?
 [NARRATOR]: How many? Just one?
-[TAGALOG-FEMALE-2]: Opo, isa lang po.
+[TAGALOG-FEMALE-1]: Opo, isa lang po.
 [NARRATOR]: Yes, just one.
-[TAGALOG-FEMALE-1]: Pink o blue?
+[TAGALOG-FEMALE-2]: Pink o blue?
 [NARRATOR]: Pink or blue?
-[TAGALOG-FEMALE-2]: Blue po. Magkano?
+[TAGALOG-FEMALE-1]: Blue po. Magkano?
 [NARRATOR]: Blue. How much?
-[TAGALOG-FEMALE-1]: Isang daang limampung piso lang po.
+[TAGALOG-FEMALE-2]: Isang daang limampung piso lang po.
 [NARRATOR]: Just one hundred fifty pesos.
 
 [NARRATOR]: At the Counter

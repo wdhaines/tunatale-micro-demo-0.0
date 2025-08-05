@@ -18,39 +18,10 @@ ito po
 [TAGALOG-MALE-1]: Kuya, paano po pumunta sa Corong-Corong Beach?
 [TAGALOG-MALE-2]: Paano po pumunta? Ah, sakay ka tricycle.
 [TAGALOG-MALE-1]: Malayo po ba?
-[TAGALOG-MALE-2]: Hindi naman. Malapit lang po.
-[TAGALOG-MALE-1]: Malapit lang po?
-[TAGALOG-MALE-2]: Mga ten minutes tricycle.
-[TAGALOG-MALE-1]: Ah. Saan po sakayan?
-[TAGALOG-MALE-2]: Labas lang po. Kanan po palabas, tapos derecho.
-
-Hotel Lobby
-
-[TAGALOG-FEMALE-1]: Good evening po! May kwarto po ba?
-[TAGALOG-FEMALE-2]: May kwarto po ba? Single o double po?
-[TAGALOG-FEMALE-1]: Single po.
-[TAGALOG-FEMALE-2]: Opo, meron po!
-[TAGALOG-FEMALE-1]: Salamat po!
-[TAGALOG-FEMALE-2]: Ilang gabi po?
-[TAGALOG-FEMALE-1]: Tatlo po. Tatlong gabi.
-[TAGALOG-FEMALE-2]: Tatlong gabi po. Okay po. ID po?
-[TAGALOG-FEMALE-1]: Ito po.
-[TAGALOG-FEMALE-2]: Salamat po. Maria Santos?
-[TAGALOG-FEMALE-1]: Opo!
-[TAGALOG-FEMALE-2]: Okay po. Susi po!
-[TAGALOG-FEMALE-1]: Susi po?
-[TAGALOG-FEMALE-2]: Key po. Susi po. Room 205.
-[TAGALOG-FEMALE-1]: Ah, susi po. Salamat!
-
-[NARRATOR]: Rest Stop
-
-[TAGALOG-MALE-1]: Excuse me po. CR break muna. Five minutes lang.
-[TAGALOG-FEMALE-1]: Excuse me po. CR?
-[TAGALOG-FEMALE-2]: Doon po. Sa likod ng tindahan.
 
 [NARRATOR]: Slow Speed
 
-Morning at the Hotel
+[NARRATOR]: Morning at the Hotel
 
 [TAGALOG-FEMALE-1]: Good... morning!... Saan... po... ang... breakfast?
 [TAGALOG-MALE-1]: Saan... po?... Sa... second... floor... po.
@@ -60,13 +31,13 @@ Morning at the Hotel
 
 [NARRATOR]: At the Restaurant
 
-[TAGALOG-FEMALE-2]: Good... morning... po!
-[TAGALOG-FEMALE-1]: Good... morning!... Breakfast... po?
-[TAGALOG-FEMALE-2]: Opo!... Saan... po... kayo... uupo?
-[TAGALOG-FEMALE-1]: Saan... po?
-[TAGALOG-FEMALE-2]: Table... po... Dito?... Doon?
-[TAGALOG-FEMALE-1]: Ah!... Doon... po.
-[TAGALOG-FEMALE-2]: Sige... po!
+[TAGALOG-FEMALE-2]: Good; morning; po!
+[TAGALOG-FEMALE-1]: Good; morning!; Breakfast; po?
+[TAGALOG-FEMALE-2]: Opo!; Saan; po; kayo; uupo?
+[TAGALOG-FEMALE-1]: Saan; po?
+[TAGALOG-FEMALE-2]: Table; po; Dito?; Doon?
+[TAGALOG-FEMALE-1]: Ah!; Doon; po.
+[TAGALOG-FEMALE-2]: Sige; po!
 
 [NARRATOR]: Translated
 
