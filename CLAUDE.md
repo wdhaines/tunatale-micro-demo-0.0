@@ -80,3 +80,36 @@
 - Enhanced pause processing increased TTS calls from ~172 to ~280+, requiring optimization
 - **Cache collision bug**: Fixed MD5 8-char hash collisions that served wrong audio after preprocessing changes
 - **Cache lookup bug**: Fixed fallback logic that matched wrong files with same base pattern
+
+## CRITICAL FIX: EdgeTTS Ellipses Processing (August 2025)
+- **PREVIOUS BUG**: Ellipses were being converted to semicolons for EdgeTTS, making slow sections 30% faster (3.82s vs 5.42s)
+- **ROOT CAUSE**: Wrong assumption that "EdgeTTS ignores ellipses" - EdgeTTS actually handles ellipses perfectly
+- **FIX APPLIED**: Modified `convert_single_ellipses_for_edgetts()` and `convert_ssml_to_fallback_pauses()` to PRESERVE ellipses for EdgeTTS
+- **RESULT**: EdgeTTS now gets original ellipses, creating proper long pauses for slow speed sections (5.42s duration preserved)
+- **FILES CHANGED**: 
+  - `tunatale/core/utils/tts_preprocessor.py` - Lines 963-991 and 912-930
+  - Function `convert_single_ellipses_for_edgetts()` now returns text unchanged for EdgeTTS
+  - Function `convert_ssml_to_fallback_pauses()` now converts SSML breaks to ellipses (not semicolons) for EdgeTTS
+
+## CRITICAL FIX: Abbreviation Handler Language Filtering (August 2025)
+- **PREVIOUS BUG**: Abbreviation handler applied to ALL text, making English narrator say "nine eh em" instead of "nine AM"
+- **ROOT CAUSE**: Line 576 in `preprocess_text_for_tts()` applied abbreviation fixes globally (language-agnostic)
+- **FIX APPLIED**: Moved abbreviation handler inside Tagalog language check (`fil-*` language codes only)
+- **RESULT**: 
+  - English narrator text: "9 AM to 12 PM" (natural)
+  - Tagalog speaker text: "9 eh em to 12 pee em" (phonetic for clarity)
+- **FILES CHANGED**:
+  - `tunatale/core/utils/tts_preprocessor.py` - Lines 575-579
+  - Abbreviation handler now only applies to Filipino/Tagalog language codes
+  - English and other languages preserve natural abbreviation pronunciation
+
+## Testing Verification
+- **Ellipses test**: Created `compare_raw_vs_processed.py` and `compare_edgetts_processing.py`
+- **Abbreviation test**: Created `test_abbreviation_language_fix.py` and `test_narrator_abbreviations.py`
+- **Audio duration comparison**:
+  - Raw EdgeTTS ellipses: 5.42s (proper slow timing)
+  - Processed pipeline ellipses: 5.42s (identical - fixed!)
+  - Previous semicolon conversion: 3.82s (too fast - bug fixed)
+- **Language filtering verification**:
+  - English (en-US): "Meeting at 9 AM" → "Meeting at 9 AM" ✓
+  - Tagalog (fil-PH): "Meeting at 9 AM" → "Meeting at 9 eh em" ✓
