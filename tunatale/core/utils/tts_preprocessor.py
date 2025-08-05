@@ -572,11 +572,10 @@ def preprocess_text_for_tts(text: str, language_code: str, section_type: Optiona
     # Apply number clarification (before abbreviation fixes)
     text = process_number_clarification(text, section_type)
     
-    # Always apply abbreviation fixes (language-agnostic)
-    text = fix_abbreviation_pronunciation(text)
-    
     # Apply language-specific preprocessing
     if language_code.lower().startswith('fil'):  # Filipino/Tagalog
+        # Apply abbreviation fixes for Tagalog TTS only
+        text = fix_abbreviation_pronunciation(text)
         text = preprocess_tagalog_for_tts(text)
     
     logger.debug(f"Preprocessed text: '{text}'")
@@ -609,7 +608,7 @@ class SSMLProcessingResult:
 
 # Ellipses to SSML timing mapping
 ELLIPSES_TO_SSML_MAPPING = {
-    # Note: Single '...' excluded - let TTS handle naturally
+    # Note: Single '...' excluded - handled separately by direct conversion
     '....': '<break time="0.5s"/>',     # Short pause (0.5 seconds)
     '.....': '<break time="0.75s"/>',   # Medium pause (0.75 seconds)
     '......': '<break time="1s"/>',     # Medium-long pause (1 second)
@@ -880,8 +879,7 @@ def format_for_tts_provider(text: str, provider_name: str, supports_ssml: bool =
     
     elif has_ssml_tags and not supports_ssml:
         # Convert SSML breaks back to provider-specific format
-        # For non-SSML providers, we'll need to handle this in audio post-processing
-        fallback_text = convert_ssml_to_fallback_pauses(text)
+        fallback_text = convert_ssml_to_fallback_pauses(text, provider_name)
         logger.debug(f"Converted SSML to fallback for {provider_name}: '{fallback_text}'")
         return fallback_text
     
@@ -890,30 +888,104 @@ def format_for_tts_provider(text: str, provider_name: str, supports_ssml: bool =
         return text
 
 
-def convert_ssml_to_fallback_pauses(text: str) -> str:
-    """Convert SSML break tags to fallback pause markers for non-SSML providers.
+def convert_ssml_to_fallback_pauses(text: str, provider_name: str = 'edge_tts') -> str:
+    """Convert SSML break tags to punctuation that TTS providers will respect.
+    
+    Different providers handle pauses differently:
+    - EdgeTTS: Ignores ellipses but respects semicolons and commas for pauses
+    - gTTS: Handles ellipses naturally, so we keep those for gTTS
     
     Args:
         text: Text with SSML break tags
+        provider_name: Name of TTS provider ('edge_tts', 'gtts', etc.)
         
     Returns:
-        Text with break tags converted to pause markers
+        Text with break tags converted to appropriate punctuation
     """
     if not text:
         return text
     
-    # Convert SSML breaks to pause markers that can be handled in audio post-processing
-    # Pattern: <break time="1.5s"/> -> [PAUSE:1.5s]
+    # Convert SSML breaks to appropriate punctuation based on provider
     break_pattern = r'<break\s+time="([^"]+)"\s*/>'
     
-    def replace_break(match):
-        duration = match.group(1)
-        return f"[PAUSE:{duration}]"
+    if provider_name == 'edge_tts':
+        # EdgeTTS handles ellipses well and creates appropriate long pauses
+        TIME_TO_ELLIPSES = {
+            '0.5s': '....',       # Short pause
+            '0.75s': '.....',     # Medium pause  
+            '1s': '......',       # Medium-long pause
+            '1.25s': '.......',   # Long pause
+            '1.5s': '........',   # Extra long pause
+            '1.75s': '.........',  # Very long pause
+            '2s': '..........',    # Very long pause  
+            '2.25s': '...........',  # Very long pause
+            '2.5s': '............',  # Extra long pause
+            '2.75s': '.............' # Maximum pause
+        }
+        
+        def replace_break(match):
+            duration = match.group(1)
+            ellipses = TIME_TO_ELLIPSES.get(duration, '......')  # Default to medium ellipses
+            return ellipses
+            
+    else:
+        # For gTTS and other providers, use ellipses (original approach)
+        TIME_TO_ELLIPSES = {
+            '0.5s': '....',       # Short pause
+            '0.75s': '.....',     # Medium pause  
+            '1s': '......',       # Medium-long pause
+            '1.25s': '.......',   # Long pause
+            '1.5s': '........',   # Extra long pause
+            '1.75s': '.........',  # Very long pause
+            '2s': '..........',   # Very long pause  
+            '2.25s': '...........',# Very long pause
+            '2.5s': '............', # Extra long pause
+            '2.75s': '.............' # Maximum pause
+        }
+        
+        def replace_break(match):
+            duration = match.group(1)
+            ellipses = TIME_TO_ELLIPSES.get(duration, '.....')  # Default to medium pause
+            return ellipses
     
     converted = re.sub(break_pattern, replace_break, text, flags=re.IGNORECASE)
     
     if converted != text:
-        logger.debug(f"SSML to fallback conversion: '{text}' -> '{converted}'")
+        if provider_name == 'edge_tts':
+            logger.debug(f"SSML to ellipses conversion for EdgeTTS: '{text}' -> '{converted}'")
+        else:
+            logger.debug(f"SSML to ellipses conversion for {provider_name}: '{text}' -> '{converted}'")
+    
+    return converted
+
+
+def convert_single_ellipses_for_edgetts(text: str, provider_name: str) -> str:
+    """Keep ellipses for EdgeTTS as they create proper long pauses.
+    
+    EdgeTTS handles ellipses well and creates longer, more appropriate pauses
+    than semicolons. This function now preserves ellipses for EdgeTTS.
+    
+    Args:
+        text: Input text with potential single ellipses
+        provider_name: Name of TTS provider
+        
+    Returns:
+        Text unchanged for EdgeTTS (ellipses preserved)
+    """
+    # Keep ellipses for EdgeTTS - they work better than semicolons
+    if provider_name == 'edge_tts':
+        logger.debug(f"Preserving ellipses for EdgeTTS: '{text}'")
+        return text
+    
+    # For other providers, convert ellipses to semicolons if needed
+    if not text:
+        return text
+    
+    # Convert single ellipses to semicolons for non-EdgeTTS providers
+    converted = re.sub(r'(?<!\.)\.{3}(?!\.)', ';', text)
+    
+    if converted != text:
+        logger.debug(f"Single ellipses conversion for {provider_name}: '{text}' -> '{converted}'")
     
     return converted
 
@@ -929,8 +1001,9 @@ def enhanced_preprocess_text_for_tts(
     
     This function extends the original preprocessing with hybrid SSML capabilities:
     1. Applies original preprocessing (syllables, abbreviations, language-specific)
-    2. Processes hybrid SSML (ellipses + direct SSML)
-    3. Formats for specific TTS provider
+    2. Converts single ellipses to semicolons for EdgeTTS (before SSML processing)
+    3. Processes hybrid SSML (4+ ellipses + direct SSML)
+    4. Formats for specific TTS provider
     
     Args:
         text: Input text to preprocess
@@ -949,10 +1022,13 @@ def enhanced_preprocess_text_for_tts(
     # Step 1: Apply original preprocessing (syllables, abbreviations, language-specific)
     preprocessed_text = preprocess_text_for_tts(text, language_code, section_type)
     
-    # Step 2: Process hybrid SSML
-    ssml_result = process_hybrid_ssml(preprocessed_text)
+    # Step 2: Convert single ellipses for EdgeTTS (before SSML processing)
+    ellipses_converted_text = convert_single_ellipses_for_edgetts(preprocessed_text, provider_name)
     
-    # Step 3: Format for TTS provider
+    # Step 3: Process hybrid SSML (4+ ellipses and direct SSML)
+    ssml_result = process_hybrid_ssml(ellipses_converted_text)
+    
+    # Step 4: Format for TTS provider
     final_text = format_for_tts_provider(
         ssml_result.processed_text, 
         provider_name, 
