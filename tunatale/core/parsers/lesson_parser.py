@@ -689,28 +689,33 @@ class LessonParser:
                 
                 if language == 'TAGALOG':
                     if gender == 'FEMALE':
+                        # TAGALOG-FEMALE-1 uses EdgeTTS with default settings
+                        if number == '1':
+                            voice_id = "fil-PH-BlessicaNeural"
+                        # TAGALOG-FEMALE-2 uses Google Translate TTS (gTTS)
+                        elif number == '2':
+                            voice_id = "fil-com.ph"  # gTTS Filipino voice
+                        else:
+                            # Default to EdgeTTS with lower voice for other numbers
+                            voice_id = "fil-PH-BlessicaNeural"
+                        
                         # Set speaker_id and TTS settings in the phrase metadata
                         if hasattr(self, 'current_phrase') and self.current_phrase:
                             self.current_phrase.metadata['speaker_id'] = speaker_id
                             
-                            # TAGALOG-FEMALE-1 uses EdgeTTS with default settings
                             if number == '1':
-                                voice_id = "fil-PH-BlessicaNeural"
                                 self.current_phrase.metadata['pitch'] = 0.0    # Default pitch
                                 self.current_phrase.metadata['rate'] = 1.0     # Normal rate
-                            # TAGALOG-FEMALE-2 uses Google Translate TTS (gTTS)
                             elif number == '2':
-                                voice_id = "fil-com.ph"  # gTTS Filipino voice
                                 self.current_phrase.metadata['pitch'] = 0.0
                                 self.current_phrase.metadata['rate'] = 1.0
                             else:
-                                # Default to EdgeTTS with lower voice for other numbers
-                                voice_id = "fil-PH-BlessicaNeural"
                                 self.current_phrase.metadata['pitch'] = -15.0
                                 self.current_phrase.metadata['rate'] = 0.8
                     elif gender == 'MALE':
                         # Both TAGALOG-MALE-1 and TAGALOG-MALE-2 use the same Filipino voice
                         voice_id = "fil-PH-AngeloNeural"
+                        
                         # Set speaker_id and TTS settings in the phrase metadata
                         if hasattr(self, 'current_phrase') and self.current_phrase:
                             self.current_phrase.metadata['speaker_id'] = speaker_id
@@ -730,6 +735,7 @@ class LessonParser:
                     elif gender == 'GTTS':
                         # TAGALOG-GTTS-1 uses Google Translate TTS (free alternative)
                         voice_id = "fil-com.ph"
+                        
                         # Set speaker_id and TTS settings in the phrase metadata
                         if hasattr(self, 'current_phrase') and self.current_phrase:
                             self.current_phrase.metadata['speaker_id'] = speaker_id
