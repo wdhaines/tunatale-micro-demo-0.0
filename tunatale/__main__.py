@@ -59,26 +59,6 @@ def setup_logging(verbose: bool = False, log_file: Optional[str] = None) -> None
     root_logger.addHandler(file_handler)
     
     logger.debug("Logging configured with debug output")
-    
-    # Add file handler if log_file is provided
-    if log_file:
-        try:
-            file_handler = logging.FileHandler(log_file, mode='w')
-            file_handler.setFormatter(formatter)
-            file_handler.setLevel(logging.DEBUG)  # Always log everything to file
-            root_logger.addHandler(file_handler)
-            root_logger.debug(f"Logging to file: {log_file}")
-        except Exception as e:
-            root_logger.error(f"Failed to set up file logging: {e}")
-    
-    # Set log level for specific loggers
-    logging.getLogger('edge_tts').setLevel(logging.WARNING)
-    logging.getLogger('httpcore').setLevel(logging.WARNING)
-    logging.getLogger('httpx').setLevel(logging.WARNING)
-    logging.getLogger('asyncio').setLevel(logging.WARNING)
-    
-    # Enable debug logging for our application
-    logging.getLogger('tunatale').setLevel(logging.DEBUG if verbose else logging.INFO)
 
 if __name__ == "__main__":
     setup_logging()
