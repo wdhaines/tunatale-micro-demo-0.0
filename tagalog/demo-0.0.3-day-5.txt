@@ -79,13 +79,13 @@ At the Store
 [NARRATOR]: Looking for Slippers
 
 [TAGALOG-FEMALE-2]: Tsinelas po? Opo, doon po.
-[TAGALOG-FEMALE-1]: Ilan po ang size mo?
-[TAGALOG-FEMALE-2]: Size 7 po.
-[TAGALOG-FEMALE-1]: Ilan po? Isa lang?
-[TAGALOG-FEMALE-2]: Opo, isa lang po.
-[TAGALOG-FEMALE-1]: Pink o blue?
-[TAGALOG-FEMALE-2]: Blue po. Magkano?
-[TAGALOG-FEMALE-1]: Isang daang limampung piso lang po.
+[TAGALOG-FEMALE-2]: Ilan po ang size mo?
+[TAGALOG-FEMALE-1]: Size 7 po.
+[TAGALOG-FEMALE-2]: Ilan po? Isa lang?
+[TAGALOG-FEMALE-1]: Opo, isa lang po.
+[TAGALOG-FEMALE-2]: Pink o blue?
+[TAGALOG-FEMALE-1]: Blue po. Magkano?
+[TAGALOG-FEMALE-2]: Isang daang limampung piso lang po.
 
 [NARRATOR]: At the Counter
 
@@ -147,13 +147,13 @@ At the Store
 [NARRATOR]: Looking for Slippers
 
 [TAGALOG-FEMALE-2]: Tsinelas... po?... Opo... doon... po.
-[TAGALOG-FEMALE-1]: Ilan... po... ang... size... mo?
-[TAGALOG-FEMALE-2]: Size... 7... po.
-[TAGALOG-FEMALE-1]: Ilan... po?... Isa... lang?
-[TAGALOG-FEMALE-2]: Opo... isa... lang... po.
-[TAGALOG-FEMALE-1]: Pink... o... blue?
-[TAGALOG-FEMALE-2]: Blue... po... Magkano?
-[TAGALOG-FEMALE-1]: Isang... daang... limampung... piso... lang... po.
+[TAGALOG-FEMALE-2]: Ilan... po... ang... size... mo?
+[TAGALOG-FEMALE-1]: Size... 7... po.
+[TAGALOG-FEMALE-2]: Ilan... po?... Isa... lang?
+[TAGALOG-FEMALE-1]: Opo... isa... lang... po.
+[TAGALOG-FEMALE-2]: Pink... o... blue?
+[TAGALOG-FEMALE-1]: Blue... po... Magkano?
+[TAGALOG-FEMALE-2]: Isang... daang... limampung... piso... lang... po.
 
 [NARRATOR]: At the Counter
 

@@ -15,6 +15,13 @@ ito po
 
 [NARRATOR]: Natural Speed
 
+[TAGALOG-MALE-1]: Ate, CR po?
+[TAGALOG-MALE-1]: Ate, restroom po?
+[TAGALOG-FEMALE-1]: Ate, meron po ba kayong sunblock?
+
+[TAGALOG-MALE-1]: Hello po? Ma'am, dadating po kami in 10 minutes.
+[TAGALOG-MALE-1]: Hello po? Ma'am, dadating po kami in ten minutes.
+
 [TAGALOG-MALE-1]: Kuya, paano po pumunta sa Corong-Corong Beach?
 [TAGALOG-MALE-2]: Paano po pumunta? Ah, sakay ka tricycle.
 [TAGALOG-MALE-1]: Malayo po ba?
