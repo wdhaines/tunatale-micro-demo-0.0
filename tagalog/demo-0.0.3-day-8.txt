@@ -1,0 +1,321 @@
+[NARRATOR]: Day 8: Farewell El Nido
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: anong oras po ang flight
+[NARRATOR]: what time is the flight
+[TAGALOG-FEMALE-1]: anong oras po ang flight
+flight
+ang flight
+po ang flight
+o-ras po
+a-nong o-ras
+a-nong o-ras po
+a-nong o-ras po ang
+a-nong o-ras po ang flight
+
+[TAGALOG-FEMALE-1]: salamat po sa lahat
+[NARRATOR]: thank you for everything
+[TAGALOG-FEMALE-1]: salamat po sa lahat
+la-hat
+sa la-hat
+po sa la-hat
+sa-la-mat po
+sa-la-mat po sa
+sa-la-mat po sa la-hat
+
+[TAGALOG-FEMALE-1]: balik po ako next time
+[NARRATOR]: I'll come back next time
+[TAGALOG-FEMALE-1]: balik po ako next time
+next time
+a-ko next time
+po a-ko next time
+ba-lik po
+ba-lik po a-ko
+ba-lik po a-ko next time
+
+[TAGALOG-FEMALE-1]: ingat po kayo
+[NARRATOR]: take care
+[TAGALOG-FEMALE-1]: ingat po kayo
+ka-yo
+po ka-yo
+i-ngat po
+i-ngat po ka-yo
+
+[TAGALOG-FEMALE-1]: salamat sa lahat ng tulong
+[NARRATOR]: thanks for all the help
+[TAGALOG-FEMALE-1]: salamat sa lahat ng tulong
+tu-long
+ng tu-long
+la-hat ng tu-long
+sa la-hat ng
+sa-la-mat sa la-hat
+sa-la-mat sa la-hat ng tu-long
+
+[TAGALOG-FEMALE-1]: sobrang ganda dito
+[NARRATOR]: it's so beautiful here
+[TAGALOG-FEMALE-1]: sobrang ganda dito
+di-to
+gan-da di-to
+so-brang gan-da
+so-brang gan-da di-to
+
+[TAGALOG-FEMALE-1]: miss ko na kayo
+[NARRATOR]: I'll miss you all
+[TAGALOG-FEMALE-1]: miss ko na kayo
+ka-yo
+na ka-yo
+ko na ka-yo
+miss ko na ka-yo
+
+[TAGALOG-FEMALE-1]: kailangan ko na umalis
+[NARRATOR]: I need to leave now
+[TAGALOG-FEMALE-1]: kailangan ko na umalis
+u-ma-lis
+na u-ma-lis
+ko na u-ma-lis
+kai-la-ngan ko
+kai-la-ngan ko na u-ma-lis
+
+[NARRATOR]: Natural Speed
+
+[NARRATOR]: Hotel Checkout - Morning Farewell
+
+[TAGALOG-FEMALE-1]: Good morning po! Check out ko na po.
+[TAGALOG-FEMALE-2]: Good morning po! Kumusta ang stay ninyo dito?
+[TAGALOG-FEMALE-1]: Sobrang ganda dito! Napaka-peaceful ng El Nido.
+[TAGALOG-FEMALE-2]: Salamat po! Anong oras po ang flight ninyo?
+[TAGALOG-FEMALE-1]: Alas dos y medya po ng hapon. Kailangan ko na umalis ng alas dose.
+[TAGALOG-FEMALE-2]: Sige po! May tricycle po ba kayo papauntang airport?
+[TAGALOG-FEMALE-1]: Wala pa po. Pwede po ba ninyo akong tulungan?
+[TAGALOG-FEMALE-2]: Syempre po! Tatawagan ko na si Kuya Jun.
+[TAGALOG-FEMALE-1]: Salamat po sa lahat ng tulong! Napaka-kind ninyo.
+[TAGALOG-FEMALE-2]: Walang anuman po! Balik po kayo next year!
+
+[NARRATOR]: Final Meal at the Restaurant
+
+[TAGALOG-FEMALE-1]: Last meal ko na po dito sa El Nido!
+[TAGALOG-MALE-1]: Ay, aalis na po kayo? Anong oras po ang flight?
+[TAGALOG-FEMALE-1]: Alas dos y medya po. Kaya gusto ko pang kumain dito.
+[TAGALOG-MALE-1]: Ano po ang order ninyo? Special meal po para sa farewell!
+[TAGALOG-FEMALE-1]: Kinilaw po at mango shake - favorites ko na po yan!
+[TAGALOG-MALE-1]: Perfect choice po! Fresh na fresh ang kinilaw ngayon.
+[TAGALOG-FEMALE-1]: Salamat po sa lahat! Laging masarap ang pagkain dito.
+[TAGALOG-MALE-1]: Maraming salamat po sa loyalty ninyo! Miss namin kayo.
+[TAGALOG-FEMALE-1]: Miss ko na rin kayo! Balik po ako next time, promise!
+[TAGALOG-MALE-1]: Hihintayin namin kayo po! Safe travels!
+
+[NARRATOR]: Tricycle Ride to Airport
+
+[TAGALOG-MALE-2]: Kuya Jun po ako! Ready na po ba kayo?
+[TAGALOG-FEMALE-1]: Yes po! Salamat sa pagdating ninyo.
+[TAGALOG-MALE-2]: Anong oras po ang flight ninyo? Hindi tayo ma-late?
+[TAGALOG-FEMALE-1]: Alas dos y medya po. Okay lang po ba ang oras?
+[TAGALOG-MALE-2]: Perfect timing po! Tatlumpung minuto lang ang airport.
+[TAGALOG-FEMALE-1]: Salamat po! Kumusta po ang El Nido lately?
+[TAGALOG-MALE-2]: Maraming tourists po ngayon! Pero ikaw po ang pinaka-nice.
+[TAGALOG-FEMALE-1]: Ay, salamat po sa lahat ng kindness ninyo dito!
+[TAGALOG-MALE-2]: Balik po kayo! El Nido ang bahay ninyo.
+[TAGALOG-FEMALE-1]: Opo! Miss ko na kayo kahit hindi pa ako umaalis!
+
+[NARRATOR]: Airport Departure - Final Goodbyes
+
+[TAGALOG-MALE-2]: Heto na po ang airport! Safe flight po!
+[TAGALOG-FEMALE-1]: Salamat po sa lahat, Kuya Jun! 
+[TAGALOG-MALE-2]: Walang anuman po! Ingat po kayo sa flight!
+[TAGALOG-FEMALE-1]: Balik po ako next time! Promise po yan!
+[TAGALOG-MALE-2]: Hihintayin namin kayo po dito! 
+[TAGALOG-FEMALE-1]: Miss ko na ang El Nido! Sobrang ganda talaga dito!
+[TAGALOG-MALE-2]: At miss ka rin namin po! Mabait na tourist!
+[TAGALOG-FEMALE-1]: Salamat po sa lahat ng memories! Kailangan ko na umalis.
+[TAGALOG-MALE-2]: Sige po! Text ninyo po kami pag-uwi ninyo!
+[TAGALOG-FEMALE-1]: Sige po! Goodbye El Nido! Mahal ko kayo!
+
+[NARRATOR]: At the Airport Check-in
+
+[TAGALOG-FEMALE-2]: Good afternoon po! Passport at ticket po?
+[TAGALOG-FEMALE-1]: Heto po. Anong oras po ang boarding?
+[TAGALOG-FEMALE-2]: Alas dos po ang boarding. May dalang baggage po kayo?
+[TAGALOG-FEMALE-1]: Wala po, hand carry lang. First time ko po sa Palawan.
+[TAGALOG-FEMALE-2]: Talaga po? Kumusta naman po ang El Nido?
+[TAGALOG-FEMALE-1]: Sobrang ganda! Balik po ako next time para sa Coron naman.
+[TAGALOG-FEMALE-2]: Maganda rin po ang Coron! Enjoy po sa Palawan!
+[TAGALOG-FEMALE-1]: Salamat po! Ingat po kayo dito sa El Nido!
+
+[NARRATOR]: Slow Speed
+
+[NARRATOR]: Hotel Checkout - Morning Farewell
+
+[TAGALOG-FEMALE-1]: Good... morning... po!... Check... out... ko... na... po.
+[TAGALOG-FEMALE-2]: Good... morning... po!... Kumusta... ang... stay... ninyo... dito?
+[TAGALOG-FEMALE-1]: Sobrang... ganda... dito!... Napaka-peaceful... ng... El... Nido.
+[TAGALOG-FEMALE-2]: Salamat... po!... Anong... oras... po... ang... flight... ninyo?
+[TAGALOG-FEMALE-1]: Alas... dos... y... medya... po... ng... hapon... Kailangan... ko... na... umalis... ng... alas... dose.
+[TAGALOG-FEMALE-2]: Sige... po!... May... tricycle... po... ba... kayo... papauntang... airport?
+[TAGALOG-FEMALE-1]: Wala... pa... po... Pwede... po... ba... ninyo... akong... tulungan?
+[TAGALOG-FEMALE-2]: Syempre... po!... Tatawagan... ko... na... si... Kuya... Jun.
+[TAGALOG-FEMALE-1]: Salamat... po... sa... lahat... ng... tulong!... Napaka-kind... ninyo.
+[TAGALOG-FEMALE-2]: Walang... anuman... po!... Balik... po... kayo... next... year!
+
+[NARRATOR]: Final Meal at the Restaurant
+
+[TAGALOG-FEMALE-1]: Last... meal... ko... na... po... dito... sa... El... Nido!
+[TAGALOG-MALE-1]: Ay... aalis... na... po... kayo?... Anong... oras... po... ang... flight?
+[TAGALOG-FEMALE-1]: Alas... dos... y... medya... po... Kaya... gusto... ko... pang... kumain... dito.
+[TAGALOG-MALE-1]: Ano... po... ang... order... ninyo?... Special... meal... po... para... sa... farewell!
+[TAGALOG-FEMALE-1]: Kinilaw... po... at... mango... shake... favorites... ko... na... po... yan!
+[TAGALOG-MALE-1]: Perfect... choice... po!... Fresh... na... fresh... ang... kinilaw... ngayon.
+[TAGALOG-FEMALE-1]: Salamat... po... sa... lahat!... Laging... masarap... ang... pagkain... dito.
+[TAGALOG-MALE-1]: Maraming... salamat... po... sa... loyalty... ninyo!... Miss... namin... kayo.
+[TAGALOG-FEMALE-1]: Miss... ko... na... rin... kayo!... Balik... po... ako... next... time... promise!
+[TAGALOG-MALE-1]: Hihintayin... namin... kayo... po!... Safe... travels!
+
+[NARRATOR]: Tricycle Ride to Airport
+
+[TAGALOG-MALE-2]: Kuya... Jun... po... ako!... Ready... na... po... ba... kayo?
+[TAGALOG-FEMALE-1]: Yes... po!... Salamat... sa... pagdating... ninyo.
+[TAGALOG-MALE-2]: Anong... oras... po... ang... flight... ninyo?... Hindi... tayo... ma-late?
+[TAGALOG-FEMALE-1]: Alas... dos... y... medya... po... Okay... lang... po... ba... ang... oras?
+[TAGALOG-MALE-2]: Perfect... timing... po!... Tatlumpung... minuto... lang... ang... airport.
+[TAGALOG-FEMALE-1]: Salamat... po!... Kumusta... po... ang... El... Nido... lately?
+[TAGALOG-MALE-2]: Maraming... tourists... po... ngayon!... Pero... ikaw... po... ang... pinaka-nice.
+[TAGALOG-FEMALE-1]: Ay... salamat... po... sa... lahat... ng... kindness... ninyo... dito!
+[TAGALOG-MALE-2]: Balik... po... kayo!... El... Nido... ang... bahay... ninyo.
+[TAGALOG-FEMALE-1]: Opo!... Miss... ko... na... kayo... kahit... hindi... pa... ako... umaalis!
+
+[NARRATOR]: Airport Departure - Final Goodbyes
+
+[TAGALOG-MALE-2]: Heto... na... po... ang... airport!... Safe... flight... po!
+[TAGALOG-FEMALE-1]: Salamat... po... sa... lahat... Kuya... Jun!
+[TAGALOG-MALE-2]: Walang... anuman... po!... Ingat... po... kayo... sa... flight!
+[TAGALOG-FEMALE-1]: Balik... po... ako... next... time!... Promise... po... yan!
+[TAGALOG-MALE-2]: Hihintayin... namin... kayo... po... dito!
+[TAGALOG-FEMALE-1]: Miss... ko... na... ang... El... Nido!... Sobrang... ganda... talaga... dito!
+[TAGALOG-MALE-2]: At... miss... ka... rin... namin... po!... Mabait... na... tourist!
+[TAGALOG-FEMALE-1]: Salamat... po... sa... lahat... ng... memories!... Kailangan... ko... na... umalis.
+[TAGALOG-MALE-2]: Sige... po!... Text... ninyo... po... kami... pag-uwi... ninyo!
+[TAGALOG-FEMALE-1]: Sige... po!... Goodbye... El... Nido!... Mahal... ko... kayo!
+
+[NARRATOR]: At the Airport Check-in
+
+[TAGALOG-FEMALE-2]: Good... afternoon... po!... Passport... at... ticket... po?
+[TAGALOG-FEMALE-1]: Heto... po... Anong... oras... po... ang... boarding?
+[TAGALOG-FEMALE-2]: Alas... dos... po... ang... boarding... May... dalang... baggage... po... kayo?
+[TAGALOG-FEMALE-1]: Wala... po... hand... carry... lang... First... time... ko... po... sa... Palawan.
+[TAGALOG-FEMALE-2]: Talaga... po?... Kumusta... naman... po... ang... El... Nido?
+[TAGALOG-FEMALE-1]: Sobrang... ganda!... Balik... po... ako... next... time... para... sa... Coron... naman.
+[TAGALOG-FEMALE-2]: Maganda... rin... po... ang... Coron!... Enjoy... po... sa... Palawan!
+[TAGALOG-FEMALE-1]: Salamat... po!... Ingat... po... kayo... dito... sa... El... Nido!
+
+[NARRATOR]: Translated
+
+[NARRATOR]: Hotel Checkout - Morning Farewell
+
+[TAGALOG-FEMALE-1]: Good morning po! Check out ko na po.
+[NARRATOR]: Good morning! I'm checking out now.
+[TAGALOG-FEMALE-2]: Good morning po! Kumusta ang stay ninyo dito?
+[NARRATOR]: Good morning! How was your stay here?
+[TAGALOG-FEMALE-1]: Sobrang ganda dito! Napaka-peaceful ng El Nido.
+[NARRATOR]: It's so beautiful here! El Nido is so peaceful.
+[TAGALOG-FEMALE-2]: Salamat po! Anong oras po ang flight ninyo?
+[NARRATOR]: Thank you! What time is your flight?
+[TAGALOG-FEMALE-1]: Alas dos y medya po ng hapon. Kailangan ko na umalis ng alas dose.
+[NARRATOR]: Two-thirty in the afternoon. I need to leave at twelve.
+[TAGALOG-FEMALE-2]: Sige po! May tricycle po ba kayo papauntang airport?
+[NARRATOR]: Okay! Do you have a tricycle going to the airport?
+[TAGALOG-FEMALE-1]: Wala pa po. Pwede po ba ninyo akong tulungan?
+[NARRATOR]: Not yet. Can you help me?
+[TAGALOG-FEMALE-2]: Syempre po! Tatawagan ko na si Kuya Jun.
+[NARRATOR]: Of course! I'll call Kuya Jun now.
+[TAGALOG-FEMALE-1]: Salamat po sa lahat ng tulong! Napaka-kind ninyo.
+[NARRATOR]: Thank you for all the help! You're so kind.
+[TAGALOG-FEMALE-2]: Walang anuman po! Balik po kayo next year!
+[NARRATOR]: You're welcome! Come back next year!
+
+[NARRATOR]: Final Meal at the Restaurant
+
+[TAGALOG-FEMALE-1]: Last meal ko na po dito sa El Nido!
+[NARRATOR]: This is my last meal here in El Nido!
+[TAGALOG-MALE-1]: Ay, aalis na po kayo? Anong oras po ang flight?
+[NARRATOR]: Oh, you're leaving? What time is your flight?
+[TAGALOG-FEMALE-1]: Alas dos y medya po. Kaya gusto ko pang kumain dito.
+[NARRATOR]: Two-thirty. That's why I want to eat here once more.
+[TAGALOG-MALE-1]: Ano po ang order ninyo? Special meal po para sa farewell!
+[NARRATOR]: What's your order? Special meal for farewell!
+[TAGALOG-FEMALE-1]: Kinilaw po at mango shake - favorites ko na po yan!
+[NARRATOR]: Kinilaw and mango shake - those are my favorites now!
+[TAGALOG-MALE-1]: Perfect choice po! Fresh na fresh ang kinilaw ngayon.
+[NARRATOR]: Perfect choice! The kinilaw is very fresh today.
+[TAGALOG-FEMALE-1]: Salamat po sa lahat! Laging masarap ang pagkain dito.
+[NARRATOR]: Thank you for everything! The food here is always delicious.
+[TAGALOG-MALE-1]: Maraming salamat po sa loyalty ninyo! Miss namin kayo.
+[NARRATOR]: Thank you so much for your loyalty! We'll miss you.
+[TAGALOG-FEMALE-1]: Miss ko na rin kayo! Balik po ako next time, promise!
+[NARRATOR]: I'll miss you too! I'll come back next time, promise!
+[TAGALOG-MALE-1]: Hihintayin namin kayo po! Safe travels!
+[NARRATOR]: We'll wait for you! Safe travels!
+
+[NARRATOR]: Tricycle Ride to Airport
+
+[TAGALOG-MALE-2]: Kuya Jun po ako! Ready na po ba kayo?
+[NARRATOR]: I'm Kuya Jun! Are you ready?
+[TAGALOG-FEMALE-1]: Yes po! Salamat sa pagdating ninyo.
+[NARRATOR]: Yes! Thank you for coming.
+[TAGALOG-MALE-2]: Anong oras po ang flight ninyo? Hindi tayo ma-late?
+[NARRATOR]: What time is your flight? Won't we be late?
+[TAGALOG-FEMALE-1]: Alas dos y medya po. Okay lang po ba ang oras?
+[NARRATOR]: Two-thirty. Is the time okay?
+[TAGALOG-MALE-2]: Perfect timing po! Tatlumpung minuto lang ang airport.
+[NARRATOR]: Perfect timing! The airport is just thirty minutes away.
+[TAGALOG-FEMALE-1]: Salamat po! Kumusta po ang El Nido lately?
+[NARRATOR]: Thank you! How is El Nido lately?
+[TAGALOG-MALE-2]: Maraming tourists po ngayon! Pero ikaw po ang pinaka-nice.
+[NARRATOR]: Many tourists now! But you're the nicest.
+[TAGALOG-FEMALE-1]: Ay, salamat po sa lahat ng kindness ninyo dito!
+[NARRATOR]: Oh, thank you for all your kindness here!
+[TAGALOG-MALE-2]: Balik po kayo! El Nido ang bahay ninyo.
+[NARRATOR]: Come back! El Nido is your home.
+[TAGALOG-FEMALE-1]: Opo! Miss ko na kayo kahit hindi pa ako umaalis!
+[NARRATOR]: Yes! I miss you already even though I haven't left yet!
+
+[NARRATOR]: Airport Departure - Final Goodbyes
+
+[TAGALOG-MALE-2]: Heto na po ang airport! Safe flight po!
+[NARRATOR]: Here's the airport! Safe flight!
+[TAGALOG-FEMALE-1]: Salamat po sa lahat, Kuya Jun!
+[NARRATOR]: Thank you for everything, Kuya Jun!
+[TAGALOG-MALE-2]: Walang anuman po! Ingat po kayo sa flight!
+[NARRATOR]: You're welcome! Take care on your flight!
+[TAGALOG-FEMALE-1]: Balik po ako next time! Promise po yan!
+[NARRATOR]: I'll come back next time! That's a promise!
+[TAGALOG-MALE-2]: Hihintayin namin kayo po dito!
+[NARRATOR]: We'll wait for you here!
+[TAGALOG-FEMALE-1]: Miss ko na ang El Nido! Sobrang ganda talaga dito!
+[NARRATOR]: I miss El Nido already! It's really so beautiful here!
+[TAGALOG-MALE-2]: At miss ka rin namin po! Mabait na tourist!
+[NARRATOR]: And we'll miss you too! You're a kind tourist!
+[TAGALOG-FEMALE-1]: Salamat po sa lahat ng memories! Kailangan ko na umalis.
+[NARRATOR]: Thank you for all the memories! I need to leave now.
+[TAGALOG-MALE-2]: Sige po! Text ninyo po kami pag-uwi ninyo!
+[NARRATOR]: Okay! Text us when you get home!
+[TAGALOG-FEMALE-1]: Sige po! Goodbye El Nido! Mahal ko kayo!
+[NARRATOR]: Sure! Goodbye El Nido! I love you all!
+
+[NARRATOR]: At the Airport Check-in
+
+[TAGALOG-FEMALE-2]: Good afternoon po! Passport at ticket po?
+[NARRATOR]: Good afternoon! Passport and ticket please?
+[TAGALOG-FEMALE-1]: Heto po. Anong oras po ang boarding?
+[NARRATOR]: Here. What time is boarding?
+[TAGALOG-FEMALE-2]: Alas dos po ang boarding. May dalang baggage po kayo?
+[NARRATOR]: Boarding is at two. Do you have checked baggage?
+[TAGALOG-FEMALE-1]: Wala po, hand carry lang. First time ko po sa Palawan.
+[NARRATOR]: No, just hand carry. This is my first time in Palawan.
+[TAGALOG-FEMALE-2]: Talaga po? Kumusta naman po ang El Nido?
+[NARRATOR]: Really? How was El Nido?
+[TAGALOG-FEMALE-1]: Sobrang ganda! Balik po ako next time para sa Coron naman.
+[NARRATOR]: So beautiful! I'll come back next time for Coron.
+[TAGALOG-FEMALE-2]: Maganda rin po ang Coron! Enjoy po sa Palawan!
+[NARRATOR]: Coron is beautiful too! Enjoy Palawan!
+[TAGALOG-FEMALE-1]: Salamat po! Ingat po kayo dito sa El Nido!
+[NARRATOR]: Thank you! Take care here in El Nido!
