@@ -1,0 +1,202 @@
+[NARRATOR]: Day 8: Authentic Filipino Dining Experience
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: gusto ko po
+[NARRATOR]: I want
+[TAGALOG-FEMALE-1]: gusto ko po
+po
+ko po
+ko
+gu
+gus
+gusto
+gusto ko
+gusto ko po
+
+[TAGALOG-FEMALE-1]: ano po ang
+[NARRATOR]: what is
+[TAGALOG-FEMALE-1]: ano po ang
+ang
+po ang
+po
+a
+ano
+ano po
+ano po ang
+
+[TAGALOG-FEMALE-1]: ano pa pong specialty
+[NARRATOR]: what other specialty
+[TAGALOG-FEMALE-1]: ano pa pong specialty
+specialty
+pong specialty
+pa pong specialty
+pa pong
+pa
+ano pa
+ano pa pong
+ano pa pong specialty
+
+[TAGALOG-FEMALE-1]: masarap ba ito
+[NARRATOR]: is this delicious
+[TAGALOG-FEMALE-1]: masarap ba ito
+ito
+ba ito
+ba
+rap
+sa
+sarap
+ma
+masarap
+masarap ba
+masarap ba ito
+
+[TAGALOG-FEMALE-1]: paumanhin po
+[NARRATOR]: excuse me
+[TAGALOG-FEMALE-1]: paumanhin po
+po
+hin po
+ma
+man
+manhin
+pau
+paumanhin
+paumanhin po
+
+[NARRATOR]: Natural Speed
+
+[NARRATOR]: Arriving at the Local Carinderia
+
+[TAGALOG-FEMALE-2]: Paumanhin po, bukas pa po ba kayo?
+[TAGALOG-MALE-1]: Opo, bukas pa kami. Halika po, umupo kayo dito.
+[TAGALOG-FEMALE-2]: Salamat po. Ano po ang mga ulam ninyo ngayon?
+[TAGALOG-MALE-1]: May adobong manok, sinigang na baboy, at ginisang kangkong po.
+[TAGALOG-FEMALE-2]: Ano po ang pinakamasarap dito?
+[TAGALOG-MALE-1]: Ang adobo po namin, luto ng asawa ko. Specialty po namin yan.
+
+[NARRATOR]: Discussing the Menu Options
+
+[TAGALOG-FEMALE-2]: Masarap ba ito yung sinigang?
+[TAGALOG-MALE-1]: Opo, masarap po yan. Fresh na baboy galing sa market this morning.
+[TAGALOG-FEMALE-2]: Sige po. Gusto ko po ng sinigang at kanin.
+[TAGALOG-MALE-1]: Malaki po ba o maliit na serving?
+[TAGALOG-FEMALE-2]: Maliit lang po. Ano pa pong specialty ninyo?
+[TAGALOG-MALE-1]: May lumpia shanghai po at pancit canton.
+
+[NARRATOR]: Making the Final Order
+
+[TAGALOG-FEMALE-2]: Gusto ko po rin ng lumpia. Ilang piraso po sa isang order?
+[TAGALOG-MALE-1]: Sampung piraso po. Sariwa po yan, kakagawa lang.
+[TAGALOG-FEMALE-2]: Ayos na po yan. Ano po ang inumin ninyo?
+[TAGALOG-MALE-1]: May softdrinks po, juice, at tubig.
+[TAGALOG-FEMALE-2]: Mango juice po. Magkano po lahat?
+[TAGALOG-MALE-1]: Dalawang daan tatlumpung pesos po.
+
+[NARRATOR]: Enjoying the Meal
+
+[TAGALOG-MALE-1]: Kumusta po ang lasa ng pagkain?
+[TAGALOG-FEMALE-2]: Napakasarap po! Lalo na yung adobo.
+[TAGALOG-MALE-1]: Salamat po. Specialty talaga namin yan.
+[TAGALOG-FEMALE-2]: Pwede po bang mag-takeout ng adobo?
+[TAGALOG-MALE-1]: Syempre po! Magkano po gusto ninyo?
+[TAGALOG-FEMALE-2]: Dalawang cup po sana. Para sa family ko.
+
+[NARRATOR]: Slow Speed
+
+[NARRATOR]: Arriving at the Local Carinderia
+
+[TAGALOG-FEMALE-2]: Paumanhin... po... bukas... pa... po... ba... kayo?
+[TAGALOG-MALE-1]: Opo... bukas... pa... kami... Halika... po... umupo... kayo... dito.
+[TAGALOG-FEMALE-2]: Salamat... po... Ano... po... ang... mga... ulam... ninyo... ngayon?
+[TAGALOG-MALE-1]: May... adobong... manok... sinigang... na... baboy... at... ginisang... kangkong... po.
+[TAGALOG-FEMALE-2]: Ano... po... ang... pinakamasarap... dito?
+[TAGALOG-MALE-1]: Ang... adobo... po... namin... luto... ng... asawa... ko... Specialty... po... namin... yan.
+
+[NARRATOR]: Discussing the Menu Options
+
+[TAGALOG-FEMALE-2]: Masarap... ba... ito... yung... sinigang?
+[TAGALOG-MALE-1]: Opo... masarap... po... yan... Fresh... na... baboy... galing... sa... market... this... morning.
+[TAGALOG-FEMALE-2]: Sige... po... Gusto... ko... po... ng... sinigang... at... kanin.
+[TAGALOG-MALE-1]: Malaki... po... ba... o... maliit... na... serving?
+[TAGALOG-FEMALE-2]: Maliit... lang... po... Ano... pa... pong... specialty... ninyo?
+[TAGALOG-MALE-1]: May... lumpia... shanghai... po... at... pancit... canton.
+
+[NARRATOR]: Making the Final Order
+
+[TAGALOG-FEMALE-2]: Gusto... ko... po... rin... ng... lumpia... Ilang... piraso... po... sa... isang... order?
+[TAGALOG-MALE-1]: Sampung... piraso... po... Sariwa... po... yan... kakagawa... lang.
+[TAGALOG-FEMALE-2]: Ayos... na... po... yan... Ano... po... ang... inumin... ninyo?
+[TAGALOG-MALE-1]: May... softdrinks... po... juice... at... tubig.
+[TAGALOG-FEMALE-2]: Mango... juice... po... Magkano... po... lahat?
+[TAGALOG-MALE-1]: Dalawang... daan... tatlumpung... pesos... po.
+
+[NARRATOR]: Enjoying the Meal
+
+[TAGALOG-MALE-1]: Kumusta... po... ang... lasa... ng... pagkain?
+[TAGALOG-FEMALE-2]: Napakasarap... po!... Lalo... na... yung... adobo.
+[TAGALOG-MALE-1]: Salamat... po... Specialty... talaga... namin... yan.
+[TAGALOG-FEMALE-2]: Pwede... po... bang... mag-takeout... ng... adobo?
+[TAGALOG-MALE-1]: Syempre... po!... Magkano... po... gusto... ninyo?
+[TAGALOG-FEMALE-2]: Dalawang... cup... po... sana... Para... sa... family... ko.
+
+[NARRATOR]: Translated
+
+[NARRATOR]: Arriving at the Local Carinderia
+
+[TAGALOG-FEMALE-2]: Paumanhin po, bukas pa po ba kayo?
+[NARRATOR]: Excuse me, are you still open?
+[TAGALOG-MALE-1]: Opo, bukas pa kami. Halika po, umupo kayo dito.
+[NARRATOR]: Yes, we're still open. Come, sit here.
+[TAGALOG-FEMALE-2]: Salamat po. Ano po ang mga ulam ninyo ngayon?
+[NARRATOR]: Thank you. What are your dishes today?
+[TAGALOG-MALE-1]: May adobong manok, sinigang na baboy, at ginisang kangkong po.
+[NARRATOR]: We have chicken adobo, pork sinigang, and sauteed water spinach.
+[TAGALOG-FEMALE-2]: Ano po ang pinakamasarap dito?
+[NARRATOR]: What's the most delicious here?
+[TAGALOG-MALE-1]: Ang adobo po namin, luto ng asawa ko. Specialty po namin yan.
+[NARRATOR]: Our adobo, cooked by my wife. That's our specialty.
+
+[NARRATOR]: Discussing the Menu Options
+
+[TAGALOG-FEMALE-2]: Masarap ba ito yung sinigang?
+[NARRATOR]: Is this sinigang delicious?
+[TAGALOG-MALE-1]: Opo, masarap po yan. Fresh na baboy galing sa market this morning.
+[NARRATOR]: Yes, it's delicious. Fresh pork from the market this morning.
+[TAGALOG-FEMALE-2]: Sige po. Gusto ko po ng sinigang at kanin.
+[NARRATOR]: Okay. I want sinigang and rice.
+[TAGALOG-MALE-1]: Malaki po ba o maliit na serving?
+[NARRATOR]: Large or small serving?
+[TAGALOG-FEMALE-2]: Maliit lang po. Ano pa pong specialty ninyo?
+[NARRATOR]: Just small. What other specialty do you have?
+[TAGALOG-MALE-1]: May lumpia shanghai po at pancit canton.
+[NARRATOR]: We have lumpia shanghai and pancit canton.
+
+[NARRATOR]: Making the Final Order
+
+[TAGALOG-FEMALE-2]: Gusto ko po rin ng lumpia. Ilang piraso po sa isang order?
+[NARRATOR]: I want lumpia too. How many pieces in one order?
+[TAGALOG-MALE-1]: Sampung piraso po. Sariwa po yan, kakagawa lang.
+[NARRATOR]: Ten pieces. They're fresh, just made.
+[TAGALOG-FEMALE-2]: Ayos na po yan. Ano po ang inumin ninyo?
+[NARRATOR]: That's good. What drinks do you have?
+[TAGALOG-MALE-1]: May softdrinks po, juice, at tubig.
+[NARRATOR]: We have soft drinks, juice, and water.
+[TAGALOG-FEMALE-2]: Mango juice po. Magkano po lahat?
+[NARRATOR]: Mango juice. How much is everything?
+[TAGALOG-MALE-1]: Dalawang daan tatlumpung pesos po.
+[NARRATOR]: Two hundred thirty pesos.
+
+[NARRATOR]: Enjoying the Meal
+
+[TAGALOG-MALE-1]: Kumusta po ang lasa ng pagkain?
+[NARRATOR]: How does the food taste?
+[TAGALOG-FEMALE-2]: Napakasarap po! Lalo na yung adobo.
+[NARRATOR]: It's very delicious! Especially the adobo.
+[TAGALOG-MALE-1]: Salamat po. Specialty talaga namin yan.
+[NARRATOR]: Thank you. That's really our specialty.
+[TAGALOG-FEMALE-2]: Pwede po bang mag-takeout ng adobo?
+[NARRATOR]: Can I take out some adobo?
+[TAGALOG-MALE-1]: Syempre po! Magkano po gusto ninyo?
+[NARRATOR]: Of course! How much would you like?
+[TAGALOG-FEMALE-2]: Dalawang cup po sana. Para sa family ko.
+[NARRATOR]: Two cups please. For my family.

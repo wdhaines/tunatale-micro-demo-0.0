@@ -1,0 +1,270 @@
+[NARRATOR]: Day 8: Hotel Comfort and Navigation
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: magandang umaga po
+[NARRATOR]: good morning (polite)
+[TAGALOG-FEMALE-1]: magandang umaga po
+po
+ga po
+man-dang
+gan-dang
+ma-gan-dang
+ma-gan-dang u-ma-ga
+ma-gan-dang u-ma-ga po
+
+[TAGALOG-FEMALE-1]: saan po ang
+[NARRATOR]: where is the
+[TAGALOG-FEMALE-1]: saan po ang
+ang
+po ang
+po
+aan
+sa-an
+sa-an po
+sa-an po ang
+
+[TAGALOG-FEMALE-1]: ikalawang palapag
+[NARRATOR]: second floor
+[TAGALOG-FEMALE-1]: ikalawang palapag
+pag
+pa-lag
+pa-la-pag
+wang
+la-wang
+ka-la-wang
+i-ka-la-wang
+i-ka-la-wang pa-la-pag
+
+[TAGALOG-FEMALE-1]: salamat po
+[NARRATOR]: thank you
+[TAGALOG-FEMALE-1]: salamat po
+po
+mat
+la-mat
+sa-la-mat
+sa-la-mat po
+
+[TAGALOG-FEMALE-1]: maraming salamat po
+[NARRATOR]: thank you very much
+[TAGALOG-FEMALE-1]: maraming salamat po
+po
+sa-la-mat po
+ma-ra-ming
+ma-ra-ming sa-la-mat
+ma-ra-ming sa-la-mat po
+
+[TAGALOG-FEMALE-1]: puwede po ba
+[NARRATOR]: is it possible/can I
+[TAGALOG-FEMALE-1]: puwede po ba
+ba
+po ba
+po
+de
+we-de
+pu-we-de
+pu-we-de po
+pu-we-de po ba
+
+[NARRATOR]: Natural Speed
+
+[NARRATOR]: Morning Check-in
+
+[TAGALOG-FEMALE-2]: Magandang umaga po! Welcome sa El Nido Grand Hotel!
+[TAGALOG-FEMALE-1]: Magandang umaga po! May reservation po ako, Maria Santos.
+[TAGALOG-FEMALE-2]: Ah, Maria Santos! Opo, meron po. Single room po for three nights?
+[TAGALOG-FEMALE-1]: Opo, tama po. Saan po ang elevator?
+[TAGALOG-FEMALE-2]: Doon po sa kanan. Ikalawang palapag po ang room ninyo.
+[TAGALOG-FEMALE-1]: Salamat po! May WiFi po ba sa rooms?
+[TAGALOG-FEMALE-2]: Opo! Free WiFi po. Password ay "ElNido2024".
+[TAGALOG-FEMALE-1]: Maraming salamat po sa tulong ninyo!
+
+[NARRATOR]: Finding Hotel Facilities
+
+[TAGALOG-FEMALE-1]: Excuse me po, saan po ang restaurant?
+[TAGALOG-MALE-1]: Restaurant po? Ikalawang palapag po, katabi ng conference room.
+[TAGALOG-FEMALE-1]: Puwede po ba akong mag-breakfast doon kahit late?
+[TAGALOG-MALE-1]: Opo! Until 10 AM po ang breakfast buffet.
+[TAGALOG-FEMALE-1]: Salamat po! Saan po ang swimming pool?
+[TAGALOG-MALE-1]: Ground floor po, sa likod ng building. May towels po doon.
+[TAGALOG-FEMALE-1]: Maraming salamat po! Very helpful kayo!
+
+[NARRATOR]: Room Service Request
+
+[TAGALOG-FEMALE-1]: Hello po, room service?
+[TAGALOG-MALE-2]: Opo! Magandang umaga po! Ano po ang kailangan ninyo?
+[TAGALOG-FEMALE-1]: Puwede po ba kayong mag-deliver ng breakfast sa room?
+[TAGALOG-MALE-2]: Opo! Ano po ang gusto ninyo? May special menu po kami.
+[TAGALOG-FEMALE-1]: Saan po makikita ang menu?
+[TAGALOG-MALE-2]: Sa phone po ninyo, may QR code sa table. O kaya, ito po specialty namin.
+[TAGALOG-FEMALE-1]: Ano pa pong specialty ninyo bukod sa longganisa?
+[TAGALOG-MALE-2]: May fresh mango shake po kami. Best mango shake dito sa El Nido!
+[TAGALOG-FEMALE-1]: Sige po! Her mango shake at longganisa, salamat po!
+
+[NARRATOR]: Concierge Help
+
+[TAGALOG-FEMALE-2]: Good morning po! Puwede po ba akong tumulong sa inyo?
+[TAGALOG-FEMALE-1]: Magandang umaga po! Saan po ang nearest beach?
+[TAGALOG-FEMALE-2]: El Nido beach po, walking distance lang. Lima minuto po.
+[TAGALOG-FEMALE-1]: Puwede po ba akong makakuha ng directions?
+[TAGALOG-FEMALE-2]: Opo! Ito po ang map. Derecho lang po, tapos kaliwa sa intersection.
+[TAGALOG-FEMALE-1]: Maraming salamat po! May mga tour po ba kayo?
+[TAGALOG-FEMALE-2]: Opo! Island hopping, underground river, lahat po meron kami.
+[TAGALOG-FEMALE-1]: Salamat po sa lahat ng impormasyon!
+
+[NARRATOR]: Evening Return
+
+[TAGALOG-MALE-1]: Good evening po! Kumusta po ang El Nido beach ninyo?
+[TAGALOG-FEMALE-1]: Maganda po! Sobrang clear ng tubig, salamat po sa directions.
+[TAGALOG-MALE-1]: Masaya po kami! Puwede po ba namin kayong tulungan pa?
+[TAGALOG-FEMALE-1]: Saan po ang laundry service?
+[TAGALOG-MALE-1]: Ikalawang palapag po, room 205. Until 8 PM po sila open.
+[TAGALOG-FEMALE-1]: Maraming salamat po! Very accommodating ninyo dito!
+
+[NARRATOR]: Slow Speed
+
+[NARRATOR]: Morning Check-in
+
+[TAGALOG-FEMALE-2]: Magandang... umaga... po!... Welcome... sa... El Nido... Grand... Hotel!
+[TAGALOG-FEMALE-1]: Magandang... umaga... po!... May... reservation... po... ako... Maria... Santos.
+[TAGALOG-FEMALE-2]: Ah... Maria... Santos!... Opo... meron... po... Single... room... po... for... three... nights?
+[TAGALOG-FEMALE-1]: Opo... tama... po... Saan... po... ang... elevator?
+[TAGALOG-FEMALE-2]: Doon... po... sa... kanan... Ikalawang... palapag... po... ang... room... ninyo.
+[TAGALOG-FEMALE-1]: Salamat... po!... May... WiFi... po... ba... sa... rooms?
+[TAGALOG-FEMALE-2]: Opo!... Free... WiFi... po... Password... ay... "ElNido2024".
+[TAGALOG-FEMALE-1]: Maraming... salamat... po... sa... tulong... ninyo!
+
+[NARRATOR]: Finding Hotel Facilities
+
+[TAGALOG-FEMALE-1]: Excuse... me... po... saan... po... ang... restaurant?
+[TAGALOG-MALE-1]: Restaurant... po?... Ikalawang... palapag... po... katabi... ng... conference... room.
+[TAGALOG-FEMALE-1]: Puwede... po... ba... akong... mag-breakfast... doon... kahit... late?
+[TAGALOG-MALE-1]: Opo!... Until... 10... AM... po... ang... breakfast... buffet.
+[TAGALOG-FEMALE-1]: Salamat... po!... Saan... po... ang... swimming... pool?
+[TAGALOG-MALE-1]: Ground... floor... po... sa... likod... ng... building... May... towels... po... doon.
+[TAGALOG-FEMALE-1]: Maraming... salamat... po!... Very... helpful... kayo!
+
+[NARRATOR]: Room Service Request
+
+[TAGALOG-FEMALE-1]: Hello... po... room... service?
+[TAGALOG-MALE-2]: Opo!... Magandang... umaga... po!... Ano... po... ang... kailangan... ninyo?
+[TAGALOG-FEMALE-1]: Puwede... po... ba... kayong... mag-deliver... ng... breakfast... sa... room?
+[TAGALOG-MALE-2]: Opo!... Ano... po... ang... gusto... ninyo?... May... special... menu... po... kami.
+[TAGALOG-FEMALE-1]: Saan... po... makikita... ang... menu?
+[TAGALOG-MALE-2]: Sa... phone... po... ninyo... may... QR... code... sa... table... O... kaya... ito... po... specialty... namin.
+[TAGALOG-FEMALE-1]: Ano... pa... pong... specialty... ninyo... bukod... sa... longganisa?
+[TAGALOG-MALE-2]: May... fresh... mango... shake... po... kami... Best... mango... shake... dito... sa... El Nido!
+[TAGALOG-FEMALE-1]: Sige... po!... Her... mango... shake... at... longganisa... salamat... po!
+
+[NARRATOR]: Concierge Help
+
+[TAGALOG-FEMALE-2]: Good... morning... po!... Puwede... po... ba... akong... tumulong... sa... inyo?
+[TAGALOG-FEMALE-1]: Magandang... umaga... po!... Saan... po... ang... nearest... beach?
+[TAGALOG-FEMALE-2]: El... Nido... beach... po... walking... distance... lang... Lima... minuto... po.
+[TAGALOG-FEMALE-1]: Puwede... po... ba... akong... makakuha... ng... directions?
+[TAGALOG-FEMALE-2]: Opo!... Ito... po... ang... map... Derecho... lang... po... tapos... kaliwa... sa... intersection.
+[TAGALOG-FEMALE-1]: Maraming... salamat... po!... May... mga... tour... po... ba... kayo?
+[TAGALOG-FEMALE-2]: Opo!... Island... hopping... underground... river... lahat... po... meron... kami.
+[TAGALOG-FEMALE-1]: Salamat... po... sa... lahat... ng... impormasyon!
+
+[NARRATOR]: Evening Return
+
+[TAGALOG-MALE-1]: Good... evening... po!... Kumusta... po... ang... El... Nido... beach... ninyo?
+[TAGALOG-FEMALE-1]: Maganda... po!... Sobrang... clear... ng... tubig... salamat... po... sa... directions.
+[TAGALOG-MALE-1]: Masaya... po... kami!... Puwede... po... ba... namin... kayong... tulungan... pa?
+[TAGALOG-FEMALE-1]: Saan... po... ang... laundry... service?
+[TAGALOG-MALE-1]: Ikalawang... palapag... po... room... 205... Until... 8... PM... po... sila... open.
+[TAGALOG-FEMALE-1]: Maraming... salamat... po!... Very... accommodating... ninyo... dito!
+
+[NARRATOR]: Translated
+
+[NARRATOR]: Morning Check-in
+
+[TAGALOG-FEMALE-2]: Magandang umaga po! Welcome sa El Nido Grand Hotel!
+[NARRATOR]: Good morning! Welcome to El Nido Grand Hotel!
+[TAGALOG-FEMALE-1]: Magandang umaga po! May reservation po ako, Maria Santos.
+[NARRATOR]: Good morning! I have a reservation, Maria Santos.
+[TAGALOG-FEMALE-2]: Ah, Maria Santos! Opo, meron po. Single room po for three nights?
+[NARRATOR]: Ah, Maria Santos! Yes, we have it. Single room for three nights?
+[TAGALOG-FEMALE-1]: Opo, tama po. Saan po ang elevator?
+[NARRATOR]: Yes, that's correct. Where is the elevator?
+[TAGALOG-FEMALE-2]: Doon po sa kanan. Ikalawang palapag po ang room ninyo.
+[NARRATOR]: There on the right. Your room is on the second floor.
+[TAGALOG-FEMALE-1]: Salamat po! May WiFi po ba sa rooms?
+[NARRATOR]: Thank you! Is there WiFi in the rooms?
+[TAGALOG-FEMALE-2]: Opo! Free WiFi po. Password ay "ElNido2024".
+[NARRATOR]: Yes! Free WiFi. The password is "ElNido2024".
+[TAGALOG-FEMALE-1]: Maraming salamat po sa tulong ninyo!
+[NARRATOR]: Thank you very much for your help!
+
+[NARRATOR]: Finding Hotel Facilities
+
+[TAGALOG-FEMALE-1]: Excuse me po, saan po ang restaurant?
+[NARRATOR]: Excuse me, where is the restaurant?
+[TAGALOG-MALE-1]: Restaurant po? Ikalawang palapag po, katabi ng conference room.
+[NARRATOR]: The restaurant? Second floor, next to the conference room.
+[TAGALOG-FEMALE-1]: Puwede po ba akong mag-breakfast doon kahit late?
+[NARRATOR]: Can I have breakfast there even if it's late?
+[TAGALOG-MALE-1]: Opo! Until 10 AM po ang breakfast buffet.
+[NARRATOR]: Yes! The breakfast buffet is until 10 AM.
+[TAGALOG-FEMALE-1]: Salamat po! Saan po ang swimming pool?
+[NARRATOR]: Thank you! Where is the swimming pool?
+[TAGALOG-MALE-1]: Ground floor po, sa likod ng building. May towels po doon.
+[NARRATOR]: Ground floor, behind the building. There are towels there.
+[TAGALOG-FEMALE-1]: Maraming salamat po! Very helpful kayo!
+[NARRATOR]: Thank you very much! You're very helpful!
+
+[NARRATOR]: Room Service Request
+
+[TAGALOG-FEMALE-1]: Hello po, room service?
+[NARRATOR]: Hello, room service?
+[TAGALOG-MALE-2]: Opo! Magandang umaga po! Ano po ang kailangan ninyo?
+[NARRATOR]: Yes! Good morning! What do you need?
+[TAGALOG-FEMALE-1]: Puwede po ba kayong mag-deliver ng breakfast sa room?
+[NARRATOR]: Can you deliver breakfast to the room?
+[TAGALOG-MALE-2]: Opo! Ano po ang gusto ninyo? May special menu po kami.
+[NARRATOR]: Yes! What would you like? We have a special menu.
+[TAGALOG-FEMALE-1]: Saan po makikita ang menu?
+[NARRATOR]: Where can I see the menu?
+[TAGALOG-MALE-2]: Sa phone po ninyo, may QR code sa table. O kaya, ito po specialty namin.
+[NARRATOR]: On your phone, there's a QR code on the table. Or here are our specialties.
+[TAGALOG-FEMALE-1]: Ano pa pong specialty ninyo bukod sa longganisa?
+[NARRATOR]: What other specialties do you have besides longganisa?
+[TAGALOG-MALE-2]: May fresh mango shake po kami. Best mango shake dito sa El Nido!
+[NARRATOR]: We have fresh mango shake. The best mango shake here in El Nido!
+[TAGALOG-FEMALE-1]: Sige po! Her mango shake at longganisa, salamat po!
+[NARRATOR]: Okay! One mango shake and longganisa, thank you!
+
+[NARRATOR]: Concierge Help
+
+[TAGALOG-FEMALE-2]: Good morning po! Puwede po ba akong tumulong sa inyo?
+[NARRATOR]: Good morning! Can I help you?
+[TAGALOG-FEMALE-1]: Magandang umaga po! Saan po ang nearest beach?
+[NARRATOR]: Good morning! Where is the nearest beach?
+[TAGALOG-FEMALE-2]: El Nido beach po, walking distance lang. Lima minuto po.
+[NARRATOR]: El Nido beach, just walking distance. Five minutes.
+[TAGALOG-FEMALE-1]: Puwede po ba akong makakuha ng directions?
+[NARRATOR]: Can I get directions?
+[TAGALOG-FEMALE-2]: Opo! Ito po ang map. Derecho lang po, tapos kaliwa sa intersection.
+[NARRATOR]: Yes! Here's the map. Just go straight, then left at the intersection.
+[TAGALOG-FEMALE-1]: Maraming salamat po! May mga tour po ba kayo?
+[NARRATOR]: Thank you very much! Do you have tours?
+[TAGALOG-FEMALE-2]: Opo! Island hopping, underground river, lahat po meron kami.
+[NARRATOR]: Yes! Island hopping, underground river, we have everything.
+[TAGALOG-FEMALE-1]: Salamat po sa lahat ng impormasyon!
+[NARRATOR]: Thank you for all the information!
+
+[NARRATOR]: Evening Return
+
+[TAGALOG-MALE-1]: Good evening po! Kumusta po ang El Nido beach ninyo?
+[NARRATOR]: Good evening! How was your El Nido beach visit?
+[TAGALOG-FEMALE-1]: Maganda po! Sobrang clear ng tubig, salamat po sa directions.
+[NARRATOR]: Beautiful! The water was so clear, thank you for the directions.
+[TAGALOG-MALE-1]: Masaya po kami! Puwede po ba namin kayong tulungan pa?
+[NARRATOR]: We're happy to hear that! Can we help you with anything else?
+[TAGALOG-FEMALE-1]: Saan po ang laundry service?
+[NARRATOR]: Where is the laundry service?
+[TAGALOG-MALE-1]: Ikalawang palapag po, room 205. Until 8 PM po sila open.
+[NARRATOR]: Second floor, room 205. They're open until 8 PM.
+[TAGALOG-FEMALE-1]: Maraming salamat po! Very accommodating ninyo dito!
+[NARRATOR]: Thank you very much! You're very accommodating here!

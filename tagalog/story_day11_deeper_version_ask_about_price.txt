@@ -1,0 +1,152 @@
+[NARRATOR]: Day 11: Enhanced Transportation and Directions (– Day 6 Revisited)
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: Magkano po?
+[NARRATOR]: How much?
+[TAGALOG-FEMALE-1]: Mag... ka... no... po
+[TAGALOG-FEMALE-1]: Magkano po... Magkano po?
+
+[TAGALOG-FEMALE-2]: Saan po?
+[NARRATOR]: Where?
+[TAGALOG-FEMALE-2]: Sa... an... po
+[TAGALOG-FEMALE-2]: Saan po... Saan po?
+
+[TAGALOG-MALE-1]: Magkano po ang presyo nito?
+[NARRATOR]: How much is the price of this?
+[TAGALOG-MALE-1]: Mag... ka... no... po... ang... pre... syo... ni... to
+[TAGALOG-MALE-1]: Magkano po... magkano po ang... magkano po ang presyo... magkano po ang presyo nito?
+
+[TAGALOG-FEMALE-1]: Ano pa pong specialty?
+[NARRATOR]: What other specialties?
+[TAGALOG-FEMALE-1]: A... no... pa... pong... spe... cial... ty
+[TAGALOG-FEMALE-1]: Ano pa... ano pa pong... ano pa pong specialty?
+
+[NARRATOR]: Natural Speed
+
+[NARRATOR]: At the tricycle terminal near El Nido town proper
+
+[TAGALOG-MALE-1]: Manong, magkano po hanggang sa Nacpan Beach?
+
+[TAGALOG-MALE-2]: Isandaang piso po bawat tao, sir.
+
+[TAGALOG-FEMALE-1]: Saan po kami makakakuha ng tricycle pabalik?
+
+[TAGALOG-MALE-2]: Doon po sa tabi ng sari-sari store. Maraming naghihintay doon.
+
+[TAGALOG-MALE-1]: Ah, salamat po. Kailangan po ba naming magbayad ngayon?
+
+[TAGALOG-MALE-2]: Hindi pa po. Pagdating po namin doon, tsaka po kayo magbabayad.
+
+[TAGALOG-FEMALE-1]: Manong, may mga ibang tourist spots po ba na malapit sa Nacpan?
+
+[TAGALOG-MALE-2]: Oo, meron pong Calitang Beach. Limampung piso lang po dagdag kung gusto ninyo.
+
+[TAGALOG-MALE-1]: Magkano po lahat kung dalawang beach?
+
+[TAGALOG-MALE-2]: Isandaan singkuwenta po bawat tao. Sulit na po yan.
+
+[NARRATOR]: Later, at a beachside carindera
+
+[TAGALOG-FEMALE-2]: Ate, ano pong mga ulam ninyo ngayon?
+
+[TAGALOG-FEMALE-1]: Meron pong inihaw na bangus, adobong manok, at sinigang na hipon.
+
+[TAGALOG-FEMALE-2]: Masarap po ba ang sinigang ninyo?
+
+[TAGALOG-FEMALE-1]: Oo naman! Sariwang hipon po yan, kakahuli lang ngayong umaga.
+
+[TAGALOG-MALE-1]: Magkano po ang presyo nito?
+
+[TAGALOG-FEMALE-1]: Dalawandaan po with rice. Ano pa pong specialty namin? Meron din pong kinilaw na tanigue.
+
+[TAGALOG-FEMALE-2]: Sige po, dalawang sinigang at isang kinilaw.
+
+[NARRATOR]: Slow Speed
+
+[TAGALOG-MALE-1]: Manong... magkano po... hanggang sa... Nacpan Beach?
+
+[TAGALOG-MALE-2]: Isandaang... piso po... bawat tao... sir.
+
+[TAGALOG-FEMALE-1]: Saan po... kami... makakakuha... ng tricycle... pabalik?
+
+[TAGALOG-MALE-2]: Doon po... sa tabi... ng sari-sari store... Maraming... naghihintay... doon.
+
+[TAGALOG-MALE-1]: Ah... salamat po... Kailangan po ba... naming... magbayad... ngayon?
+
+[TAGALOG-MALE-2]: Hindi pa po... Pagdating po... namin doon... tsaka po... kayo... magbabayad.
+
+[TAGALOG-FEMALE-1]: Manong... may mga... ibang... tourist spots po ba... na malapit... sa Nacpan?
+
+[TAGALOG-MALE-2]: Oo... meron pong... Calitang Beach... Limampung piso... lang po... dagdag... kung gusto... ninyo.
+
+[TAGALOG-MALE-1]: Magkano po... lahat... kung... dalawang beach?
+
+[TAGALOG-MALE-2]: Isandaan... singkuwenta po... bawat tao... Sulit na... po yan.
+
+[TAGALOG-FEMALE-2]: Ate... ano pong... mga ulam... ninyo... ngayon?
+
+[TAGALOG-FEMALE-1]: Meron pong... inihaw na bangus... adobong manok... at sinigang... na hipon.
+
+[TAGALOG-FEMALE-2]: Masarap po ba... ang sinigang... ninyo?
+
+[TAGALOG-FEMALE-1]: Oo naman... Sariwang hipon... po yan... kakahuli lang... ngayong umaga.
+
+[TAGALOG-MALE-1]: Magkano po... ang presyo... nito?
+
+[TAGALOG-FEMALE-1]: Dalawandaan po... with rice... Ano pa pong... specialty namin... Meron din pong... kinilaw... na tanigue.
+
+[TAGALOG-FEMALE-2]: Sige po... dalawang sinigang... at isang... kinilaw.
+
+[NARRATOR]: Translated
+
+[TAGALOG-MALE-1]: Manong, magkano po hanggang sa Nacpan Beach?
+[NARRATOR]: Brother driver, how much to Nacpan Beach?
+
+[TAGALOG-MALE-2]: Isandaang piso po bawat tao, sir.
+[NARRATOR]: One hundred pesos per person, sir.
+
+[TAGALOG-FEMALE-1]: Saan po kami makakakuha ng tricycle pabalik?
+[NARRATOR]: Where can we get a tricycle back? Note: "makakakuha" implies finding or obtaining transportation.
+
+[TAGALOG-MALE-2]: Doon po sa tabi ng sari-sari store. Maraming naghihintay doon.
+[NARRATOR]: Over there beside the convenience store. Many are waiting there.
+
+[TAGALOG-MALE-1]: Ah, salamat po. Kailangan po ba naming magbayad ngayon?
+[NARRATOR]: Ah, thank you. Do we need to pay now?
+
+[TAGALOG-MALE-2]: Hindi pa po. Pagdating po namin doon, tsaka po kayo magbabayad.
+[NARRATOR]: Not yet. When we arrive there, then you'll pay. Note: This shows trust-based payment common in Filipino culture.
+
+[TAGALOG-FEMALE-1]: Manong, may mga ibang tourist spots po ba na malapit sa Nacpan?
+[NARRATOR]: Brother, are there other tourist spots near Nacpan?
+
+[TAGALOG-MALE-2]: Oo, meron pong Calitang Beach. Limampung piso lang po dagdag kung gusto ninyo.
+[NARRATOR]: Yes, there's Calitang Beach. Just fifty pesos extra if you want.
+
+[TAGALOG-MALE-1]: Magkano po lahat kung dalawang beach?
+[NARRATOR]: How much total for two beaches?
+
+[TAGALOG-MALE-2]: Isandaan singkuwenta po bawat tao. Sulit na po yan.
+[NARRATOR]: One hundred fifty per person. That's worth it already. Note: "Sulit na" expresses good value.
+
+[TAGALOG-FEMALE-2]: Ate, ano pong mga ulam ninyo ngayon?
+[NARRATOR]: Sister, what dishes do you have today?
+
+[TAGALOG-FEMALE-1]: Meron pong inihaw na bangus, adobong manok, at sinigang na hipon.
+[NARRATOR]: We have grilled milkfish, chicken adobo, and shrimp sinigang.
+
+[TAGALOG-FEMALE-2]: Masarap po ba ang sinigang ninyo?
+[NARRATOR]: Is your sinigang delicious?
+
+[TAGALOG-FEMALE-1]: Oo naman! Sariwang hipon po yan, kakahuli lang ngayong umaga.
+[NARRATOR]: Of course! Those are fresh shrimp, just caught this morning. Note: "Kakahuli lang" emphasizes very recent freshness.
+
+[TAGALOG-MALE-1]: Magkano po ang presyo nito?
+[NARRATOR]: How much is the price of this?
+
+[TAGALOG-FEMALE-1]: Dalawandaan po with rice. Ano pa pong specialty namin? Meron din pong kinilaw na tanigue.
+[NARRATOR]: Two hundred with rice. What other specialty do we have? We also have tanigue kinilaw. Note: Code-switching with "with rice" is natural in Filipino English.
+
+[TAGALOG-FEMALE-2]: Sige po, dalawang sinigang at isang kinilaw.
+[NARRATOR]: Okay, two sinigang and one kinilaw.

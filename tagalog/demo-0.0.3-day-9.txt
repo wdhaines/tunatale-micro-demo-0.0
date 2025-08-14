@@ -1,0 +1,246 @@
+[NARRATOR]: Day 9: Welcome to El Nido! Enhanced – Day 1 Revisited
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: kumusta po
+[NARRATOR]: how are you? (polite)
+[TAGALOG-FEMALE-1]: kumusta po
+po
+ta
+us
+usta
+kum
+kumusta
+kumusta po
+kumusta po
+
+[TAGALOG-FEMALE-1]: mabuti po
+[NARRATOR]: I'm well (polite)
+[TAGALOG-FEMALE-1]: mabuti po
+po
+ti
+bu
+buti
+ma
+mabuti
+mabuti po
+mabuti po
+
+[NARRATOR]: Natural Speed
+
+Airport Arrival
+
+[TAGALOG-MALE-1]: Ma'am, taxi po?
+[TAGALOG-FEMALE-1]: Salamat po. El Nido po.
+[TAGALOG-MALE-1]: El Nido? Opo! Kumusta po ang flight?
+[TAGALOG-FEMALE-1]: Mabuti po, salamat!
+[TAGALOG-MALE-1]: First time po sa Palawan?
+[TAGALOG-FEMALE-1]: Opo! First time po.
+[TAGALOG-MALE-1]: Ah, magugustuhan ninyo po! Very nice sa El Nido.
+[TAGALOG-FEMALE-1]: Salamat po!
+
+Hotel Check-in Enhanced
+
+[TAGALOG-FEMALE-2]: Good afternoon po! Kumusta po kayo?
+[TAGALOG-FEMALE-1]: Mabuti po, salamat! Kumusta po kayo?
+[TAGALOG-FEMALE-2]: Mabuti rin po! May reservation po ba?
+[TAGALOG-FEMALE-1]: Opo. Maria Santos po.
+[TAGALOG-FEMALE-2]: Ah, Maria Santos! Opo, meron po. Kumusta po ang byahe?
+[TAGALOG-FEMALE-1]: Mabuti po! Very nice ang Palawan.
+[TAGALOG-FEMALE-2]: Salamat po! First time po ninyo dito?
+[TAGALOG-FEMALE-1]: Opo, first time po.
+[TAGALOG-FEMALE-2]: Welcome po sa El Nido! Ito po ang key ninyo.
+[TAGALOG-FEMALE-1]: Salamat po!
+
+Local Market Interaction
+
+[TAGALOG-MALE-2]: Kumusta po, ma'am!
+[TAGALOG-FEMALE-1]: Kumusta po! Fresh fish po?
+[TAGALOG-MALE-2]: Opo! Very fresh po. Kumusta po ang vacation ninyo?
+[TAGALOG-FEMALE-1]: Mabuti po! El Nido sobrang ganda.
+[TAGALOG-MALE-2]: Salamat po! Tourist po kayo, no?
+[TAGALOG-FEMALE-1]: Opo! First time po namin dito.
+[TAGALOG-MALE-2]: Ah, welcome po! Enjoy po kayo sa El Nido!
+[TAGALOG-FEMALE-1]: Salamat po!
+
+Restaurant Greeting
+
+[TAGALOG-FEMALE-3]: Good evening po! Kumusta po?
+[TAGALOG-FEMALE-1]: Mabuti po, salamat! Kumusta po kayo?
+[TAGALOG-FEMALE-3]: Mabuti rin po! Table for two po?
+[TAGALOG-FEMALE-1]: Opo, salamat po.
+[TAGALOG-FEMALE-3]: First time po ninyo sa restaurant namin?
+[TAGALOG-FEMALE-1]: Opo, first time po.
+[TAGALOG-FEMALE-3]: Welcome po! Special po namin ngayon ang fish.
+[TAGALOG-FEMALE-1]: Salamat po!
+
+Hotel Staff Follow-up
+
+[TAGALOG-MALE-3]: Good morning po! Kumusta po ang gabi ninyo?
+[TAGALOG-FEMALE-1]: Mabuti po, salamat! Very comfortable ang bed.
+[TAGALOG-MALE-3]: Salamat po! Kumusta po ang El Nido so far?
+[TAGALOG-FEMALE-1]: Sobrang ganda po! Salamat po sa lahat.
+[TAGALOG-MALE-3]: Welcome po! May kailangan po ba kayo?
+[TAGALOG-FEMALE-1]: Opo, directions po sa beach?
+[TAGALOG-MALE-3]: Ah, walking distance lang po. Very easy.
+[TAGALOG-FEMALE-1]: Salamat po!
+
+[NARRATOR]: Slow Speed
+
+Airport Arrival
+
+[TAGALOG-MALE-1]: Ma'am... taxi... po?
+[TAGALOG-FEMALE-1]: Salamat... po... El Nido... po.
+[TAGALOG-MALE-1]: El Nido?... Opo!... Kumusta... po... ang... flight?
+[TAGALOG-FEMALE-1]: Mabuti... po... salamat!
+[TAGALOG-MALE-1]: First... time... po... sa... Palawan?
+[TAGALOG-FEMALE-1]: Opo!... First... time... po.
+[TAGALOG-MALE-1]: Ah... magugustuhan... ninyo... po!... Very... nice... sa... El Nido.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+Hotel Check-in Enhanced
+
+[TAGALOG-FEMALE-2]: Good... afternoon... po!... Kumusta... po... kayo?
+[TAGALOG-FEMALE-1]: Mabuti... po... salamat!... Kumusta... po... kayo?
+[TAGALOG-FEMALE-2]: Mabuti... rin... po!... May... reservation... po... ba?
+[TAGALOG-FEMALE-1]: Opo... Maria... Santos... po.
+[TAGALOG-FEMALE-2]: Ah... Maria... Santos!... Opo... meron... po... Kumusta... po... ang... byahe?
+[TAGALOG-FEMALE-1]: Mabuti... po!... Very... nice... ang... Palawan.
+[TAGALOG-FEMALE-2]: Salamat... po!... First... time... po... ninyo... dito?
+[TAGALOG-FEMALE-1]: Opo... first... time... po.
+[TAGALOG-FEMALE-2]: Welcome... po... sa... El Nido!... Ito... po... ang... key... ninyo.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+Local Market Interaction
+
+[TAGALOG-MALE-2]: Kumusta... po... ma'am!
+[TAGALOG-FEMALE-1]: Kumusta... po!... Fresh... fish... po?
+[TAGALOG-MALE-2]: Opo!... Very... fresh... po... Kumusta... po... ang... vacation... ninyo?
+[TAGALOG-FEMALE-1]: Mabuti... po!... El Nido... sobrang... ganda.
+[TAGALOG-MALE-2]: Salamat... po!... Tourist... po... kayo... no?
+[TAGALOG-FEMALE-1]: Opo!... First... time... po... namin... dito.
+[TAGALOG-MALE-2]: Ah... welcome... po!... Enjoy... po... kayo... sa... El Nido!
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+Restaurant Greeting
+
+[TAGALOG-FEMALE-3]: Good... evening... po!... Kumusta... po?
+[TAGALOG-FEMALE-1]: Mabuti... po... salamat!... Kumusta... po... kayo?
+[TAGALOG-FEMALE-3]: Mabuti... rin... po!... Table... for... two... po?
+[TAGALOG-FEMALE-1]: Opo... salamat... po.
+[TAGALOG-FEMALE-3]: First... time... po... ninyo... sa... restaurant... namin?
+[TAGALOG-FEMALE-1]: Opo... first... time... po.
+[TAGALOG-FEMALE-3]: Welcome... po!... Special... po... namin... ngayon... ang... fish.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+Hotel Staff Follow-up
+
+[TAGALOG-MALE-3]: Good... morning... po!... Kumusta... po... ang... gabi... ninyo?
+[TAGALOG-FEMALE-1]: Mabuti... po... salamat!... Very... comfortable... ang... bed.
+[TAGALOG-MALE-3]: Salamat... po!... Kumusta... po... ang... El Nido... so... far?
+[TAGALOG-FEMALE-1]: Sobrang... ganda... po!... Salamat... po... sa... lahat.
+[TAGALOG-MALE-3]: Welcome... po!... May... kailangan... po... ba... kayo?
+[TAGALOG-FEMALE-1]: Opo... directions... po... sa... beach?
+[TAGALOG-MALE-3]: Ah... walking... distance... lang... po... Very... easy.
+[TAGALOG-FEMALE-1]: Salamat... po!
+
+[NARRATOR]: Translated
+
+Airport Arrival
+
+[TAGALOG-MALE-1]: Ma'am, taxi po?
+[NARRATOR]: Ma'am, taxi?
+[TAGALOG-FEMALE-1]: Salamat po. El Nido po.
+[NARRATOR]: Thank you. El Nido please.
+[TAGALOG-MALE-1]: El Nido? Opo! Kumusta po ang flight?
+[NARRATOR]: El Nido? Yes! How was your flight?
+[TAGALOG-FEMALE-1]: Mabuti po, salamat!
+[NARRATOR]: Good, thank you!
+[TAGALOG-MALE-1]: First time po sa Palawan?
+[NARRATOR]: First time in Palawan?
+[TAGALOG-FEMALE-1]: Opo! First time po.
+[NARRATOR]: Yes! First time.
+[TAGALOG-MALE-1]: Ah, magugustuhan ninyo po! Very nice sa El Nido.
+[NARRATOR]: Ah, you'll love it! Very nice in El Nido.
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+Hotel Check-in Enhanced
+
+[TAGALOG-FEMALE-2]: Good afternoon po! Kumusta po kayo?
+[NARRATOR]: Good afternoon! How are you? (In Filipino culture, asking "kumusta" shows genuine care and hospitality)
+[TAGALOG-FEMALE-1]: Mabuti po, salamat! Kumusta po kayo?
+[NARRATOR]: I'm well, thank you! How are you?
+[TAGALOG-FEMALE-2]: Mabuti rin po! May reservation po ba?
+[NARRATOR]: I'm well too! Do you have a reservation?
+[TAGALOG-FEMALE-1]: Opo. Maria Santos po.
+[NARRATOR]: Yes. Maria Santos.
+[TAGALOG-FEMALE-2]: Ah, Maria Santos! Opo, meron po. Kumusta po ang byahe?
+[NARRATOR]: Ah, Maria Santos! Yes, we have it. How was your trip?
+[TAGALOG-FEMALE-1]: Mabuti po! Very nice ang Palawan.
+[NARRATOR]: Good! Palawan is very nice.
+[TAGALOG-FEMALE-2]: Salamat po! First time po ninyo dito?
+[NARRATOR]: Thank you! Is this your first time here?
+[TAGALOG-FEMALE-1]: Opo, first time po.
+[NARRATOR]: Yes, first time.
+[TAGALOG-FEMALE-2]: Welcome po sa El Nido! Ito po ang key ninyo.
+[NARRATOR]: Welcome to El Nido! Here's your key.
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+Local Market Interaction
+
+[TAGALOG-MALE-2]: Kumusta po, ma'am!
+[NARRATOR]: How are you, ma'am!
+[TAGALOG-FEMALE-1]: Kumusta po! Fresh fish po?
+[NARRATOR]: How are you! Fresh fish?
+[TAGALOG-MALE-2]: Opo! Very fresh po. Kumusta po ang vacation ninyo?
+[NARRATOR]: Yes! Very fresh. How's your vacation?
+[TAGALOG-FEMALE-1]: Mabuti po! El Nido sobrang ganda.
+[NARRATOR]: Good! El Nido is so beautiful.
+[TAGALOG-MALE-2]: Salamat po! Tourist po kayo, no?
+[NARRATOR]: Thank you! You're tourists, right?
+[TAGALOG-FEMALE-1]: Opo! First time po namin dito.
+[NARRATOR]: Yes! This is our first time here.
+[TAGALOG-MALE-2]: Ah, welcome po! Enjoy po kayo sa El Nido!
+[NARRATOR]: Ah, welcome! Enjoy El Nido!
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+Restaurant Greeting
+
+[TAGALOG-FEMALE-3]: Good evening po! Kumusta po?
+[NARRATOR]: Good evening! How are you?
+[TAGALOG-FEMALE-1]: Mabuti po, salamat! Kumusta po kayo?
+[NARRATOR]: I'm well, thank you! How are you?
+[TAGALOG-FEMALE-3]: Mabuti rin po! Table for two po?
+[NARRATOR]: I'm well too! Table for two?
+[TAGALOG-FEMALE-1]: Opo, salamat po.
+[NARRATOR]: Yes, thank you.
+[TAGALOG-FEMALE-3]: First time po ninyo sa restaurant namin?
+[NARRATOR]: Is this your first time at our restaurant?
+[TAGALOG-FEMALE-1]: Opo, first time po.
+[NARRATOR]: Yes, first time.
+[TAGALOG-FEMALE-3]: Welcome po! Special po namin ngayon ang fish.
+[NARRATOR]: Welcome! Our special today is fish.
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
+
+Hotel Staff Follow-up
+
+[TAGALOG-MALE-3]: Good morning po! Kumusta po ang gabi ninyo?
+[NARRATOR]: Good morning! How was your night?
+[TAGALOG-FEMALE-1]: Mabuti po, salamat! Very comfortable ang bed.
+[NARRATOR]: Good, thank you! The bed was very comfortable.
+[TAGALOG-MALE-3]: Salamat po! Kumusta po ang El Nido so far?
+[NARRATOR]: Thank you! How has El Nido been so far?
+[TAGALOG-FEMALE-1]: Sobrang ganda po! Salamat po sa lahat.
+[NARRATOR]: So beautiful! Thank you for everything.
+[TAGALOG-MALE-3]: Welcome po! May kailangan po ba kayo?
+[NARRATOR]: You're welcome! Do you need anything?
+[TAGALOG-FEMALE-1]: Opo, directions po sa beach?
+[NARRATOR]: Yes, directions to the beach?
+[TAGALOG-MALE-3]: Ah, walking distance lang po. Very easy.
+[NARRATOR]: Ah, just walking distance. Very easy.
+[TAGALOG-FEMALE-1]: Salamat po!
+[NARRATOR]: Thank you!
