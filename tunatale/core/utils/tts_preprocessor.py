@@ -58,6 +58,8 @@ VOWEL_SYLLABLE_PATTERNS = {
     # Other words pronounced as English
     r'\bate\b': 'ahteh',      # ate → ahteh
     r'\bpit\b': 'peeyt',      # pit → peeyt
+    r'\bron\b': 'rhone',        # ron → rhone
+    r'\bwe\b': 'way',         # we → way
 }
 
 # Consonant-ending syllables (less problematic but still need fixes)
