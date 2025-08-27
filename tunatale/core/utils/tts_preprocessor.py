@@ -57,8 +57,10 @@ VOWEL_SYLLABLE_PATTERNS = {
 
     # Other words pronounced as English
     r'\bate\b': 'ahteh',      # ate → ahteh
+    r'\bgus\b': 'goose',      # gus → goose
+    r'\bnin\b': 'neeyn',      # nin → neeyn
     r'\bpit\b': 'peeyt',      # pit → peeyt
-    r'\bron\b': 'rhone',        # ron → rhone
+    r'\bron\b': 'rhone',      # ron → rhone
     r'\bwe\b': 'way',         # we → way
 }
 

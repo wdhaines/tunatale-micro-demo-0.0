@@ -1,0 +1,429 @@
+[NARRATOR]: Day 7: Restaurant Confidence – Day 7 Revisited
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: paano po ginagawa
+[NARRATOR]: how is it prepared
+[TAGALOG-FEMALE-1]: paano po ginagawa
+[TAGALOG-FEMALE-1]: wa
+[TAGALOG-FEMALE-1]: ga
+[TAGALOG-FEMALE-1]: gawa
+[TAGALOG-FEMALE-1]: na
+[TAGALOG-FEMALE-1]: nagawa
+[TAGALOG-FEMALE-1]: gi
+[TAGALOG-FEMALE-1]: ginagawa
+[TAGALOG-FEMALE-1]: po
+[TAGALOG-FEMALE-1]: po ginagawa
+[TAGALOG-FEMALE-1]: no
+[TAGALOG-FEMALE-1]: a
+[TAGALOG-FEMALE-1]: ano
+[TAGALOG-FEMALE-1]: pa
+[TAGALOG-FEMALE-1]: paano
+[TAGALOG-FEMALE-1]: paano po ginagawa
+[TAGALOG-FEMALE-1]: paano po ginagawa
+
+
+[TAGALOG-FEMALE-1]: ano pong masasabi ninyo
+[NARRATOR]: what can you tell us
+[TAGALOG-FEMALE-1]: ano pong masasabi ninyo
+[TAGALOG-FEMALE-1]: yo
+[TAGALOG-FEMALE-1]: nin
+[TAGALOG-FEMALE-1]: ninyo
+[TAGALOG-FEMALE-1]: bi
+[TAGALOG-FEMALE-1]: sa
+[TAGALOG-FEMALE-1]: sabi
+[TAGALOG-FEMALE-1]: sa
+[TAGALOG-FEMALE-1]: sasabi
+[TAGALOG-FEMALE-1]: ma
+[TAGALOG-FEMALE-1]: masasabi
+[TAGALOG-FEMALE-1]: masasabi ninyo
+[TAGALOG-FEMALE-1]: pong
+[TAGALOG-FEMALE-1]: pong masasabi ninyo
+[TAGALOG-FEMALE-1]: no
+[TAGALOG-FEMALE-1]: a
+[TAGALOG-FEMALE-1]: ano
+[TAGALOG-FEMALE-1]: ano pong masasabi ninyo
+[TAGALOG-FEMALE-1]: ano pong masasabi ninyo
+
+
+[TAGALOG-MALE-1]: specialty talaga namin
+[NARRATOR]: really our specialty
+[TAGALOG-MALE-1]: specialty talaga namin
+[TAGALOG-FEMALE-1]: min
+[TAGALOG-FEMALE-1]: na
+[TAGALOG-FEMALE-1]: namin
+[TAGALOG-FEMALE-1]: ga
+[TAGALOG-FEMALE-1]: la
+[TAGALOG-FEMALE-1]: laga
+[TAGALOG-FEMALE-1]: ta
+[TAGALOG-FEMALE-1]: talaga
+[TAGALOG-FEMALE-1]: talaga namin
+[TAGALOG-FEMALE-1]: specialty
+[TAGALOG-FEMALE-1]: specialty talaga namin
+[TAGALOG-FEMALE-1]: specialty talaga namin
+
+
+[TAGALOG-FEMALE-1]: paumanhin po
+[NARRATOR]: excuse me politely
+[TAGALOG-FEMALE-1]: paumanhin po
+[TAGALOG-FEMALE-1]: po
+[TAGALOG-FEMALE-1]: hin
+[TAGALOG-FEMALE-1]: man
+[TAGALOG-FEMALE-1]: manhin
+[TAGALOG-FEMALE-1]: u
+[TAGALOG-FEMALE-1]: umanhin
+[TAGALOG-FEMALE-1]: pa
+[TAGALOG-FEMALE-1]: paumanhin
+[TAGALOG-FEMALE-1]: paumanhin po
+[TAGALOG-FEMALE-1]: paumanhin po
+
+
+[TAGALOG-MALE-2]: bakit po recommended
+[NARRATOR]: why is it recommended
+[TAGALOG-MALE-2]: bakit po recommended
+[TAGALOG-FEMALE-1]: recommended
+[TAGALOG-FEMALE-1]: po
+[TAGALOG-FEMALE-1]: po recommended
+[TAGALOG-FEMALE-1]: kit
+[TAGALOG-FEMALE-1]: ba
+[TAGALOG-FEMALE-1]: bakit
+[TAGALOG-FEMALE-1]: bakit po recommended
+[TAGALOG-FEMALE-1]: bakit po recommended
+
+
+[TAGALOG-FEMALE-1]: maraming salamat sa inyo
+[NARRATOR]: thank you very much
+[TAGALOG-FEMALE-1]: maraming salamat sa inyo
+[TAGALOG-FEMALE-1]: yo
+[TAGALOG-FEMALE-1]: in
+[TAGALOG-FEMALE-1]: inyo
+[TAGALOG-FEMALE-1]: sa
+[TAGALOG-FEMALE-1]: sa inyo
+[TAGALOG-FEMALE-1]: mat
+[TAGALOG-FEMALE-1]: la
+[TAGALOG-FEMALE-1]: lamat
+[TAGALOG-FEMALE-1]: sa
+[TAGALOG-FEMALE-1]: salamat
+[TAGALOG-FEMALE-1]: salamat sa inyo
+[TAGALOG-FEMALE-1]: ming
+[TAGALOG-FEMALE-1]: ra
+[TAGALOG-FEMALE-1]: raming
+[TAGALOG-FEMALE-1]: ma
+[TAGALOG-FEMALE-1]: maraming
+[TAGALOG-FEMALE-1]: maraming salamat sa inyo
+[TAGALOG-FEMALE-1]: maraming salamat sa inyo
+
+
+[TAGALOG-MALE-1]: ano pong gusto ninyo
+[NARRATOR]: what would you like
+[TAGALOG-MALE-1]: ano pong gusto ninyo
+[TAGALOG-FEMALE-1]: yo
+[TAGALOG-FEMALE-1]: nin
+[TAGALOG-FEMALE-1]: ninyo
+[TAGALOG-FEMALE-1]: to
+[TAGALOG-FEMALE-1]: gus
+[TAGALOG-FEMALE-1]: gusto
+[TAGALOG-FEMALE-1]: gusto ninyo
+[TAGALOG-FEMALE-1]: pong
+[TAGALOG-FEMALE-1]: pong gusto ninyo
+[TAGALOG-FEMALE-1]: no
+[TAGALOG-FEMALE-1]: a
+[TAGALOG-FEMALE-1]: ano
+[TAGALOG-FEMALE-1]: ano pong gusto ninyo
+[TAGALOG-FEMALE-1]: ano pong gusto ninyo
+
+
+[TAGALOG-FEMALE-1]: pwede po bang malaman
+[NARRATOR]: may we know
+[TAGALOG-FEMALE-1]: pwede po bang malaman
+[TAGALOG-FEMALE-1]: man
+[TAGALOG-FEMALE-1]: la
+[TAGALOG-FEMALE-1]: laman
+[TAGALOG-FEMALE-1]: ma
+[TAGALOG-FEMALE-1]: malaman
+[TAGALOG-FEMALE-1]: bang
+[TAGALOG-FEMALE-1]: bang malaman
+[TAGALOG-FEMALE-1]: po
+[TAGALOG-FEMALE-1]: po bang malaman
+[TAGALOG-FEMALE-1]: de
+[TAGALOG-FEMALE-1]: pwe
+[TAGALOG-FEMALE-1]: pwede
+[TAGALOG-FEMALE-1]: pwede po bang malaman
+[TAGALOG-FEMALE-1]: pwede po bang malaman
+
+
+[NARRATOR]: Natural Speed
+
+[NARRATOR]: Arriving at Restaurant
+
+[TAGALOG-MALE-1]: Magandang gabi po! Para sa ilan po kaya?
+[TAGALOG-FEMALE-1]: Para sa dalawa po, salamat.
+[TAGALOG-MALE-1]: Saan po ninyo gustong umupo? Sa loob o sa labas?
+[TAGALOG-FEMALE-1]: Sa labas po sana. May bakanteng mesa po kaya?
+[TAGALOG-MALE-1]: Meron po! Para sa dalawa po talaga, tama po ba?
+[TAGALOG-FEMALE-1]: Opo, dalawa po kami.
+[TAGALOG-MALE-1]: Dito po kayo, pakisunod na lang.
+
+[NARRATOR]: At the Table
+
+[TAGALOG-MALE-2]: Paumanhin po, ano pong specialty dito?
+[TAGALOG-MALE-1]: Specialty talaga namin po, inihaw na seafood.
+[TAGALOG-MALE-2]: Ano pong masasabi ninyo sa prawns?
+[TAGALOG-MALE-1]: Napakasarap po talaga! Specialty talaga namin yan. Sariwang-sariwa ngayong araw!
+[TAGALOG-MALE-2]: Ganun po ba? Sige, yun na nga. Ana, ikaw?
+[TAGALOG-FEMALE-1]: May iba pa pong specialty?
+[TAGALOG-MALE-1]: Sinigang na lapu-lapu po, specialty talaga namin din ito.
+[TAGALOG-FEMALE-1]: Paano po ginagawa?
+[TAGALOG-MALE-1]: Pinakamasarap po talaga!
+
+[NARRATOR]: Ordering
+
+[TAGALOG-MALE-1]: Handa na po kayong umorder?
+[TAGALOG-FEMALE-1]: Sandali lang po. Inumin muna namin.
+[TAGALOG-MALE-1]: Ano pong gusto ninyong inumin?
+[TAGALOG-FEMALE-1]: Mango shake po. Dalawa. Masarap po kaya?
+[TAGALOG-MALE-1]: Sobrang sarap po! Sariwang mango po talaga.
+[TAGALOG-FEMALE-1]: Ben, handa na po ba tayong umorder?
+[TAGALOG-MALE-2]: Opo. Pwede na pong kunin ang order namin.
+
+[NARRATOR]: Taking the Order
+
+[TAGALOG-MALE-1]: Ano pong gusto ninyo?
+[TAGALOG-MALE-2]: Inihaw na prawns po. Pwede po bang malaman, para sa ilan po ang serving?
+[TAGALOG-MALE-1]: Para sa isang tao po. Malaki naman po ang serving.
+[TAGALOG-MALE-2]: Ah, isa lang pala. Tapos sinigang din po.
+[TAGALOG-MALE-1]: Kanin po kaya?
+[TAGALOG-MALE-2]: Ilan po kasamang kanin?
+[TAGALOG-MALE-1]: Wala pong kasama. Hiwalay pong order.
+[TAGALOG-MALE-2]: Dalawang kanin po.
+[TAGALOG-MALE-1]: Inumin po?
+[TAGALOG-FEMALE-1]: Mango shake po, dalawa.
+[TAGALOG-MALE-1]: Sige po. May iba pa po?
+[TAGALOG-FEMALE-1]: Tubig lang po. May libreng tubig po kaya?
+[TAGALOG-MALE-1]: Meron po! Libre po ang tubig dito.
+
+[NARRATOR]: During the Meal
+
+[TAGALOG-MALE-1]: Kumusta po ang lasa?
+[TAGALOG-FEMALE-1]: Napakasarap po talaga!
+[TAGALOG-MALE-1]: Specialty talaga namin po kasi yan!
+[TAGALOG-FEMALE-2]: Paumanhin po! Pwede po bang malaman, para sa ilan po ang prawns?
+[TAGALOG-MALE-1]: Para sa isa po.
+[TAGALOG-FEMALE-2]: Masarap po kaya?
+[TAGALOG-FEMALE-1]: Opo! Napakasarap po talaga!
+[TAGALOG-FEMALE-2]: Ganun po ba? Sige, mag-order na rin po ako!
+
+[NARRATOR]: After Eating
+
+[TAGALOG-MALE-1]: Panghimagas po kaya?
+[TAGALOG-FEMALE-1]: Ano pong meron?
+[TAGALOG-MALE-1]: Halo-halo po, specialty talaga namin!
+[TAGALOG-FEMALE-1]: Para sa ilan po yun?
+[TAGALOG-MALE-1]: Pwedeng ishare. Malaki po kasi.
+[TAGALOG-FEMALE-1]: Ben, mag-order po kaya tayo?
+[TAGALOG-MALE-2]: Tubig lang po muna ako. Busog na po ako!
+[TAGALOG-FEMALE-1]: Ako rin po. Mamaya na lang po siguro.
+[TAGALOG-MALE-2]: Pwede po bang kunin na ang bill?
+[TAGALOG-MALE-1]: Sige po!
+
+[NARRATOR]: Slow Speed
+
+[NARRATOR]: Arriving at Restaurant
+
+[TAGALOG-MALE-1]: Magandang... gabi... po!... Para... sa... ilan... po... kaya?
+[TAGALOG-FEMALE-1]: Para... sa... dalawa... po... salamat.
+[TAGALOG-MALE-1]: Saan... po... ninyo... gustong... umupo?... Sa... loob... o... sa... labas?
+[TAGALOG-FEMALE-1]: Sa... labas... po... sana... May... bakanteng... mesa... po... kaya?
+[TAGALOG-MALE-1]: Meron... po!... Para... sa... dalawa... po... talaga... tama... po... ba?
+[TAGALOG-FEMALE-1]: Opo... dalawa... po... kami.
+[TAGALOG-MALE-1]: Dito... po... kayo... pakisunod... na... lang.
+
+[NARRATOR]: At the Table
+
+[TAGALOG-MALE-2]: Paumanhin... po... ano... pong... specialty... dito?
+[TAGALOG-MALE-1]: Specialty... talaga... namin... po... inihaw... na... seafood.
+[TAGALOG-MALE-2]: Ano... pong... masasabi... ninyo... sa... prawns?
+[TAGALOG-MALE-1]: Napakasarap... po... talaga!... Specialty... talaga... namin... yan... Sariwang-sariwa... ngayong... araw!
+[TAGALOG-MALE-2]: Ganun... po... ba?... Sige... yun... na... nga... Ana... ikaw?
+[TAGALOG-FEMALE-1]: May... iba... pa... pong... specialty?
+[TAGALOG-MALE-1]: Sinigang... na... lapu-lapu... po... specialty... talaga... namin... din... ito.
+[TAGALOG-FEMALE-1]: Paano... po... ginagawa?
+[TAGALOG-MALE-1]: Pinakamasarap... po... talaga!
+
+[NARRATOR]: Ordering
+
+[TAGALOG-MALE-1]: Handa... na... po... kayong... umorder?
+[TAGALOG-FEMALE-1]: Sandali... lang... po... Inumin... muna... namin.
+[TAGALOG-MALE-1]: Ano... pong... gusto... ninyong... inumin?
+[TAGALOG-FEMALE-1]: Mango... shake... po... Dalawa... Masarap... po... kaya?
+[TAGALOG-MALE-1]: Sobrang... sarap... po!... Sariwang... mango... po... talaga.
+[TAGALOG-FEMALE-1]: Ben... handa... na... po... ba... tayong... umorder?
+[TAGALOG-MALE-2]: Opo... Pwede... na... pong... kunin... ang... order... namin.
+
+[NARRATOR]: Taking the Order
+
+[TAGALOG-MALE-1]: Ano... pong... gusto... ninyo?
+[TAGALOG-MALE-2]: Inihaw... na... prawns... po... Pwede... po... bang... malaman... para... sa... ilan... po... ang... serving?
+[TAGALOG-MALE-1]: Para... sa... isang... tao... po... Malaki... naman... po... ang... serving.
+[TAGALOG-MALE-2]: Ah... isa... lang... pala... Tapos... sinigang... din... po.
+[TAGALOG-MALE-1]: Kanin... po... kaya?
+[TAGALOG-MALE-2]: Ilan... po... kasamang... kanin?
+[TAGALOG-MALE-1]: Wala... pong... kasama... Hiwalay... pong... order.
+[TAGALOG-MALE-2]: Dalawang... kanin... po.
+[TAGALOG-MALE-1]: Inumin... po?
+[TAGALOG-FEMALE-1]: Mango... shake... po... dalawa.
+[TAGALOG-MALE-1]: Sige... po... May... iba... pa... po?
+[TAGALOG-FEMALE-1]: Tubig... lang... po... May... libreng... tubig... po... kaya?
+[TAGALOG-MALE-1]: Meron... po!... Libre... po... ang... tubig... dito.
+
+[NARRATOR]: During the Meal
+
+[TAGALOG-MALE-1]: Kumusta... po... ang... lasa?
+[TAGALOG-FEMALE-1]: Napakasarap... po... talaga!
+[TAGALOG-MALE-1]: Specialty... talaga... namin... po... kasi... yan!
+[TAGALOG-FEMALE-2]: Paumanhin... po!... Pwede... po... bang... malaman... para... sa... ilan... po... ang... prawns?
+[TAGALOG-MALE-1]: Para... sa... isa... po.
+[TAGALOG-FEMALE-2]: Masarap... po... kaya?
+[TAGALOG-FEMALE-1]: Opo!... Napakasarap... po... talaga!
+[TAGALOG-FEMALE-2]: Ganun... po... ba?... Sige... mag-order... na... rin... po... ako!
+
+[NARRATOR]: After Eating
+
+[TAGALOG-MALE-1]: Panghimagas... po... kaya?
+[TAGALOG-FEMALE-1]: Ano... pong... meron?
+[TAGALOG-MALE-1]: Halo-halo... po... specialty... talaga... namin!
+[TAGALOG-FEMALE-1]: Para... sa... ilan... po... yun?
+[TAGALOG-MALE-1]: Pwedeng... ishare... Malaki... po... kasi.
+[TAGALOG-FEMALE-1]: Ben... mag-order... po... kaya... tayo?
+[TAGALOG-MALE-2]: Tubig... lang... po... muna... ako... Busog... na... po... ako!
+[TAGALOG-FEMALE-1]: Ako... rin... po... Mamaya... na... lang... po... siguro.
+[TAGALOG-MALE-2]: Pwede... po... bang... kunin... na... ang... bill?
+[TAGALOG-MALE-1]: Sige... po!
+
+[NARRATOR]: Translated
+
+[NARRATOR]: Arriving at Restaurant
+
+[TAGALOG-MALE-1]: Magandang gabi po! Para sa ilan po kaya?
+[NARRATOR]: Good evening! For how many, may I ask?
+[TAGALOG-FEMALE-1]: Para sa dalawa po, salamat.
+[NARRATOR]: For two, thank you.
+[TAGALOG-MALE-1]: Saan po ninyo gustong umupo? Sa loob o sa labas?
+[NARRATOR]: Where would you like to sit? Inside or outside?
+[TAGALOG-FEMALE-1]: Sa labas po sana. May bakanteng mesa po kaya?
+[NARRATOR]: Outside, if possible. Is there an available table?
+[TAGALOG-MALE-1]: Meron po! Para sa dalawa po talaga, tama po ba?
+[NARRATOR]: There is! For two people exactly, is that right?
+[TAGALOG-FEMALE-1]: Opo, dalawa po kami.
+[NARRATOR]: Yes, we're two.
+[TAGALOG-MALE-1]: Dito po kayo, pakisunod na lang.
+[NARRATOR]: Here, please follow me.
+
+[NARRATOR]: At the Table
+
+[TAGALOG-MALE-2]: Paumanhin po, ano pong specialty dito?
+[NARRATOR]: Excuse me, what's the specialty here?
+[TAGALOG-MALE-1]: Specialty talaga namin po, inihaw na seafood.
+[NARRATOR]: Our real specialty is grilled seafood.
+[TAGALOG-MALE-2]: Ano pong masasabi ninyo sa prawns?
+[NARRATOR]: What can you tell us about the prawns?
+[TAGALOG-MALE-1]: Napakasarap po talaga! Specialty talaga namin yan. Sariwang-sariwa ngayong araw!
+[NARRATOR]: Really very delicious! That's truly our specialty. Very fresh today!
+[TAGALOG-MALE-2]: Ganun po ba? Sige, yun na nga. Ana, ikaw?
+[NARRATOR]: Is that so? Okay, that's it then. Ana, you?
+[TAGALOG-FEMALE-1]: May iba pa pong specialty?
+[NARRATOR]: Are there other specialties?
+[TAGALOG-MALE-1]: Sinigang na lapu-lapu po, specialty talaga namin din ito.
+[NARRATOR]: Sour soup with grouper, this is truly our specialty too.
+[TAGALOG-FEMALE-1]: Paano po ginagawa?
+[NARRATOR]: How is it prepared?
+[TAGALOG-MALE-1]: Pinakamasarap po talaga!
+[NARRATOR]: Really the most delicious!
+
+[NARRATOR]: Ordering
+
+[TAGALOG-MALE-1]: Handa na po kayong umorder?
+[NARRATOR]: Are you ready to order?
+[TAGALOG-FEMALE-1]: Sandali lang po. Inumin muna namin.
+[NARRATOR]: Just a moment. Drinks first for us.
+[TAGALOG-MALE-1]: Ano pong gusto ninyong inumin?
+[NARRATOR]: What would you like to drink?
+[TAGALOG-FEMALE-1]: Mango shake po. Dalawa. Masarap po kaya?
+[NARRATOR]: Mango shake. Two. Is it delicious?
+[TAGALOG-MALE-1]: Sobrang sarap po! Sariwang mango po talaga.
+[NARRATOR]: Very delicious! Really fresh mango.
+[TAGALOG-FEMALE-1]: Ben, handa na po ba tayong umorder?
+[NARRATOR]: Ben, are we ready to order?
+[TAGALOG-MALE-2]: Opo. Pwede na pong kunin ang order namin.
+[NARRATOR]: Yes. You can take our order now.
+
+[NARRATOR]: Taking the Order
+
+[TAGALOG-MALE-1]: Ano pong gusto ninyo?
+[NARRATOR]: What would you like?
+[TAGALOG-MALE-2]: Inihaw na prawns po. Pwede po bang malaman, para sa ilan po ang serving?
+[NARRATOR]: Grilled prawns. May we know, for how many is the serving?
+[TAGALOG-MALE-1]: Para sa isang tao po. Malaki naman po ang serving.
+[NARRATOR]: For one person. But the serving is big.
+[TAGALOG-MALE-2]: Ah, isa lang pala. Tapos sinigang din po.
+[NARRATOR]: Ah, just one then. And sour soup too.
+[TAGALOG-MALE-1]: Kanin po kaya?
+[NARRATOR]: Rice perhaps?
+[TAGALOG-MALE-2]: Ilan po kasamang kanin?
+[NARRATOR]: How much rice comes with it?
+[TAGALOG-MALE-1]: Wala pong kasama. Hiwalay pong order.
+[NARRATOR]: Nothing comes with it. Separate order.
+[TAGALOG-MALE-2]: Dalawang kanin po.
+[NARRATOR]: Two rice.
+[TAGALOG-MALE-1]: Inumin po?
+[NARRATOR]: Drinks?
+[TAGALOG-FEMALE-1]: Mango shake po, dalawa.
+[NARRATOR]: Mango shake, two.
+[TAGALOG-MALE-1]: Sige po. May iba pa po?
+[NARRATOR]: Okay. Anything else?
+[TAGALOG-FEMALE-1]: Tubig lang po. May libreng tubig po kaya?
+[NARRATOR]: Just water. Is there free water?
+[TAGALOG-MALE-1]: Meron po! Libre po ang tubig dito.
+[NARRATOR]: There is! Water is free here.
+
+[NARRATOR]: During the Meal
+
+[TAGALOG-MALE-1]: Kumusta po ang lasa?
+[NARRATOR]: How's the taste?
+[TAGALOG-FEMALE-1]: Napakasarap po talaga!
+[NARRATOR]: Really very delicious!
+[TAGALOG-MALE-1]: Specialty talaga namin po kasi yan!
+[NARRATOR]: That's really our specialty!
+[TAGALOG-FEMALE-2]: Paumanhin po! Pwede po bang malaman, para sa ilan po ang prawns?
+[NARRATOR]: Excuse me! May we know, for how many is the prawns?
+[TAGALOG-MALE-1]: Para sa isa po.
+[NARRATOR]: For one.
+[TAGALOG-FEMALE-2]: Masarap po kaya?
+[NARRATOR]: Is it delicious?
+[TAGALOG-FEMALE-1]: Opo! Napakasarap po talaga!
+[NARRATOR]: Yes! Really very delicious!
+[TAGALOG-FEMALE-2]: Ganun po ba? Sige, mag-order na rin po ako!
+[NARRATOR]: Is that so? Okay, I'll order too!
+
+[NARRATOR]: After Eating
+
+[TAGALOG-MALE-1]: Panghimagas po kaya?
+[NARRATOR]: Dessert perhaps?
+[TAGALOG-FEMALE-1]: Ano pong meron?
+[NARRATOR]: What do you have?
+[TAGALOG-MALE-1]: Halo-halo po, specialty talaga namin!
+[NARRATOR]: Mixed dessert, truly our specialty!
+[TAGALOG-FEMALE-1]: Para sa ilan po yun?
+[NARRATOR]: For how many is that?
+[TAGALOG-MALE-1]: Pwedeng ishare. Malaki po kasi.
+[NARRATOR]: Can be shared. It's big.
+[TAGALOG-FEMALE-1]: Ben, mag-order po kaya tayo?
+[NARRATOR]: Ben, should we order?
+[TAGALOG-MALE-2]: Tubig lang po muna ako. Busog na po ako!
+[NARRATOR]: Just water for me first. I'm full!
+[TAGALOG-FEMALE-1]: Ako rin po. Mamaya na lang po siguro.
+[NARRATOR]: Me too. Maybe later.
+[TAGALOG-MALE-2]: Pwede po bang kunin na ang bill?
+[NARRATOR]: Can we get the bill now?
+[TAGALOG-MALE-1]: Sige po!
+[NARRATOR]: Okay!

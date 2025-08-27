@@ -1,0 +1,275 @@
+[NARRATOR]: Day 6 Revisited: Souvenir Shopping
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: meron po ba kayo
+[NARRATOR]: do you have
+[TAGALOG-FEMALE-1]: meron po ba kayo
+meron po ba kayo
+yo
+ka
+kayo
+ba
+ba kayo
+po
+po ba kayo
+ron
+me
+meron
+meron po ba kayo
+meron po ba kayo
+[TAGALOG-FEMALE-1]: tawad po
+[NARRATOR]: discount please
+[TAGALOG-FEMALE-1]: tawad po
+po
+wad po
+ta
+tawad
+tawad po
+tawad po
+
+[TAGALOG-FEMALE-1]: balik po ako
+[NARRATOR]: I'll come back
+[TAGALOG-FEMALE-1]: balik po ako
+ako
+po ako
+lik po ako
+ba
+balik
+balik po
+balik po ako
+balik po ako
+
+[TAGALOG-FEMALE-1]: ano pong presyo
+[NARRATOR]: what is the price
+[TAGALOG-FEMALE-1]: ano pong presyo
+presyo
+pong presyo
+no pong presyo
+a
+ano
+ano pong
+ano pong presyo
+ano pong presyo
+
+[TAGALOG-FEMALE-1]: salamat po sa lahat
+[NARRATOR]: thank you for everything
+[TAGALOG-FEMALE-1]: salamat po sa lahat
+lahat
+sa lahat
+po sa lahat
+mat po sa lahat
+sala
+salamat
+salamat po
+salamat po sa
+salamat po sa lahat
+salamat po sa lahat
+
+[NARRATOR]: Natural Speed
+
+[NARRATOR]: Morning at the Local Market
+
+[TAGALOG-FEMALE-1]: Kumusta po kayo! Meron po ba kayong mga souvenir?
+[TAGALOG-FEMALE-2]: Mabuti naman po! Ano pong hinahanap ninyo?
+[TAGALOG-FEMALE-1]: Mga pasalip po para sa pamilya ko.
+[TAGALOG-FEMALE-2]: Marami po kaming magaganda dito. Ano pong gusto ninyo makita?
+[TAGALOG-FEMALE-1]: Meron po ba kayong mga t-shirt ng El Nido?
+[TAGALOG-FEMALE-2]: Opo! Andito po lahat. Ano pong laki?
+
+[NARRATOR]: Looking at T-shirts
+
+[TAGALOG-MALE-1]: Kumusta po! Nakita ko po kayo dito. Ano pong presyo ng mga ito?
+[TAGALOG-FEMALE-1]: Magandang umaga po! Ano pong presyo ng t-shirt na ito?
+[TAGALOG-MALE-1]: Tatlong daan po yan. Pero kung dalawa, limang daan na lang po.
+[TAGALOG-FEMALE-1]: Meron po ba kayong mas maliit na laki?
+[TAGALOG-MALE-1]: Opo! Small hanggang extra large meron po kami.
+[TAGALOG-FEMALE-1]: Salamat po! Pwede po bang tingnan ko muna ang iba?
+
+[NARRATOR]: Browsing Other Items
+
+[TAGALOG-MALE-1]: Ano pa pong gusto ninyong tingnan? Meron din po kaming mga keychain.
+[TAGALOG-FEMALE-1]: Maganda nga po! Ano pong presyo ng mga keychain?
+[TAGALOG-MALE-1]: Singkwenta po bawat isa. Kung sampu, apat na raan na lang po.
+[TAGALOG-FEMALE-1]: Meron po ba kayong mga magnets para sa ref?
+[TAGALOG-MALE-1]: Opo! Dito po sa likod. Sisenta po bawat isa.
+[TAGALOG-FEMALE-1]: Pwede po bang makakuha ng tawad?
+[TAGALOG-MALE-1]: Kung marami po kayo, pwede naman po.
+
+[NARRATOR]: Negotiating Prices
+
+[TAGALOG-FEMALE-1]: Dalawang t-shirt po at sampung keychain. Magkano po lahat?
+[TAGALOG-MALE-1]: Siyam na raan po lahat. Pero dahil mabait kayo, walong daan na lang po.
+[TAGALOG-FEMALE-1]: Pwede po bang pitong daan na lang? Malayo pa po ako.
+[TAGALOG-MALE-1]: Ay naku! Malulugi na po ako niyan. Pitong daan limampu na lang po.
+[TAGALOG-FEMALE-1]: Sige po! Salamat sa tawad po.
+[TAGALOG-MALE-1]: Walang anuman po! Balik po kayo dito!
+
+[NARRATOR]: Final Shopping
+
+[TAGALOG-FEMALE-2]: Kumain na po ba kayo? Meron din po kaming mga pagkaing local.
+[TAGALOG-FEMALE-1]: Salamat po! Pero bumili lang po ako ng pasalip ngayon.
+[TAGALOG-FEMALE-2]: Meron po ba kayong pera na sukli? Cash lang po kasi kami.
+[TAGALOG-FEMALE-1]: Opo! Exact po ito. Pitong daan limampu.
+[TAGALOG-FEMALE-2]: Salamat po! Ingat po kayo pauwi.
+[TAGALOG-FEMALE-1]: Salamat po sa lahat! Balik po ako bukas.
+
+[NARRATOR]: Saying Goodbye
+
+[TAGALOG-FEMALE-1]: Maraming salamat sa mga magagandang souvenir!
+[TAGALOG-MALE-1]: Walang anuman po! Sana magustuhan po ng pamilya ninyo.
+[TAGALOG-FEMALE-1]: Sigurado po! Ano pong oras po kayo bukas?
+[TAGALOG-MALE-1]: Alas otso ng umaga hanggang alas seis ng gabi po.
+[TAGALOG-FEMALE-1]: Balik po ako bukas para sa iba pang pasalip.
+[TAGALOG-MALE-1]: Sige po! Maghahanda po kami ng mas marami para sa inyo!
+
+[NARRATOR]: Slow Speed
+
+[NARRATOR]: Morning at the Local Market
+
+[TAGALOG-FEMALE-1]: Kumusta... po... kayo!... Meron... po... ba... kayong... mga... souvenir?
+[TAGALOG-FEMALE-2]: Mabuti... naman... po!... Ano... pong... hinahanap... ninyo?
+[TAGALOG-FEMALE-1]: Mga... pasalip... po... para... sa... pamilya... ko.
+[TAGALOG-FEMALE-2]: Marami... po... kaming... magaganda... dito... Ano... pong... gusto... ninyo... makita?
+[TAGALOG-FEMALE-1]: Meron... po... ba... kayong... mga... t-shirt... ng... El... Nido?
+[TAGALOG-FEMALE-2]: Opo!... Andito... po... lahat... Ano... pong... laki?
+
+[NARRATOR]: Looking at T-shirts
+
+[TAGALOG-MALE-1]: Kumusta... po!... Nakita... ko... po... kayo... dito... Ano... pong... presyo... ng... mga... ito?
+[TAGALOG-FEMALE-1]: Magandang... umaga... po!... Ano... pong... presyo... ng... t-shirt... na... ito?
+[TAGALOG-MALE-1]: Tatlong... daan... po... yan... Pero... kung... dalawa... limang... daan... na... lang... po.
+[TAGALOG-FEMALE-1]: Meron... po... ba... kayong... mas... maliit... na... laki?
+[TAGALOG-MALE-1]: Opo!... Small... hanggang... extra... large... meron... po... kami.
+[TAGALOG-FEMALE-1]: Salamat... po!... Pwede... po... bang... tingnan... ko... muna... ang... iba?
+
+[NARRATOR]: Browsing Other Items
+
+[TAGALOG-MALE-1]: Ano... pa... pong... gusto... ninyong... tingnan?... Meron... din... po... kaming... mga... keychain.
+[TAGALOG-FEMALE-1]: Maganda... nga... po!... Ano... pong... presyo... ng... mga... keychain?
+[TAGALOG-MALE-1]: Singkwenta... po... bawat... isa... Kung... sampu... apat... na... raan... na... lang... po.
+[TAGALOG-FEMALE-1]: Meron... po... ba... kayong... mga... magnets... para... sa... ref?
+[TAGALOG-MALE-1]: Opo!... Dito... po... sa... likod... Sisenta... po... bawat... isa.
+[TAGALOG-FEMALE-1]: Pwede... po... bang... makakuha... ng... tawad?
+[TAGALOG-MALE-1]: Kung... marami... po... kayo... pwede... naman... po.
+
+[NARRATOR]: Negotiating Prices
+
+[TAGALOG-FEMALE-1]: Dalawang... t-shirt... po... at... sampung... keychain... Magkano... po... lahat?
+[TAGALOG-MALE-1]: Siyam... na... raan... po... lahat... Pero... dahil... mabait... kayo... walong... daan... na... lang... po.
+[TAGALOG-FEMALE-1]: Pwede... po... bang... pitong... daan... na... lang?... Malayo... pa... po... ako.
+[TAGALOG-MALE-1]: Ay... naku!... Malulugi... na... po... ako... niyan... Pitong... daan... limampu... na... lang... po.
+[TAGALOG-FEMALE-1]: Sige... po!... Salamat... sa... tawad... po.
+[TAGALOG-MALE-1]: Walang... anuman... po!... Balik... po... kayo... dito!
+
+[NARRATOR]: Final Shopping
+
+[TAGALOG-FEMALE-2]: Kumain... na... po... ba... kayo?... Meron... din... po... kaming... mga... pagkaing... local.
+[TAGALOG-FEMALE-1]: Salamat... po!... Pero... bumili... lang... po... ako... ng... pasalip... ngayon.
+[TAGALOG-FEMALE-2]: Meron... po... ba... kayong... pera... na... sukli?... Cash... lang... po... kasi... kami.
+[TAGALOG-FEMALE-1]: Opo!... Exact... po... ito... Pitong... daan... limampu.
+[TAGALOG-FEMALE-2]: Salamat... po!... Ingat... po... kayo... pauwi.
+[TAGALOG-FEMALE-1]: Salamat... po... sa... lahat!... Balik... po... ako... bukas.
+
+[NARRATOR]: Saying Goodbye
+
+[TAGALOG-FEMALE-1]: Maraming... salamat... sa... mga... magagandang... souvenir!
+[TAGALOG-MALE-1]: Walang... anuman... po!... Sana... magustuhan... po... ng... pamilya... ninyo.
+[TAGALOG-FEMALE-1]: Sigurado... po!... Ano... pong... oras... po... kayo... bukas?
+[TAGALOG-MALE-1]: Alas... otso... ng... umaga... hanggang... alas... seis... ng... gabi... po.
+[TAGALOG-FEMALE-1]: Balik... po... ako... bukas... para... sa... iba... pang... pasalip.
+[TAGALOG-MALE-1]: Sige... po!... Maghahanda... po... kami... ng... mas... marami... para... sa... inyo!
+
+[NARRATOR]: Translated
+
+[NARRATOR]: Morning at the Local Market
+
+[TAGALOG-FEMALE-1]: Kumusta po kayo! Meron po ba kayong mga souvenir?
+[NARRATOR]: How are you! Do you have souvenirs?
+[TAGALOG-FEMALE-2]: Mabuti naman po! Ano pong hinahanap ninyo?
+[NARRATOR]: We're doing well! What are you looking for?
+[TAGALOG-FEMALE-1]: Mga pasalip po para sa pamilya ko.
+[NARRATOR]: Gifts for my family.
+[TAGALOG-FEMALE-2]: Marami po kaming magaganda dito. Ano pong gusto ninyo makita?
+[NARRATOR]: We have many beautiful things here. What would you like to see?
+[TAGALOG-FEMALE-1]: Meron po ba kayong mga t-shirt ng El Nido?
+[NARRATOR]: Do you have El Nido t-shirts?
+[TAGALOG-FEMALE-2]: Opo! Andito po lahat. Ano pong laki?
+[NARRATOR]: Yes! They're all here. What size?
+
+[NARRATOR]: Looking at T-shirts
+
+[TAGALOG-MALE-1]: Kumusta po! Nakita ko po kayo dito. Ano pong presyo ng mga ito?
+[NARRATOR]: Hello! I saw you here. What's the price of these?
+[TAGALOG-FEMALE-1]: Magandang umaga po! Ano pong presyo ng t-shirt na ito?
+[NARRATOR]: Good morning! What's the price of this t-shirt?
+[TAGALOG-MALE-1]: Tatlong daan po yan. Pero kung dalawa, limang daan na lang po.
+[NARRATOR]: That's three hundred. But if two, just five hundred.
+[TAGALOG-FEMALE-1]: Meron po ba kayong mas maliit na laki?
+[NARRATOR]: Do you have smaller sizes?
+[TAGALOG-MALE-1]: Opo! Small hanggang extra large meron po kami.
+[NARRATOR]: Yes! We have small to extra large.
+[TAGALOG-FEMALE-1]: Salamat po! Pwede po bang tingnan ko muna ang iba?
+[NARRATOR]: Thank you! Can I look at the others first?
+
+[NARRATOR]: Browsing Other Items
+
+[TAGALOG-MALE-1]: Ano pa pong gusto ninyong tingnan? Meron din po kaming mga keychain.
+[NARRATOR]: What else would you like to see? We also have keychains.
+[TAGALOG-FEMALE-1]: Maganda nga po! Ano pong presyo ng mga keychain?
+[NARRATOR]: They're beautiful! What's the price of the keychains?
+[TAGALOG-MALE-1]: Singkwenta po bawat isa. Kung sampu, apat na raan na lang po.
+[NARRATOR]: Fifty each. If ten, just four hundred.
+[TAGALOG-FEMALE-1]: Meron po ba kayong mga magnets para sa ref?
+[NARRATOR]: Do you have magnets for the refrigerator?
+[TAGALOG-MALE-1]: Opo! Dito po sa likod. Sisenta po bawat isa.
+[NARRATOR]: Yes! Here in the back. Sixty each.
+[TAGALOG-FEMALE-1]: Pwede po bang makakuha ng tawad?
+[NARRATOR]: Can I get a discount?
+[TAGALOG-MALE-1]: Kung marami po kayo, pwede naman po.
+[NARRATOR]: If you buy many, it's possible.
+
+[NARRATOR]: Negotiating Prices
+
+[TAGALOG-FEMALE-1]: Dalawang t-shirt po at sampung keychain. Magkano po lahat?
+[NARRATOR]: Two t-shirts and ten keychains. How much for everything?
+[TAGALOG-MALE-1]: Siyam na raan po lahat. Pero dahil mabait kayo, walong daan na lang po.
+[NARRATOR]: Nine hundred for everything. But since you're nice, just eight hundred.
+[TAGALOG-FEMALE-1]: Pwede po bang pitong daan na lang? Malayo pa po ako.
+[NARRATOR]: Can it be just seven hundred? I still have far to go.
+[TAGALOG-MALE-1]: Ay naku! Malulugi na po ako niyan. Pitong daan limampu na lang po.
+[NARRATOR]: Oh my! I'll lose money on that. Just seven hundred fifty.
+[TAGALOG-FEMALE-1]: Sige po! Salamat sa tawad po.
+[NARRATOR]: Okay! Thank you for the discount.
+[TAGALOG-MALE-1]: Walang anuman po! Balik po kayo dito!
+[NARRATOR]: You're welcome! Come back here!
+
+[NARRATOR]: Final Shopping
+
+[TAGALOG-FEMALE-2]: Kumain na po ba kayo? Meron din po kaming mga pagkaing local.
+[NARRATOR]: Have you eaten? We also have local food.
+[TAGALOG-FEMALE-1]: Salamat po! Pero bumili lang po ako ng pasalip ngayon.
+[NARRATOR]: Thank you! But I'm just buying gifts now.
+[TAGALOG-FEMALE-2]: Meron po ba kayong pera na sukli? Cash lang po kasi kami.
+[NARRATOR]: Do you have change money? We only take cash.
+[TAGALOG-FEMALE-1]: Opo! Exact po ito. Pitong daan limampu.
+[NARRATOR]: Yes! This is exact. Seven hundred fifty.
+[TAGALOG-FEMALE-2]: Salamat po! Ingat po kayo pauwi.
+[NARRATOR]: Thank you! Take care going home.
+[TAGALOG-FEMALE-1]: Salamat po sa lahat! Balik po ako bukas.
+[NARRATOR]: Thank you for everything! I'll come back tomorrow.
+
+[NARRATOR]: Saying Goodbye
+
+[TAGALOG-FEMALE-1]: Maraming salamat sa mga magagandang souvenir!
+[NARRATOR]: Many thanks for the beautiful souvenirs!
+[TAGALOG-MALE-1]: Walang anuman po! Sana magustuhan po ng pamilya ninyo.
+[NARRATOR]: You're welcome! I hope your family likes them.
+[TAGALOG-FEMALE-1]: Sigurado po! Ano pong oras po kayo bukas?
+[NARRATOR]: For sure! What time are you here tomorrow?
+[TAGALOG-MALE-1]: Alas otso ng umaga hanggang alas seis ng gabi po.
+[NARRATOR]: Eight in the morning until six in the evening.
+[TAGALOG-FEMALE-1]: Balik po ako bukas para sa iba pang pasalip.
+[NARRATOR]: I'll come back tomorrow for other gifts.
+[TAGALOG-MALE-1]: Sige po! Maghahanda po kami ng mas marami para sa inyo!
+[NARRATOR]: Okay! We'll prepare more for you!
