@@ -22,24 +22,31 @@ logger = logging.getLogger(__name__)
 # Vowel-ending syllables (most problematic - TTS uses English vowel sounds)
 VOWEL_SYLLABLE_PATTERNS = {
     # Single vowels - UPDATED BASED ON TESTING
-    r'\ba\b': 'ah',           # a → ah (tested and chosen)
+    r'\ba\b': 'ah,',          # a → ah, (tested and chosen)
     r'\be\b': 'eh',           # e → eh (tested and chosen)
     r'\bi\b': 'eey',          # i → eey (tested and chosen)
     # r'\bo\b': 'o',          # o → unchanged (natural sounds best)
-    r'\bu\b': 'ooh',          # u → ooh (tested and chosen)
+    r'\bu\b': 'ooh,',         # u → ooh, (tested and chosen)
     
+    # Consonant + a (very common in Tagalog) - using "eey" ending
+    r'\bra\b': 'rah',         # ra → rah 
+
     # Consonant + i (very common in Tagalog) - using "eey" ending
     r'\bbi\b': 'beey',        # bi → beey (from gabi, etc.)
     r'\bki\b': 'keey',        # ki → keey
     r'\bmi\b': 'meey',        # mi → meey
     r'\bti\b': 'teey',        # ti → teey
+
+    # Consonant + in
+    r'\bin\b': 'eeyn',        # in → eeyn
+    r'\bnin\b': 'neeyn',      # nin → neeyn
     
     # Consonant + o (also very common)
-    r'\bdo\b': 'doh',         # do → doh
-    r'\bto\b': 'toh',         # to → toh (from kwarto, ito, etc.)
+    r'\bdo\b': 'doe',         # do → doe
+    r'\bto\b': 'towe',        # to → towe (from kwarto, ito, etc.)
         
     # Consonant + e
-    r'\bde\b': 'deh',         # de → deh
+    r'\bde\b': 'day',         # de → day
     r'\bge\b': 'geh',         # ge → geh
     r'\bke\b': 'keh',         # ke → keh
     r'\ble\b': 'leh',         # le → leh
@@ -49,6 +56,7 @@ VOWEL_SYLLABLE_PATTERNS = {
     r'\bre\b': 'reh',         # re → reh
     r'\bse\b': 'seh',         # se → seh
     r'\bte\b': 'teh',         # te → teh
+    r'\bwe\b': 'way',         # we → way
     
     # Consonant + u - using "ooh" ending (tested and chosen)
     r'\bdu\b': 'dooh',        # du → dooh
@@ -58,10 +66,9 @@ VOWEL_SYLLABLE_PATTERNS = {
     # Other words pronounced as English
     r'\bate\b': 'ahteh',      # ate → ahteh
     r'\bgus\b': 'goose',      # gus → goose
-    r'\bnin\b': 'neeyn',      # nin → neeyn
+    r'\bkit\b': 'keeyt',      # kit → keeyt
     r'\bpit\b': 'peeyt',      # pit → peeyt
     r'\bron\b': 'rhone',      # ron → rhone
-    r'\bwe\b': 'way',         # we → way
 }
 
 # Consonant-ending syllables (less problematic but still need fixes)

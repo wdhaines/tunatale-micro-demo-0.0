@@ -1,0 +1,26 @@
+[NARRATOR]: Syllable Pronunciation Test
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: u 
+
+[TAGALOG-FEMALE-1]: in 
+
+[TAGALOG-FEMALE-1]: kit 
+
+[TAGALOG-FEMALE-1]: ra 
+
+[TAGALOG-FEMALE-1]: de 
+
+[NARRATOR]: Natural Speed
+
+[TAGALOG-FEMALE-1]: Kumusta po? Ang ganda ng lugar na ito!
+
+[NARRATOR]: Slow Speed
+
+[TAGALOG-FEMALE-1]: Kumusta... po?... Ang... ganda... ng... lugar... na... ito!
+
+[NARRATOR]: Translated
+
+[TAGALOG-FEMALE-1]: Kumusta po? Ang ganda ng lugar na ito!
+[NARRATOR]: How are you? This place is beautiful!
