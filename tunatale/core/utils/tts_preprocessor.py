@@ -28,7 +28,7 @@ VOWEL_SYLLABLE_PATTERNS = {
     # r'\bo\b': 'o',          # o → unchanged (natural sounds best)
     r'\bu\b': 'ooh,',         # u → ooh, (tested and chosen)
     
-    # Consonant + a (very common in Tagalog) - using "eey" ending
+    # Consonant + a (very common in Tagalog) - using "ah" ending
     r'\bra\b': 'rah',         # ra → rah 
 
     # Consonant + i (very common in Tagalog) - using "eey" ending
@@ -36,10 +36,6 @@ VOWEL_SYLLABLE_PATTERNS = {
     r'\bki\b': 'keey',        # ki → keey
     r'\bmi\b': 'meey',        # mi → meey
     r'\bti\b': 'teey',        # ti → teey
-
-    # Consonant + in
-    r'\bin\b': 'eeyn',        # in → eeyn
-    r'\bnin\b': 'neeyn',      # nin → neeyn
     
     # Consonant + o (also very common)
     r'\bdo\b': 'doe',         # do → doe
@@ -73,7 +69,9 @@ VOWEL_SYLLABLE_PATTERNS = {
 
 # Consonant-ending syllables (less problematic but still need fixes)
 CONSONANT_SYLLABLE_PATTERNS = {
-    # Common consonant endings that get mispronounced
+    # Consonant + in
+    r'\bin\b': 'eeyn',        # in → eeyn
+    r'\bnin\b': 'neeyn',      # nin → neeyn
 }
 
 # All syllable patterns combined for easy reference
