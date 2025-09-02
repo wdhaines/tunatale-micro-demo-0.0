@@ -273,3 +273,26 @@ class TestAudioProcessorService:
         # The output should be very short (effectively empty)
         # Using a more lenient check since MP3 encoding can add some artifacts
         assert duration < 0.5  # Should be close to 0 seconds, but allowing some leeway for MP3 artifacts
+
+    async def test_concatenate_corrupted_file(self, audio_processor, tmp_path, sample_audio_file):
+        """Test that concatenating a corrupted file raises an error."""
+        corrupted_file = tmp_path / "corrupted.mp3"
+        corrupted_file.write_text("this is not audio")
+
+        output_file = tmp_path / "output.mp3"
+
+        with pytest.raises(AudioProcessingError):
+            await audio_processor.concatenate_audio(
+                [sample_audio_file, corrupted_file],
+                output_file
+            )
+
+    async def test_process_empty_audio_file(self, audio_processor, tmp_path):
+        """Test that processing an empty audio file raises an error."""
+        empty_file = tmp_path / "empty.mp3"
+        empty_file.touch()
+
+        output_file = tmp_path / "output.mp3"
+
+        with pytest.raises(AudioProcessingError):
+            await audio_processor.normalize_audio(empty_file, output_file)

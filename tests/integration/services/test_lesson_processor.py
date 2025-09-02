@@ -1183,3 +1183,67 @@ async def test_section_headers_in_audio(
     # The main goal is achieved: section headers are included in audio with correct voices
     # The lesson processor now correctly uses the voice_id specified in phrases
     print(f"✅ Test passed: Section headers are included with correct voices")
+
+    async def test_process_section_with_partial_tts_failure(
+        self,
+        lesson_processor: LessonProcessor,
+        tmp_path: Path,
+        sample_lesson: Lesson,
+        mock_tts_service: MagicMock
+    ):
+        """Test that a section can be processed even if some phrases fail TTS synthesis."""
+        # Configure the mock TTS service to fail for one specific phrase
+        async def selective_synthesize(*args, **kwargs):
+            text = kwargs.get('text', '')
+            if "FAIL" in text:
+                raise TTSServiceError("Simulated TTS failure")
+            # Call the original mock logic for successful cases
+            output_path = Path(kwargs.get('output_path', 'output.mp3'))
+            if not output_path.suffix == '.mp3':
+                output_path = output_path.with_suffix('.mp3')
+            audio = AudioSegment.silent(duration=100)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            audio.export(output_path, format='mp3')
+            return {
+                'path': str(output_path),
+                'cached': False,
+                'voice_id': kwargs.get('voice_id', 'test-voice')
+            }
+
+        mock_tts_service.synthesize_speech = AsyncMock(side_effect=selective_synthesize)
+
+        # Create a section with one phrase that will fail and two that will succeed
+        phrases = [
+            Phrase(id=uuid.uuid4(), text="This phrase will succeed", language=Language.ENGLISH),
+            Phrase(id=uuid.uuid4(), text="This phrase will FAIL", language=Language.ENGLISH),
+            Phrase(id=uuid.uuid4(), text="This final phrase will succeed", language=Language.ENGLISH),
+        ]
+        section = sample_lesson.sections[0]
+        section.phrases = phrases
+
+        # Process the section
+        result = await lesson_processor.process_section(
+            section=section,
+            lesson=sample_lesson,
+            output_dir=tmp_path
+        )
+
+        # Verify that the overall section processing is marked as successful
+        # because at least one phrase succeeded, allowing for partial output.
+        assert result['success'] is True, "Section should be marked as successful even with partial phrase failures."
+
+        # Verify that a section audio file was created (from the successful phrases)
+        assert result['audio_file'] is not None, "Section audio file should have been created."
+        assert Path(result['audio_file']).exists(), "Section audio file should exist."
+
+        # Verify the processed phrases
+        processed_phrases = result['phrases']
+        assert len(processed_phrases) == 3
+
+        # Check the successful phrases
+        assert processed_phrases[0]['audio_file'] is not None
+        assert processed_phrases[2]['audio_file'] is not None
+
+        # Check the failed phrase (it should not have an audio file)
+        failed_phrase_result = next(p for p in processed_phrases if "FAIL" in p['text'])
+        assert failed_phrase_result['audio_file'] is None, "Failed phrase should not have an audio file."

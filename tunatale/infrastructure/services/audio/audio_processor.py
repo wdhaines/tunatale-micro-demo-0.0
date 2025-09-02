@@ -198,10 +198,10 @@ class AudioProcessorService(AudioProcessor):
                     audio = await self._load_audio(str(audio_path))
                     if len(audio) > 0:  # Only add non-empty segments
                         audio_segments.append(audio)
-                    
                 except Exception as load_error:
-                    logger.warning(f"Failed to load audio file {file_path}: {load_error}")
-                    continue
+                    logger.warning(f"Failed to load audio file {audio_path}: {load_error}")
+                    # If loading a file fails, we should raise an error to the caller
+                    raise AudioProcessingError(f"Failed to load audio file: {audio_path}") from load_error
             
             if not audio_segments:
                 raise AudioProcessingError("No valid audio segments to concatenate")
@@ -603,6 +603,8 @@ class AudioProcessorService(AudioProcessor):
         for attempt in range(max_retries + 1):
             try:
                 if isinstance(source, (str, Path)):
+                    if not Path(source).exists() or Path(source).stat().st_size == 0:
+                        raise AudioProcessingError(f"Input file is missing or empty: {source}")
                     # Load from file path
                     audio = AudioSegment.from_file(str(source))
                 elif hasattr(source, 'read'):
@@ -618,8 +620,8 @@ class AudioProcessorService(AudioProcessor):
                     raise AudioProcessingError("Loaded audio is empty")
                     
                 return audio
-                
             except Exception as e:
+                # Catch pydub specific errors and other exceptions
                 last_error = e
                 logger.warning(f"Attempt {attempt + 1}/{max_retries + 1} failed to load audio: {e}")
                 

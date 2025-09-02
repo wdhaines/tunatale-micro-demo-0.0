@@ -814,12 +814,12 @@ class LessonProcessor(LessonProcessorInterface):
                     if day_match:
                         return day_match.group(1)
         
-        # Fallback: try to extract from filename in the lesson description
-        if lesson.description and 'day-' in lesson.description.lower():
-            day_match = re.search(r'day-(\d+)', lesson.description.lower())
+        # Fallback: try to extract from filename
+        if hasattr(lesson, 'source_filename') and lesson.source_filename:
+            day_match = re.search(r'day-?(\d+)', str(lesson.source_filename).lower())
             if day_match:
                 return day_match.group(1)
-        
+
         return "0"
     
     def _classify_section_type(self, section: Section) -> str:

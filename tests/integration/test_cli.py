@@ -593,3 +593,45 @@ async def test_config_command_show(cli_runner, tmp_path):
     assert result.exit_code == 0
     assert "Current Configuration" in result.output
     assert "edge" in result.output
+
+def test_generate_with_invalid_options(cli_runner, sample_lesson_file):
+    """Test the generate command with invalid options."""
+    # Test with a non-existent language
+    result = cli_runner.invoke(
+        app,
+        ["generate", str(sample_lesson_file), "--language", "elvish"]
+    )
+    assert result.exit_code != 0
+    assert "Error" in result.output
+
+    # Test with a mutually exclusive option (e.g., --no-cache with a specific cache dir)
+    # This depends on the CLI implementation details, but as an example:
+    # result = cli_runner.invoke(
+    #     app,
+    #     ["generate", str(sample_lesson_file), "--no-cache", "--cache-dir", "/tmp/cache"]
+    # )
+    # assert result.exit_code != 0
+    # assert "mutually exclusive" in result.output
+
+def test_generate_to_nonexistent_output_dir(cli_runner, sample_lesson_file, tmp_path):
+    """Test that the generate command creates the output directory if it doesn't exist."""
+    non_existent_dir = tmp_path / "new_output_dir"
+    assert not non_existent_dir.exists()
+
+    with patch('tunatale.cli.main.process_lesson') as mock_process:
+        # Mock process_lesson to check if the directory was created before it's called
+        def check_dir_exists(*args, **kwargs):
+            assert non_existent_dir.exists()
+            return {
+                'success': True,
+                'output_dir': str(non_existent_dir)
+            }
+        mock_process.side_effect = check_dir_exists
+
+        result = cli_runner.invoke(
+            app,
+            ["generate", str(sample_lesson_file), "--output", str(non_existent_dir), "--force"]
+        )
+
+    assert result.exit_code == 0
+    assert non_existent_dir.exists()
