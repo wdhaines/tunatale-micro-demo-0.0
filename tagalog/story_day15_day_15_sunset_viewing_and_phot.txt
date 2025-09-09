@@ -69,213 +69,209 @@ sarap naman
 sarap naman
 
 
+[TAGALOG-FEMALE-1]: nakakamangha talaga
+[NARRATOR]: truly amazing
+nakakamangha talaga
+ga
+la
+laga
+ta
+talaga
+ha
+mang
+mangha
+ka
+kamangha
+ka
+kakamangha
+na
+nakakamangha
+nakakamangha talaga
+nakakamangha talaga
+
+
 [NARRATOR]: Natural Speed
 
-[NARRATOR]: At the Viewpoint Entrance
+[NARRATOR]: At the Scenic Viewpoint
 
-[TAGALOG-MALE-1]: Good afternoon po! Welcome sa Taraw Cliff.
-[TAGALOG-FEMALE-1]: Kumusta po! Magkano po ang entrance fee?
-[TAGALOG-MALE-1]: Tatlumpung pesos po para sa tourist.
-[TAGALOG-FEMALE-2]: Puwede po ba naming makakuha ng photos dito?
-[TAGALOG-MALE-1]: Oo naman po! Perfect timing kayo para sa sunset.
-[TAGALOG-FEMALE-1]: Salamat po! Anong oras po ang best time?
-[TAGALOG-MALE-1]: Around six po, mga thirty minutes pa.
-[TAGALOG-FEMALE-2]: Sige po, bayad na kami.
+[TAGALOG-MALE-1]: Sir, nakakamangha talaga ang sunset dito!
+[TAGALOG-MALE-2]: Oo nga po! Perpekto ang timing natin. Puwede po ba akong kumuha ng picture ninyo?
+[TAGALOG-MALE-1]: Sige po, salamat! Dito po sa tabi ng railings.
+[TAGALOG-MALE-2]: Ready na po kayo? Isa, dalawa, tatlo!
+[TAGALOG-MALE-1]: Salamat po talaga! Kumusta po ang camera ninyo?
+[TAGALOG-MALE-2]: Maganda naman po. Professional photographer po kayo?
+[TAGALOG-MALE-1]: Hindi po, hobby lang. Ikaw po ba local dito?
+[TAGALOG-MALE-2]: Oo po, taga-rito ako. Araw-araw ko po nakikita ang sunset na ito.
+[TAGALOG-MALE-1]: Swerte ninyo naman po!
 
-[NARRATOR]: Meeting a Local Photographer
+[NARRATOR]: Hiring a Photography Guide
 
-[TAGALOG-MALE-2]: Excuse me po, tourist kayo?
-[TAGALOG-FEMALE-1]: Opo, first time po namin dito sa El Nido.
-[TAGALOG-MALE-2]: Gusto ninyo po ba ng photo session? Professional po ako.
-[TAGALOG-FEMALE-2]: Magkano po ang rate ninyo?
-[TAGALOG-MALE-2]: Lima daang pesos po for one hour, kasama na editing.
-[TAGALOG-FEMALE-1]: Puwede po ba kayong mag-wait? Gusto namin muna mag-enjoy.
-[TAGALOG-MALE-2]: Sige po, nandito lang ako. Call me nalang.
-[TAGALOG-FEMALE-2]: Salamat po!
+[TAGALOG-FEMALE-1]: Kuya, magkano po ang tour ninyo para sa sunset photography?
+[TAGALOG-MALE-1]: Tatlong libong pesos po para sa buong araw, kasama na po ang transportation.
+[TAGALOG-FEMALE-1]: Mahal naman po! Puwede po ba nang dalawang libo?
+[TAGALOG-MALE-1]: Sige po, pero hanggang sunset lang ha. Hindi na po kasama ang night shots.
+[TAGALOG-FEMALE-1]: Okay lang po. Saan po tayo magsisimula?
+[TAGALOG-MALE-1]: Sa Nacpan Beach po muna, tapos El Nido town proper para sa golden hour.
+[TAGALOG-FEMALE-1]: Perpekto po! Anong oras po tayo aalis?
+[TAGALOG-MALE-1]: Alas tres po ng hapon para hindi tayo ma-late sa sunset.
+[TAGALOG-FEMALE-1]: Salamat po! Hanggang mamaya po.
 
-[NARRATOR]: At the Refreshment Stand
+[NARRATOR]: At the Camera Shop
 
-[TAGALOG-FEMALE-2]: Ate, ano po ang meron kayong drinks?
-[TAGALOG-FEMALE-1]: Meron po kaming fresh buko juice at mango shake.
-[TAGALOG-FEMALE-2]: Yung mango shake po, magkano?
-[TAGALOG-FEMALE-1]: Siyamnapung pesos po.
-[TAGALOG-FEMALE-2]: Dalawa po. Malamig po ba yan?
-[TAGALOG-FEMALE-1]: Opo, fresh po yan. Gawa ngayong umaga.
-[TAGALOG-FEMALE-2]: Perfect! Here's the payment.
-[TAGALOG-FEMALE-1]: Salamat po! Enjoy ninyo ang sunset!
+[TAGALOG-FEMALE-2]: Magandang hapon po! May memory card po ba kayo dito?
+[TAGALOG-MALE-2]: Meron po! Anong size po ang kailangan ninyo?
+[TAGALOG-FEMALE-2]: Animnapu't apat na GB po. Magkano po?
+[TAGALOG-MALE-2]: Walong daang pesos po ang SanDisk.
+[TAGALOG-FEMALE-2]: Meron po bang mas mura?
+[TAGALOG-MALE-2]: May generic po kami, limang daan lang.
+[TAGALOG-FEMALE-2]: Sige po, yun na lang. Puwede po ba akong mag-test muna?
+[TAGALOG-MALE-2]: Opo naman! Dito po sa camera namin.
+[TAGALOG-FEMALE-2]: Ayos naman po! Salamat po sa inyo.
 
-[NARRATOR]: Watching the Sunset
+[NARRATOR]: Sharing Photos at the Restaurant
 
-[TAGALOG-FEMALE-1]: Wow! Nakakamangha talaga ang view dito!
-[TAGALOG-FEMALE-2]: Oo nga! Puwede mo bang i-take ang photo ko?
-[TAGALOG-FEMALE-1]: Sige, smile ka! One, two, three!
-[TAGALOG-FEMALE-2]: Salamat! Tignan natin... ay, maganda!
-[TAGALOG-FEMALE-1]: Yung kulay ng sky, parang painting.
-[TAGALOG-FEMALE-2]: True! Tara, mag-selfie naman tayo together.
-[TAGALOG-FEMALE-1]: Sige! Say cheese!
-[TAGALOG-FEMALE-2]: Best sunset ever sa El Nido!
-
-[NARRATOR]: Buying Souvenirs
-
-[TAGALOG-MALE-1]: Kumusta po! May souvenir po kayo dito?
-[TAGALOG-FEMALE-2]: Meron po! Postcards, keychains, at t-shirts.
-[TAGALOG-MALE-1]: Yung postcards po, magkano?
-[TAGALOG-FEMALE-2]: Sampu pesos po each, pero puwede ring lima for singkwenta.
-[TAGALOG-MALE-1]: Sige po, lima nga. Yung may sunset design.
-[TAGALOG-FEMALE-2]: Perfect choice po! Salamat!
-[TAGALOG-MALE-1]: Salamat din po! Sarap naman ng mango shake ninyo kanina.
-[TAGALOG-FEMALE-2]: Ah, kayo pala yung nakakita! Masarap talaga yan.
+[TAGALOG-FEMALE-1]: Tingnan mo ang mga pictures natin kanina!
+[TAGALOG-FEMALE-2]: Naku! Nakakamangha talaga ang colors ng sky!
+[TAGALOG-FEMALE-1]: Ito yung favorite ko. Yung silhouette ng islands.
+[TAGALOG-FEMALE-2]: Ganda nga! Post mo na sa social media yan.
+[TAGALOG-FEMALE-1]: Sige! Nga pala, sarap naman ng sisig dito.
+[TAGALOG-FEMALE-2]: Totoo! Kumusta po yung service dito?
+[TAGALOG-MALE-1]: Okay naman po! Masarap po ba ang pagkain?
+[TAGALOG-FEMALE-1]: Sarap naman! Salamat po!
+[TAGALOG-MALE-1]: Salamat din po sa inyo!
 
 [NARRATOR]: Slow Speed
 
-[NARRATOR]: At the Viewpoint Entrance
+[NARRATOR]: At the Scenic Viewpoint
 
-[TAGALOG-MALE-1]: Good... afternoon... po!... Welcome... sa... Taraw... Cliff.
-[TAGALOG-FEMALE-1]: Kumusta... po!... Magkano... po... ang... entrance... fee?
-[TAGALOG-MALE-1]: Tatlumpung... pesos... po... para... sa... tourist.
-[TAGALOG-FEMALE-2]: Puwede... po... ba... naming... makakuha... ng... photos... dito?
-[TAGALOG-MALE-1]: Oo... naman... po!... Perfect... timing... kayo... para... sa... sunset.
-[TAGALOG-FEMALE-1]: Salamat... po!... Anong... oras... po... ang... best... time?
-[TAGALOG-MALE-1]: Around... six... po... mga... thirty... minutes... pa.
-[TAGALOG-FEMALE-2]: Sige... po... bayad... na... kami.
+[TAGALOG-MALE-1]: Sir... nakakamangha... talaga... ang... sunset... dito!
+[TAGALOG-MALE-2]: Oo... nga... po!... Perpekto... ang... timing... natin... Puwede... po... ba... akong... kumuha... ng... picture... ninyo?
+[TAGALOG-MALE-1]: Sige... po... salamat!... Dito... po... sa... tabi... ng... railings.
+[TAGALOG-MALE-2]: Ready... na... po... kayo?... Isa... dalawa... tatlo!
+[TAGALOG-MALE-1]: Salamat... po... talaga!... Kumusta... po... ang... camera... ninyo?
+[TAGALOG-MALE-2]: Maganda... naman... po... Professional... photographer... po... kayo?
+[TAGALOG-MALE-1]: Hindi... po... hobby... lang... Ikaw... po... ba... local... dito?
+[TAGALOG-MALE-2]: Oo... po... taga-rito... ako... Araw-araw... ko... po... nakikita... ang... sunset... na... ito.
+[TAGALOG-MALE-1]: Swerte... ninyo... naman... po!
 
-[NARRATOR]: Meeting a Local Photographer
+[NARRATOR]: Hiring a Photography Guide
 
-[TAGALOG-MALE-2]: Excuse... me... po... tourist... kayo?
-[TAGALOG-FEMALE-1]: Opo... first... time... po... namin... dito... sa... El... Nido.
-[TAGALOG-MALE-2]: Gusto... ninyo... po... ba... ng... photo... session?... Professional... po... ako.
-[TAGALOG-FEMALE-2]: Magkano... po... ang... rate... ninyo?
-[TAGALOG-MALE-2]: Lima... daang... pesos... po... for... one... hour... kasama... na... editing.
-[TAGALOG-FEMALE-1]: Puwede... po... ba... kayong... mag-wait?... Gusto... namin... muna... mag-enjoy.
-[TAGALOG-MALE-2]: Sige... po... nandito... lang... ako... Call... me... nalang.
-[TAGALOG-FEMALE-2]: Salamat... po!
+[TAGALOG-FEMALE-1]: Kuya... magkano... po... ang... tour... ninyo... para... sa... sunset... photography?
+[TAGALOG-MALE-1]: Tatlong... libong... pesos... po... para... sa... buong... araw... kasama... na... po... ang... transportation.
+[TAGALOG-FEMALE-1]: Mahal... naman... po!... Puwede... po... ba... nang... dalawang... libo?
+[TAGALOG-MALE-1]: Sige... po... pero... hanggang... sunset... lang... ha... Hindi... na... po... kasama... ang... night... shots.
+[TAGALOG-FEMALE-1]: Okay... lang... po... Saan... po... tayo... magsisimula?
+[TAGALOG-MALE-1]: Sa... Nacpan... Beach... po... muna... tapos... El... Nido... town... proper... para... sa... golden... hour.
+[TAGALOG-FEMALE-1]: Perpekto... po!... Anong... oras... po... tayo... aalis?
+[TAGALOG-MALE-1]: Alas... tres... po... ng... hapon... para... hindi... tayo... ma-late... sa... sunset.
+[TAGALOG-FEMALE-1]: Salamat... po!... Hanggang... mamaya... po.
 
-[NARRATOR]: At the Refreshment Stand
+[NARRATOR]: At the Camera Shop
 
-[TAGALOG-FEMALE-2]: Ate... ano... po... ang... meron... kayong... drinks?
-[TAGALOG-FEMALE-1]: Meron... po... kaming... fresh... buko... juice... at... mango... shake.
-[TAGALOG-FEMALE-2]: Yung... mango... shake... po... magkano?
-[TAGALOG-FEMALE-1]: Siyamnapung... pesos... po.
-[TAGALOG-FEMALE-2]: Dalawa... po... Malamig... po... ba... yan?
-[TAGALOG-FEMALE-1]: Opo... fresh... po... yan... Gawa... ngayong... umaga.
-[TAGALOG-FEMALE-2]: Perfect!... Here's... the... payment.
-[TAGALOG-FEMALE-1]: Salamat... po!... Enjoy... ninyo... ang... sunset!
+[TAGALOG-FEMALE-2]: Magandang... hapon... po!... May... memory... card... po... ba... kayo... dito?
+[TAGALOG-MALE-2]: Meron... po!... Anong... size... po... ang... kailangan... ninyo?
+[TAGALOG-FEMALE-2]: Animnapu't... apat... na... GB... po... Magkano... po?
+[TAGALOG-MALE-2]: Walong... daang... pesos... po... ang... SanDisk.
+[TAGALOG-FEMALE-2]: Meron... po... bang... mas... mura?
+[TAGALOG-MALE-2]: May... generic... po... kami... limang... daan... lang.
+[TAGALOG-FEMALE-2]: Sige... po... yun... na... lang... Puwede... po... ba... akong... mag-test... muna?
+[TAGALOG-MALE-2]: Opo... naman!... Dito... po... sa... camera... namin.
+[TAGALOG-FEMALE-2]: Ayos... naman... po!... Salamat... po... sa... inyo.
 
-[NARRATOR]: Watching the Sunset
+[NARRATOR]: Sharing Photos at the Restaurant
 
-[TAGALOG-FEMALE-1]: Wow!... Nakakamangha... talaga... ang... view... dito!
-[TAGALOG-FEMALE-2]: Oo... nga!... Puwede... mo... bang... i-take... ang... photo... ko?
-[TAGALOG-FEMALE-1]: Sige... smile... ka!... One... two... three!
-[TAGALOG-FEMALE-2]: Salamat!... Tignan... natin... ay... maganda!
-[TAGALOG-FEMALE-1]: Yung... kulay... ng... sky... parang... painting.
-[TAGALOG-FEMALE-2]: True!... Tara... mag-selfie... naman... tayo... together.
-[TAGALOG-FEMALE-1]: Sige!... Say... cheese!
-[TAGALOG-FEMALE-2]: Best... sunset... ever... sa... El... Nido!
-
-[NARRATOR]: Buying Souvenirs
-
-[TAGALOG-MALE-1]: Kumusta... po!... May... souvenir... po... kayo... dito?
-[TAGALOG-FEMALE-2]: Meron... po!... Postcards... keychains... at... t-shirts.
-[TAGALOG-MALE-1]: Yung... postcards... po... magkano?
-[TAGALOG-FEMALE-2]: Sampu... pesos... po... each... pero... puwede... ring... lima... for... singkwenta.
-[TAGALOG-MALE-1]: Sige... po... lima... nga... Yung... may... sunset... design.
-[TAGALOG-FEMALE-2]: Perfect... choice... po!... Salamat!
-[TAGALOG-MALE-1]: Salamat... din... po!... Sarap... naman... ng... mango... shake... ninyo... kanina.
-[TAGALOG-FEMALE-2]: Ah... kayo... pala... yung... nakakita!... Masarap... talaga... yan.
+[TAGALOG-FEMALE-1]: Tingnan... mo... ang... mga... pictures... natin... kanina!
+[TAGALOG-FEMALE-2]: Naku!... Nakakamangha... talaga... ang... colors... ng... sky!
+[TAGALOG-FEMALE-1]: Ito... yung... favorite... ko... Yung... silhouette... ng... islands.
+[TAGALOG-FEMALE-2]: Ganda... nga!... Post... mo... na... sa... social... media... yan.
+[TAGALOG-FEMALE-1]: Sige!... Nga... pala... sarap... naman... ng... sisig... dito.
+[TAGALOG-FEMALE-2]: Totoo!... Kumusta... po... yung... service... dito?
+[TAGALOG-MALE-1]: Okay... naman... po!... Masarap... po... ba... ang... pagkain?
+[TAGALOG-FEMALE-1]: Sarap... naman!... Salamat... po!
+[TAGALOG-MALE-1]: Salamat... din... po... sa... inyo!
 
 [NARRATOR]: Translated
 
-[NARRATOR]: At the Viewpoint Entrance
+[NARRATOR]: At the Scenic Viewpoint
 
-[TAGALOG-MALE-1]: Good afternoon po! Welcome sa Taraw Cliff.
-[NARRATOR]: Good afternoon! Welcome to Taraw Cliff.
-[TAGALOG-FEMALE-1]: Kumusta po! Magkano po ang entrance fee?
-[NARRATOR]: How are you! How much is the entrance fee?
-[TAGALOG-MALE-1]: Tatlumpung pesos po para sa tourist.
-[NARRATOR]: Thirty pesos for tourists.
-[TAGALOG-FEMALE-2]: Puwede po ba naming makakuha ng photos dito?
-[NARRATOR]: Is it possible for us to take photos here?
-[TAGALOG-MALE-1]: Oo naman po! Perfect timing kayo para sa sunset.
-[NARRATOR]: Of course! You have perfect timing for the sunset.
-[TAGALOG-FEMALE-1]: Salamat po! Anong oras po ang best time?
-[NARRATOR]: Thank you! What time is the best time?
-[TAGALOG-MALE-1]: Around six po, mga thirty minutes pa.
-[NARRATOR]: Around six, about thirty minutes more.
-[TAGALOG-FEMALE-2]: Sige po, bayad na kami.
-[NARRATOR]: Okay, we'll pay now.
+[TAGALOG-MALE-1]: Sir, nakakamangha talaga ang sunset dito!
+[NARRATOR]: Sir, the sunset here is truly amazing!
+[TAGALOG-MALE-2]: Oo nga po! Perpekto ang timing natin. Puwede po ba akong kumuha ng picture ninyo?
+[NARRATOR]: Yes indeed! We have perfect timing. May I take a picture of you?
+[TAGALOG-MALE-1]: Sige po, salamat! Dito po sa tabi ng railings.
+[NARRATOR]: Sure, thank you! Here beside the railings.
+[TAGALOG-MALE-2]: Ready na po kayo? Isa, dalawa, tatlo!
+[NARRATOR]: Are you ready? One, two, three!
+[TAGALOG-MALE-1]: Salamat po talaga! Kumusta po ang camera ninyo?
+[NARRATOR]: Thank you so much! How is your camera?
+[TAGALOG-MALE-2]: Maganda naman po. Professional photographer po kayo?
+[NARRATOR]: It's good. Are you a professional photographer?
+[TAGALOG-MALE-1]: Hindi po, hobby lang. Ikaw po ba local dito?
+[NARRATOR]: No, just a hobby. Are you local here?
+[TAGALOG-MALE-2]: Oo po, taga-rito ako. Araw-araw ko po nakikita ang sunset na ito.
+[NARRATOR]: Yes, I'm from here. I see this sunset every day.
+[TAGALOG-MALE-1]: Swerte ninyo naman po!
+[NARRATOR]: How lucky you are!
 
-[NARRATOR]: Meeting a Local Photographer
+[NARRATOR]: Hiring a Photography Guide
 
-[TAGALOG-MALE-2]: Excuse me po, tourist kayo?
-[NARRATOR]: Excuse me, are you tourists?
-[TAGALOG-FEMALE-1]: Opo, first time po namin dito sa El Nido.
-[NARRATOR]: Yes, this is our first time here in El Nido.
-[TAGALOG-MALE-2]: Gusto ninyo po ba ng photo session? Professional po ako.
-[NARRATOR]: Would you like a photo session? I'm a professional.
-[TAGALOG-FEMALE-2]: Magkano po ang rate ninyo?
-[NARRATOR]: How much is your rate?
-[TAGALOG-MALE-2]: Lima daang pesos po for one hour, kasama na editing.
-[NARRATOR]: Five hundred pesos for one hour, editing included.
-[TAGALOG-FEMALE-1]: Puwede po ba kayong mag-wait? Gusto namin muna mag-enjoy.
-[NARRATOR]: Is it possible for you to wait? We want to enjoy first.
-[TAGALOG-MALE-2]: Sige po, nandito lang ako. Call me nalang.
-[NARRATOR]: Sure, I'll be right here. Just call me.
-[TAGALOG-FEMALE-2]: Salamat po!
-[NARRATOR]: Thank you!
+[TAGALOG-FEMALE-1]: Kuya, magkano po ang tour ninyo para sa sunset photography?
+[NARRATOR]: Brother, how much is your tour for sunset photography?
+[TAGALOG-MALE-1]: Tatlong libong pesos po para sa buong araw, kasama na po ang transportation.
+[NARRATOR]: Three thousand pesos for the whole day, transportation included.
+[TAGALOG-FEMALE-1]: Mahal naman po! Puwede po ba nang dalawang libo?
+[NARRATOR]: That's expensive! Can you make it two thousand?
+[TAGALOG-MALE-1]: Sige po, pero hanggang sunset lang ha. Hindi na po kasama ang night shots.
+[NARRATOR]: Okay, but only until sunset. Night shots are not included anymore.
+[TAGALOG-FEMALE-1]: Okay lang po. Saan po tayo magsisimula?
+[NARRATOR]: That's fine. Where will we start?
+[TAGALOG-MALE-1]: Sa Nacpan Beach po muna, tapos El Nido town proper para sa golden hour.
+[NARRATOR]: At Nacpan Beach first, then El Nido town proper for golden hour.
+[TAGALOG-FEMALE-1]: Perpekto po! Anong oras po tayo aalis?
+[NARRATOR]: Perfect! What time will we leave?
+[TAGALOG-MALE-1]: Alas tres po ng hapon para hindi tayo ma-late sa sunset.
+[NARRATOR]: Three in the afternoon so we won't be late for sunset.
+[TAGALOG-FEMALE-1]: Salamat po! Hanggang mamaya po.
+[NARRATOR]: Thank you! See you later.
 
-[NARRATOR]: At the Refreshment Stand
+[NARRATOR]: At the Camera Shop
 
-[TAGALOG-FEMALE-2]: Ate, ano po ang meron kayong drinks?
-[NARRATOR]: Sister, what drinks do you have?
-[TAGALOG-FEMALE-1]: Meron po kaming fresh buko juice at mango shake.
-[NARRATOR]: We have fresh coconut juice and mango shake.
-[TAGALOG-FEMALE-2]: Yung mango shake po, magkano?
-[NARRATOR]: The mango shake, how much?
-[TAGALOG-FEMALE-1]: Siyamnapung pesos po.
-[NARRATOR]: Ninety pesos.
-[TAGALOG-FEMALE-2]: Dalawa po. Malamig po ba yan?
-[NARRATOR]: Two please. Is that cold?
-[TAGALOG-FEMALE-1]: Opo, fresh po yan. Gawa ngayong umaga.
-[NARRATOR]: Yes, it's fresh. Made this morning.
-[TAGALOG-FEMALE-2]: Perfect! Here's the payment.
-[NARRATOR]: Perfect! Here's the payment.
-[TAGALOG-FEMALE-1]: Salamat po! Enjoy ninyo ang sunset!
-[NARRATOR]: Thank you! Enjoy the sunset!
+[TAGALOG-FEMALE-2]: Magandang hapon po! May memory card po ba kayo dito?
+[NARRATOR]: Good afternoon! Do you have memory cards here?
+[TAGALOG-MALE-2]: Meron po! Anong size po ang kailangan ninyo?
+[NARRATOR]: We have some! What size do you need?
+[TAGALOG-FEMALE-2]: Animnapu't apat na GB po. Magkano po?
+[NARRATOR]: Sixty-four GB. How much?
+[TAGALOG-MALE-2]: Walong daang pesos po ang SanDisk.
+[NARRATOR]: Eight hundred pesos for SanDisk.
+[TAGALOG-FEMALE-2]: Meron po bang mas mura?
+[NARRATOR]: Do you have something cheaper?
+[TAGALOG-MALE-2]: May generic po kami, limang daan lang.
+[NARRATOR]: We have generic ones, just five hundred.
+[TAGALOG-FEMALE-2]: Sige po, yun na lang. Puwede po ba akong mag-test muna?
+[NARRATOR]: Okay, that one then. Can I test it first?
+[TAGALOG-MALE-2]: Opo naman! Dito po sa camera namin.
+[NARRATOR]: Of course! Here on our camera.
+[TAGALOG-FEMALE-2]: Ayos naman po! Salamat po sa inyo.
+[NARRATOR]: It's good! Thank you to you.
 
-[NARRATOR]: Watching the Sunset
+[NARRATOR]: Sharing Photos at the Restaurant
 
-[TAGALOG-FEMALE-1]: Wow! Nakakamangha talaga ang view dito!
-[NARRATOR]: Wow! The view here is truly amazing!
-[TAGALOG-FEMALE-2]: Oo nga! Puwede mo bang i-take ang photo ko?
-[NARRATOR]: Yes indeed! Can you take my photo?
-[TAGALOG-FEMALE-1]: Sige, smile ka! One, two, three!
-[NARRATOR]: Sure, smile! One, two, three!
-[TAGALOG-FEMALE-2]: Salamat! Tignan natin... ay, maganda!
-[NARRATOR]: Thank you! Let's see... oh, it's beautiful!
-[TAGALOG-FEMALE-1]: Yung kulay ng sky, parang painting.
-[NARRATOR]: The color of the sky is like a painting.
-[TAGALOG-FEMALE-2]: True! Tara, mag-selfie naman tayo together.
-[NARRATOR]: True! Come on, let's take a selfie together.
-[TAGALOG-FEMALE-1]: Sige! Say cheese!
-[NARRATOR]: Sure! Say cheese!
-[TAGALOG-FEMALE-2]: Best sunset ever sa El Nido!
-[NARRATOR]: Best sunset ever in El Nido!
-
-[NARRATOR]: Buying Souvenirs
-
-[TAGALOG-MALE-1]: Kumusta po! May souvenir po kayo dito?
-[NARRATOR]: How are you! Do you have souvenirs here?
-[TAGALOG-FEMALE-2]: Meron po! Postcards, keychains, at t-shirts.
-[NARRATOR]: We have some! Postcards, keychains, and t-shirts.
-[TAGALOG-MALE-1]: Yung postcards po, magkano?
-[NARRATOR]: The postcards, how much?
-[TAGALOG-FEMALE-2]: Sampu pesos po each, pero puwede ring lima for singkwenta.
-[NARRATOR]: Ten pesos each, but you can also get five for fifty.
-[TAGALOG-MALE-1]: Sige po, lima nga. Yung may sunset design.
-[NARRATOR]: Okay, five please. The ones with sunset design.
-[TAGALOG-FEMALE-2]: Perfect choice po! Salamat!
-[NARRATOR]: Perfect choice! Thank you!
-[TAGALOG-MALE-1]: Salamat din po! Sarap naman ng mango shake ninyo kanina.
-[NARRATOR]: Thank you too! Your mango shake was delicious earlier.
-[TAGALOG-FEMALE-2]: Ah, kayo pala yung nakakita! Masarap talaga yan.
-[NARRATOR]: Ah, you're the ones who saw! It's really delicious.
+[TAGALOG-FEMALE-1]: Tingnan mo ang mga pictures natin kanina!
+[NARRATOR]: Look at our pictures from earlier!
+[TAGALOG-FEMALE-2]: Naku! Nakakamangha talaga ang colors ng sky!
+[NARRATOR]: Wow! The colors of the sky are truly amazing!
+[TAGALOG-FEMALE-1]: Ito yung favorite ko. Yung silhouette ng islands.
+[NARRATOR]: This is my favorite. The silhouette of the islands.
+[TAGALOG-FEMALE-2]: Ganda nga! Post mo na sa social media yan.
+[NARRATOR]: It's beautiful! Post it on Instagram now.
+[TAGALOG-FEMALE-1]: Sige! Nga pala, sarap naman ng sisig dito.
+[NARRATOR]: Sure! By the way, the sisig here is delicious.
+[TAGALOG-FEMALE-2]: Totoo! Kumusta po yung service dito?
+[NARRATOR]: True! How is the service here?
+[TAGALOG-MALE-1]: Okay naman po! Masarap po ba ang pagkain?
+[NARRATOR]: It's okay! Is the food delicious?
+[TAGALOG-FEMALE-1]: Sarap naman! Salamat po!
+[NARRATOR]: It's delicious! Thank you!
+[TAGALOG-MALE-1]: Salamat din po sa inyo!
+[NARRATOR]: Thank you to you too!

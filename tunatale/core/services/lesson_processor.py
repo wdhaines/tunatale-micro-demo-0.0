@@ -31,9 +31,7 @@ from tunatale.core.ports.lesson_processor import (
     ProcessedLesson as ProcessedLessonInterface,
 )
 from tunatale.core.ports.tts_service import TTSService, TTSTransientError, TTSRateLimitError, TTSValidationError
-from tunatale.core.ports.voice_selector import VoiceSelector
-from tunatale.core.ports.word_selector import WordSelector
-from tunatale.core.exceptions import TTSValidationError, TTSServiceError
+from tunatale.core.exceptions import TTSValidationError, TTSServiceError, AudioProcessingError
 
 logger = logging.getLogger(__name__)
 
@@ -89,8 +87,6 @@ class LessonProcessor(LessonProcessorInterface):
         self,
         tts_service: TTSService,
         audio_processor: AudioProcessor,
-        voice_selector: VoiceSelector,
-        word_selector: WordSelector,
         max_workers: int = 4,
         output_dir: str = "output",
         ellipsis_pause_duration_ms: int = 800,
@@ -101,8 +97,6 @@ class LessonProcessor(LessonProcessorInterface):
         Args:
             tts_service: The TTS service to use for generating speech.
             audio_processor: The audio processor to use for processing audio files.
-            voice_selector: The voice selector to use for selecting voices.
-            word_selector: The word selector to use for selecting words.
             max_workers: The maximum number of worker threads to use for parallel processing.
             output_dir: The base directory where output files will be saved.
             ellipsis_pause_duration_ms: Duration in milliseconds for pauses created by ellipsis (...).
@@ -110,8 +104,6 @@ class LessonProcessor(LessonProcessorInterface):
         """
         self.tts_service = tts_service
         self.audio_processor = audio_processor
-        self.voice_selector = voice_selector
-        self.word_selector = word_selector
         self.max_workers = max_workers
         self.output_dir = Path(output_dir)
         self.ellipsis_pause_duration_ms = ellipsis_pause_duration_ms
@@ -560,6 +552,13 @@ class LessonProcessor(LessonProcessorInterface):
                 
             return result
 
+        except AudioProcessingError as e:
+            logger.error(f"Audio processing error for phrase: {e}")
+            return {
+                "success": False,
+                "error": {"error_code": "AUDIO_PROCESSING_ERROR", "error_message": str(e)},
+            }
+
         except TTSServiceError as e:
             logger.error(f"TTS service error processing phrase: {e}")
             return {
@@ -614,12 +613,9 @@ class LessonProcessor(LessonProcessorInterface):
             if hasattr(phrase, 'voice_id') and phrase.voice_id:
                 voice_id = phrase.voice_id
             else:
-                # Get voice ID - extract gender from metadata or use None
-                voice_id = await self.voice_selector.get_voice_id(
-                    language=phrase.language,
-                    gender=phrase.metadata.get("gender") if phrase.metadata else None,
-                    speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
-                )
+                # The LessonParser now assigns a voice_id, so this path is a fallback.
+                logger.warning(f"Phrase '{phrase.text}' is missing a voice_id. Defaulting to a standard voice.")
+                voice_id = "en-US-GuyNeural" # A sensible default.
 
             # Generate audio file with appropriate extension
             audio_file = output_path / f"phrase_{phrase.id}.mp3"
@@ -726,11 +722,8 @@ class LessonProcessor(LessonProcessorInterface):
             if hasattr(phrase, 'voice_id') and phrase.voice_id:
                 voice_id = phrase.voice_id
             else:
-                voice_id = await self.voice_selector.get_voice_id(
-                    language=phrase.language,
-                    gender=phrase.metadata.get("gender") if phrase.metadata else None,
-                    speaker_id=phrase.metadata.get("speaker_id") if phrase.metadata else None,
-                )
+                logger.warning(f"Phrase '{phrase.text}' is missing a voice_id. Defaulting to a standard voice.")
+                voice_id = "en-US-GuyNeural"
 
             # Validate voice
             if hasattr(self.tts_service, 'validate_voice'):

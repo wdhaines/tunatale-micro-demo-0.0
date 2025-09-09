@@ -2,43 +2,47 @@
 
 Key Phrases:
 
-[TAGALOG-FEMALE-1]: salamat po
+[TAGALOG-FEMALE-1]: mabuhay po
 [NARRATOR]: thank you
-salamat po
+mabuhay po
 po
-mat
-la
-lamat
-sa
-salamat
-salamat po
-salamat po
+hay
+bu
+buhay
+ma
+mabuhay
+mabuhay po
+mabuhay po
 
 
-[TAGALOG-FEMALE-1]: kumusta po
+[TAGALOG-FEMALE-1]: kamusta na po
 [NARRATOR]: how are you
-kumusta po
+kamusta na po
 po
+na
+na po
 ta
 mus
 musta
-ku
-kumusta
-kumusta po
-kumusta po
-
-
-[TAGALOG-FEMALE-1]: magkano po
-[NARRATOR]: how much
-magkano po
-po
-no
 ka
-kano
-mag
-magkano
-magkano po
-magkano po
+kamusta
+kamusta na po
+kamusta na po
+
+
+[TAGALOG-FEMALE-1]: presyo po nito
+[NARRATOR]: how much
+presyo po nito
+to
+ni
+nito
+po
+po nito
+yo
+pres
+presyo
+presyo po nito
+presyo po nito
 
 
 [TAGALOG-FEMALE-1]: puwede po ba
@@ -56,243 +60,157 @@ puwede po ba
 puwede po ba
 
 
-[TAGALOG-FEMALE-1]: nakakamangha talaga
-[NARRATOR]: truly amazing
-nakakamangha talaga
-ga
-la
-laga
-ta
-talaga
-ha
-mang
-mangha
-ka
-kamangha
-ka
-kakamangha
+[TAGALOG-FEMALE-1]: sarap naman
+[NARRATOR]: how delicious
+sarap naman
+man
 na
-nakakamangha
-nakakamangha talaga
-nakakamangha talaga
+naman
+rap
+sa
+sarap
+sarap naman
+sarap naman
 
 
 [NARRATOR]: Natural Speed
 
-[NARRATOR]: At the Tour Operator's Office
+[NARRATOR]: At the Boat Tour Office
 
-[TAGALOG-FEMALE-1]: Good morning po! Magkano po ang boat tour sa hidden lagoons?
-[TAGALOG-MALE-1]: Kumusta po kayo! Dalawang libong pesos po para sa buong araw.
-[TAGALOG-FEMALE-1]: Puwede po ba kayong mag-discount? Apat kaming magkakaibigan.
-[TAGALOG-MALE-1]: Sige po, para sa group ninyo. Pitong libo nalang po para sa apat.
-[TAGALOG-FEMALE-1]: Salamat po! Ano po ang kasama sa tour?
-[TAGALOG-MALE-1]: Kasama na po ang lunch, snorkeling gear, at life jackets.
-[TAGALOG-FEMALE-1]: Sarap naman! Anong oras po ang departure?
-[TAGALOG-MALE-1]: Alas otso ng umaga po. Dito po kayo sa pier magkikita.
+[TAGALOG-FEMALE-1]: Kamusta na po kayo? May tour po ba kayo para sa hidden lagoons?
+[TAGALOG-MALE-1]: Opo! Meron po kaming Big Lagoon at Small Lagoon tour. Magkano po kayo?
+[TAGALOG-FEMALE-1]: Dalawa lang po kami. Presyo po nito ang bayad?
+[TAGALOG-MALE-1]: Dalawang libo po para sa dalawa, kasama na po ang lunch.
+[TAGALOG-FEMALE-1]: Sarap naman! Puwede po ba naming makita ang schedule?
+[TAGALOG-MALE-1]: Siyempre po! Alis natin ng alas otso ng umaga, balik ng alas kwatro.
+[TAGALOG-FEMALE-1]: Perpekto po! Mag-reserve na po namin. Mabuhay po!
 
-[NARRATOR]: On the Boat to the First Lagoon
+[NARRATOR]: On the Boat to the Lagoons
 
-[TAGALOG-MALE-2]: Mga ma'am, sir, tingnan ninyo po ang tubig! Nakakamangha talaga!
-[TAGALOG-FEMALE-2]: Wow! Ang linaw ng dagat dito! Perfect for swimming!
-[TAGALOG-MALE-2]: Opo, first stop natin ay Secret Lagoon po. Puwede po ba kayong mag-swimming?
-[TAGALOG-FEMALE-2]: Of course! Magkano po ang entrance?
-[TAGALOG-MALE-2]: Kasama na po sa tour ninyo. Salamat po sa pagpili sa amin!
-[TAGALOG-FEMALE-2]: Salamat din po sa inyo! Ang galing ng service!
+[TAGALOG-MALE-2]: Maligayang pagdating po sa boat namin! Unang beses po ninyo sa El Nido?
+[TAGALOG-FEMALE-2]: Hindi po, pero unang beses namin sa hidden lagoons.
+[TAGALOG-MALE-2]: Nakakamangha talaga ang mga lagoon dito. Makikita ninyo mamaya.
+[TAGALOG-FEMALE-2]: Nasasabik na po kami! Gaano po katagal ang biyahe?
+[TAGALOG-MALE-2]: Tatlumpung minuto po hanggang sa Big Lagoon.
+[TAGALOG-FEMALE-2]: Mabuhay po sa information!
 
-[NARRATOR]: Inside the Hidden Lagoon
+[NARRATOR]: At the Hidden Lagoon
 
-[TAGALOG-FEMALE-1]: Kuya, puwede po ba naming mag-picture dito?
-[TAGALOG-MALE-1]: Syempre po! Maganda po ang spot na yan para sa photos.
-[TAGALOG-FEMALE-1]: Salamat po! Kumusta po ang weather ngayon? Okay pa ba?
-[TAGALOG-MALE-1]: Maayos naman po. Hindi po uulan ngayon araw.
-[TAGALOG-FEMALE-1]: Sarap naman! Gaano po katagal tayo dito?
-[TAGALOG-MALE-1]: Tatlumpung minutos po, tapos next lagoon na tayo.
-[TAGALOG-FEMALE-1]: Perfect! Nakakamangha talaga ang El Nido!
+[TAGALOG-FEMALE-1]: Nakakamangha talaga dito! Ang ganda ng tubig!
+[TAGALOG-MALE-1]: Opo, crystal clear po ang water dito. Puwede po ba kayong lumangoy?
+[TAGALOG-FEMALE-1]: Opo! Malamig po ba ang tubig?
+[TAGALOG-MALE-1]: Medyo malamig po, pero masarap naman.
+[TAGALOG-FEMALE-1]: Mabuhay po! Magpi-picture muna kami.
+[TAGALOG-MALE-1]: Sige po, kukunin ko po kayo sa magandang spot.
 
-[NARRATOR]: At the Second Lagoon - Small Beach
+[NARRATOR]: Lunch on the Beach
 
-[TAGALOG-FEMALE-2]: Ate, may tindahan po ba dito ng drinks?
-[TAGALOG-FEMALE-1]: Meron po diyan sa kubo. Magkano po ang buko juice?
-[TAGALOG-FEMALE-1]: Limampung pesos po.
-[TAGALOG-FEMALE-2]: Puwede po ba ang dalawa? At salamat po sa info!
-[TAGALOG-FEMALE-1]: Sige po! Mainit ngayon kaya refreshing yan.
-[TAGALOG-FEMALE-2]: Totoo! Kumusta po ang business ninyo dito?
-[TAGALOG-FEMALE-1]: Okay naman po, lalo na kapag maraming tourists tulad ninyo.
-
-[NARRATOR]: Lunch Break on the Beach
-
-[TAGALOG-MALE-2]: Lunch time po! May seafood po tayo ngayon - grilled fish at shrimp.
-[TAGALOG-FEMALE-1]: Sarap naman! Kumusta po ninyo naluto ang fish?
-[TAGALOG-MALE-2]: Special recipe po namin yan. Try ninyo po!
-[TAGALOG-FEMALE-1]: Salamat po! Puwede po ba namin makuha ang recipe?
-[TAGALOG-MALE-2]: Secret po yan! Pero puwede po kayong bumalik para makakain ulit!
-[TAGALOG-FEMALE-1]: Haha! Sige po, babalik talaga kami! Nakakamangha talaga ang lasa!
-
-[NARRATOR]: Return Journey to El Nido
-
-[TAGALOG-FEMALE-2]: Kuya guide, salamat po sa wonderful tour! Nakakamangha talaga!
-[TAGALOG-MALE-1]: Walang anuman po! Kumusta po ang experience ninyo?
-[TAGALOG-FEMALE-2]: Sobrang ganda! Puwede po ba namin irecommend kayo sa friends namin?
-[TAGALOG-MALE-1]: Syempre po! May business card po ako. Salamat po sa support!
-[TAGALOG-FEMALE-2]: Salamat din po! Magkano po ang tip para sa crew?
-[TAGALOG-MALE-1]: Kahit ano po, voluntary lang. Salamat po talaga!
+[TAGALOG-FEMALE-2]: Sarap naman ng lunch na ito! Ano po itong isda?
+[TAGALOG-MALE-2]: Lapu-lapu po yan, fresh catch ngayong umaga.
+[TAGALOG-FEMALE-2]: Nakakamangha talaga! Puwede po ba namin malaman kung saan kayo bumili?
+[TAGALOG-MALE-2]: Sa local fishermen po kami kumuha. Araw-araw po fresh.
+[TAGALOG-FEMALE-2]: Mabuhay po! Susunod na beses babalik po kami dito.
+[TAGALOG-MALE-2]: Maligayang pagdating po kayo anytime!
 
 [NARRATOR]: Slow Speed
 
-[NARRATOR]: At the Tour Operator's Office
+[NARRATOR]: At the Boat Tour Office
 
-[TAGALOG-FEMALE-1]: Good... morning... po!... Magkano... po... ang... boat... tour... sa... hidden... lagoons?
-[TAGALOG-MALE-1]: Kumusta... po... kayo!... Dalawang... libong... pesos... po... para... sa... buong... araw.
-[TAGALOG-FEMALE-1]: Puwede... po... ba... kayong... mag-discount?... Apat... kaming... magkakaibigan.
-[TAGALOG-MALE-1]: Sige... po... para... sa... group... ninyo... Pitong... libo... nalang... po... para... sa... apat.
-[TAGALOG-FEMALE-1]: Salamat... po!... Ano... po... ang... kasama... sa... tour?
-[TAGALOG-MALE-1]: Kasama... na... po... ang... lunch... snorkeling... gear... at... life... jackets.
-[TAGALOG-FEMALE-1]: Sarap... naman!... Anong... oras... po... ang... departure?
-[TAGALOG-MALE-1]: Alas... otso... ng... umaga... po... Dito... po... kayo... sa... pier... magkikita.
+[TAGALOG-FEMALE-1]: Kamusta... na... po... kayo?... May... tour... po... ba... kayo... para... sa... hidden... lagoons?
+[TAGALOG-MALE-1]: Opo!... Meron... po... kaming... Big... Lagoon... at... Small... Lagoon... tour... Magkano... po... kayo?
+[TAGALOG-FEMALE-1]: Dalawa... lang... po... kami... Presyo... po... nito... ang... bayad?
+[TAGALOG-MALE-1]: Dalawang... libo... po... para... sa... dalawa... kasama... na... po... ang... lunch.
+[TAGALOG-FEMALE-1]: Sarap... naman!... Puwede... po... ba... naming... makita... ang... schedule?
+[TAGALOG-MALE-1]: Siyempre... po!... Alis... natin... ng... alas... otso... ng... umaga... balik... ng... alas... kwatro.
+[TAGALOG-FEMALE-1]: Perpekto... po!... Mag-reserve... na... po... namin... Mabuhay... po!
 
-[NARRATOR]: On the Boat to the First Lagoon
+[NARRATOR]: On the Boat to the Lagoons
 
-[TAGALOG-MALE-2]: Mga... ma'am... sir... tingnan... ninyo... po... ang... tubig!... Nakakamangha... talaga!
-[TAGALOG-FEMALE-2]: Wow!... Ang... linaw... ng... dagat... dito!... Perfect... for... swimming!
-[TAGALOG-MALE-2]: Opo... first... stop... natin... ay... Secret... Lagoon... po... Puwede... po... ba... kayong... mag-swimming?
-[TAGALOG-FEMALE-2]: Of... course!... Magkano... po... ang... entrance?
-[TAGALOG-MALE-2]: Kasama... na... po... sa... tour... ninyo... Salamat... po... sa... pagpili... sa... amin!
-[TAGALOG-FEMALE-2]: Salamat... din... po... sa... inyo!... Ang... galing... ng... service!
+[TAGALOG-MALE-2]: Maligayang... pagdating... po... sa... boat... namin!... Unang... beses... po... ninyo... sa... El... Nido?
+[TAGALOG-FEMALE-2]: Hindi... po... pero... unang... beses... namin... sa... hidden... lagoons.
+[TAGALOG-MALE-2]: Nakakamangha... talaga... ang... mga... lagoon... dito... Makikita... ninyo... mamaya.
+[TAGALOG-FEMALE-2]: Nasasabik... na... po... kami!... Gaano... po... katagal... ang... biyahe?
+[TAGALOG-MALE-2]: Tatlumpung... minuto... po... hanggang... sa... Big... Lagoon.
+[TAGALOG-FEMALE-2]: Mabuhay... po... sa... information!
 
-[NARRATOR]: Inside the Hidden Lagoon
+[NARRATOR]: At the Hidden Lagoon
 
-[TAGALOG-FEMALE-1]: Kuya... puwede... po... ba... naming... mag-picture... dito?
-[TAGALOG-MALE-1]: Syempre... po!... Maganda... po... ang... spot... na... yan... para... sa... photos.
-[TAGALOG-FEMALE-1]: Salamat... po!... Kumusta... po... ang... weather... ngayon?... Okay... pa... ba?
-[TAGALOG-MALE-1]: Maayos... naman... po... Hindi... po... uulan... ngayon... araw.
-[TAGALOG-FEMALE-1]: Sarap... naman!... Gaano... po... katagal... tayo... dito?
-[TAGALOG-MALE-1]: Tatlumpung... minutos... po... tapos... next... lagoon... na... tayo.
-[TAGALOG-FEMALE-1]: Perfect!... Nakakamangha... talaga... ang... El... Nido!
+[TAGALOG-FEMALE-1]: Nakakamangha... talaga... dito!... Ang... ganda... ng... tubig!
+[TAGALOG-MALE-1]: Opo... crystal... clear... po... ang... water... dito... Puwede... po... ba... kayong... lumangoy?
+[TAGALOG-FEMALE-1]: Opo!... Malamig... po... ba... ang... tubig?
+[TAGALOG-MALE-1]: Medyo... malamig... po... pero... masarap... naman.
+[TAGALOG-FEMALE-1]: Mabuhay... po!... Magpi-picture... muna... kami.
+[TAGALOG-MALE-1]: Sige... po... kukunin... ko... po... kayo... sa... magandang... spot.
 
-[NARRATOR]: At the Second Lagoon - Small Beach
+[NARRATOR]: Lunch on the Beach
 
-[TAGALOG-FEMALE-2]: Ate... may... tindahan... po... ba... dito... ng... drinks?
-[TAGALOG-FEMALE-1]: Meron... po... diyan... sa... kubo... Magkano... po... ang... buko... juice?
-[TAGALOG-FEMALE-1]: Limampung... pesos... po.
-[TAGALOG-FEMALE-2]: Puwede... po... ba... ang... dalawa?... At... salamat... po... sa... info!
-[TAGALOG-FEMALE-1]: Sige... po!... Mainit... ngayon... kaya... refreshing... yan.
-[TAGALOG-FEMALE-2]: Totoo!... Kumusta... po... ang... business... ninyo... dito?
-[TAGALOG-FEMALE-1]: Okay... naman... po... lalo... na... kapag... maraming... tourists... tulad... ninyo.
-
-[NARRATOR]: Lunch Break on the Beach
-
-[TAGALOG-MALE-2]: Lunch... time... po!... May... seafood... po... tayo... ngayon... grilled... fish... at... shrimp.
-[TAGALOG-FEMALE-1]: Sarap... naman!... Kumusta... po... ninyo... naluto... ang... fish?
-[TAGALOG-MALE-2]: Special... recipe... po... namin... yan... Try... ninyo... po!
-[TAGALOG-FEMALE-1]: Salamat... po!... Puwede... po... ba... namin... makuha... ang... recipe?
-[TAGALOG-MALE-2]: Secret... po... yan!... Pero... puwede... po... kayong... bumalik... para... makakain... ulit!
-[TAGALOG-FEMALE-1]: Haha!... Sige... po... babalik... talaga... kami!... Nakakamangha... talaga... ang... lasa!
-
-[NARRATOR]: Return Journey to El Nido
-
-[TAGALOG-FEMALE-2]: Kuya... guide... salamat... po... sa... wonderful... tour!... Nakakamangha... talaga!
-[TAGALOG-MALE-1]: Walang... anuman... po!... Kumusta... po... ang... experience... ninyo?
-[TAGALOG-FEMALE-2]: Sobrang... ganda!... Puwede... po... ba... namin... irecommend... kayo... sa... friends... namin?
-[TAGALOG-MALE-1]: Syempre... po!... May... business... card... po... ako... Salamat... po... sa... support!
-[TAGALOG-FEMALE-2]: Salamat... din... po!... Magkano... po... ang... tip... para... sa... crew?
-[TAGALOG-MALE-1]: Kahit... ano... po... voluntary... lang... Salamat... po... talaga!
+[TAGALOG-FEMALE-2]: Sarap... naman... ng... lunch... na... ito!... Ano... po... itong... isda?
+[TAGALOG-MALE-2]: Lapu-lapu... po... yan... fresh... catch... ngayong... umaga.
+[TAGALOG-FEMALE-2]: Nakakamangha... talaga!... Puwede... po... ba... namin... malaman... kung... saan... kayo... bumili?
+[TAGALOG-MALE-2]: Sa... local... fishermen... po... kami... kumuha... Araw-araw... po... fresh.
+[TAGALOG-FEMALE-2]: Mabuhay... po!... Susunod... na... beses... babalik... po... kami... dito.
+[TAGALOG-MALE-2]: Maligayang... pagdating... po... kayo... anytime!
 
 [NARRATOR]: Translated
 
-[NARRATOR]: At the Tour Operator's Office
+[NARRATOR]: At the Boat Tour Office
 
-[TAGALOG-FEMALE-1]: Good morning po! Magkano po ang boat tour sa hidden lagoons?
-[NARRATOR]: Good morning! How much is the boat tour to the hidden lagoons?
-[TAGALOG-MALE-1]: Kumusta po kayo! Dalawang libong pesos po para sa buong araw.
-[NARRATOR]: How are you! Two thousand pesos for the whole day.
-[TAGALOG-FEMALE-1]: Puwede po ba kayong mag-discount? Apat kaming magkakaibigan.
-[NARRATOR]: Can you give a discount? We are four friends.
-[TAGALOG-MALE-1]: Sige po, para sa group ninyo. Pitong libo nalang po para sa apat.
-[NARRATOR]: Okay, for your group. Just seven thousand for the four of you.
-[TAGALOG-FEMALE-1]: Salamat po! Ano po ang kasama sa tour?
-[NARRATOR]: Thank you! What's included in the tour?
-[TAGALOG-MALE-1]: Kasama na po ang lunch, snorkeling gear, at life jackets.
-[NARRATOR]: Lunch, snorkeling gear, and life jackets are included.
-[TAGALOG-FEMALE-1]: Sarap naman! Anong oras po ang departure?
-[NARRATOR]: That's great! What time is the departure?
-[TAGALOG-MALE-1]: Alas otso ng umaga po. Dito po kayo sa pier magkikita.
-[NARRATOR]: Eight in the morning. You'll meet here at the pier.
+[TAGALOG-FEMALE-1]: Kamusta na po kayo? May tour po ba kayo para sa hidden lagoons?
+[NARRATOR]: How are you? Do you have tours for the hidden lagoons?
+[TAGALOG-MALE-1]: Opo! Meron po kaming Big Lagoon at Small Lagoon tour. Magkano po kayo?
+[NARRATOR]: Yes! We have Big Lagoon and Small Lagoon tours. How many are you?
+[TAGALOG-FEMALE-1]: Dalawa lang po kami. Presyo po nito ang bayad?
+[NARRATOR]: We are just two. How much is the payment?
+[TAGALOG-MALE-1]: Dalawang libo po para sa dalawa, kasama na po ang lunch.
+[NARRATOR]: Two thousand for two people, lunch is included.
+[TAGALOG-FEMALE-1]: Sarap naman! Puwede po ba naming makita ang schedule?
+[NARRATOR]: How nice! Can we see the schedule?
+[TAGALOG-MALE-1]: Siyempre po! Alis natin ng alas otso ng umaga, balik ng alas kwatro.
+[NARRATOR]: Of course! We leave at eight in the morning, return at four.
+[TAGALOG-FEMALE-1]: Perpekto po! Mag-reserve na po namin. Mabuhay po!
+[NARRATOR]: Perfect! We'll book it. Thank you!
 
-[NARRATOR]: On the Boat to the First Lagoon
+[NARRATOR]: On the Boat to the Lagoons
 
-[TAGALOG-MALE-2]: Mga ma'am, sir, tingnan ninyo po ang tubig! Nakakamangha talaga!
-[NARRATOR]: Ladies and gentlemen, look at the water! Truly amazing!
-[TAGALOG-FEMALE-2]: Wow! Ang linaw ng dagat dito! Perfect for swimming!
-[NARRATOR]: Wow! The sea is so clear here! Perfect for swimming!
-[TAGALOG-MALE-2]: Opo, first stop natin ay Secret Lagoon po. Puwede po ba kayong mag-swimming?
-[NARRATOR]: Yes, our first stop is Secret Lagoon. Can you swim?
-[TAGALOG-FEMALE-2]: Of course! Magkano po ang entrance?
-[NARRATOR]: Of course! How much is the entrance?
-[TAGALOG-MALE-2]: Kasama na po sa tour ninyo. Salamat po sa pagpili sa amin!
-[NARRATOR]: It's included in your tour. Thank you for choosing us!
-[TAGALOG-FEMALE-2]: Salamat din po sa inyo! Ang galing ng service!
-[NARRATOR]: Thank you too! The service is excellent!
+[TAGALOG-MALE-2]: Maligayang pagdating po sa boat namin! Unang beses po ninyo sa El Nido?
+[NARRATOR]: Welcome to our boat! Is this your first time in El Nido?
+[TAGALOG-FEMALE-2]: Hindi po, pero unang beses namin sa hidden lagoons.
+[NARRATOR]: No, but it's our first time to the hidden lagoons.
+[TAGALOG-MALE-2]: Nakakamangha talaga ang mga lagoon dito. Makikita ninyo mamaya.
+[NARRATOR]: The lagoons here are really amazing. You'll see later.
+[TAGALOG-FEMALE-2]: Nasasabik na po kami! Gaano po katagal ang biyahe?
+[NARRATOR]: We're excited! How long is the trip?
+[TAGALOG-MALE-2]: Tatlumpung minuto po hanggang sa Big Lagoon.
+[NARRATOR]: Thirty minutes to the Big Lagoon.
+[TAGALOG-FEMALE-2]: Mabuhay po sa information!
+[NARRATOR]: Thank you for the information!
 
-[NARRATOR]: Inside the Hidden Lagoon
+[NARRATOR]: At the Hidden Lagoon
 
-[TAGALOG-FEMALE-1]: Kuya, puwede po ba naming mag-picture dito?
-[NARRATOR]: Brother, can we take pictures here?
-[TAGALOG-MALE-1]: Syempre po! Maganda po ang spot na yan para sa photos.
-[NARRATOR]: Of course! That spot is beautiful for photos.
-[TAGALOG-FEMALE-1]: Salamat po! Kumusta po ang weather ngayon? Okay pa ba?
-[NARRATOR]: Thank you! How's the weather today? Is it still okay?
-[TAGALOG-MALE-1]: Maayos naman po. Hindi po uulan ngayon araw.
-[NARRATOR]: It's fine. It won't rain today.
-[TAGALOG-FEMALE-1]: Sarap naman! Gaano po katagal tayo dito?
-[NARRATOR]: That's great! How long will we stay here?
-[TAGALOG-MALE-1]: Tatlumpung minutos po, tapos next lagoon na tayo.
-[NARRATOR]: Thirty minutes, then we go to the next lagoon.
-[TAGALOG-FEMALE-1]: Perfect! Nakakamangha talaga ang El Nido!
-[NARRATOR]: Perfect! El Nido is truly amazing!
+[TAGALOG-FEMALE-1]: Nakakamangha talaga dito! Ang ganda ng tubig!
+[NARRATOR]: This is really amazing! The water is so beautiful!
+[TAGALOG-MALE-1]: Opo, crystal clear po ang water dito. Puwede po ba kayong lumangoy?
+[NARRATOR]: Yes, the water here is crystal clear. Can you swim?
+[TAGALOG-FEMALE-1]: Opo! Malamig po ba ang tubig?
+[NARRATOR]: Yes! Is the water cold?
+[TAGALOG-MALE-1]: Medyo malamig po, pero masarap naman.
+[NARRATOR]: A bit cold, but it's nice.
+[TAGALOG-FEMALE-1]: Mabuhay po! Magpi-picture muna kami.
+[NARRATOR]: Thank you! We'll take pictures first.
+[TAGALOG-MALE-1]: Sige po, kukunin ko po kayo sa magandang spot.
+[NARRATOR]: Sure, I'll take photos of you at a nice spot.
 
-[NARRATOR]: At the Second Lagoon - Small Beach
+[NARRATOR]: Lunch on the Beach
 
-[TAGALOG-FEMALE-2]: Ate, may tindahan po ba dito ng drinks?
-[NARRATOR]: Sister, is there a store here for drinks?
-[TAGALOG-FEMALE-1]: Meron po diyan sa kubo. Magkano po ang buko juice?
-[NARRATOR]: There's one over there in the hut. How much is the coconut juice?
-[TAGALOG-FEMALE-1]: Limampung pesos po.
-[NARRATOR]: Fifty pesos.
-[TAGALOG-FEMALE-2]: Puwede po ba ang dalawa? At salamat po sa info!
-[NARRATOR]: Can I have two? And thank you for the information!
-[TAGALOG-FEMALE-1]: Sige po! Mainit ngayon kaya refreshing yan.
-[NARRATOR]: Sure! It's hot now so that's refreshing.
-[TAGALOG-FEMALE-2]: Totoo! Kumusta po ang business ninyo dito?
-[NARRATOR]: True! How's your business here?
-[TAGALOG-FEMALE-1]: Okay naman po, lalo na kapag maraming tourists tulad ninyo.
-[NARRATOR]: It's okay, especially when there are many tourists like you.
-
-[NARRATOR]: Lunch Break on the Beach
-
-[TAGALOG-MALE-2]: Lunch time po! May seafood po tayo ngayon - grilled fish at shrimp.
-[NARRATOR]: Lunch time! We have seafood today - grilled fish and shrimp.
-[TAGALOG-FEMALE-1]: Sarap naman! Kumusta po ninyo naluto ang fish?
-[NARRATOR]: That looks delicious! How did you cook the fish?
-[TAGALOG-MALE-2]: Special recipe po namin yan. Try ninyo po!
-[NARRATOR]: That's our special recipe. Try it!
-[TAGALOG-FEMALE-1]: Salamat po! Puwede po ba namin makuha ang recipe?
-[NARRATOR]: Thank you! Can we get the recipe?
-[TAGALOG-MALE-2]: Secret po yan! Pero puwede po kayong bumalik para makakain ulit!
-[NARRATOR]: That's a secret! But you can come back to eat again!
-[TAGALOG-FEMALE-1]: Haha! Sige po, babalik talaga kami! Nakakamangha talaga ang lasa!
-[NARRATOR]: Haha! Okay, we'll definitely come back! The taste is truly amazing!
-
-[NARRATOR]: Return Journey to El Nido
-
-[TAGALOG-FEMALE-2]: Kuya guide, salamat po sa wonderful tour! Nakakamangha talaga!
-[NARRATOR]: Brother guide, thank you for the wonderful tour! Truly amazing!
-[TAGALOG-MALE-1]: Walang anuman po! Kumusta po ang experience ninyo?
-[NARRATOR]: You're welcome! How was your experience?
-[TAGALOG-FEMALE-2]: Sobrang ganda! Puwede po ba namin irecommend kayo sa friends namin?
-[NARRATOR]: So beautiful! Can we recommend you to our friends?
-[TAGALOG-MALE-1]: Syempre po! May business card po ako. Salamat po sa support!
-[NARRATOR]: Of course! I have a business card. Thank you for the support!
-[TAGALOG-FEMALE-2]: Salamat din po! Magkano po ang tip para sa crew?
-[NARRATOR]: Thank you too! How much should we tip the crew?
-[TAGALOG-MALE-1]: Kahit ano po, voluntary lang. Salamat po talaga!
-[NARRATOR]: Whatever you want, it's voluntary. Thank you so much!
+[TAGALOG-FEMALE-2]: Sarap naman ng lunch na ito! Ano po itong isda?
+[NARRATOR]: This lunch is so delicious! What fish is this?
+[TAGALOG-MALE-2]: Lapu-lapu po yan, fresh catch ngayong umaga.
+[NARRATOR]: That's grouper, fresh catch this morning.
+[TAGALOG-FEMALE-2]: Nakakamangha talaga! Puwede po ba namin malaman kung saan kayo bumili?
+[NARRATOR]: Really amazing! Can we know where you bought it?
+[TAGALOG-MALE-2]: Sa local fishermen po kami kumuha. Araw-araw po fresh.
+[NARRATOR]: We got it from local fishermen. It's fresh every day.
+[TAGALOG-FEMALE-2]: Mabuhay po! Susunod na beses babalik po kami dito.
+[NARRATOR]: Thank you! Next time we'll come back here.
+[TAGALOG-MALE-2]: Maligayang pagdating po kayo anytime!
+[NARRATOR]: You're welcome anytime!

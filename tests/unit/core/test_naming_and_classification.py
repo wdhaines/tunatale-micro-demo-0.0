@@ -20,9 +20,7 @@ def lesson_processor():
     """Returns a LessonProcessor instance with dummy services."""
     return LessonProcessor(
         tts_service=None,
-        audio_processor=None,
-        voice_selector=None,
-        word_selector=None
+        audio_processor=None
     )
 
 

@@ -70,8 +70,6 @@ async def test_pause_markers_not_sent_to_tts():
         processor = LessonProcessor(
             tts_service=mock_tts,
             audio_processor=mock_audio,
-            voice_selector=mock_voice_selector,
-            word_selector=mock_word_selector,
             output_dir=str(output_path)
         )
         
@@ -127,8 +125,6 @@ async def test_direct_ssml_markers_not_sent_to_tts():
         processor = LessonProcessor(
             tts_service=mock_tts,
             audio_processor=mock_audio,
-            voice_selector=mock_voice_selector,
-            word_selector=mock_word_selector,
             output_dir=str(output_path)
         )
         

@@ -48,14 +48,12 @@ def mock_word_selector():
 
 
 @pytest.fixture
-def ssml_lesson_processor(mock_tts_service, mock_audio_processor, mock_voice_selector, mock_word_selector):
+def ssml_lesson_processor(mock_tts_service, mock_audio_processor):
     """Create a lesson processor with SSML support enabled."""
     with tempfile.TemporaryDirectory() as temp_dir:
         processor = LessonProcessor(
             tts_service=mock_tts_service,
             audio_processor=mock_audio_processor,
-            voice_selector=mock_voice_selector,
-            word_selector=mock_word_selector,
             output_dir=str(temp_dir),
             ellipsis_pause_duration_ms=800,
             use_natural_pauses=True
@@ -64,15 +62,13 @@ def ssml_lesson_processor(mock_tts_service, mock_audio_processor, mock_voice_sel
 
 
 @pytest.fixture
-def non_ssml_lesson_processor(mock_tts_service, mock_audio_processor, mock_voice_selector, mock_word_selector):
+def non_ssml_lesson_processor(mock_tts_service, mock_audio_processor):
     """Create a lesson processor with SSML support disabled."""
     mock_tts_service.supports_ssml = False
     with tempfile.TemporaryDirectory() as temp_dir:
         processor = LessonProcessor(
             tts_service=mock_tts_service,
             audio_processor=mock_audio_processor,
-            voice_selector=mock_voice_selector,
-            word_selector=mock_word_selector,
             output_dir=str(temp_dir),
             ellipsis_pause_duration_ms=800,
             use_natural_pauses=False
@@ -119,7 +115,7 @@ class TestEllipsisHandling:
         assert expected_non_ssml in processed_non_ssml, f"Non-SSML preprocessing failed for: {input_text} (got: {processed_non_ssml})"
 
     @pytest.mark.asyncio
-    async def test_phrase_processing_with_ssml_ellipsis(self, ssml_lesson_processor, mock_tts_service, mock_audio_processor):
+    async def test_phrase_processing_with_ssml_ellipsis(self, ssml_lesson_processor, mock_tts_service, mock_audio_processor, tmp_path):
         """Test that phrase processing handles ellipsis correctly."""
         # Setup mock to return a dummy audio file
         mock_tts_service.synthesize_speech.return_value = (b"dummy_audio", False)
@@ -137,10 +133,8 @@ class TestEllipsisHandling:
             speaker="Person A"
         )
         
-        # Process the phrase with a Path object
-        output_dir = Path("output_dir")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        await ssml_lesson_processor._process_phrase(phrase, output_dir)
+        # Process the phrase, using the temp path provided by the fixture
+        await ssml_lesson_processor._process_phrase(phrase, tmp_path)
         
         # Check that _synthesize_speech_with_retry was called with the processed text
         assert mock_synthesize_with_retry.call_count == 1, "_synthesize_speech_with_retry should be called once"
@@ -153,7 +147,7 @@ class TestEllipsisHandling:
         assert ";" in tts_text, f"Ellipsis should be converted to semicolon in SSML mode, got: {tts_text}"
 
     @pytest.mark.asyncio
-    async def test_phrase_processing_with_non_ssml_ellipsis(self, non_ssml_lesson_processor, mock_tts_service, mock_audio_processor):
+    async def test_phrase_processing_with_non_ssml_ellipsis(self, non_ssml_lesson_processor, mock_tts_service, mock_audio_processor, tmp_path):
         """Test that phrase processing handles ellipsis with semicolons."""
         # Setup mock to return a dummy audio file
         mock_tts_service.synthesize_speech.return_value = (b"dummy_audio", False)
@@ -171,10 +165,8 @@ class TestEllipsisHandling:
             speaker="Person A"
         )
         
-        # Process the phrase with a Path object
-        output_dir = Path("output_dir")
-        output_dir.mkdir(parents=True, exist_ok=True)
-        await non_ssml_lesson_processor._process_phrase(phrase, output_dir)
+        # Process the phrase, using the temp path provided by the fixture
+        await non_ssml_lesson_processor._process_phrase(phrase, tmp_path)
         
         # Verify the correct number of calls were made
         assert mock_synthesize_with_retry.call_count == 1, \
@@ -196,7 +188,7 @@ class TestEllipsisHandling:
                mock_tts_service.synthesize_speech_with_pauses.call_count == 0, \
                "Should not use pause-aware synthesis"
     
-    def test_configurable_pause_duration(self, mock_tts_service, mock_audio_processor, mock_voice_selector, mock_word_selector):
+    def test_configurable_pause_duration(self, mock_tts_service, mock_audio_processor):
         """Test that ellipsis pause duration is configurable."""
         test_durations = [200, 800, 1500]  # ms
         
@@ -205,8 +197,6 @@ class TestEllipsisHandling:
                 processor = LessonProcessor(
                     tts_service=mock_tts_service,
                     audio_processor=mock_audio_processor,
-                    voice_selector=mock_voice_selector,
-                    word_selector=mock_word_selector,
                     output_dir=str(temp_dir),
                     ellipsis_pause_duration_ms=duration_ms,
                     use_natural_pauses=False

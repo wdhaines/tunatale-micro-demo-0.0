@@ -207,13 +207,11 @@ def mock_word_selector():
     return MagicMock()
 
 @pytest.fixture
-def lesson_processor(mock_tts_service, mock_audio_processor, mock_voice_selector, mock_word_selector, tmp_path):
+def lesson_processor(mock_tts_service, mock_audio_processor, tmp_path):
     """Create a LessonProcessor instance for testing."""
     return LessonProcessor(
         tts_service=mock_tts_service,
         audio_processor=mock_audio_processor,
-        voice_selector=mock_voice_selector,
-        word_selector=mock_word_selector,
         max_workers=2,  # Use fewer workers for tests
         output_dir=str(tmp_path / "output")  # Use a test-specific output directory
     )
@@ -634,8 +632,6 @@ class TestLessonProcessor:
         processor = LessonProcessor(
             tts_service=mock_tts_service,
             audio_processor=mock_audio_processor,
-            voice_selector=mock_voice_selector,
-            word_selector=mock_word_selector,
             output_dir=str(tmp_path / "output"),
             max_workers=1
         )
@@ -684,8 +680,6 @@ class TestLessonProcessor:
         processor = LessonProcessor(
             tts_service=mock_tts_service,
             audio_processor=mock_audio_processor,
-            voice_selector=mock_voice_selector,
-            word_selector=mock_word_selector,
             output_dir=str(tmp_path / "output"),
             max_workers=1
         )
@@ -750,8 +744,6 @@ class TestLessonProcessor:
         processor = LessonProcessor(
             tts_service=mock_tts_service,
             audio_processor=mock_audio_processor,
-            voice_selector=mock_voice_selector,
-            word_selector=mock_word_selector,
             output_dir=str(tmp_path / "output"),
             max_workers=1
         )
@@ -826,8 +818,6 @@ class TestLessonProcessor:
         processor = LessonProcessor(
             tts_service=mock_tts_service,
             audio_processor=mock_audio_processor,
-            voice_selector=mock_voice_selector,
-            word_selector=mock_word_selector,
             output_dir=str(tmp_path / "output"),
             max_workers=1
         )
