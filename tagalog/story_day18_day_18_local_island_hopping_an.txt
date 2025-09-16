@@ -1,0 +1,261 @@
+[NARRATOR]: Day 18: Local island hopping and snorkeling adventures – New Scenarios
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: mabuhay po
+[NARRATOR]: thank you
+mabuhay po
+po
+hay
+bu
+buhay
+ma
+mabuhay
+mabuhay po
+mabuhay po
+
+
+[TAGALOG-FEMALE-1]: kamusta na po
+[NARRATOR]: how are you
+kamusta na po
+po
+na
+na po
+ta
+mus
+musta
+ka
+kamusta
+kamusta na po
+kamusta na po
+
+
+[TAGALOG-FEMALE-1]: presyo po nito
+[NARRATOR]: how much is this
+presyo po nito
+to
+ni
+nito
+po
+po nito
+yo
+pres
+presyo
+presyo po nito
+presyo po nito
+
+
+[TAGALOG-FEMALE-1]: puwede po ba
+[NARRATOR]: is it possible
+puwede po ba
+ba
+po
+po ba
+de
+we
+wede
+pu
+puwede
+puwede po ba
+puwede po ba
+
+
+[TAGALOG-FEMALE-1]: nakakamangha talaga
+[NARRATOR]: really amazing
+nakakamangha talaga
+ga
+la
+laga
+ta
+talaga
+ha
+mang
+mangha
+ka
+kamangha
+ka
+kakamangha
+na
+nakakamangha
+nakakamangha talaga
+nakakamangha talaga
+
+
+[NARRATOR]: Natural Speed
+
+[NARRATOR]: At the Island Hopping Counter
+
+[TAGALOG-FEMALE-1]: Kamusta na po kayo? May island hopping tour po ba kayo ngayon?
+[TAGALOG-MALE-1]: Opo! Meron po kaming tour A at tour C. Pwede po ba ninyo. Presyo po nito ay dalawang libo para sa tour A.
+[TAGALOG-FEMALE-1]: Ano po ang kasama sa tour A?
+[TAGALOG-MALE-1]: Shimizu Island, Secret Lagoon, at Big Lagoon po. Kasama na po ang lunch at snorkeling gear.
+[TAGALOG-FEMALE-1]: Nakakamangha talaga! Puwede po ba kaming mag-book para sa bukas?
+[TAGALOG-MALE-1]: Siyempre po! Ilan po kayo?
+[TAGALOG-FEMALE-1]: Tatlo po kami. Mabuhay po!
+
+[NARRATOR]: At the Snorkeling Equipment Shop
+
+[TAGALOG-FEMALE-2]: Kamusta na po! Kailangan po namin ng snorkeling gear para sa tatlo.
+[TAGALOG-MALE-2]: Opo! Meron po kaming mask, snorkel, at fins. Presyo po nito ay tatlong daan pesos per set.
+[TAGALOG-FEMALE-2]: Puwede po ba naming subukan muna ang mask?
+[TAGALOG-MALE-2]: Siyempre po! Dito po sa loob. Meron din po kaming life vest kung kailangan ninyo.
+[TAGALOG-FEMALE-2]: Salamat po! Ang ganda po ng kalidad. Rent po namin ang tatlong set.
+[TAGALOG-MALE-2]: Perpekto po! Mabuhay po sa negosyo!
+
+[NARRATOR]: On the Island Hopping Boat
+
+[TAGALOG-MALE-1]: Maligayang pagdating po sa boat namin! Unang island natin ay Shimizu.
+[TAGALOG-FEMALE-1]: Nakakamangha talaga ang view dito! Gaano po kataas ang tubig sa Shimizu?
+[TAGALOG-MALE-1]: Medyo mababaw po, perpekto para sa snorkeling. Makakita po kayo ng mga makulay na fish.
+[TAGALOG-FEMALE-1]: Nasasabik na po kami! Puwede po ba kaming mag-swimming din?
+[TAGALOG-MALE-1]: Opo! Pero ingat po sa mga coral. Huwag po kayong tumapak.
+[TAGALOG-FEMALE-1]: Noted po. Mabuhay po sa reminders!
+
+[NARRATOR]: At Shimizu Island Beach
+
+[TAGALOG-FEMALE-2]: Nakakamangha talaga ang kulay ng tubig dito! Crystal clear po talaga.
+[TAGALOG-MALE-2]: Opo! Fresh water po ito kaya malinaw. Perpekto po para sa pictures.
+[TAGALOG-FEMALE-2]: Presyo po nito magpa-picture sa photographer ninyo?
+[TAGALOG-MALE-2]: Lima daang pesos po para sa package. Kasama na po ang underwater shots.
+[TAGALOG-FEMALE-2]: Sulit naman po! Puwede po ba kayong mag-take ng group photo muna?
+[TAGALOG-MALE-2]: Siyempre po! Dito po sa magandang spot. Say cheese!
+[TAGALOG-FEMALE-2]: Mabuhay po! Anong oras po ng sun!
+
+[NARRATOR]: During Snorkeling at Secret Lagoon
+
+[TAGALOG-FEMALE-1]: Nakakamangha talaga ang mga fish dito! Ang dami po nilang kulay.
+[TAGALOG-MALE-1]: Opo! Makakita pa po kayo ng sea turtle kung swerte. Stay close po sa guide ninyo.
+[TAGALOG-FEMALE-1]: Puwede po ba kaming mag-dive ng mas malalim?
+[TAGALOG-MALE-1]: Hanggang lima meters lang po para sa kaligtasan. Presyo po nito ng oxygen tank kung gusto ninyo ng mas malalim.
+[TAGALOG-FEMALE-1]: Hindi na po, okay na po ito. Mabuhay po sa guidance!
+[TAGALOG-MALE-1]: Welcome po! Enjoy po kayo sa underwater world!
+
+[NARRATOR]: Slow Speed
+
+[NARRATOR]: At the Island Hopping Counter
+
+[TAGALOG-FEMALE-1]: Kamusta... na... po... kayo?... May... island... hopping... tour... po... ba... kayo... ngayon?
+[TAGALOG-MALE-1]: Opo!... Meron... po... kaming... tour... A... at... tour... C... Pwede... po... ba... ninyo... Presyo... po... nito... ay... dalawang... libo... para... sa... tour... A.
+[TAGALOG-FEMALE-1]: Ano... po... ang... kasama... sa... tour... A?
+[TAGALOG-MALE-1]: Shimizu... Island... Secret... Lagoon... at... Big... Lagoon... po... Kasama... na... po... ang... lunch... at... snorkeling... gear.
+[TAGALOG-FEMALE-1]: Nakakamangha... talaga!... Puwede... po... ba... kaming... mag-book... para... sa... bukas?
+[TAGALOG-MALE-1]: Siyempre... po!... Ilan... po... kayo?
+[TAGALOG-FEMALE-1]: Tatlo... po... kami... Mabuhay... po!
+
+[NARRATOR]: At the Snorkeling Equipment Shop
+
+[TAGALOG-FEMALE-2]: Kamusta... na... po!... Kailangan... po... namin... ng... snorkeling... gear... para... sa... tatlo.
+[TAGALOG-MALE-2]: Opo!... Meron... po... kaming... mask... snorkel... at... fins... Presyo... po... nito... ay... tatlong... daan... pesos... per... set.
+[TAGALOG-FEMALE-2]: Puwede... po... ba... naming... subukan... muna... ang... mask?
+[TAGALOG-MALE-2]: Siyempre... po!... Dito... po... sa... loob... Meron... din... po... kaming... life... vest... kung... kailangan... ninyo.
+[TAGALOG-FEMALE-2]: Salamat... po!... Ang... ganda... po... ng... kalidad... Rent... po... namin... ang... tatlong... set.
+[TAGALOG-MALE-2]: Perpekto... po!... Mabuhay... po... sa... negosyo!
+
+[NARRATOR]: On the Island Hopping Boat
+
+[TAGALOG-MALE-1]: Maligayang... pagdating... po... sa... boat... namin!... Unang... island... natin... ay... Shimizu.
+[TAGALOG-FEMALE-1]: Nakakamangha... talaga... ang... view... dito!... Gaano... po... kataas... ang... tubig... sa... Shimizu?
+[TAGALOG-MALE-1]: Medyo... mababaw... po... perpekto... para... sa... snorkeling... Makakita... po... kayo... ng... mga... makulay... na... fish.
+[TAGALOG-FEMALE-1]: Nasasabik... na... po... kami!... Puwede... po... ba... kaming... mag-swimming... din?
+[TAGALOG-MALE-1]: Opo!... Pero... ingat... po... sa... mga... coral... Huwag... po... kayong... tumapak.
+[TAGALOG-FEMALE-1]: Noted... po... Mabuhay... po... sa... reminders!
+
+[NARRATOR]: At Shimizu Island Beach
+
+[TAGALOG-FEMALE-2]: Nakakamangha... talaga... ang... kulay... ng... tubig... dito!... Crystal... clear... po... talaga.
+[TAGALOG-MALE-2]: Opo!... Fresh... water... po... ito... kaya... malinaw... Perpekto... po... para... sa... pictures.
+[TAGALOG-FEMALE-2]: Presyo... po... nito... magpa-picture... sa... photographer... ninyo?
+[TAGALOG-MALE-2]: Lima... daang... pesos... po... para... sa... package... Kasama... na... po... ang... underwater... shots.
+[TAGALOG-FEMALE-2]: Sulit... naman... po!... Puwede... po... ba... kayong... mag-take... ng... group... photo... muna?
+[TAGALOG-MALE-2]: Siyempre... po!... Dito... po... sa... magandang... spot... Say... cheese!
+[TAGALOG-FEMALE-2]: Mabuhay... po!... Anong... oras... po... ng... sun!
+
+[NARRATOR]: During Snorkeling at Secret Lagoon
+
+[TAGALOG-FEMALE-1]: Nakakamangha... talaga... ang... mga... fish... dito!... Ang... dami... po... nilang... kulay.
+[TAGALOG-MALE-1]: Opo!... Makakita... pa... po... kayo... ng... sea... turtle... kung... swerte... Stay... close... po... sa... guide... ninyo.
+[TAGALOG-FEMALE-1]: Puwede... po... ba... kaming... mag-dive... ng... mas... malalim?
+[TAGALOG-MALE-1]: Hanggang... lima... meters... lang... po... para... sa... kaligtasan... Presyo... po... nito... ng... oxygen... tank... kung... gusto... ninyo... ng... mas... malalim.
+[TAGALOG-FEMALE-1]: Hindi... na... po... okay... na... po... ito... Mabuhay... po... sa... guidance!
+[TAGALOG-MALE-1]: Welcome... po!... Enjoy... po... kayo... sa... underwater... world!
+
+[NARRATOR]: Translated
+
+[NARRATOR]: At the Island Hopping Counter
+
+[TAGALOG-FEMALE-1]: Kamusta na po kayo? May island hopping tour po ba kayo ngayon?
+[NARRATOR]: How are you? Do you have island hopping tours today?
+[TAGALOG-MALE-1]: Opo! Meron po kaming tour A at tour C. Pwede po ba ninyo. Presyo po nito ay dalawang libo para sa tour A.
+[NARRATOR]: Yes! We have tour A and tour C available. The price for tour A is two thousand.
+[TAGALOG-FEMALE-1]: Ano po ang kasama sa tour A?
+[NARRATOR]: What's included in tour A?
+[TAGALOG-MALE-1]: Shimizu Island, Secret Lagoon, at Big Lagoon po. Kasama na po ang lunch at snorkeling gear.
+[NARRATOR]: Shimizu Island, Secret Lagoon, and Big Lagoon. Lunch and snorkeling gear are included.
+[TAGALOG-FEMALE-1]: Nakakamangha talaga! Puwede po ba kaming mag-book para sa bukas?
+[NARRATOR]: Really amazing! Can we book for tomorrow?
+[TAGALOG-MALE-1]: Siyempre po! Ilan po kayo?
+[NARRATOR]: Of course! How many are you?
+[TAGALOG-FEMALE-1]: Tatlo po kami. Mabuhay po!
+[NARRATOR]: We are three. Thank you!
+
+[NARRATOR]: At the Snorkeling Equipment Shop
+
+[TAGALOG-FEMALE-2]: Kamusta na po! Kailangan po namin ng snorkeling gear para sa tatlo.
+[NARRATOR]: How are you! We need snorkeling gear for three people.
+[TAGALOG-MALE-2]: Opo! Meron po kaming mask, snorkel, at fins. Presyo po nito ay tatlong daan pesos per set.
+[NARRATOR]: Yes! We have masks, snorkels, and fins. The price is three hundred pesos per set.
+[TAGALOG-FEMALE-2]: Puwede po ba naming subukan muna ang mask?
+[NARRATOR]: Can we try the mask first?
+[TAGALOG-MALE-2]: Siyempre po! Dito po sa loob. Meron din po kaming life vest kung kailangan ninyo.
+[NARRATOR]: Of course! Here inside. We also have life vests if you need them.
+[TAGALOG-FEMALE-2]: Salamat po! Ang ganda po ng kalidad. Rent po namin ang tatlong set.
+[NARRATOR]: Thank you! The quality is beautiful. We'll rent three sets.
+[TAGALOG-MALE-2]: Perpekto po! Mabuhay po sa negosyo!
+[NARRATOR]: Perfect! Thank you for the business!
+
+[NARRATOR]: On the Island Hopping Boat
+
+[TAGALOG-MALE-1]: Maligayang pagdating po sa boat namin! Unang island natin ay Shimizu.
+[NARRATOR]: Welcome to our boat! Our first island is Shimizu.
+[TAGALOG-FEMALE-1]: Nakakamangha talaga ang view dito! Gaano po kataas ang tubig sa Shimizu?
+[NARRATOR]: The view here is really amazing! How deep is the water at Shimizu?
+[TAGALOG-MALE-1]: Medyo mababaw po, perpekto para sa snorkeling. Makakita po kayo ng mga makulay na fish.
+[NARRATOR]: It's quite shallow, perfect for snorkeling. You'll see colorful fish.
+[TAGALOG-FEMALE-1]: Nasasabik na po kami! Puwede po ba kaming mag-swimming din?
+[NARRATOR]: We're excited! Can we also go swimming?
+[TAGALOG-MALE-1]: Opo! Pero ingat po sa mga coral. Huwag po kayong tumapak.
+[NARRATOR]: Yes! But be careful with the corals. Don't step on them.
+[TAGALOG-FEMALE-1]: Noted po. Mabuhay po sa reminders!
+[NARRATOR]: Noted. Thank you for the reminders!
+
+[NARRATOR]: At Shimizu Island Beach
+
+[TAGALOG-FEMALE-2]: Nakakamangha talaga ang kulay ng tubig dito! Crystal clear po talaga.
+[NARRATOR]: The color of the water here is really amazing! Really crystal clear.
+[TAGALOG-MALE-2]: Opo! Fresh water po ito kaya malinaw. Perpekto po para sa pictures.
+[NARRATOR]: Yes! This is fresh water so it's clear. Perfect for pictures.
+[TAGALOG-FEMALE-2]: Presyo po nito magpa-picture sa photographer ninyo?
+[NARRATOR]: How much to have pictures taken by your photographer?
+[TAGALOG-MALE-2]: Lima daang pesos po para sa package. Kasama na po ang underwater shots.
+[NARRATOR]: Five hundred pesos for the package. Underwater shots are included.
+[TAGALOG-FEMALE-2]: Sulit naman po! Puwede po ba kayong mag-take ng group photo muna?
+[NARRATOR]: That's worth it! Can you take a group photo first?
+[TAGALOG-MALE-2]: Siyempre po! Dito po sa magandang spot. Say cheese!
+[NARRATOR]: Of course! Here at the beautiful spot. Say cheese!
+[TAGALOG-FEMALE-2]: Mabuhay po! Anong oras po ng sun!
+[NARRATOR]: Thank you! Perfect timing with the sun too!
+
+[NARRATOR]: During Snorkeling at Secret Lagoon
+
+[TAGALOG-FEMALE-1]: Nakakamangha talaga ang mga fish dito! Ang dami po nilang kulay.
+[NARRATOR]: The fish here are really amazing! They have so many colors.
+[TAGALOG-MALE-1]: Opo! Makakita pa po kayo ng sea turtle kung swerte. Stay close po sa guide ninyo.
+[NARRATOR]: Yes! You might even see a sea turtle if you're lucky. Stay close to your guide.
+[TAGALOG-FEMALE-1]: Puwede po ba kaming mag-dive ng mas malalim?
+[NARRATOR]: Can we dive deeper?
+[TAGALOG-MALE-1]: Hanggang lima meters lang po para sa kaligtasan. Presyo po nito ng oxygen tank kung gusto ninyo ng mas malalim.
+[NARRATOR]: Only up to five meters for safety. There's a price for oxygen tanks if you want to go deeper.
+[TAGALOG-FEMALE-1]: Hindi na po, okay na po ito. Mabuhay po sa guidance!
+[NARRATOR]: No need, this is fine. Thank you for the guidance!
+[TAGALOG-MALE-1]: Welcome po! Enjoy po kayo sa underwater world!
+[NARRATOR]: You're welcome! Enjoy the underwater world!
