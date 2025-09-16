@@ -116,7 +116,7 @@ class BaseEntity(BaseModel):
                 "updated_at": "2023-01-01T00:00:00"
             }
         },
-        orm_mode=True,
+        from_attributes=True,
         validate_assignment=True,
         arbitrary_types_allowed=True
     )

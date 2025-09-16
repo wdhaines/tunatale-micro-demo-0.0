@@ -22,7 +22,7 @@ from tunatale.core.utils.tts_preprocessor import (
 import aiofiles
 import aiohttp
 import edge_tts
-from edge_tts import VoicesManager
+
 from edge_tts.exceptions import NoAudioReceived, WebSocketError
 
 from tunatale.core.ports.tts_service import (
@@ -35,6 +35,7 @@ from tunatale.core.ports.tts_service import (
 from tunatale.core.models.voice import Voice
 from tunatale.core.models.enums import Language, VoiceGender, VoiceAge
 from tunatale.utils.file_utils import ensure_directory, sanitize_filename
+from tunatale.infrastructure.services.tts.known_voices import KNOWN_VOICES
 
 logger = logging.getLogger(__name__)
 
@@ -358,212 +359,29 @@ class EdgeTTSService(TTSService):
                    f"Gender string: '{gender_str}', Voice ID: {voice_id}")
         return VoiceGender.UNSPECIFIED
         
-    async def _process_voices(self, voices_data: List[Dict[str, Any]]) -> None:
-        """Process raw voice data into internal dictionaries.
-        
-        Args:
-            voices_data: List of voice data dictionaries.
-        """
-        if not voices_data:
-            logger.warning("No voice data provided to _process_voices")
-            return
-            
-        # First filter to only include English (en) and Tagalog (fil) voices
-        # This is done before any processing to avoid unnecessary work
-        filtered_voices = []
-        skipped_voices = []
-        for voice in voices_data:
-            locale = (voice.get('Locale') or voice.get('locale') or '').lower()
-            voice_name = voice.get('Name') or voice.get('ShortName') or 'unknown'
-            
-            # Check if this is a voice we want to include
-            if locale.startswith(('en-', 'fil-', 'tl-')):
-                filtered_voices.append(voice)
-                logger.debug(f"Including voice: {voice_name} (locale: {locale})")
-            else:
-                skipped_voices.append(f"{voice_name} (locale: {locale})")
-        
-        # Log some debug info about filtered voices
-        if skipped_voices:
-            logger.debug(f"Skipped {len(skipped_voices)} voices not matching language filter. "
-                       f"Sample: {', '.join(skipped_voices[:5])}...")
-        
-        total_voices = len(voices_data)
-        filtered_count = len(filtered_voices)
-        
-        if filtered_count == 0:
-            logger.warning("No English or Tagalog voices found after filtering")
-            return
-            
-        logger.info(f"Filtered {total_voices} voices down to {filtered_count} English and Tagalog voices")
-        voices_data = filtered_voices
-        
-        # Process each filtered voice
-        processed_count = 0
-        for voice_data in voices_data:
-            if not isinstance(voice_data, dict):
-                logger.warning(f"Skipping invalid voice data (expected dict, got {type(voice_data)}): {voice_data}")
-                continue
-                
-            # At this point we know the voice is either English or Tagalog
-            voice = self._convert_to_voice(voice_data)
-            if not voice:
-                logger.debug(f"Skipping invalid voice data: {voice_data}")
-                continue
-                
-            processed_count += 1
-                
-            # Ensure ID is lowercase for consistent lookups
-            voice_id = voice.id
-            
-            # Store in both dictionaries
-            self._voices[voice_id] = voice_data
-            self._voice_objects[voice_id] = voice
-                    
-            # Store the raw voice data for caching
-            logger.debug(f"Storing voice in cache: {voice_id}")
-            self._voice_cache[voice_id] = voice_data
-                    
-        self._voices_fetched = True
-        logger.info(f"Successfully processed {processed_count} out of {filtered_count} filtered voices")
-        
-        if self._voice_objects:
-            available_voices = list(self._voice_objects.keys())
-            logger.debug(f"Available voice IDs: {available_voices}")
-            
-            # Log sample of available voices for debugging
-            sample_size = min(5, len(self._voice_objects))
-            if sample_size > 0:
-                sample_voices = list(self._voice_objects.values())[:sample_size]
-                logger.debug(f"Sample of {sample_size} available voices:")
-                for i, voice in enumerate(sample_voices, 1):
-                    logger.debug(f"  {i}. {voice.id}: {voice.name} ({voice.language}, {voice.gender})")
-        
-        if not self._voice_objects:
-            logger.warning("No voices were successfully loaded after filtering and processing")
-
-    async def _save_voices_to_cache(self) -> None:
-        """Save the current voices to the cache file.
-        
-        Raises:
-            TTSValidationError: If there's an error saving to cache.
-        """
-        if not self.cache_dir or not hasattr(self, '_voice_cache_file') or not self._voices:
-            return
-            
-        try:
-            # Ensure cache directory exists
-            self.cache_dir.mkdir(parents=True, exist_ok=True)
-            
-            # Save voices in the expected format with a 'voices' key
-            cache_data = {
-                'version': '1.0',
-                'cached_at': time.time(),
-                'voices': list(self._voices.values())
-            }
-            
-            # Write to a temporary file first, then rename for atomicity
-            temp_file = self._voice_cache_file.with_suffix('.tmp')
-            with open(temp_file, 'w') as f:
-                json.dump(cache_data, f, indent=2)
-                
-            # Rename temp file to final name (atomic on POSIX)
-            temp_file.replace(self._voice_cache_file)
-            logger.debug(f"Successfully saved {len(self._voices)} voices to cache at {self._voice_cache_file}")
-            
-        except Exception as e:
-            logger.error(f"Failed to save voices to cache: {e}")
-            raise TTSValidationError(f"Failed to save voices to cache: {e}") from e
-
-    async def _load_voices_from_cache(self) -> bool:
-        """Load voices from cache file if available.
-        
-        Returns:
-            bool: True if voices were loaded from cache, False otherwise.
-        """
-        if not hasattr(self, '_voice_cache_file') or not self._voice_cache_file.exists():
-            return False
-            
-        try:
-            with open(self._voice_cache_file, 'r') as f:
-                cache_data = json.load(f)
-                
-            # Handle different cache formats
-            if isinstance(cache_data, dict) and 'voices' in cache_data:
-                # New format with metadata
-                voices_data = cache_data['voices']
-            elif isinstance(cache_data, list):
-                # Old format - just a list of voices
-                voices_data = cache_data
-            else:
-                # Unknown format, try to process as dict of voices
-                voices_data = list(cache_data.values())
-                
-            await self._process_voices(voices_data)
-            logger.debug(f"Loaded {len(self._voices)} voices from cache")
-            return True
-            
-        except Exception as cache_err:
-            logger.warning(f"Failed to load voices from cache: {cache_err}")
-            return False
-
     async def _load_voices(self) -> None:
-        """Load voices from the service or cache.
-        
-        Raises:
-            TTSValidationError: If there's an error loading voices.
-        """
+        """Load voices from the predefined list of known voices."""
         if self._voices_fetched:
             logger.debug("Voices already loaded, skipping load")
             return
-            
+
+        from tunatale.infrastructure.services.tts.known_voices import KNOWN_VOICES
+
+        logger.debug("Loading voices from predefined list...")
+
         # Reset state
         self._voices = {}
         self._voice_objects = {}
-        self._voice_cache = {}
-            
-        # Try to load from cache first
-        logger.debug("Attempting to load voices from cache...")
-        if await self._load_voices_from_cache():
-            logger.info(f"Successfully loaded {len(self._voice_objects)} voices from cache")
-            self._voices_fetched = True
-            return
-            
-        logger.debug("Cache not available or empty, fetching voices from service...")
-        
-        # If we get here, we need to fetch from the service
-        try:
-            logger.info("Fetching voices from Edge TTS service...")
-            start_time = time.time()
-            
-            # Use VoicesManager to get all available voices
-            logger.debug("Creating VoicesManager...")
-            voices_manager = await VoicesManager.create()
-            voices = voices_manager.voices
-            logger.debug(f"Retrieved {len(voices)} voices from VoicesManager")
-            
-            if not voices:
-                logger.warning("No voices returned from VoicesManager")
-                raise TTSValidationError("No voices available from the TTS service")
-                
-            await self._process_voices(voices)
-            
-            # Save to cache if cache_dir is set
-            if self.cache_dir and hasattr(self, '_voice_cache_file'):
-                logger.debug("Saving voices to cache...")
-                await self._save_voices_to_cache()
-                logger.debug(f"Saved {len(self._voice_objects)} voices to cache")
-            
-            if not self._voice_objects:
-                raise TTSValidationError("No valid voices were processed")
-                
-            logger.info(f"Successfully loaded {len(self._voice_objects)} voices from service in {time.time() - start_time:.2f} seconds")
-            self._voices_fetched = True
-                    
-        except Exception as e:
-            logger.error(f"Failed to fetch voices: {e}", exc_info=True)
-            if not self._voice_objects:  # Only raise if we have no voices to work with
-                raise TTSValidationError(f"Failed to fetch voices: {e}") from e
+
+        for voice_data in KNOWN_VOICES:
+            voice = self._convert_to_voice(voice_data)
+            if voice:
+                voice_id = voice.id.lower()
+                self._voices[voice_id] = voice_data
+                self._voice_objects[voice_id] = voice
+
+        self._voices_fetched = True
+        logger.info(f"Successfully loaded {len(self._voice_objects)} known voices.")
 
     async def get_voices(self, language: Optional[Union[str, Language]] = None) -> List[Voice]:
         """Get available voices.
