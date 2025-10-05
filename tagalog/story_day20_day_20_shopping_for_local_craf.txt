@@ -1,0 +1,367 @@
+[NARRATOR]: Day 20: Shopping for local crafts and souvenirs at markets – New Scenarios
+
+Key Phrases:
+
+[TAGALOG-FEMALE-1]: magkano po ang mga ito
+[NARRATOR]: how much are these
+magkano po ang mga ito
+to
+i
+ito
+mga
+mga ito
+ang
+ang mga ito
+po
+po ang mga ito
+no
+ka
+kano
+mag
+magkano
+magkano po ang mga ito
+magkano po ang mga ito
+
+
+[TAGALOG-FEMALE-1]: puwede po ba akong makatingin
+[NARRATOR]: may I take a look
+puwede po ba akong makatingin
+ngin
+ti
+tingin
+ka
+katingin
+ma
+makatingin
+kong
+a
+akong
+akong makatingin
+ba
+ba akong makatingin
+po
+po ba akong makatingin
+de
+we
+wede
+pu
+puwede
+puwede po ba akong makatingin
+puwede po ba akong makatingin
+
+
+[TAGALOG-FEMALE-1]: salamat po sa tulong ninyo
+[NARRATOR]: thank you for your help
+salamat po sa tulong ninyo
+yo
+nin
+ninyo
+long
+tu
+tulong
+tulong ninyo
+sa
+sa tulong ninyo
+po
+po sa tulong ninyo
+mat
+la
+lamat
+sa
+salamat
+salamat po sa tulong ninyo
+salamat po sa tulong ninyo
+
+
+[TAGALOG-FEMALE-1]: nakakamangha talaga ang gawa ninyo
+[NARRATOR]: your work is really amazing
+nakakamangha talaga ang gawa ninyo
+yo
+nin
+ninyo
+wa
+ga
+gawa
+gawa ninyo
+ang
+ang gawa ninyo
+ga
+la
+laga
+ta
+talaga
+talaga ang gawa ninyo
+ha
+mang
+mangha
+ka
+kamangha
+ka
+kakamangha
+na
+nakakamangha
+nakakamangha talaga ang gawa ninyo
+nakakamangha talaga ang gawa ninyo
+
+
+[TAGALOG-FEMALE-1]: sarap naman ng lasa nito
+[NARRATOR]: this tastes really good
+sarap naman ng lasa nito
+to
+ni
+nito
+sa
+la
+lasa
+lasa nito
+ng
+ng lasa nito
+man
+na
+naman
+naman ng lasa nito
+rap
+sa
+sarap
+sarap naman ng lasa nito
+sarap naman ng lasa nito
+
+
+[NARRATOR]: Natural Speed
+
+[NARRATOR]: At the Local Craft Market
+
+[TAGALOG-FEMALE-1]: Kumusta po! Nakakamangha talaga ang mga crafts ninyo dito!
+[TAGALOG-MALE-1]: Salamat po! Lahat po yan gawa dito sa Palawan.
+[TAGALOG-FEMALE-1]: Ang ganda po ng mga bag na ito! Magkano po kaya?
+[TAGALOG-MALE-1]: Ang malaking bag po ay tatlong daan pesos. Ang maliit naman po ay dalawang daan.
+[TAGALOG-FEMALE-1]: Puwede po ba akong makatingin sa loob ng bag?
+[TAGALOG-MALE-1]: Syempre po! Tingnan ninyo po, magaan lang at matibay.
+[TAGALOG-FEMALE-1]: Wow, napakaganda ng pagkakagawa! Kukunin ko po yung malaki.
+[TAGALOG-MALE-1]: Salamat po! Magbalot na po ako para sa inyo.
+[TAGALOG-FEMALE-1]: Salamat po sa tulong ninyo! Napakabait ninyo.
+
+[NARRATOR]: Shopping for Pearl Jewelry
+
+[TAGALOG-FEMALE-1]: Magandang hapon po! May mga perlas po ba kayo?
+[TAGALOG-FEMALE-2]: Meron po kami! Dito po sa display case yung mga magaganda.
+[TAGALOG-FEMALE-1]: Ang gaganda naman po! Magkano po ang mga bracelet?
+[TAGALOG-FEMALE-2]: Depende po sa size ng perlas. Yung mga maliliit po ay limang daan, yung malalaki naman po ay isang libo.
+[TAGALOG-FEMALE-1]: Puwede po ba ninyo akong tulungang mag-try ng bracelet?
+[TAGALOG-FEMALE-2]: Opo! Bagay po sa inyo ang kulay na yan.
+[TAGALOG-FEMALE-1]: Nakakamangha talaga! Natural po ba ang mga perlas na ito?
+[TAGALOG-FEMALE-2]: Opo, galing po lahat sa mga oyster dito sa Palawan.
+[TAGALOG-FEMALE-1]: Perfect po! Kukunin ko po ito. Salamat po!
+
+[NARRATOR]: At the Souvenir T-shirt Stall
+
+[TAGALOG-MALE-2]: Kumusta po! Hinahanap po ba ninyo ng El Nido shirts?
+[TAGALOG-FEMALE-1]: Opo! May mga design po ba kayo na unique sa Palawan?
+[TAGALOG-MALE-2]: Marami po kami! Yung mga design po dyan ay exclusive sa El Nido.
+[TAGALOG-FEMALE-1]: Ang ganda po ng design na ito! Magkano po ang isang piece?
+[TAGALOG-MALE-2]: Dalawang daan pesos po. Pero kung tatlo po, lima pesos lang po lahat.
+[TAGALOG-FEMALE-1]: Puwede po ba akong makakuha ng medium size sa tatlong design na ito?
+[TAGALOG-MALE-2]: Opo! May stock pa po kami ng medium.
+[TAGALOG-FEMALE-1]: Salamat po! Perfect po para sa mga pasalubong ko.
+[TAGALOG-MALE-2]: Salamat din po sa inyo! Enjoy po sa El Nido!
+
+[NARRATOR]: Trying Local Dried Fruits
+
+[TAGALOG-FEMALE-2]: Kumusta po! Gusto po ba ninyo ng dried mangoes namin?
+[TAGALOG-FEMALE-1]: Opo! Puwede po ba akong maka-taste muna?
+[TAGALOG-FEMALE-2]: Syempre po! Try ninyo po ito - specialty namin po yan.
+[TAGALOG-FEMALE-1]: Mmm, sarap naman ng lasa nito! Sobrang tamis!
+[TAGALOG-FEMALE-2]: Walang preservatives po yan, natural lang na sweetness ng mangga.
+[TAGALOG-FEMALE-1]: Nakakamangha talaga! Magkano po ang isang pack?
+[TAGALOG-FEMALE-2]: Singkwenta pesos po. Kung sampung pack po, apat na daan na lang.
+[TAGALOG-FEMALE-1]: Sige po, sampung pack nga po. Para po sa family ko sa Manila.
+[TAGALOG-FEMALE-2]: Salamat po! Magbabalot po ako ng maayos para hindi masira.
+[TAGALOG-FEMALE-1]: Salamat po sa tulong ninyo! Babalik po ako dito!
+
+[NARRATOR]: At the Wooden Craft Section
+
+[TAGALOG-MALE-1]: Magandang umaga po! May hinahanap po ba kayong specific na wooden craft?
+[TAGALOG-FEMALE-1]: Kumusta po! Meron po ba kayong mga miniature na boats?
+[TAGALOG-MALE-1]: Meron po! Dito po sa shelf na ito yung mga miniature boats namin.
+[TAGALOG-FEMALE-1]: Nakakamangha talaga ang details! Magkano po ang mga ito?
+[TAGALOG-MALE-1]: Yung mga maliliit po ay isang daan, yung medium po ay dalawang daan.
+[TAGALOG-FEMALE-1]: Puwede po ba ninyo akong bigyan ng mas detailed na boat?
+[TAGALOG-MALE-1]: Ito po yung pinaka-detailed na meron kami. Handcarved po yan ng tatay ko.
+[TAGALOG-FEMALE-1]: Wow, galing naman po! Kukunin ko po ito.
+[TAGALOG-MALE-1]: Salamat po! Ibabalot ko po ng bubble wrap para safe.
+[TAGALOG-FEMALE-1]: Salamat po sa tulong ninyo! Nakakamangha ang craftsmanship ninyo!
+
+[NARRATOR]: Slow Speed
+
+[NARRATOR]: At the Local Craft Market
+
+[TAGALOG-FEMALE-1]: Kumusta... po!... Nakakamangha... talaga... ang... mga... crafts... ninyo... dito!
+[TAGALOG-MALE-1]: Salamat... po!... Lahat... po... yan... gawa... dito... sa... Palawan.
+[TAGALOG-FEMALE-1]: Ang... ganda... po... ng... mga... bag... na... ito!... Magkano... po... kaya?
+[TAGALOG-MALE-1]: Ang... malaking... bag... po... ay... tatlong... daan... pesos... Ang... maliit... naman... po... ay... dalawang... daan.
+[TAGALOG-FEMALE-1]: Puwede... po... ba... akong... makatingin... sa... loob... ng... bag?
+[TAGALOG-MALE-1]: Syempre... po!... Tingnan... ninyo... po... magaan... lang... at... matibay.
+[TAGALOG-FEMALE-1]: Wow... napakaganda... ng... pagkakagawa!... Kukunin... ko... po... yung... malaki.
+[TAGALOG-MALE-1]: Salamat... po!... Magbalot... na... po... ako... para... sa... inyo.
+[TAGALOG-FEMALE-1]: Salamat... po... sa... tulong... ninyo!... Napakabait... ninyo.
+
+[NARRATOR]: Shopping for Pearl Jewelry
+
+[TAGALOG-FEMALE-1]: Magandang... hapon... po!... May... mga... perlas... po... ba... kayo?
+[TAGALOG-FEMALE-2]: Meron... po... kami!... Dito... po... sa... display... case... yung... mga... magaganda.
+[TAGALOG-FEMALE-1]: Ang... gaganda... naman... po!... Magkano... po... ang... mga... bracelet?
+[TAGALOG-FEMALE-2]: Depende... po... sa... size... ng... perlas... Yung... mga... maliliit... po... ay... limang... daan... yung... malalaki... naman... po... ay... isang... libo.
+[TAGALOG-FEMALE-1]: Puwede... po... ba... ninyo... akong... tulungang... mag-try... ng... bracelet?
+[TAGALOG-FEMALE-2]: Opo!... Bagay... po... sa... inyo... ang... kulay... na... yan.
+[TAGALOG-FEMALE-1]: Nakakamangha... talaga!... Natural... po... ba... ang... mga... perlas... na... ito?
+[TAGALOG-FEMALE-2]: Opo... galing... po... lahat... sa... mga... oyster... dito... sa... Palawan.
+[TAGALOG-FEMALE-1]: Perfect... po!... Kukunin... ko... po... ito... Salamat... po!
+
+[NARRATOR]: At the Souvenir T-shirt Stall
+
+[TAGALOG-MALE-2]: Kumusta... po!... Hinahanap... po... ba... ninyo... ng... El... Nido... shirts?
+[TAGALOG-FEMALE-1]: Opo!... May... mga... design... po... ba... kayo... na... unique... sa... Palawan?
+[TAGALOG-MALE-2]: Marami... po... kami!... Yung... mga... design... po... dyan... ay... exclusive... sa... El... Nido.
+[TAGALOG-FEMALE-1]: Ang... ganda... po... ng... design... na... ito!... Magkano... po... ang... isang... piece?
+[TAGALOG-MALE-2]: Dalawang... daan... pesos... po... Pero... kung... tatlo... po... lima... pesos... lang... po... lahat.
+[TAGALOG-FEMALE-1]: Puwede... po... ba... akong... makakuha... ng... medium... size... sa... tatlong... design... na... ito?
+[TAGALOG-MALE-2]: Opo!... May... stock... pa... po... kami... ng... medium.
+[TAGALOG-FEMALE-1]: Salamat... po!... Perfect... po... para... sa... mga... pasalubong... ko.
+[TAGALOG-MALE-2]: Salamat... din... po... sa... inyo!... Enjoy... po... sa... El... Nido!
+
+[NARRATOR]: Trying Local Dried Fruits
+
+[TAGALOG-FEMALE-2]: Kumusta... po!... Gusto... po... ba... ninyo... ng... dried... mangoes... namin?
+[TAGALOG-FEMALE-1]: Opo!... Puwede... po... ba... akong... maka-taste... muna?
+[TAGALOG-FEMALE-2]: Syempre... po!... Try... ninyo... po... ito... specialty... namin... po... yan.
+[TAGALOG-FEMALE-1]: Mmm... sarap... naman... ng... lasa... nito!... Sobrang... tamis!
+[TAGALOG-FEMALE-2]: Walang... preservatives... po... yan... natural... lang... na... sweetness... ng... mangga.
+[TAGALOG-FEMALE-1]: Nakakamangha... talaga!... Magkano... po... ang... isang... pack?
+[TAGALOG-FEMALE-2]: Singkwenta... pesos... po... Kung... sampung... pack... po... apat... na... daan... na... lang.
+[TAGALOG-FEMALE-1]: Sige... po... sampung... pack... nga... po... Para... po... sa... family... ko... sa... Manila.
+[TAGALOG-FEMALE-2]: Salamat... po!... Magbabalot... po... ako... ng... maayos... para... hindi... masira.
+[TAGALOG-FEMALE-1]: Salamat... po... sa... tulong... ninyo!... Babalik... po... ako... dito!
+
+[NARRATOR]: At the Wooden Craft Section
+
+[TAGALOG-MALE-1]: Magandang... umaga... po!... May... hinahanap... po... ba... kayong... specific... na... wooden... craft?
+[TAGALOG-FEMALE-1]: Kumusta... po!... Meron... po... ba... kayong... mga... miniature... na... boats?
+[TAGALOG-MALE-1]: Meron... po!... Dito... po... sa... shelf... na... ito... yung... mga... miniature... boats... namin.
+[TAGALOG-FEMALE-1]: Nakakamangha... talaga... ang... details!... Magkano... po... ang... mga... ito?
+[TAGALOG-MALE-1]: Yung... mga... maliliit... po... ay... isang... daan... yung... medium... po... ay... dalawang... daan.
+[TAGALOG-FEMALE-1]: Puwede... po... ba... ninyo... akong... bigyan... ng... mas... detailed... na... boat?
+[TAGALOG-MALE-1]: Ito... po... yung... pinaka-detailed... na... meron... kami... Handcarved... po... yan... ng... tatay... ko.
+[TAGALOG-FEMALE-1]: Wow... galing... naman... po!... Kukunin... ko... po... ito.
+[TAGALOG-MALE-1]: Salamat... po!... Ibabalot... ko... po... ng... bubble... wrap... para... safe.
+[TAGALOG-FEMALE-1]: Salamat... po... sa... tulong... ninyo!... Nakakamangha... ang... craftsmanship... ninyo!
+
+[NARRATOR]: Translated
+
+[NARRATOR]: At the Local Craft Market
+
+[TAGALOG-FEMALE-1]: Kumusta po! Nakakamangha talaga ang mga crafts ninyo dito!
+[NARRATOR]: How are you! Your crafts here are really amazing!
+[TAGALOG-MALE-1]: Salamat po! Lahat po yan gawa dito sa Palawan.
+[NARRATOR]: Thank you! All of those are made here in Palawan.
+[TAGALOG-FEMALE-1]: Ang ganda po ng mga bag na ito! Magkano po kaya?
+[NARRATOR]: These bags are so beautiful! How much might they be?
+[TAGALOG-MALE-1]: Ang malaking bag po ay tatlong daan pesos. Ang maliit naman po ay dalawang daan.
+[NARRATOR]: The big bag is three hundred pesos. The small one is two hundred.
+[TAGALOG-FEMALE-1]: Puwede po ba akong makatingin sa loob ng bag?
+[NARRATOR]: May I take a look inside the bag?
+[TAGALOG-MALE-1]: Syempre po! Tingnan ninyo po, magaan lang at matibay.
+[NARRATOR]: Of course! Look, it's light and durable.
+[TAGALOG-FEMALE-1]: Wow, napakaganda ng pagkakagawa! Kukunin ko po yung malaki.
+[NARRATOR]: Wow, the craftsmanship is so beautiful! I'll take the big one.
+[TAGALOG-MALE-1]: Salamat po! Magbalot na po ako para sa inyo.
+[NARRATOR]: Thank you! I'll wrap it for you now.
+[TAGALOG-FEMALE-1]: Salamat po sa tulong ninyo! Napakabait ninyo.
+[NARRATOR]: Thank you for your help! You're so kind.
+
+[NARRATOR]: Shopping for Pearl Jewelry
+
+[TAGALOG-FEMALE-1]: Magandang hapon po! May mga perlas po ba kayo?
+[NARRATOR]: Good afternoon! Do you have pearls?
+[TAGALOG-FEMALE-2]: Meron po kami! Dito po sa display case yung mga magaganda.
+[NARRATOR]: We have some! Here in the display case are the beautiful ones.
+[TAGALOG-FEMALE-1]: Ang gaganda naman po! Magkano po ang mga bracelet?
+[NARRATOR]: They're so beautiful! How much are the bracelets?
+[TAGALOG-FEMALE-2]: Depende po sa size ng perlas. Yung mga maliliit po ay limang daan, yung malalaki naman po ay isang libo.
+[NARRATOR]: It depends on the size of the pearls. The small ones are five hundred, the big ones are one thousand.
+[TAGALOG-FEMALE-1]: Puwede po ba ninyo akong tulungang mag-try ng bracelet?
+[NARRATOR]: Could you help me try on a bracelet?
+[TAGALOG-FEMALE-2]: Opo! Bagay po sa inyo ang kulay na yan.
+[NARRATOR]: Yes! That color suits you.
+[TAGALOG-FEMALE-1]: Nakakamangha talaga! Natural po ba ang mga perlas na ito?
+[NARRATOR]: Really amazing! Are these pearls natural?
+[TAGALOG-FEMALE-2]: Opo, galing po lahat sa mga oyster dito sa Palawan.
+[NARRATOR]: Yes, they all come from oysters here in Palawan.
+[TAGALOG-FEMALE-1]: Perfect po! Kukunin ko po ito. Salamat po!
+[NARRATOR]: Perfect! I'll take this. Thank you!
+
+[NARRATOR]: At the Souvenir T-shirt Stall
+
+[TAGALOG-MALE-2]: Kumusta po! Hinahanap po ba ninyo ng El Nido shirts?
+[NARRATOR]: How are you! Are you looking for El Nido shirts?
+[TAGALOG-FEMALE-1]: Opo! May mga design po ba kayo na unique sa Palawan?
+[NARRATOR]: Yes! Do you have designs that are unique to Palawan?
+[TAGALOG-MALE-2]: Marami po kami! Yung mga design po dyan ay exclusive sa El Nido.
+[NARRATOR]: We have many! Those designs there are exclusive to El Nido.
+[TAGALOG-FEMALE-1]: Ang ganda po ng design na ito! Magkano po ang isang piece?
+[NARRATOR]: This design is so beautiful! How much is one piece?
+[TAGALOG-MALE-2]: Dalawang daan pesos po. Pero kung tatlo po, lima pesos lang po lahat.
+[NARRATOR]: Two hundred pesos. But if three pieces, just five hundred pesos for all.
+[TAGALOG-FEMALE-1]: Puwede po ba akong makakuha ng medium size sa tatlong design na ito?
+[NARRATOR]: May I get medium size in these three designs?
+[TAGALOG-MALE-2]: Opo! May stock pa po kami ng medium.
+[NARRATOR]: Yes! We still have medium in stock.
+[TAGALOG-FEMALE-1]: Salamat po! Perfect po para sa mga pasalubong ko.
+[NARRATOR]: Thank you! Perfect for my souvenirs.
+[TAGALOG-MALE-2]: Salamat din po sa inyo! Enjoy po sa El Nido!
+[NARRATOR]: Thank you too! Enjoy El Nido!
+
+[NARRATOR]: Trying Local Dried Fruits
+
+[TAGALOG-FEMALE-2]: Kumusta po! Gusto po ba ninyo ng dried mangoes namin?
+[NARRATOR]: How are you! Would you like our dried mangoes?
+[TAGALOG-FEMALE-1]: Opo! Puwede po ba akong maka-taste muna?
+[NARRATOR]: Yes! May I taste first?
+[TAGALOG-FEMALE-2]: Syempre po! Try ninyo po ito - specialty namin po yan.
+[NARRATOR]: Of course! Try this - it's our specialty.
+[TAGALOG-FEMALE-1]: Mmm, sarap naman ng lasa nito! Sobrang tamis!
+[NARRATOR]: Mmm, this tastes really good! So sweet!
+[TAGALOG-FEMALE-2]: Walang preservatives po yan, natural lang na sweetness ng mangga.
+[NARRATOR]: There are no preservatives, just the natural sweetness of mango.
+[TAGALOG-FEMALE-1]: Nakakamangha talaga! Magkano po ang isang pack?
+[NARRATOR]: Really amazing! How much is one pack?
+[TAGALOG-FEMALE-2]: Singkwenta pesos po. Kung sampung pack po, apat na daan na lang.
+[NARRATOR]: Fifty pesos. If ten packs, just four hundred.
+[TAGALOG-FEMALE-1]: Sige po, sampung pack nga po. Para po sa family ko sa Manila.
+[NARRATOR]: Okay, ten packs please. For my family in Manila.
+[TAGALOG-FEMALE-2]: Salamat po! Magbabalot po ako ng maayos para hindi masira.
+[NARRATOR]: Thank you! I'll wrap it properly so it won't get damaged.
+[TAGALOG-FEMALE-1]: Salamat po sa tulong ninyo! Babalik po ako dito!
+[NARRATOR]: Thank you for your help! I'll come back here!
+
+[NARRATOR]: At the Wooden Craft Section
+
+[TAGALOG-MALE-1]: Magandang umaga po! May hinahanap po ba kayong specific na wooden craft?
+[NARRATOR]: Good morning! Are you looking for a specific wooden craft?
+[TAGALOG-FEMALE-1]: Kumusta po! Meron po ba kayong mga miniature na boats?
+[NARRATOR]: How are you! Do you have miniature boats?
+[TAGALOG-MALE-1]: Meron po! Dito po sa shelf na ito yung mga miniature boats namin.
+[NARRATOR]: We have some! Here on this shelf are our miniature boats.
+[TAGALOG-FEMALE-1]: Nakakamangha talaga ang details! Magkano po ang mga ito?
+[NARRATOR]: The details are really amazing! How much are these?
+[TAGALOG-MALE-1]: Yung mga maliliit po ay isang daan, yung medium po ay dalawang daan.
+[NARRATOR]: The small ones are one hundred, the medium ones are two hundred.
+[TAGALOG-FEMALE-1]: Puwede po ba ninyo akong bigyan ng mas detailed na boat?
+[NARRATOR]: Could you give me a more detailed boat?
+[TAGALOG-MALE-1]: Ito po yung pinaka-detailed na meron kami. Handcarved po yan ng tatay ko.
+[NARRATOR]: This is the most detailed one we have. It's handcarved by my father.
+[TAGALOG-FEMALE-1]: Wow, galing naman po! Kukunin ko po ito.
+[NARRATOR]: Wow, how skillful! I'll take this.
+[TAGALOG-MALE-1]: Salamat po! Ibabalot ko po ng bubble wrap para safe.
+[NARRATOR]: Thank you! I'll wrap it in bubble wrap so it's safe.
+[TAGALOG-FEMALE-1]: Salamat po sa tulong ninyo! Nakakamangha ang craftsmanship ninyo!
+[NARRATOR]: Thank you for your help! Your craftsmanship is amazing!
